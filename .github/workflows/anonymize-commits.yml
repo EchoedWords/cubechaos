@@ -12,25 +12,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history is needed for rebase
+          fetch-depth: 0  # Full history is needed
 
       - name: Set Git user identity
         run: |
           git config --global user.name "Anonymous"
           git config --global user.email "anon@users.noreply.github.com"
 
-      - name: Rewrite commit author
+      - name: Rewrite commit history
         run: |
-          git rebase --root --committer-date-is-author-date -x "
-            git commit --amend --no-edit --author='Anonymous <anon@users.noreply.github.com>'
-          " || echo 'No changes needed'
+          git filter-branch --env-filter '
+            export GIT_AUTHOR_NAME="Anonymous"
+            export GIT_AUTHOR_EMAIL="anon@users.noreply.github.com"
+            export GIT_COMMITTER_NAME="Anonymous"
+            export GIT_COMMITTER_EMAIL="anon@users.noreply.github.com"
+          ' --tag-name-filter cat -- --all
 
-      - name: Verify if force push is needed
+      - name: Force push changes
         run: |
-          if ! git diff origin/main; then
-            echo "No changes to push"
-            exit 0
-          fi
-          
-          echo "Changes detected, force pushing..."
           git push --force --quiet https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/EchoedWords/cubechaos.git main
