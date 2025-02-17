@@ -1,0 +1,1180 @@
+SCENARIO: Trigger_Fragment_Reward
+Info: Choose 1 of 3 trigger fragment perks End
+End
+PERK_REWARD: 
+OPTIONS: Highest 1 Addition 3 GetCampaignVariable PERKREWARDCHOICES
+BELONGSTO: StringConstant TriggerFragment
+REROLLS: Addition DoubleConstant 1 GetCampaignVariable ADDITIONALREROLLS
+End
+SEnd
+
+SCENARIO: Target_Fragment_Reward
+Info: Choose 1 of 3 target fragment perks End
+End
+PERK_REWARD: 
+OPTIONS: Highest 1 Addition 3 GetCampaignVariable PERKREWARDCHOICES
+BELONGSTO: StringConstant TargetFragment
+REROLLS: Addition DoubleConstant 1 GetCampaignVariable ADDITIONALREROLLS
+End
+SEnd
+
+SCENARIO: Effect_Fragment_Reward
+Info: Choose 1 of 3 effect fragment perks End
+End
+PERK_REWARD: 
+OPTIONS: Highest 1 Addition 3 GetCampaignVariable PERKREWARDCHOICES
+BELONGSTO: StringConstant EffectFragment
+REROLLS: Addition DoubleConstant 1 GetCampaignVariable ADDITIONALREROLLS
+End
+SEnd
+
+SCENARIO: Chain_Fragment_Reward
+Info: Choose 1 of 3 chain fragment perks End
+End
+PERK_REWARD: 
+OPTIONS: Highest 1 Addition 3 GetCampaignVariable PERKREWARDCHOICES
+BELONGSTO: StringConstant ChainFragment
+REROLLS: Addition DoubleConstant 1 GetCampaignVariable ADDITIONALREROLLS
+End
+SEnd
+
+
+SCENARIO: Random_Trigger_Fragment_Reward
+Info: Gain 1 random trigger fragment perks End
+End
+PERK_REWARD: 
+BELONGSTO: StringConstant TriggerFragment
+OPTIONS: 1
+End
+SEnd
+
+SCENARIO: Random_Target_Fragment_Reward
+Info: Gain 1 random target fragment perks End
+End
+PERK_REWARD: 
+BELONGSTO: StringConstant TargetFragment
+OPTIONS: 1
+End
+SEnd
+
+SCENARIO: Random_Effect_Fragment_Reward
+Info: Gain 1 random effect fragment perks End
+End
+PERK_REWARD: 
+BELONGSTO: StringConstant EffectFragment
+OPTIONS: 1
+End
+SEnd
+
+SCENARIO: Random_Chain_Fragment_Reward
+Info: Gain 1 random chain fragment perks End
+End
+PERK_REWARD: 
+BELONGSTO: StringConstant ChainFragment
+OPTIONS: 1
+End
+SEnd
+
+
+COMPOUND: BOOLEAN
+IsRightTargetFragment
+And IsType TARGETFRAGMENT IsEqual EventAmount PerkInventorySlot
+End
+
+COMPOUND: BOOLEAN
+IsRightEffectFragment
+And IsType EFFECTFRAGMENT IsEqual EventAmount PerkInventorySlot
+End
+
+COMPOUND: ACTION
+TriggerTargetFragment
+ SeperateEventAmount Both NegateX Subtraction EventAmount Addition PerkInventorySlot 1 TriggerWorldSomething TARGETFRAGMENT
+End
+
+COMPOUND: ACTION
+TriggerEffectFragment
+ SeperateEventAmount Both NegateX Subtraction EventAmount Addition PerkInventorySlot 1 TriggerWorldSomething EFFECTFRAGMENT
+End
+
+COMPOUND: BOOLEAN
+EffectConnectable
+Or PerkIsType Test EffectFragment PerkIsType Test ChainFragment
+End
+
+PERK: Trigger:_Enemy_Damage
+NewBelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AfterACubeTakesDamage If IsEnemyToCaster Victim EveryXTimes 3 
+ TargetCube Victim SetCaster Culprit TriggerTargetFragment
+Description: After enemies takes damage every 3rd time trigger following "Target:" perk End
+End
+
+PERK: Target:_Victim
+NewBelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment
+ TargetCube Victim SetCaster Culprit TriggerEffectFragment
+Description: On being triggered trigger following "Effect:" perk targeting the victim End
+End
+
+PERK: Effect:_Take_2_Damage
+NewBelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ IfElse Not IsAllyToCaster Victim 
+  TargetCube Victim TakeXDamage 2
+  SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered deal 2 damage, if it's an ally instead trigger following "Effect:" perk End
+End
+
+PERK: Trigger:_3_Damage
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AfterACubeTakesDamage If Not IsSmaller EventAmount DoubleConstant 3 
+ TargetCube Victim SetCaster Culprit TriggerTargetFragment
+Description: After a cube takes 3 or more damage trigger following "Target:" perk End
+End
+
+PERK: Effect:_Apply_1_Poison
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ IfElse Not IsAllyToCaster Victim 
+  TargetCube Victim GainAbility PoisonX 1
+ SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered apply 1 poison, if it's an ally instead trigger following "Effect:" perk End
+End
+
+PERK: Trigger:_Movement
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AfterACubeMoves EveryXTimes 80
+ TargetCube Victim SetCaster Culprit TriggerTargetFragment
+Description: After cubes move, every 80th time trigger following "Target:" perk End
+End
+
+PERK: Target:_Culprit
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment
+ TargetCube Culprit SetCaster Culprit TriggerEffectFragment
+Description: On being triggered trigger following "Effect:" perk targeting the culprit End
+End
+
+PERK: Target:_Random_Enemy
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment
+ TargetCube ARandomEnemy SetCaster Culprit TriggerEffectFragment
+Description: On being triggered trigger following "Effect:" perk targeting a random enemy End
+End
+
+PERK: Target:_Random_Damaged_Ally
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment
+ TargetCube ARandomDamagedAlly SetCaster Culprit TriggerEffectFragment
+Description: On being triggered trigger following "Effect:" perk targeting a random damaged ally End
+End
+
+PERK: Effect:_Apply_1_BeesInside
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ IfElse IsAllyToCaster Victim 
+  TargetCube Victim GainAbility BeesInsideX 1
+ SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered apply 1 BeesInside, if it's not an ally instead trigger following "Effect:" perk End
+End
+
+PERK: Trigger:_Every_5_Seconds
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: Every5Seconds TriggerTargetFragment
+Description: Every 5 seconds your starting leader triggers following "Target:" perk End
+End
+
+PERK: Trigger:_Placement
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AfterACubeIsCreated If IsPlaced
+TargetCube Victim SetCaster Culprit TriggerTargetFragment
+Description: After a cube is placed trigger following "Target:" perk End
+End
+
+PERK: Effect:_Move_East
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ IfElse IsPositionEmpty PositionInDirectionFromPosition Forwards PositionOfCube Victim
+  TargetCube Victim XTimes 2 MoveInDirection East
+ Both TargetCube Victim XTimes 2 MoveInDirection East
+  SetCaster Culprit TargetCube Victim XTimes 2 TriggerEffectFragment
+Description: On being triggered move the target east twice, if there was no space also trigger following "Effect:" perk twice End
+End
+
+PERK: Trigger:_Ally_Creation
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim EveryXTimes 2
+TargetCube Victim SetCaster Culprit TriggerTargetFragment
+Description: After an ally is created every 2nd time trigger following "Target:" perk End
+End
+
+PERK: Target:_Every_Cube_In_Same_Column
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment EveryXTimes 2 SetCaster Culprit
+ EveryCubeWhich IsEqual XOfPosition PositionOfCube Victim XOfPosition PositionOfCube Test 
+ TriggerEffectFragment
+Description: On being triggered every 2nd time trigger following "Effect:" perk on every cube in the same column as the victim End
+End
+
+PERK: Target:_Every_Cube_In_Same_Row
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment SetCaster Culprit EveryXTimes 5
+ EveryCubeWhich IsEqual YOfPosition PositionOfCube Victim YOfPosition PositionOfCube Test 
+ TriggerEffectFragment
+Description: On being triggered every 5th time trigger following "Effect:" perk on every cube in the same row as the victim End
+End
+
+PERK: Effect:_Create_Bullet
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ IfElse IsPositionEmpty PositionInDirectionFromPosition Forwards PositionOfCube Victim
+  TargetCube Victim CreateCubeOnPosition CubeConstant Bullet PositionInDirectionFromPosition East PositionOfCube Target
+  Both TargetCube Victim CreateCubeOnPosition CubeConstant Bullet PositionInDirectionFromPosition East PositionOfCube Target
+   SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered create a bullet east of the target, if there is no space trigger following "Effect:" perk End
+End
+
+PERK: Effect:_Extra_Hp
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ IfElse IsAllyToCaster Victim
+   TargetCube Victim GainXExtraHp 1
+  SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered the target gains 1 extra hp, if it's not an ally instead trigger following "Effect:" perk End
+End
+
+PERK: Target:_Every_Cube
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment EveryXTimes 30 SetCaster Culprit 
+ EveryCubeWhich True
+ TriggerEffectFragment
+Description: On being triggered every 30th time trigger following "Effect:" perk on every cube End
+End
+
+PERK: Target:_Every_Cube_Column_7
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment EveryXTimes 4 SetCaster Culprit 
+ EveryCubeWhich IsEqual 6 XOfPosition PositionOfCube Test 
+ TriggerEffectFragment
+Description: On being triggered every 4th time trigger following "Effect:" perk on every cube in column 7 (columns start at 1) End
+End
+
+PERK: Effect:_Gain_Gold
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AtTheStartOfTheBattle Both ChangeCampaignVariable FRAGMENT_GAIN_GOLD_CAP 20 RemoveThisAbility
+WorldAbility: BeforeEndOfTheBattle SetCampaignVariable FRAGMENT_GAIN_GOLD_CAP 0
+AbilityText: After you win set gold cap to 0 End
+Ability: AfterWorldSomething TargetCube Victim If IsRightEffectFragment
+ IfElse IsLarger GetCampaignVariable FRAGMENT_GAIN_GOLD_CAP 0 
+  EveryXTimes 3 Both ChangeCampaignVariable FRAGMENT_GAIN_GOLD_CAP -1 ChangeCurrency 1
+ SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered every 3rd time gain 1 gold, max 20 per battle, then instead trigger following "Effect:" perk \N
+Cap left: CVARIABLE FRAGMENT_GAIN_GOLD_CAP End
+End
+
+PERK: Effect:_Delayed_Heal_2_Hp
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ IfElse IsAllyToCaster Victim
+  TargetCube Victim GainAbilityText 
+  Every10Seconds Both RemoveThisAbility HealXDamage 2
+  Every 10 seconds heal 2 hp and remove this ability End
+ SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered the target heals 2 hp after 10 seconds, if it's not an ally instead trigger following "Effect:" perk End
+End
+
+PERK: Effect:_Create_Junk
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ IfElse IsPositionEmpty PositionInDirectionFromPosition North PositionOfCube Victim
+  TargetCube Victim CreateCubeOnPosition CopyWithAction CubeConstant Junk GainAbility Fragile PositionInDirectionFromPosition West PositionOfCube Target
+ Both TargetCube Victim CreateCubeOnPosition CopyWithAction CubeConstant Junk GainAbility Fragile PositionInDirectionFromPosition West PositionOfCube Target
+  SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered create fragile junk west of the target, if there is no space trigger following "Effect:" perk End
+End
+
+PERK: Effect:_Conjure
+RotateInInventory: 1
+BelongsTo: EffectFragment
+Ability: AfterWorldSomething If IsRightEffectFragment
+ If IsPositionEmpty PositionInDirectionFromPosition North PositionOfCube Target
+ EveryXTimes ManaCostOfCube TheXSlotInHandOfFaction DoubleConstant 2 FactionOfThis
+ TargetCube Victim CreateCubeOnPosition TheXSlotInHandOfFaction DoubleConstant 2 FactionOfThis PositionInDirectionFromPosition North PositionOfCube Target
+Description: On being triggered, if empty above, every Xth time create the 3rd cube in your hand above the target, where X is the manacost of this 3rd cube End
+Unique
+End
+
+PERK: Trigger:_Battle_Start
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AtTheStartOfTheBattle XTimes 30 TriggerTargetFragment
+Description: At the start of each battle your starting leader triggers following "Target:" perk 30 times End
+End
+
+PERK: Target:_Random_Surface_Neutral
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment
+ TargetCube ARandomCubeWhich And IsNeutral Test
+  IsPositionEmpty PositionInDirectionFromPosition North PositionOfCube Test
+  SetCaster Culprit TriggerEffectFragment
+Description: On being triggered trigger following "Effect:" perk targeting a random neutral with space above End
+End
+
+PERK: Target:_Every_Neutral
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment SetCaster Culprit EveryXTimes 10
+ EveryCubeWhich IsNeutral Test
+ TriggerEffectFragment
+Description: On being triggered every 10th time trigger following "Effect:" perk targeting every neutral End
+End
+
+PERK: Trigger:_Every_Minute
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: EveryMinute XTimes 12 TriggerTargetFragment
+Description: Every minute your starting leader triggers following "Target:" perk 12 times End
+End
+
+PERK: Trigger:_Every_5_Minutes
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: EveryXMinutes 5 XTimes 75 TriggerTargetFragment
+Description: Every 5 minutes your starting leader triggers following "Target:" perk 75 times End
+End
+
+PERK: Trigger:_Ally_Kills_Neutral
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AfterACubeDies If IsAllyToCaster Culprit If IsNeutral Victim
+ TargetCube Victim SetCaster Culprit TriggerTargetFragment
+Description: After an ally kills a neutral your starting leader triggers following "Target:" perk End
+End
+
+PERK: Target:_Your_Stone
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment EveryXTimes 7
+ TargetCube ARandomCubeInHandOfFactionWhich FactionOfCube Caster CubeHasName Test Stone
+  SetCaster Culprit TriggerEffectFragment
+Description: On being triggered every 7th time trigger following "Effect:" perk targeting a random stone in your hand End
+Requirement: HasPerkOrUpgrade PerkConstant Dwarf
+End
+
+PERK: Trigger:_Stone_Takes_Damage
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AfterACubeTakesDamage If StringContainsString NameOfCube Victim StringConstant Stone EveryXTimes 3
+ TargetCube Victim SetCaster Culprit TriggerTargetFragment
+Description: After a cube with name containing "stone" takes damage, every 3rd time, trigger following "Target:" perk End
+Requirement: HasPerkOrUpgrade PerkConstant Dwarf
+End
+
+PERK: Target:_Every_Cube_Touching_Victim
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment EveryXTimes 2
+ EveryCubeTouchingPosition PositionOfCube Victim
+  SetCaster Culprit TriggerEffectFragment
+Description: On being triggered every 2nd time trigger following "Effect:" perk targeting every cube touching the victim End
+End
+
+PERK: Effect:_Create_Explosive_Glue
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ IfElse IsPositionEmpty PositionInDirectionFromPosition North PositionOfCube Victim
+  TargetCube Victim CreateCubeOnPosition CopyWithAction CubeConstant Explosive_Glue SetFaction 0 PositionInDirectionFromPosition North PositionOfCube Target
+  Both TargetCube Victim CreateCubeOnPosition CopyWithAction CubeConstant Explosive_Glue SetFaction 0 PositionInDirectionFromPosition North PositionOfCube Target
+   SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered create neutral Explosive_Glue above the target, if there is no space trigger following "Effect:" perk End
+End
+
+PERK: Effect:_Gain_1_Mana
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+WorldAbility: BeforeEndOfTheBattle SetCampaignVariable FRAGMENT_GAIN_MANA_CAP 0
+ExtraTrigger: AtTheStartOfTheBattle ChangeCampaignVariable FRAGMENT_GAIN_MANA_CAP 20
+ExtraTrigger: EveryMinute ChangeCampaignVariable FRAGMENT_GAIN_MANA_CAP 20
+AbilityText: Gain 20 cap every minute and at the start lose all at the end of battle End
+Ability: AfterWorldSomething If IsRightEffectFragment
+ IfElse IsLarger GetCampaignVariable FRAGMENT_GAIN_MANA_CAP 0
+  Both ChangeCampaignVariable FRAGMENT_GAIN_MANA_CAP -1
+  GenerateXMana 1
+ SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered gain 1 mana, cap at 20 mana per minute elapsed this battle, after this cap instead trigger following "Effect:" perk \N
+Cap left: CVARIABLE FRAGMENT_GAIN_MANA_CAP End
+End
+
+PERK: Target:_Leader_Emitter
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment
+ TargetCube TheFirstCubeInDirectionFromPositionWhich Forwards PositionOfThis Not IsALeader Test
+  SetCaster Culprit TriggerEffectFragment
+Description: On being triggered trigger following "Effect:" perk targeting the first non leader cube any distance infront of your starting leader End
+End
+
+PERK: Effect:_Gain_1_Max_Mana
+BelongsTo: EffectFragment
+RotateInInventory: 1
+Ability: AfterWorldSomething If IsRightEffectFragment
+ ChangeMaxManaOfFaction FactionOfThis 1
+Description: On being triggered gain 1 max mana End
+End
+
+PERK: Target:_Every_Cube_20%_Chance
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment SetCaster Culprit EveryXTimes 6
+ EveryCubeWhich True
+ If X%Chance 20 TriggerEffectFragment
+Description: On being triggered every 6th time for every cube 20% chance to trigger following "Effect:" perk on it End
+End
+
+PERK: Effect:_Gain_1_Growth
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment TargetCube Victim
+ IfElse Not IsEnemyToCaster Target
+  EveryXTimes 3  GainAbility GrowthX 1
+ SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered every 3rd time the target gains 1 growth, if it's an enemy instead trigger following "Effect:" perk End
+End
+
+PERK: Effect:_Gain_1_Strength
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+  IfElse Not IsEnemyToCaster Victim
+   TargetCube Victim EveryXTimes 3 GainAbility StrengthX 1
+  SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered every 3rd time the target gains 1 strength, if it's an enemy instead trigger following "Effect:" perk End
+End
+
+PERK: Effect:_Gain_Melee
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ TargetCube Victim IfElse And IsAllyToCaster Target Not HasAbilityWithName Target EveryXMeleeY
+  GainAbility EveryXMeleeY 240 2
+ SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered the target gains a 2 damage every 4 seconds melee attack, if it's not an ally or already has melee instead trigger following "Effect:" perk End
+End
+
+PERK: Target:_Victim_Leader_Hp
+NewBelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment
+ XTimes Lowest 10 RoundedDown Division HpOfCube Caster 50
+ TargetCube Victim SetCaster Culprit TriggerEffectFragment
+Description: On being triggered trigger following "Effect:" perk targeting the victim X times, where X is the hp of your starting leader / 50 (max 10)  End
+Requirement: HasPerkOrUpgrade PerkConstant Plant
+End
+
+PERK: Target:_Plant_Pot
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment EveryXTimes 10
+ EveryCubeWhich And IsAllyToCaster Test IsNeutral CubeInDirectionFromCube South Test
+  SetCaster Culprit TriggerEffectFragment
+Description: On being triggered every 10th time for every ally above a neutral trigger following "Effect:" perk on it End
+End
+
+PERK: Effect:_Fork
+NewBelongsTo: ChainFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment 
+ SetCaster Culprit TargetCube Victim Both TriggerEffectFragment
+  Both NegateX Subtraction EventAmount Addition PerkInventorySlot 2 TriggerWorldSomething EFFECTFRAGMENT
+Description: On being triggered trigger the following two different "Effect:" perks (Game won't draw the second connection) End
+End
+
+PERK: Effect:_Cooldown
+NewBelongsTo: ChainFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment 
+ SetCaster Culprit TargetCube Victim Cooldown 1200 XTimes 20 TriggerEffectFragment
+Description: On being triggered trigger the following "Effect:" perk 20 times, cooldown 20 seconds End
+End
+
+PERK: Effect:_Aggregate
+NewBelongsTo: ChainFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment 
+ EveryXTimes 5
+ SetCaster Culprit TargetCube Victim XTimes 8 TriggerEffectFragment
+Description: On being triggered every 5th time trigger the following "Effect:" perk 8 times End
+End
+
+PERK: Effect:_Chance
+NewBelongsTo: ChainFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+  If X%Chance 50
+ SetCaster Culprit TargetCube Victim XTimes 3 TriggerEffectFragment
+Description: On being triggered 50% chance to trigger the following "Effect:" perk 3 times End
+End
+
+PERK: Effect:_Scaling
+NewBelongsTo: ChainFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ SetCaster Culprit TargetCube Victim XTimes RoundedDown Division WorldTime Multiplication 4 3600 TriggerEffectFragment
+Description: On being triggered trigger the following "Effect:" perk once for every 4 minutes which have passed this battle End
+End
+
+PERK: Trigger:_First_Damage
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: BeforeACubeTakesDamage If IsAllyToCaster Victim If IsEqual HpOfCube Victim MaxHpOfCube Victim
+ TargetCube Victim SetCaster Culprit TriggerTargetFragment
+Description: Before a full hp ally takes damage trigger following "Target:" perk End
+End
+
+PERK: Target:_Crystal_Intensity
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment
+ EveryCubeTouchingPosition PositionOfCube Victim If Not IsNeutral Target
+  SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered trigger following "Effect:" perk on the victim for every non neutral touching the victim End
+End
+
+PERK: Effect:_Gain_Crystal_Hp
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+  IfElse Not IsEnemyToCaster Target
+   EveryCubeTouchingPosition PositionOfCube Victim
+    If IsAllyToCaster Target TargetCube Victim GainXExtraHp 1
+  SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered the target gains 1 extra hp per touching ally, if it's an enemy instead trigger following "Effect:" perk End
+Requirement: HasPerkOrUpgrade PerkConstant Crystal
+End
+
+PERK: Effect:_Gain_1_Infested
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ TargetCube Victim IfElse Not HasAbilityWithName Target Swarm
+  GainAbility InfestedX 1
+ SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered the target gains 1 Infested, if it has swarm instead trigger following "Effect:" perk End
+Requirement: HasPerkOrUpgrade PerkConstant Devourer
+End
+
+PERK: Trigger:_Gain_Ability
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: BeforeACubeGainsAnAbility EveryXTimes 5
+TargetCube Victim SetCaster Culprit TriggerTargetFragment
+Description: Before a cube gains an ability every 5th time trigger following "Target:" perk End
+Requirement: HasPerkOrUpgrade PerkConstant Devourer
+End
+
+PERK: Trigger:_Swarm_Created
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AfterACubeIsCreated If And Not IsPlaced HasAbilityWithName Victim Swarm
+TargetCube Victim SetCaster Culprit XTimes 2 TriggerTargetFragment
+Description: After a cube with swarm is created but not placed trigger following "Target:" perk twice End
+Requirement: HasPerkOrUpgrade PerkConstant Devourer
+End
+
+PERK: Effect:_Shadow_Afflict
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ TargetCube Victim IfElse Not HasAbilityWithName Target DarkReturn
+  GainAbility DarkReturn
+ SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered the target gains DarkReturn, turning into solid shadow on death, 
+ if it already has that instead trigger following "Effect:" perk End
+Requirement: HasPerkOrUpgrade PerkConstant Shadow
+End
+
+PERK: Trigger:_Solid_Shadow_Created
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AfterACubeIsCreated If CubeHasName Victim Solid_Shadow
+TargetCube Victim SetCaster Culprit TriggerTargetFragment
+Description: After a Solid_Shadow is created trigger following "Target:" perk End
+Requirement: HasPerkOrUpgrade PerkConstant Shadow
+End
+
+PERK: Trigger:_Solid_Shadow_Damage
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AfterACubeTakesDamage If CubeHasName Culprit Solid_Shadow EveryXTimes 2
+TargetCube Victim SetCaster Culprit TriggerTargetFragment
+Description: After a Solid_Shadow deals damage every 2nd time trigger following "Target:" perk End
+Requirement: HasPerkOrUpgrade PerkConstant Shadow
+End
+
+PERK: Trigger:_Undead_Created
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AfterACubeIsCreated If HasAbilityWithName Victim Undead
+TargetCube Victim SetCaster Culprit TriggerTargetFragment
+Description: After a cube with Undead is created trigger following "Target:" perk End
+Requirement: HasPerkOrUpgrade PerkConstant Undead
+End
+
+PERK: Trigger:_Ally_Hp_Death
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AfterACubeDies If IsAllyToCaster Victim XTimes Lowest 100 MaxHpOfCube Victim EveryXTimes 20
+TargetCube Victim SetCaster Culprit TriggerTargetFragment
+Description: For every 20 max hp worth of allies which die trigger following "Target:" perk (won't count max hp past 100 on one cube) End
+End
+
+PERK: Effect:_Create_Zombie
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment EveryXTimes 2
+ IfElse IsPositionEmpty PositionInDirectionFromPosition North PositionOfCube Victim
+  TargetCube Victim CreateCubeOnPosition CubeConstant Zombie PositionInDirectionFromPosition North PositionOfCube Target
+ Both TargetCube Victim CreateCubeOnPosition CubeConstant Zombie PositionInDirectionFromPosition North PositionOfCube Target
+  SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered every 2nd time create an allied Zombie above the target, if there is no space trigger following "Effect:" perk End
+End
+
+PERK: Trigger:_Cube_Added_To_Hand
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: BeforeACubeIsAddedToAHand
+TargetCube Victim SetCaster Culprit XTimes 2 TriggerTargetFragment
+Description: Before a cube is added to a hand trigger following "Target:" perk twice End
+End
+
+PERK: Effect:_Gain_Random_Bonus
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ TargetCube Victim IfElse IsAllyToCaster Victim
+  EveryXTimes 5 GainARandomBonus
+ SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered every 5th time the target gains a random bonus, if it's not an ally instead trigger following "Effect:" perk End
+End
+
+PERK: Trigger:_Neutral_Created
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AfterACubeIsCreated If IsNeutral Victim
+TargetCube Victim SetCaster Culprit TriggerTargetFragment
+Description: After a neutral cube is created trigger following "Target:" perk End
+Requirement: HasPerkOrUpgrade PerkConstant Elemental
+End
+
+PERK: Trigger:_Neutral_Damaged
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AfterACubeTakesDamage If IsNeutral Victim EveryXTimes 2
+TargetCube Victim SetCaster Culprit TriggerTargetFragment
+Description: After a neutral cube takes damage every 2nd time trigger following "Target:" perk End
+End
+
+PERK: Effect:_Add_Neutral_Copy
+BelongsTo: EffectFragment
+RotateInInventory: 1
+Ability: AfterWorldSomething If IsRightEffectFragment
+ TargetCube Victim EveryXTimes 3 AddCubeToHandOfThis NeutralCopy Target
+Description: On being triggered every 3rd time add a neutral copy of the target to your hand End
+End
+
+PERK: Effect:_Retarget
+NewBelongsTo: ChainFragment
+ObtainAction: ReadAPartialScenario Random_Target_Fragment_Reward
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AfterWorldSomething If IsRightEffectFragment 
+ SetCaster Culprit TargetCube Victim TriggerTargetFragment
+Description: On being triggered trigger the following "Target:" perk, When gaining this perk also gain a random target fragment End
+End
+
+PERK: Trigger:_Ally_Kills_Enemy
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AfterACubeDies If IsAllyToCaster Culprit If IsEnemyToCaster Victim
+TargetCube Victim SetCaster Culprit TriggerTargetFragment
+Description: After an ally kills an enemy trigger following "Target:" perk End
+End
+
+PERK: Trigger:_Leader_Damaged
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AfterACubeTakesDamage If IsALeader Victim
+ TargetCube Victim SetCaster Culprit TriggerTargetFragment
+Description: After a leader takes damage trigger following "Target:" perk End
+End
+
+PERK: Trigger:_Click
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AtTheStartOfTheBattle Both ChangeCampaignVariable TRIGGER_CLICK_USE 20 RemoveThisAbility
+WorldAbility: BeforeEndOfTheBattle SetCampaignVariable TRIGGER_CLICK_USE 0
+Description: Click on your starting leader to trigger following "Target:" perk, up to 20 times per battle, current uses: CVARIABLE TRIGGER_CLICK_USE End
+Ability: AfterThisIsClicked If IsLarger GetCampaignVariable TRIGGER_CLICK_USE 0
+ Both ChangeCampaignVariable TRIGGER_CLICK_USE -1
+  TriggerTargetFragment
+AbilityText: Click on this to trigger following "Target:" perk, up to 20 times per battle, current uses: CVARIABLE TRIGGER_CLICK_USE End
+End
+
+PERK: Effect:_Lightning
+NewBelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ IfElse Not IsAllyToCaster Victim 
+  TargetCube Victim XTimes 2 GainAbility Zap
+  SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered apply 2 ZAP, dealing damage to 2 other same faction cubes within 7 spaces after 1 second, \N
+if it's an ally instead trigger following "Effect:" perk End
+End
+
+PERK: Effect:_Damage_Splinter
+NewBelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ IfElse Not IsAllyToCaster Victim 
+  TargetCube Victim Both TakeXDamage 1 GainAbility SplinterX 2
+  SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered deal 1 damage and apply 2 splinter, increasing next damage taken by 2, if it's an ally instead trigger following "Effect:" perk End
+End
+
+PERK: Target:_Small_Blast
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment EveryXTimes 5 SetCaster Culprit 
+ TargetCube Victim
+ Both EveryCubeInRadiusXAroundTarget DoubleConstant 2 TriggerEffectFragment
+ CreateAoEParticlesColourRadiusPosition DoubleConstant 16738816 DoubleConstant 2 PositionOfCube Target
+Description: On being triggered every 4th time trigger following "Effect:" perk on every cube up to 2 spaces away from the victim End
+End
+
+PERK: Target:_Medium_Blast
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment EveryXTimes 7 SetCaster Culprit 
+ TargetCube Victim
+ Both EveryCubeInRadiusXAroundTarget DoubleConstant 4 TriggerEffectFragment
+ CreateAoEParticlesColourRadiusPosition DoubleConstant 16738816 DoubleConstant 4 PositionOfCube Target
+Description: On being triggered every 7th time trigger following "Effect:" perk on every cube up to 4 spaces away from the victim End
+End
+
+PERK: Effect:_Gain_Regeneration
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ TargetCube Victim IfElse And IsAllyToCaster Target IsSmaller GetStackingOfAbilityOnCube RegenerationX Target DoubleConstant 10
+  GainAbility RegenerationX 1
+ SetCaster Culprit TargetCube Victim TriggerEffectFragment 
+Description: On being triggered the target gains 1 regeneration, if it's not an ally or already has 10 regeneration instead trigger following "Effect:" perk End
+End
+
+PERK: Effect:_Add_Free_Copy
+BelongsTo: EffectFragment
+RotateInInventory: 1
+Ability: AfterWorldSomething If IsRightEffectFragment
+ TargetCube Victim If X%Chance RoundedDown Division 80 ManaCostOfCube Target AddCubeToHandOfThis CopyWithAction FreeCopy Target SetFaction FactionOfThis
+Description: On being triggered X% chance to add a free allied copy of the target to your hand, X is 80/manacost rounded down End
+End
+
+PERK: Trigger:_Clock_Cube
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AtTheStartOfTheBattle AddCubeToHandOfFactionInfinitly CopyWithAction CubeConstant Trigger_Clock SetVariable TARGET_PERK Addition PerkInventorySlot 1 
+ FactionOfThis
+Description: At the start of each battle add an infinite use clock cube in hand which every 20 seconds triggers the following "Target:" perk End
+Unique
+End
+
+PERK: Effect:_Accelerate
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ TargetCube Victim IfElse And Not IsEnemyToCaster Target Not IsALeader Target
+  AccelerateX 60
+ SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered the target accelerates for 2 seconds, if it's an enemy or a leader instead trigger following "Effect:" perk End
+End
+
+PERK: Target:_Big_Blast
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment EveryXTimes 13 SetCaster Culprit 
+ TargetCube Victim
+ Both EveryCubeInRadiusXAroundTarget DoubleConstant 6 TriggerEffectFragment
+ CreateAoEParticlesColourRadiusPosition DoubleConstant 16738816 DoubleConstant 6 PositionOfCube Target
+Description: On being triggered every 13th time trigger following "Effect:" perk on every cube up to 6 spaces away from the victim End
+End
+
+PERK: Effect:_Gain_Poisonous
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ TargetCube Victim IfElse And IsAllyToCaster Target IsSmaller GetStackingOfAbilityOnCube PoisonousX Target DoubleConstant 5
+  EveryXTimes 2 GainAbility PoisonousX 1
+ SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered every 2nd time the target gains 1 poisonous, if it's not an ally or already has 5 poisonous instead trigger following "Effect:" perk End
+End
+
+PERK: Target:_Random_Your_Hand
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment EveryXTimes 8
+ TargetCube ARandomCubeInHandOfFactionWhich FactionOfThis TRUE SetCaster Culprit TriggerEffectFragment
+Description: On being triggered every 8th time trigger following "Effect:" perk targeting a random cube in your hand End
+End
+
+PERK: Target:_Random_Enemy_Hand
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment EveryXTimes 20
+ TargetCube ARandomCubeInHandOfFactionWhich FactionOfCube ARandomEnemy TRUE SetCaster Culprit TriggerEffectFragment
+Description: On being triggered every 20th time trigger following "Effect:" perk targeting a random cube in the opponents hand End
+End
+
+PERK: Effect:_High_Chaos
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ TargetCube Victim IfElse IsAllyToCaster Target
+  EveryXTimes 5 GainRandomAbilityOfCube ARandomCubeInLibraryWhich And Not IsToken Test IsLarger AmountOfAbilitiesOfCube Test 0
+ SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered every 5th time the target gains a random ability of a random cube of the game, if it's not an ally instead trigger following "Effect:" perk End
+End
+
+PERK: Effect:_Drain_Mana
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment 
+ TargetCube Victim IfElse IsEnemyToCaster Target
+  FactionXGainsYMana FactionOfCube Victim -1
+ SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered generate -1 mana for the target's faction, if it's not an enemy instead trigger following "Effect:" perk End
+End
+
+PERK: Effect:_Gain_Homing
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ TargetCube Victim IfElse And Not IsEnemyToCaster Target Not HasAbilityWithName Target HomingX
+  GainAbility HomingX 120
+ SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered the target gains homing moving towards an enemy of it every 2 seconds, if it already has homing or is an enemy instead trigger following "Effect:" perk End
+End
+
+PERK: Target:_Lightning_Chain
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment
+ XTimes 2 TargetCube ARandomCubeWhich And And Not IsLarger DistanceOfPositions PositionOfCube Victim PositionOfCube Test DoubleConstant 7
+   IsEqual FactionOfCube Victim FactionOfCube Test Not IsSameCube Test Caster
+  SetCaster Culprit TriggerEffectFragment
+Description: On being triggered trigger following "Effect:" perk targeting 2 other random cubes of the same faction as the victim within 7 spaces of the victim End
+End
+
+PERK: Effect:_Copy
+BelongsTo: EffectFragment
+RotateInInventory: 1
+Ability: AfterWorldSomething If IsRightEffectFragment
+ TargetCube Victim
+  If X%Chance RoundedDown Division 250 ManaCostOfCube Target CreateCubeOnPosition CopyWithAction Target SetFaction FactionOfThis
+   PositionInDirectionFromPosition North PositionInDirectionFromPosition Backwards PositionOfCube Target
+Description: On being triggered X% chance to create an allied copy diagonally north west from the target, X is 250/manacost rounded down End
+End
+
+PERK: Effect:_Fragile_Copy
+BelongsTo: EffectFragment
+RotateInInventory: 1
+Ability: AfterWorldSomething If IsRightEffectFragment
+ TargetCube Victim
+  If X%Chance RoundedDown Division 500 ManaCostOfCube Target CreateCubeOnPosition CopyWithAction Target Both GainAbility Fragile SetFaction FactionOfThis
+   PositionInDirectionFromPosition Forwards PositionOfCube Target
+Description: On being triggered X% chance to create a fragile allied copy in front of the target, X is 500/manacost rounded down (fragile dies on collision) End
+End
+
+PERK: Effect:_Periscope
+BelongsTo: ChainFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ Both CreateCubeOnPosition CubeConstant Periscope PositionXInfrontYBelowPosition 0 -3 PositionOfCube Victim 
+ TargetCube CubeOfPosition PositionXInfrontYBelowPosition 0 -3 PositionOfCube Victim 
+  SetCaster Culprit TriggerEffectFragment
+Description: On being triggered create a fragile 1 hp cube 3 space above the target then trigger following "Effect:" perk targeting the cube 3 spaces above End
+End
+
+PERK: Effect:_Left_Side_Copy
+BelongsTo: EffectFragment
+RotateInInventory: 1
+Ability: AfterWorldSomething If IsRightEffectFragment
+ TargetCube Victim
+  If X%Chance RoundedDown Division 100 ManaCostOfCube Target CreateCubeOnPosition CopyWithAction Target SetFaction FactionOfThis
+   ARandomLeftPosition
+Description: On being triggered X% chance to create an allied copy in a random left side position, X is (100/manacost) rounds down End
+End
+
+PERK: Target:_Manacost_Victim
+NewBelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment If Not IsALeader Victim
+ XTimes RoundedDown Division ManaCostOfCube Victim 20
+ TargetCube Victim SetCaster Culprit TriggerEffectFragment
+Description: On being triggered trigger following "Effect:" perk targeting the victim once for each 20 mana the victim costs, ignores leaders End
+End
+
+PERK: Trigger:_Ally_Takes_Damage
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AfterACubeTakesDamage If IsAllyToCaster Victim EveryXTimes 4
+ TargetCube Victim SetCaster Culprit TriggerTargetFragment
+Description: After an ally takes damage every 4th time trigger following "Target:" perk End
+End
+
+PERK: Trigger:_Specific_Created
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AfterACubeIsCreated If HasNameOfCube Victim TheXSlotInHandOfFaction DoubleConstant 4 FactionOfThis
+TargetCube Victim SetCaster Culprit XTimes 2 TriggerTargetFragment
+Description: After a cube with the same name as the 5th cube in your hand is created trigger following "Target:" perk twice End
+End
+
+PERK: Target:_Random_Same_Faction
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment
+ TargetCube ARandomCubeWhich IsEqual FactionOfCube Test FactionOfCube Victim SetCaster Culprit TriggerEffectFragment
+Description: On being triggered trigger following "Effect:" perk targeting a random cube with the same faction as the victim End
+End
+
+PERK: Effect:_Ant
+BelongsTo: ChainFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ EveryXTimes 4 CreateCubeOnPosition CubeConstant Brown_Ant ARandomLeftPosition
+ExtraTrigger: AfterACubeIsCreated If CubeHasName Victim Brown_Ant
+  SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered every 4th time create a Brown_Ant on a random left side position. After a Brown_Ant is created trigger following "Effect:" perk targeting it End
+End
+
+PERK: Target:_Directionals
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment
+ EveryXTimes 3 Both Both Both
+ TargetCube TheFirstCubeInDirectionFromPositionWhich North PositionOfCube Victim True  SetCaster Culprit TriggerEffectFragment
+ TargetCube TheFirstCubeInDirectionFromPositionWhich East PositionOfCube Victim True   SetCaster Culprit TriggerEffectFragment
+ TargetCube TheFirstCubeInDirectionFromPositionWhich South PositionOfCube Victim True  SetCaster Culprit TriggerEffectFragment
+ TargetCube TheFirstCubeInDirectionFromPositionWhich West PositionOfCube Victim True   SetCaster Culprit TriggerEffectFragment
+Description: On being triggered every 3rd time trigger following "Effect:" perk targeting the first cube any distance from the victim in each of the 4 directions End
+End
+
+PERK: Target:_Random_Cubes
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment
+ XTimes 2 TargetCube ARandomCube SetCaster Culprit TriggerEffectFragment
+Description: On being triggered trigger following "Effect:" perk targeting 2 random cubes End
+End
+
+PERK: Effect:_Apply_Random_Debuff
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ IfElse Not IsAllyToCaster Victim 
+  EveryXTimes 2 TargetCube Victim GainRandomAbilityOfCube CubeConstant Debuff_List
+ SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered every 3rd time apply a random debuff, if it's an ally instead trigger following "Effect:" perk End
+End
+
+PERK: Trigger:_Perk_Lost
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AfterYouLoseAPerk XTimes 50 TriggerTargetFragment
+Description: After you lose a perk during a battle trigger following "Target:" perk 50 times End
+End
+
+PERK: Target:_Incuring_Cubes
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment
+ EveryXTimes 15 EveryCubeWhich Not IsEqual FactionOfCube Test PlacabilityOfPosition PositionOfCube Test SetCaster Culprit TriggerEffectFragment
+Description: On being triggered every 15th time trigger following "Effect:" perk targeting every cube in a position owned by a different faction (the faction which can place there) End
+End
+
+PERK: Target:_Repeating
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment
+ EveryXTimes 10 TargetCube Victim Both SetVariable TARGET:_REPEATING PerkInventorySlot
+ GainAbilityText Every20Seconds SeperateEventAmount Both NegateX Subtraction EventAmount Addition GetVariableOnCube TARGET:_REPEATING Caster 1 
+  TriggerWorldSomething EFFECTFRAGMENT
+ Repeating: Every 20 seconds trigger the following "Effect:" fragment after "Target:_Repeating" End
+Description: On being triggered every 10th time give an ability to the victim which triggers the following "Effect:" perk targeting it every 20 seconds End
+End
+
+PERK: Target:_Every_Cube_Lowest_Row
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment EveryXTimes 2 SetCaster Culprit 
+ EveryCubeWhich IsEqual MaxWorldY YOfPosition PositionOfCube Test 
+ TriggerEffectFragment
+Description: On being triggered every 2nd time trigger following "Effect:" perk on every cube in the lowest row End
+End
+
+PERK: Effect:_Create_Random_Projectile
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment
+ IfElse IsPositionEmpty PositionInDirectionFromPosition Forwards PositionOfCube Victim
+  EveryXTimes 3 TargetCube Victim CreateCubeOnPosition ARandomCubeInLibraryWhich HasAbilityWithName Test ProjectileX PositionInDirectionFromPosition East PositionOfCube Target
+  Both EveryXTimes 3 TargetCube Victim CreateCubeOnPosition ARandomCubeInLibraryWhich HasAbilityWithName Test ProjectileX PositionInDirectionFromPosition East PositionOfCube Target
+   SetCaster Culprit TargetCube Victim TriggerEffectFragment
+Description: On being triggered every 3rd time create a random projectile east of the target, if there is no space trigger following "Effect:" perk End
+End
+
+PERK: Trigger:_Ally_Generates_Mana
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: BeforeManaIsGenerated If IsEqual FactionOfCube Culprit FactionOfThis EveryXtimes 6
+ TargetCube Victim SetCaster Culprit TriggerTargetFragment
+Description: Every 6th time an ally generated mana triggers following "Target:" perk End
+End
+
+PERK: Target:_Every_Low_Hp_Cube
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment EveryXTimes 10 SetCaster Culprit 
+ EveryCubeWhich Not IsLarger HpOfCube Test 3
+ TriggerEffectFragment
+Description: On being triggered every 10th time trigger following "Effect:" perk on every cube with 3 hp or less End
+End
+
+PERK: Effect:_Alternate
+NewBelongsTo: ChainFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment 
+ SetCaster Culprit TargetCube Victim 
+  Both 1Shot XTimes 2 TriggerEffectFragment
+  Both  XDelay 2 EveryXTimes 2 XTimes 2 TriggerEffectFragment
+  EveryXTimes 2 XTimes 2 Both NegateX Subtraction EventAmount Addition PerkInventorySlot 2 TriggerWorldSomething EFFECTFRAGMENT
+Description: On being triggered trigger the first of the two following "Effect:" perks twice, then alternate to the other one End
+End
+
+PERK: Effect:_Allied_Effect
+NewBelongsTo: ChainFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment 
+ SetCaster Culprit TargetCube Victim 
+  Both SetStorage Target NegateX Subtraction EventAmount FactionOfCube Target
+  Both SetFaction 1
+  Both TriggerEffectFragment
+  SetFaction EventAmount
+Description: On being triggered the target joins the players faction, then trigger the following "Effect:" perk, then return the targets faction to it's previous faction End
+End
+
+PERK: Effect:_Enemy_Effect
+NewBelongsTo: ChainFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment 
+ SetCaster Culprit TargetCube Victim 
+  Both SetStorage Target NegateX Subtraction EventAmount FactionOfCube Target
+  Both SetFaction 2
+  Both TriggerEffectFragment
+  SetFaction EventAmount
+Description: On being triggered the target joins the enemies faction, then trigger the following "Effect:" perk, then return the targets faction to it's previous faction End
+End
+
+PERK: Effect:_3_Random_Split
+NewBelongsTo: ChainFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment 
+ SetCaster Culprit TargetCube Victim 
+  RandomlyX 3
+  TriggerEffectFragment
+  Both NegateX Subtraction EventAmount Addition PerkInventorySlot 2 TriggerWorldSomething EFFECTFRAGMENT
+  Both NegateX Subtraction EventAmount Addition PerkInventorySlot 3 TriggerWorldSomething EFFECTFRAGMENT
+Description: On being triggered trigger a random one of the three following "Effect:" perks twice (The game will only draw one of the connections) End
+End
+
+PERK: Trigger:_Enemy_Creation
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AfterACubeIsCreated If IsEnemyToCaster Victim EveryXTimes 2
+TargetCube Victim SetCaster Culprit XTimes 2 TriggerTargetFragment
+Description: After an enemy is created every 2nd time trigger following "Target:" perk twice End
+End
+
+PERK: Trigger:_Mycelium_Created
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AfterACubeIsCreated If CubeHasName Victim Mycelium EveryXTimes 2
+TargetCube Victim SetCaster Culprit TriggerTargetFragment
+Description: After Mycelium is created every 2nd time trigger following "Target:" perk End
+Requirement: HasPerkOrUpgrade PerkConstant Fungus
+End
+
+PERK: Effect:_Apply_Mycelium_Growth
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment 
+ TargetCube Victim EveryXTimes 5 GainAbility MyceliumGrowth
+Description: On being triggered every 5th time apply 1 mycelium_growth End
+Requirement: HasPerkOrUpgrade PerkConstant Fungus
+End
+
+PERK: Trigger:_High_Cost_Ally_Created
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If Not IsSmaller ManaCostOfCube Victim 60
+TargetCube Victim SetCaster Culprit XTimes 4 TriggerTargetFragment
+Description: After an ally with manacost 60 or greater is created trigger following "Target:" perk 4 times End
+End
+
+PERK: Trigger:_Ally_Creates_Ally
+BelongsTo: TriggerFragment
+NextPerkConnection: PerkIsType Test TargetFragment 181 0 156
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If Not IsALeader Culprit If IsAllyToCaster Culprit
+TargetCube Victim SetCaster Culprit TriggerTargetFragment
+Description: After a non leader ally creates an ally trigger following "Target:" perk End
+End
+
+PERK: Effect:_Temporary_Unmovable
+BelongsTo: EffectFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightEffectFragment 
+ TargetCube Victim GainAbility TemporaryUnmovable 5
+Description: On being triggered apply unmovable for 5 seconds End
+End
+
+PERK: Target:_Every_Rusty_Cube
+BelongsTo: TargetFragment
+NextPerkConnection: EffectConnectable 127 0 0
+Ability: AfterWorldSomething If IsRightTargetFragment EveryXTimes 7 SetCaster Culprit 
+ EveryCubeWhich Not IsSmaller Subtraction MaxHpOfCube Test HpOfCube Test 10
+ TriggerEffectFragment
+Description: On being triggered every 7th time trigger following "Effect:" perk on every cube with 10 or more missing hp End
+End

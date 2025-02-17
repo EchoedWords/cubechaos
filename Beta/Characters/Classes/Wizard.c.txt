@@ -1,0 +1,76 @@
+PERK: Wizard
+BelongsTo: CLASS
+LevelRequirement: 8
+Description: Start with the concentrate cube, use it and other cubes at the same time for large combos End
+ObtainAction: AddCubeToInventory CubeConstant Shock_Wave
+ObtainAction: AddCubeToInventory CubeConstant Mana_Battery
+ObtainAction: AddCubeToDeck CubeConstant Concentrate
+RemoveAction: RemoveCubeFromDeck CubeConstant Concentrate
+Unique
+End
+
+PERK: Magic_Dragon_Egg
+BelongsTo: Wizard
+Description: You start with a free Magic_Dragon_Egg in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Magic_Dragon_Egg RemoveThisAbility
+End
+
+PERK: Apprentice
+BelongsTo: Wizard
+Description: At the start of each battle add a free Wizard_Apprentice to your hand, the apprentice copies every 10th cube you place, but the copy doesn't last End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Wizard_Apprentice RemoveThisAbility
+End
+
+PERK: Overstress
+BelongsTo: Wizard
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Concentrate
+Both ChangeManaCost Division ManaCostOfCube Target DoubleConstant -2
+GainAbilityText AfterThisIsCreated TargetCube ARandomAlliedLeader TakeXDamage DoubleConstant 1
+After this is created this deals 1 damage to a random allied leader End
+RemoveThisAbility
+Description: Concentrate costs half as much but also deals 1 damage to a random allied leader End
+End
+
+PERK: Mana_Shielding
+BelongsTo: Wizard
+Ability: BeforeACubeTakesDamage If IsLarger EventAmount DoubleConstant 0 If IsAllyToCaster Victim If IsLarger ManaOfFaction FactionOfThis DoubleConstant 100 Both 
+GenerateXMana DoubleConstant -1
+NegateX DoubleConstant 1
+Description: Before an ally takes more than 0 damage, if you have more than 100 \CMANA mana \CN one of that damage is negated at the cost of 1 \CMANA mana \CN End
+End
+
+PERK: Mana_Flower
+BelongsTo: Wizard
+Ability: EveryMinute AddCubeToHandOfThis CubeConstant Mana_Flower
+Description: Every minute add a cheap \CMANA mana \CN generating Mana_Flower to your hand End
+End
+
+PERK: Air_Storage
+BelongsTo: Wizard
+Ability: EveryXSeconds DoubleConstant 40 AddCubeToHandOfThis CubeConstant Air_Mana_Storage
+Description: Every 40 Seconds add a free flying Air_Mana_Storage cube to your hand End
+End
+
+PERK: Manifest_Thought
+BelongsTo: Wizard
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Concentrate
+GainAbilityText AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim GainXExtraHp DoubleConstant 3
+After an ally is created it gains 3 extra hp End
+RemoveThisAbility
+Description: Concentrate also increases the hp of created cubes by 3 End
+End
+
+PERK: Desperate_Mana
+BelongsTo: Wizard
+Ability: EveryMinute Both GenerateXMana DoubleConstant 20 ChangeMaxManaOfFaction DoubleConstant -2 FactionOfThis
+Description: Every minute gain 20 \CMANA mana \CN but lose 2 max mana End
+End
+
+PERK: Spatial_Earth
+BelongsTo: Wizard
+Description: At the start of each battle neutral cubes gain: "After this dies the killer gains 5 max mana" End
+Ability: AtTheStartOfTheBattle Secret Both EveryCubeWhich IsNeutral Test GainAbilityText 
+AfterThisDies ChangeMaxManaOfFaction DoubleConstant 5 FactionOfCube Culprit
+After this dies the killer gains 5 max mana End
+RemoveThisAbility
+End

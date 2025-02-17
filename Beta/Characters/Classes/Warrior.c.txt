@@ -1,0 +1,82 @@
+PERK: Warrior
+BelongsTo: CLASS
+LevelRequirement: 2
+Description: Your starting leader moves forward, attacks faster and you start with a cube which teleports your leader End
+Ability: ChargeEveryX 240
+Ability: AtTheStartOfTheBattle Both RemoveAbilityWithName EveryXMeleeY Both GainAbility EveryXMeleeY 60 3 RemoveThisAbility
+Ability: AtTheStartOfTheBattle Both TargetCube CubeInDirectionFromCube Backwards Caster Exile
+Both CreateCubeOnPosition CubeConstant Warriors_Heart PositionInDirectionFromThis Backwards RemoveThisAbility
+ObtainAction: AddCubeToDeck CubeConstant Leaders_Retreat
+RemoveAction: RemoveCubeFromDeck CubeConstant Leaders_Retreat
+ObtainAction: AddCubeToInventory CubeConstant Tiny_Castle
+ObtainAction: AddCubeToInventory CubeConstant War_Improvements
+Disableable: false
+Unique
+End
+
+PERK: Carrying
+BelongsTo: Warrior
+Ability: BeforeACubeMoves If And IsAllyToCaster Culprit IsALeader Culprit TargetCube CubeOfPosition PositionInDirectionFromPosition North PositionOfCube Victim MoveInDirection EventDirection
+Description: Before an allied leader moves a cube (like itself) the cube above is also moved in the same direction End
+End
+
+PERK: Spear_Charge
+BelongsTo: Warrior
+Ability: AfterACubeMoves If IsAllyToCaster Victim If HasAbilityWithName Victim EveryXMeleeY If IsSameDirection EventDirection Forwards
+TargetCube CubeInDirectionFromCube Forwards Victim 
+If IsEnemyToCaster Target
+SetCaster Victim TakeXDamage DoubleConstant 1
+Description: After an ally with melee moves forwards, if there is now an enemy in front of it, it deals 1 damage to that enemy End
+End
+
+PERK: Spare_Knives
+BelongsTo: Warrior
+Description: At the start of each battle every cube in your hand gets: \A EveryXMeleeY 300 2 End
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis True
+GainAbility EveryXMeleeY 300 2
+RemoveThisAbility
+End
+
+PERK: Culling_Order
+BelongsTo: Warrior
+Ability: AfterACubeDies If IsEnemyToCaster Victim If IsAllyToCaster Culprit 
+If HasAbilityWithName Culprit EveryXMeleeY
+GenerateXMana DoubleConstant 1
+Description: After an enemy is killed by an ally with melee gain 1 \CMANA mana \CN End
+End
+
+PERK: Anger_Dragon_Egg
+BelongsTo: Warrior
+Description: You start with a free Anger_Dragon_Egg in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Anger_Dragon_Egg
+RemoveThisAbility
+End
+
+PERK: Healing_Retreat
+BelongsTo: Warrior
+Ability: AfterACubeIsCreated If CubeHasName Victim Leaders_Retreat
+EveryAlliedLeader HealXDamage DoubleConstant 5
+Description: After the Leaders_Retreat is created every allied leader is healed for 5 hp by your starting leader End
+End
+
+PERK: Combat_Experience
+BelongsTo: Warrior
+Ability: AfterThisDealsDamage If IsCubeTouchingThis Victim
+If IsEnemyToCaster Target ChangeMaxHp DoubleConstant 2
+Description: After your starting leader deals damage to a touching enemy it gains 2 max hp End
+End
+
+PERK: Hardy_Heart
+BelongsTo: Warrior
+Ability: AfterACubeIsCreated If CubeHasName Victim Warriors_Heart TargetCube Victim
+GainXExtraHp MaxHpOfCube Caster
+Description: After your Warriors_Heart is created it gains extra hp equal to your starting leader's hp End
+End
+
+PERK: Ground_Combat
+BelongsTo: Warrior
+Ability: BeforeACubeTakesDamage If IsNeutral CubeInDirectionFromCube South Culprit 
+If HasAbilityWithName Culprit EveryXMeleeY
+NegateX -1
+Description: Before a cube with melee deals damage, if there is a neutral cube below, increase it by 1 (This includes enemies) End
+End

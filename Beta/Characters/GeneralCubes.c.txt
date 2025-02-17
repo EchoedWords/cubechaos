@@ -1,0 +1,669 @@
+CUBE: Dragon_Box 80 7 7
+IDENT 4 0 20 40 20
+TYPE Factory
+Ability: Every20Seconds CreateCubeOnPosition ARandomDragonEgg
+PositionInDirectionFromPosition North PositionOfCube ARandomCubeWhich And And
+ IsAllyToCaster Test
+ IsPositionEmpty PositionInDirectionFromPosition North PositionOfCube Test
+ Not HasAbilityWithName Test Dragon_Egg
+Text: Every 20 seconds create a random dragon egg above a random non dragon_egg ally which has space above it End
+AiPlacementRule: And And AiStacking AiBackline AiEmptyNorth
+End
+
+CUBE: Dwarven_Warrior 25 7 7
+IDENT 1 20 0 0 0
+TYPE Attacker
+TYPE Starter
+Ability: ChargeEveryX 180
+Ability: EveryXMeleeY 120 5
+AiPlacementAbility: AiWarrior
+End
+
+CUBE: Healing_Container 35 3 3
+IDENT 2 0 0 35 0
+TYPE Healer
+TYPE Starter
+Ability: Every10Seconds TargetCube ARandomDamagedAlly HealXDamage DoubleConstant 1
+Text: Every 10 seconds heal a random damaged ally for 1 hp End
+Animation: Pulse CLOCK 0 EQUAL 4
+Ability: ExplodesX 5
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Shrine_To_Recovery 100 3 3
+IDENT 4 0 5 5 80
+TYPE Attacker
+TYPE Starter
+Ability: AfterACubeHeals If IsAllyToCaster Culprit EveryXTimes DoubleConstant 10 TargetCube ARandomEnemy TakeXDamage DoubleConstant 5
+Text: Every 10 times an ally heals a cube deal 5 damage to a random enemy End
+Animation: Charge CLOCK 0 EQUAL 5
+Ability: ArmorX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: War_Improvements 40 1 1
+IDENT 2 0 0 10 20
+TYPE Modifier
+TYPE Starter
+Ability: Addon
+Ability: StrengthX 2
+Ability: AfterThisCreates TargetCube Victim GainAbility StrengthX 2
+Text: After this creates a cube the child gains \C255 38 0 Strength 2 \CN End
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Tiny_Castle 100 10 10
+IDENT 1 0 5 80 0
+TYPE Factory
+TYPE Starter
+Ability: EveryXCreateCubeAbove TimeConstant 1800 CubeConstant Castle_Knight
+Animation: Release TRIGGER 0 EQUAL 3 30
+AiPlacementRule: And And AiEmptyNorth AiStacking AiDefense
+End
+
+CUBE: Decay_Bolt 30 10 10
+IDENT 1 10 0 13 7
+TYPE Attacker
+TYPE Starter
+Ability: ProjectileX 8
+Ability: PoisonousX 8
+Ability: ChargeEveryX 60
+Ability: Flying
+Animation: Fly TIME 0 8 10 10 10 10 10 10 10 10
+AiPlacementRule: AiMissile
+End
+
+CUBE: Shadow_Addon 20 20 20
+IDENT 2 0 -5 5 20
+TYPE Modifier
+TYPE Starter
+Ability: Addon
+Ability: Shadow
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Obsidian 60 20 20
+IDENT 2 0 40 0 10
+TYPE Wall
+TYPE Starter
+Ability: ArmorX 1
+Ability: ThrummingX 1
+AiPlacementRule: And AiStacking AiDefense
+Animation: Crumble HP 0 EQUAL 5
+End
+
+CUBE: Shock_Wave 70 0 0
+IDENT 2 20 0 20 30
+TYPE Attacker
+TYPE Starter
+Ability: AfterThisIsCreated EveryCube If IsEnemyToCaster Target TakeXDamage DoubleConstant 1
+Text: After this is created deal 1 damage to every enemy End
+AiPlacementRule: True
+End
+
+CUBE: Charging_Gun 30 2 2
+IDENT 1 15 0 0 0
+TYPE Shooter
+TYPE Starter
+Ability: EnergyGenerationX 12
+Animation: Charge CLOCK 0 EQUAL 6
+Ability: EnergyX 0
+Ability: EveryXTicks TimeConstant 12 If IsLarger GetEnergy DoubleConstant 0
+Both CreateCubeOnPosition CubeConstant Bullet PositionInDirectionFromThis Forwards
+ChangeAbilityStacking EnergyX DoubleConstant -1
+Text: 5 times per second use 1 energy to create a bullet in front of this (loses energy even if there is no space) End
+Visual: Square 1 0 96 96 96
+AiPlacementRule: And And AiStacking AiDefense AiEmptyInfront
+End
+
+CUBE: Evaporate 12 0 0
+IDENT 3 0 12 0 0
+TYPE Starter
+Ability: AfterThisIsCreated TargetCube CubeInDirectionFromCube South Caster TakeXDamage DoubleConstant 10
+Text: After this is created deal 10 damage to the cube below End
+Visual: Sword 0 1 255 0 0 3
+Ability: AfterThisDealsDamage TargetCube NeutralCopy CubeConstant Steam
+Both CreateCubeOnPosition Target PositionInDirectionFromThis North
+Both CreateCubeOnPosition Target PositionInDirectionFromThis East
+CreateCubeOnPosition Target PositionInDirectionFromThis West
+Text: After this deals damage create neutral steam in all directions except below End
+Visual: Square -1 0 96 96 96
+Visual: Square 1 0 96 96 96
+Visual: Square 0 -1 96 96 96
+AiPlacementRule: AiEnemySouth
+End
+
+CUBE: Sand_Portal 40 8 8
+IDENT 2 0 25 5 5
+TYPE Factory
+TYPE Starter
+Ability: EveryXSeconds DoubleConstant 7 CreateCubeOnPosition NeutralCopy CubeConstant Sand PositionInDirectionFromThis South
+Text: Every 5 seconds create neutral sand below End
+Animation: Charge CLOCK 0 EQUAL 6
+Visual: Square 0 1 96 96 96
+Ability: Flying
+Ability: RegenerationX 1
+AiPlacementRule: And AiEmptySouth AiDefense
+End
+
+CUBE: Mana_Battery 25 7 7
+IDENT 1 0 0 0 10
+TYPE Mana
+TYPE Starter
+Ability: ManaStorageX 40
+Ability: Every30Seconds If Not IsSmaller ManaOfFaction FactionOfThis DoubleConstant 100
+GenerateXMana AmountOfAbilitiesOfCube Caster
+Text: Every 30 seconds, if you have 100 mana or more, generate 1 mana per ability on this End
+Animation: Charge CLOCK 0 EQUAL 4
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Treadmill 25 15 15
+IDENT 2 0 0 0 10
+TYPE Movement
+TYPE Starter
+Ability: AfterACubeMoves If IsAllyToCaster Culprit If IsCubeTouchingThis Victim
+Both GainAbility EnergyX 1
+TargetCube Victim Both MoveInDirection ReverseDirection EventDirection
+TakeXDamage 1/2
+Text: After an ally moves a cube to a touching position, gain 1 energy, move the moved cube back and deal 0.5 damage to it End
+Ability: EverySecond If Not IsSmaller GetEnergy DoubleConstant 20
+Both ChangeAbilityStacking EnergyX DoubleConstant -20
+GenerateXMana DoubleConstant 10
+Visual: Arrow 0 -1 155 238 255 4
+Animation: Rotate TIME 0 2 20 20
+Text: Every second try to use 20 energy to generate 10 \CMANA mana \CN End
+AiPlacementRule: AiStacking
+End
+
+CUBE: Plant_Warrior 45 12 12
+IDENT 2 25 0 10 0
+TYPE Attacker
+TYPE Starter
+Ability: ChargeEveryX 120
+Ability: EveryXMeleeY 60 2
+Ability: GrowthX 6
+Animation: Grow DOUBLE 0 6  0 5 10 10 20 955 HpOfCube Caster 1
+AiPlacementAbility: AiWarrior
+End
+
+CUBE: Thorn_Hedge 20 4 4
+IDENT 2 0 15 0 0
+TYPE Wall
+TYPE Factory
+TYPE Starter
+Ability: EveryXCreateCubeAbove TimeConstant 900 CubeConstant Thorn_Leaves 
+Ability: Burrowing
+Ability: RegenerationX 2
+Animation: Crumble HP 0 EQUAL 3
+AiPlacementAbility: AiAggressiveBurrowing
+End
+
+CUBE: Blue_Moss 40 3 3
+IDENT 2 0 5 20 10
+TYPE Mana
+TYPE Starter
+Ability: Every30Seconds Both Both 
+CreateCubeOnPosition CubeConstant Blue_Moss PositionInDirectionFromThis West
+CreateCubeOnPosition CubeConstant Blue_Moss PositionInDirectionFromThis East
+GenerateXMana DoubleConstant 1
+Visual: Square -1 0 96 96 96
+Visual: Square 1 0 96 96 96
+Text: Every 30 seconds create Blue_Moss to both sides of this and generate 1 \CMANA mana \CN End
+Animation: Bloom CLOCK 0 EQUAL 5
+Ability: EverySecond If Not NoCubeAbove TakeXDamage DoubleConstant 1
+Text: Every second, if there is a cube above, deal 1 damage to this End
+Visual: Sword 0 -1 255 0 0 3
+Ability: RegenerationX 4
+AiPlacementRule: And And AiEmptyNorth Not AiFrontline AiStacking
+End
+
+CUBE: Cauterize 45 0 0
+IDENT 2 0 15 0 10
+TYPE Healer
+TYPE Starter
+Ability: AfterThisIsCreated TargetCube CubeInDirectionFromCube South Caster Both TakeXDamage DoubleConstant 10
+Both HealXDamage DoubleConstant 100
+If HasAbilityWithName Target PoisonX
+Both GainAbility PoisonX -5
+ If Not IsLarger GetStackingOfAbilityOnCube PoisonX Target DoubleConstant 0
+ RemoveAbilityWithName PoisonX
+Text: After this is created deal 10 damage to the cube below, heal it for 100 hp and remove up to 5 poison (won't die in-between the damage and healing) End
+AiPlacementRule: And AiAllySouth
+IsSmaller HpOfCube CubeInDirectionFromCube South Caster MaxHpOfCube CubeInDirectionFromCube South Caster
+End
+
+CUBE: Sabotage_Agent 70 15 15
+IDENT 3 0 5 45 20
+TYPE Modifier
+TYPE Starter
+Ability: AfterACubeDies TargetCube CubeInDirectionFromCube Forwards Victim SetCaster Victim TakeXDamage DoubleConstant 1
+Animation: Blast TRIGGER 0 EQUAL 4 30
+Text: After a cube dies, that cube deals 1 damage to the cube FACTIONFORWARDS of it End
+Ability: ExplodesX 2
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Mindcontrol 70 0 0
+IDENT 4 0 30 0 20
+TYPE Special
+Ability: AfterThisIsCreated TargetCube CubeInDirectionFromCube South Caster SetFaction FactionOfThis
+Text: After this is created convert the cube below to your faction End
+Visual: Target 0 1 255 255 255
+AiPlacementRule: AiEnemySouth
+End
+
+CUBE: Mana_Cube 100 5 5
+IDENT 2 0 0 100 0
+TYPE Mana
+Ability: Every5Seconds GenerateXMana DoubleConstant 2
+Animation: Pulse CLOCK 0 EQUAL 5
+Text: Every 5 seconds generate 2 \CMANA mana \CN End
+Ability: ManaStorageX 10
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Replicator 50 20 20
+IDENT 2 0 0 25 10
+TYPE Factory
+Ability: EverySecond TargetCube CubeInDirectionFromCube Backwards Caster
+If IsLarger GetEnergy ManaCostOfCube Target 
+Both CreateCubeOnPosition Target PositionInDirectionFromThis Forwards
+TargetCube Caster RemoveAbilityWithName EnergyX
+Text: Every second, if this has more energy than the manacost of the cube behind this, create a copy of that cube in front and lose all energy End
+Animation: Charge DOUBLE 0 6  0 20 20 20 20 15 Multiplication DoubleConstant 100 Division GetEnergy ManaCostOfCube CubeInDirectionFromCube Backwards Caster 0
+Ability: EnergyGenerationX 12
+Visual: Target -1 0 255 255 255
+Visual: Square 1 0 96 96 96
+AiPlacementRule: And And AiStacking AiAllyBehind AiEmptyInfront
+End
+
+CUBE: Spiker_Wall 30 12 12
+IDENT 2 0 20 0 5
+TYPE Wall
+Ability: EveryXMeleeY 40 3
+Animation: Spike CLOCK 0 EQUAL 4
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Call_Warrior 40 0 0
+IDENT 2 30 0 5 40
+TYPE Attacker
+Ability: AfterThisIsCreated CreateCubeOnPosition ARandomCubeInLibraryWhich And And Not IsToken Test HasAbilityWithName Test EveryXMeleeY HasAbilityWithName Test ChargeEveryX
+PositionInDirectionFromThis South
+Text: After this is created create a random cube from the library below which has \C255 0 0  Melee \CN and \C155 238 255 Charging \CN End
+Visual: Square 0 1 96 96 96
+AiPlacementRule: And And AiAnyDistanceAboveSafety AiFrontline AiEmptySouth
+End
+
+CUBE: Puzzle_Box 35 20 20
+IDENT 3 5 0 25 10
+TYPE Factory
+TYPE Starter
+LevelReq 16
+Ability: StrengthX 1
+Ability: EyeXY TimeConstant 1800 DoubleConstant 0
+Ability: EveryXMinutes DoubleConstant 1 Both RemoveThisAbility Both Die XTimes DoubleConstant 3
+ TargetCube ARandomCubeInLibraryWhich Not IsToken Test
+Both ChangeManaCost Division ManaCostOfCube Target DoubleConstant -2
+Both GainAllAbilitiesOfCube Caster
+AddCubeToHandOfThis Target
+Text: After 1 minute lose this ability, this dies and add 3 random cubes to your hand which have all abilities of this and half their usual manacost End
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Transform 35 0 0
+IDENT 4 0 20 10 0
+TYPE Special
+TYPE Starter
+Ability: AfterThisIsCreated TargetCube ARandomCubeInLibraryWhich Not IsToken Test
+Both SetFaction FactionOfCube CubeInDirectionFromCube South Caster
+Both AddCubeToHandOfFaction Target FactionOfCube Target
+TargetCube CubeInDirectionFromCube South Caster Exile
+Text: After this is created exile the cube below and add a random cube to its factions hand End
+Visual: Target 0 1 0 0 0
+AiPlacementRule: Or 
+Or AiEnemySouth And AiAllySouth Not AiLeaderSouth
+AiEnemySouth
+End
+
+CUBE: Chaotic_Wall 60 50 50
+IDENT 2 0 37 5 5
+TYPE Wall
+TYPE Starter
+Ability: EveryXMeleeY 240 1
+Ability: ThrummingX 1
+Ability: AfterThisIsCreated XTimes DoubleConstant 2 GainARandomBonus
+Text: After this is created gain 2 random bonuses End
+Animation: Crumble HP 0 EQUAL 4
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Crystal_Wall 15 10 10
+IDENT 1 0 10 0 5
+TYPE Wall
+TYPE Starter
+Ability: Every10Seconds EveryCubeTouchingPosition PositionOfThis If IsAllyToCaster Target HealXDamage DoubleConstant 1
+Text: Every 10 seconds heal all touching allies for 1 hp End
+Visual: Plus 1 0 0 254 33
+Visual: Plus 0 1 0 254 33
+Visual: Plus -1 0 0 254 33
+Visual: Plus 0 -1 0 254 33
+Animation: Crumble HP 0 EQUAL 4
+AiPlacementRule: And Not AiFrontline AiStacking
+End
+
+CUBE: Pain_Mirror 70 12 12
+IDENT 3 5 45 0 10
+TYPE Attacker
+TYPE Starter
+Ability: AfterThisIsCreated Both GainXExtraHp Multiplication HpOfCube Caster DoubleConstant 4 RemoveThisAbility
+Text: After this is created this gains extra hp equal to four times current hp and lose this ability End
+Ability: RetaliateX 2
+Ability: AfterThisTakesDamage TargetCube ARandomCubeWhich IsEnemyToCaster Test TakeXDamage DoubleConstant 1
+Text: After this takes damage deal 1 damage to a random enemy End
+Animation: Crumble HP 0 EQUAL 5
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Crystal_Crush 10 7 7
+IDENT 3 0 7 0 0
+TYPE Attacker
+TYPE Starter
+Ability: EveryXTicks TimeConstant 30 TargetCube CubeInDirectionFromCube South Caster TakeXDamage Highest 1 Subtraction HpOfCube Caster DoubleConstant 6
+Text: Every 0.5 seconds deal damage to the cube below equal to this cube's hp reduced by 6 (minimum 1 damage) End
+Visual: Sword 0 1 255 0 0 3
+Ability: ExplodesX 2
+Ability: DieAfterX 1800
+Animation: Size DOUBLE 0 5  6 2 1 1 1 HpOfCube Caster 0
+AiPlacementRule: AiEnemySouth
+End
+
+CUBE: Time_Bomb 12 2 2
+IDENT 3 0 7 0 0
+TYPE Attacker
+TYPE Starter
+Ability: DieAfterX 360
+Animation: Tick CLOCK 0 EQUAL 5
+Ability: BeforeThisDies Both EveryCubeInRadiusXAroundTarget DoubleConstant 2 TakeXDamage DoubleConstant 3
+CreateAoEParticlesColourRadiusPosition DoubleConstant 16738816 DoubleConstant 2 PositionOfThis
+Text: Before this dies deal 3 damage to every cube up to 2 spaces away End
+Visual: Area 2 Mist 255 0 0
+Ability: ExplodesX 1
+AiPlacementRule: And And AiStacking AiFrontline Or AiEnemySouth AiEnemyInfront
+End
+
+CUBE: Poisoners_Kit 60 5 5
+IDENT 3 0 0 55 10
+TYPE Modifier
+TYPE Starter
+Ability: BeforeACubeTakesDamage TargetCube Victim If IsEnemyToCaster Victim GainAbility PoisonX 1
+Text: Before an enemy takes damage apply \A PoisonX 1 End
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Dragon_Calling 50 0 0
+IDENT 3 0 0 35 0
+Ability: AfterThisIsCreated CreateCubeOnPosition ARandomDragonEgg PositionInDirectionFromThis South
+Text: After this is created create a random dragon egg below (Dragon eggs very slowly grow into dragons, which usually have game winning or very strong effects) End
+Visual: Square 0 1 96 96 96
+AiPlacementRule: And And AiAnyDistanceAboveSafety AiEmptySouth AiBackline
+End
+
+CUBE: Acceleration_Pedestal 50 10 10
+IDENT 2 0 0 15 30
+TYPE Factory
+TYPE Starter
+Ability: TimeShift PositionInDirectionFromThis North
+Animation: Tick CLOCK 0 EQUAL 4
+Text: \C197 204 112 TimeShift: \CN Every second accelerate the cube above by 1 second End
+Visual: Target 0 -1 197 204 112
+Ability: Burrowing
+AiPlacementRule: Or AiBurrowing And AiBackline AiStacking
+End
+
+CUBE: Armored_Eye 70 2 2
+IDENT 2 20 5 40 0
+TYPE Attacker
+TYPE Starter
+Ability: EyeXY TimeConstant 600 DoubleConstant 2
+Animation: Blink CLOCK 0 4 0 0.1 0.1 0.7
+Ability: ArmorX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Awaken 45 0 0
+IDENT 3 25 0 0 20
+TYPE Modifier
+TYPE Starter
+Ability: AfterThisIsCreated TargetCube CubeInDirectionFromCube South Caster 
+If IsNeutral Target
+Both SetFaction FactionOfThis
+GainAllAbilitiesOfCube CubeConstant Elemental_Knight
+Text: After this is created, if the cube below is neutral, convert it to your faction and give it all abilities of an Elemental_Knight End
+AiPlacementRule: AiNeutralSouth
+End
+
+CUBE: Large_Abomination 35 5 5
+IDENT 2 25 0 0 5
+TYPE Attacker
+TYPE Starter
+Ability: OnDeathCreateCube CubeConstant Abomination_Piece
+Ability: OnDeathCreateCube CubeConstant Abomination_Piece
+Ability: ChargeEveryX 180
+Ability: EveryXMeleeY 120 2
+AiPlacementAbility: AiWarrior
+End
+
+CUBE: Haunted_Graveyard 50 15 15
+IDENT 1 0 20 0 0
+TYPE Factory
+TYPE Starter
+Ability: EveryXCreateCubeAbove TimeConstant 900 CubeConstant Vengeful_Spirit
+Ability: Burrowing
+Ability: VengeanceX 3
+AiPlacementAbility: AiAggressiveBurrowing
+End
+
+CUBE: Summoning_Altar 30 10 10
+IDENT 3 0 5 10 15
+TYPE Movement
+TYPE Starter
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If Not IsPlaced TargetCube Victim MoveInDirection North
+Text: After an ally is created, if it wasn't placed, move it upwards (out of the way of new creations) End
+Animation: Push TRIGGER 0 EQUAL 4 30
+Ability: AfterACubeDies If IsAllyToCaster Victim If Not HasAbilityWithName Victim Undead 
+ XTimes Lowest 100 MaxHpOfCube Victim
+EveryXTimes 40 CreateCubeOnPosition CubeConstant Zombie PositionInDirectionFromPosition North PositionOfCube Caster
+Text: For every 40 max hp worth of non undead allies which die create a Zombie above, a single ally can't count for more than 100 hp End
+Visual: Square 0 -1 96 96 96
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Icy_Mirror 70 30 30
+IDENT 2 0 0 45 0
+TYPE Factory
+TYPE Starter
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If Not IsSameCube Caster Victim If IsPlaced 
+GainAbilityStacking EnergyX 0 Division ManaCostOfCube Victim DoubleConstant 2
+Text: After another ally is placed gain energy equal to half of its manacost End
+Ability: EverySecond TargetCube CubeInDirectionFromCube Backwards Caster 
+If Not IsSmaller GetEnergy ManaCostOfCube Target Both
+ If Not IsPositionEmpty PositionInDirectionFromThis Forwards
+  TargetCube CubeInDirectionFromCube Forwards Caster
+   If IsAllyToCaster Target
+    Die
+ If IsPositionEmpty PositionInDirectionFromThis Forwards
+  Both CreateCubeOnPosition Target PositionInDirectionFromThis Forwards
+   TargetCube Caster ChangeAbilityStacking EnergyX Minus ManaCostOfCube CubeInDirectionFromCube Backwards Caster 
+Text: Every second, if this has at least energy equal to the manacost of the cube behind this, create a copy in front and lose that much energy, \N
+ if there is no space instead kill any ally in front of this End
+Animation: Charge DOUBLE 0 6  0 20 20 20 20 20 Multiplication DoubleConstant 100 Division GetEnergy ManaCostOfCube CubeInDirectionFromCube Backwards Caster 0
+Visual: Target -1 0 255 255 255
+Visual: Square 1 0 96 96 96
+AiPlacementRule: And And AiStacking AiEmptyInfront AiAllyBehind
+End
+
+CUBE: Freezing_Pain 15 0 0
+IDENT 2 7 0 5 0
+TYPE Attacker
+TYPE Starter
+Ability: AfterThisIsCreated XTimes DoubleConstant 3 TargetCube ARandomEnemy Both TakeXDamage DoubleConstant 3 
+If Not IsALeader Target GainAbility FrozenX 10
+Text: After this is created deal 3 damage to a random enemy, do this 3 times, any non leaders hit are also frozen for 10 seconds End
+AiPlacementRule: True
+End
+
+CUBE: Unstable_Egg 5 8 8
+IDENT 2 0 5 0 0
+TYPE Wall
+TYPE Starter
+Ability: EveryXSeconds DoubleConstant 10 TakeXDamage DoubleConstant 0
+ExtraTrigger: AfterThisTakesDamage If X%Chance DoubleConstant 20 GainAbility StrengthX 1
+Animation: Bubble CLOCK 0 EQUAL 9
+Text: Every 10 seconds deal 0 damage to this. After this takes damage 20% chance to gain 1 strength End
+Ability: ExplodesX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Strange_Crawler 20 5 5
+IDENT 1 11 0 0 0
+TYPE Attacker
+TYPE Starter
+Ability: ChargeEveryX 120
+Ability: EveryXMeleeY 90 2
+Ability: Climbing
+AiPlacementAbility: AiWarrior
+End
+
+CUBE: Toothy_Barrier 20 8 8
+IDENT 1 0 15 0 0
+TYPE Wall
+TYPE Starter
+Ability: RegenerationX 8
+Ability: RetaliateX 2
+Animation: Crumble HP 0 EQUAL 4
+AiPlacementRule: And AiDefense AiStacking
+End
+
+CUBE: Spike_Moil 30 9 9
+IDENT 2 0 20 0 0
+TYPE Wall
+TYPE Starter
+Ability: RetaliateX 1
+Ability: Every30Seconds GainAbility StrengthX 1
+Text: Every 30 seconds gain 1 strength End
+Animation: Crumble HP 0 EQUAL 4
+AiPlacementRule: And AiDefense AiStacking
+End
+
+CUBE: Curious_Moil 35 15 15
+IDENT 2 20 0 0 0
+TYPE Attacker
+TYPE Mana
+TYPE Starter
+Ability: ChargeEveryX 90
+Ability: EveryXMeleeY 180 3
+Ability: AfterThisKills ChangeMaxManaOfFaction DoubleConstant 3 FactionOfThis
+Text: After this kills a cube gain 3 max mana End
+AiPlacementAbility: AiWarrior
+End 
+
+CUBE: Manifold 30 0 0
+IDENT 4 0 0 10 30
+TYPE Modifier
+TYPE Starter
+ADDEDAICOST 50
+Ability: AfterThisIsCreated TargetCube CubeInDirectionFromCube South Caster
+ Both GenerateXMana Minus ManaCostOfCube Target
+ If Not HasAbilityWithName Target Manifold
+ Both GainAllAbilitiesOfCube Target GainAbility Manifold
+Text: After this is created lose mana equal to the manacost of the cube below, it gains all of its abilities again 
+and gains \C255 0 220 Manifold \CN \B , which prevents it from gaining abilities this way again End
+Visual: Target 0 1 255 255 255
+Ability: BeforeThisIsPlaced If IsALeader CubeInDirectionFromCube South Caster NegateX 1
+Text: Can't be placed above leaders End
+AiPlacementRule: And And AiAllySouth
+Not IsALeader CubeInDirectionFromCube South Caster
+Not HasAbilityWithName CubeInDirectionFromCube South Caster Manifold
+End
+
+CUBE: Compiler 30 30 30
+IDENT 3 0 5 10 50
+TYPE Factory
+TYPE Starter
+Ability: EveryTick TargetCube CombinationOf2Cubes 
+  CubeInDirectionFromCube North Caster
+  CubeOfPosition PositionInDirectionFromPosition North PositionInDirectionFromPosition North PositionOfThis
+ EveryXTimes Multiplication 240 Addition ManaCostOfCube CubeInDirectionFromCube North Caster
+  ManaCostOfCube CubeOfPosition PositionInDirectionFromPosition North PositionInDirectionFromPosition North PositionOfThis
+ CreateCubeOnPosition CopyWithAction Target SetFaction FactionOfThis PositionInDirectionFromPosition South PositionOfThis
+Text: Every X seconds create an allied combination of the two cubes above in the position below, X is their combined manacost times 4 End
+Animation: Compile CLOCK 0 EQUAL 6
+Visual: Target 0 -2 255 255 255
+Visual: Target 0 -1 255 255 255
+Visual: Square 0 1 96 96 96
+Ability: Flying
+End
+
+CUBE: Subtractor 20 10 10
+IDENT 1 12 0 7 0
+TYPE Attacker
+TYPE Starter
+Ability: EveryXSeconds 45 TargetCube TheFirstCubeInDirectionFromPositionWhich Forwards PositionOfThis IsEnemyToCaster Test
+ TakeXDamage 0
+Text: Every 45 seconds deal 0 damage to the first enemy any distance in front End
+Animation: Shoot CLOCK 0 EQUAL 9
+Visual: Target 1 0 255 0 0
+Visual: Infinite
+Ability: StrengthX 1
+Ability: GrowthX 1
+End
+
+CUBE: Fume_Spreader 30 20 20
+IDENT 2 20 5 0 0
+TYPE Attacker
+TYPE Starter
+Ability: ChargeEveryX 180
+Ability: EveryXMeleeY 300 2
+Ability: EveryXSeconds 10 EveryCubeInRadiusXAroundTarget DoubleConstant 3 If IsEnemyToCaster Target TakeXDamage DoubleConstant 2
+Text: Every 10 seconds deal 2 damage to every enemy up to 3 spaces away from this End
+Visual: Area 3 Mist 255 0 0
+Animation: Fume CLOCK 0 EQUAL 6
+AiPlacementAbility: AiWarrior
+End 
+
+CUBE: Maintenance_Expert 20 10 10
+IDENT 2 0 10 0 5
+TYPE Healer
+TYPE Modifier
+TYPE Starter
+Ability: EveryXSeconds 10 EveryCubeInRadiusXAroundTarget DoubleConstant 3 If IsAllyToCaster Target If IsSmaller HpOfCube Target 10 GainXExtraHp 1
+Text: Every 10 seconds grant 1 extra hp to every ally within 3 spaces which has less than 10 hp End
+Visual: Area 3 Mist 30 102 0
+Animation: Repair CLOCK 0 EQUAL 6
+Ability: BeforeThisDies EveryCubeInRadiusXAroundTarget DoubleConstant 3 GainAbility PoisonX 4
+Text: Before this dies apply 4 poison to every cube within 3 spaces End
+Visual: Area 3 Mist 76 255 85
+AiPlacementRule: And AiDefense AiStacking
+End
+
+CUBE: Ancient_Forge 80 40 40
+IDENT 2 5 0 50 20
+TYPE Factory
+Ability: EveryXCreateCubeAbove TimeConstant 3600 CubeConstant Faulty_Automaton
+Animation: Produce CLOCK 0 EQUAL 6
+Ability: BeforeTime Secret EveryCubeTouchingPosition PositionOfThis If IsAllyToCaster Target TargetCube Caster AccelerateX 1
+Text: Experiences time X times faster for each touching ally (2x speed,3x,4x,5x) End
+Ability: Eternal
+AiPlacementRule: And AiDefense AiStacking
+End
+
+CUBE: Rusted_Wall 40 15 30
+IDENT 1 5 0 50 20
+TYPE Wall
+Ability: ExtraLife
+Ability: RetaliateX 1
+Animation: Crumble HP 0 EQUAL 5
+AiPlacementRule: And AiDefense AiStacking
+End

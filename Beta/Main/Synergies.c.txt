@@ -1,0 +1,211 @@
+PERK: Rainbow_Sword
+BelongsTo: Everyone
+Ability: AfterThisDealsDamage Both Both Both
+GainXExtraHp EventAmount
+HealXDamage EventAmount
+ChangeMaxManaOfFaction EventAmount FactionOfThis
+GenerateXMana EventAmount
+Description: After your starting leader deals damage, it gains:
+Extra hp, hp healed, max mana and \CMANA mana \CN equal to the damage dealt End
+PerkRequirement: Red_Sword
+PerkRequirement: Green_Sword
+PerkRequirement: Gray_Sword
+PerkRequirement: Blue_Sword
+PerkRequirement: Black_Sword
+PerkRequirement: Golden_Sword
+PerkRequirementAmount: 3
+FirstAppearanceBonus: True
+End
+
+PERK: Steam_Sale
+BelongsTo: Everyone
+Ability: AfterACubeIsCreated If And IsPlaced IsAllyToCaster Culprit
+TargetCube Victim RefundX Division ManaCostOfCube Victim DoubleConstant 4
+Description: After you place a cube refund 25% of its cost End
+PerkRequirement: Steam_Vents
+PerkRequirement: Discounted_Help
+PerkRequirementAmount: 2
+FirstAppearanceBonus: True
+End
+
+PERK: Spatular_Knightship
+BelongsTo: Everyone
+Ability: BeforeACubeTakesDamage If IsNeutral Victim If IsAllyToCaster Culprit
+Both GenerateXMana DoubleConstant 1
+NegateX DoubleConstant -5
+Description: Before an ally deals damage to a neutral cube, increase the damage by 5 and gain 1 \CMANA mana \CN End
+PerkRequirement: Blue_Sword
+PerkRequirement: Shield_Of_Red_Suns
+PerkRequirementAmount: 2
+FirstAppearanceBonus: True
+End
+
+PERK: Soldiers_Past
+BelongsTo: Everyone
+Ability: AfterACubeTakesDamage If And IsAllyToCaster Test IsALeader Test HealXDamage DoubleConstant 1
+Description: After an allied leader takes damage heal it for 1 hp End
+PerkRequirement: Battle_Hardened
+PerkRequirement: Altruism_Medal
+PerkRequirementAmount: 2
+FirstAppearanceBonus: True
+End
+
+PERK: Uranium_Crystal_Armor
+BelongsTo: Everyone
+Ability: AfterThisTakesDamage EveryCubeTouchingPosition PositionOfThis TakeXDamage DoubleConstant 5
+Description: After your starting leader takes damage, it deals 5 damage to every touching cube End
+PerkRequirement: Uranium_Crystal
+PerkRequirement: Mana_Crystal_Armor
+PerkRequirementAmount: 2
+FirstAppearanceBonus: True
+End
+
+PERK: Risk_Management
+BelongsTo: Everyone
+Ability: BeforeManaIsGenerated If IsEqual EventFaction FactionOfThis If IsSmaller EventAmount DoubleConstant 0
+GenerateXMana DoubleConstant 5
+Description: Before you would gain a negative amount of \CMANA mana \CN also gain 5 \CMANA mana \CN End
+PerkRequirement: Devolatization
+PerkRequirement: Gambling_Chip
+PerkRequirementAmount: 2
+FirstAppearanceBonus: True
+End
+
+PERK: Fire_Lizards_Blessing
+BelongsTo: Everyone
+Ability: EveryXSeconds DoubleConstant 10 TargetCube ARandomCubeWhich And IsAllyToCaster Test IsPositionEmpty PositionInDirectionFromPosition Forwards PositionOfCube Test 
+CreateCubeOnPosition CubeConstant Fireball PositionInDirectionFromPosition Forwards PositionOfCube Target
+Description: Every 10 Seconds your starting leader places a Fireball in front of a random ally where there is space End
+PerkRequirement: Hardening_Scales
+PerkRequirement: Tiny_Fire_Generator
+PerkRequirementAmount: 2
+FirstAppearanceBonus: True
+End
+
+PERK: Uncontained_Oblivion
+BelongsTo: Everyone
+Ability: AfterACubeDies If And IsALeader Culprit IsAllyToCaster Culprit
+SetCaster Culprit Silent EveryCubeWhich IsEnemyToCaster Test TakeXDamage DoubleConstant 1
+Description: After an allied leader kills a cube, every enemy loses 1 hp End
+PerkRequirement: Tiny_Oblivion_Shard
+PerkRequirement: Call_Of_The_Apocalypse
+PerkRequirementAmount: 2
+FirstAppearanceBonus: True
+End
+
+PERK: Mana_Dimensional_Beast
+BelongsTo: Everyone
+Description: At the start of each battle add a free Mana_Dimensional_Beast to your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Mana_Dimensional_Beast RemoveThisAbility
+PerkRequirement: Tiny_Mana_Battery
+PerkRequirement: Mana_Kettle
+PerkRequirement: Tiny_Mana_Dimension
+PerkRequirementAmount: 2
+FirstAppearanceBonus: True
+End
+
+PERK: Irradiated_Slimes
+BelongsTo: Everyone
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If CubeHasName Victim Medium_Warrior_Slime
+TargetCube Victim
+Both GainAbility PoisonousX 10
+Both GainXExtraHp DoubleConstant 5
+GainAbility RegenerationX 12
+Description: After an allied Medium_Warrior_Slime is created it gains poisonous 10, 5 extra hp and regenerates 1 hp every 5 seconds End
+PerkRequirement: Uranium_Crystal
+PerkRequirement: Slime_Farm
+PerkRequirementAmount: 2
+FirstAppearanceBonus: True
+End
+
+PERK: Guard_Mistreatment
+BelongsTo: Everyone
+Ability: BeforeACubeTakesDamage If IsAllyToCaster Victim If IsSameCube Victim CubeInDirectionFromCube Forwards Caster
+NegateX DoubleConstant 1
+Description: Before an ally in front of your starting leader takes damage negate 1 of that damage End
+PerkRequirement: Lashing_Out
+PerkRequirement: Personal_Guard
+PerkRequirementAmount: 2
+FirstAppearanceBonus: True
+End
+
+PERK: Wind_Mastery
+BelongsTo: Everyone
+Ability: AfterACubeMoves If And IsALeader Culprit IsAllyToCaster Culprit TargetCube Victim MoveInDirection EventDirection
+Description: After an allied leader moves a cube (even itself) that cube is moved again in that same direction End
+PerkRequirement: Wind_Guardians
+PerkRequirement: Steady_Winds
+PerkRequirementAmount: 2
+FirstAppearanceBonus: True
+End
+
+PERK: Fire_Mastery
+BelongsTo: Everyone
+Ability: BeforeACubeTakesDamage If IsAllyToCaster Culprit If CubeHasName Culprit Spark
+NegateX DoubleConstant -4
+Description: All allied spark cubes deal 4 more damage End
+PerkRequirement: Tiny_Fire_Generator
+PerkRequirement: Flames_Of_Aggression
+PerkRequirementAmount: 2
+FirstAppearanceBonus: True
+End
+
+PERK: Helmet_Portal
+BelongsTo: Everyone
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsSameCube CubeInDirectionFromCube North Caster Victim 
+Both GainXExtraHp DoubleConstant 3
+GenerateXMana DoubleConstant 2
+Description: After an ally is created above your starting leader, your starting leader gains 3 extra hp and generates 2 \CMANA mana \CN End
+PerkRequirement: Creation_Rune
+PerkRequirement: Devouring_Helmet
+PerkRequirementAmount: 2
+FirstAppearanceBonus: True
+End
+
+PERK: Kinetic_Technology
+BelongsTo: Everyone
+Ability: BeforeACubeMoves TargetCube Victim Both If IsAllyToCaster Victim If IsAllyToCaster Culprit MoveInDirection EventDirection
+If IsEnemyToCaster Victim If IsEnemyToCaster Culprit If X%Chance DoubleConstant 50 MoveInDirection ReverseDirection EventDirection
+Description: Before an ally moves move it in the same direction. Before an enemy cube moves 50% chance to move it in the opposite direction End
+PerkRequirement: Kinetic_Negator
+PerkRequirement: Tiny_Kinetic_Generator
+PerkRequirementAmount: 2
+FirstAppearanceBonus: True
+End
+
+PERK: Mental_Overload
+BelongsTo: Everyone
+Ability: AfterACubeIsCreated If And IsPlaced IsAllyToCaster Culprit If X%Chance DoubleConstant 50 AddCubeToHandOfThis ARandomCubeInLibraryWhich 
+And Not IsToken Test IsNotInHandOfThis Test
+Description: After you place a cube there is a 50% chance to add a random cube from the library to your hand which isn't already in your hand End
+PerkRequirement: Mental_Echoes
+PerkRequirement: Memory_Cache
+PerkRequirementAmount: 2
+FirstAppearanceBonus: True
+End
+
+PERK: The_Coalition
+BelongsTo: Everyone
+Ability: EveryXMinutes DoubleConstant 5 AddCubeToHandOfFactionInfinitly ARandomCubeInLibraryWhich 
+And Not IsToken Test IsNotInHandOfThis Test FactionOfThis
+Description: Every 5 minutes add a random cube from the library to your hand which isn't already in your hand, it has infinite uses End
+PerkRequirement: Coalition_Shields
+PerkRequirement: Coalition_Swords
+PerkRequirement: Coalition_Banners
+PerkRequirementAmount: 2
+FirstAppearanceBonus: True
+End
+
+PERK: Blast_Foam
+Ability: AfterACubeTakesDamage If CubeHasName Victim Safety_Foam 
+SetCaster Victim EveryCubeTouchingPosition PositionOfThis If IsEnemyToCaster Target TakeXDamage DoubleConstant 5
+Description: After Safety_Foam takes damage it deals 5 damage to every touching enemy End
+PerkRequirement: Safety_Foam
+PerkRequirement: Blast_Entry
+PerkRequirementAmount: 2
+FirstAppearanceBonus: True
+End
+
+
+
+

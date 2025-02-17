@@ -1,0 +1,1195 @@
+PERK: Curse_Of_Ghosts
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim TargetCube Victim GainAbility VengeanceX 1
+Description: After an enemy is created it gains Vengeance 1, dealing 1 damage to any cube which kills them End
+Value: -50
+BalanceCap: 5
+End
+
+PERK: Curse_Of_Thorns
+WorldAbility: AtTheStartOfTheBattle EveryCubeWhich And IsALeader Test IsEnemy Test 
+Both GainAbility RegenerationX 5 GainAbility RetaliateX 1
+Description: Enemy leaders start with Retaliate 1 and Regeneration 5, dealing 1 damage back and regenerating End
+Value: -50
+BalanceCap: 3
+End
+
+PERK: Curse_Of_Resilience
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim 
+If IsLarger HpOfCube Victim DoubleConstant 0 SetCaster Victim TargetCube Victim Secret GainXExtraHp DoubleConstant 2
+Description: After an enemy is created, if it has more than 0 hp, it gains 2 extra hp End
+Value: -50
+BalanceCap: 5
+End
+
+PERK: Curse_Of_Power
+WorldAbility: BeforeManaIsGenerated If IsEnemy Culprit NegateX Division EventAmount DoubleConstant -2
+Description: Before an enemy generates \CMANA mana \CN the amount is increased by half End
+Value: -200
+BalanceCap: 2
+End
+
+PERK: Curse_Of_Strength
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim If IsPlaced TargetCube Victim GainAbility StrengthX 1
+Description: After an enemy is placed it gains 1 Strength dealing 1 more damage End
+Value: -100
+BalanceCap: 7
+End
+
+PERK: Curse_Of_Poison
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim If IsPlaced TargetCube Victim GainAbility PoisonousX 1
+Description: After an enemy is placed it gains Poisonous 1 poisoning for 1 damage per minute on dealing damage End
+Value: -150
+BalanceCap: 30
+End
+
+PERK: Curse_Of_Decay
+WorldAbility: AfterACubeIsCreated If IsAlly Victim TargetCube Victim GainAbility DecayX 1
+Description: After an ally is created it becomes decaying losing 1 hp per minute to a min of 1 End
+Value: -200
+BalanceCap: 5
+End
+
+PERK: Curse_Of_Construction
+WorldAbility: AfterACubeIsCreated If IsAlly Victim If IsPlaced TargetCube ARandomCubeWhich And And IsAlly Test IsALeader Test IsLarger HpOfCube Test 1
+ Silent TakeXDamage DoubleConstant 1
+Description: After an ally is placed a random allied leader with more than 1 hp loses 1 hp End
+Value: -50
+BalanceCap: 3
+End
+
+PERK: Curse_Of_Empires
+WorldAbility: AfterACubeIsCreated If IsAlly Victim If IsPlaced TargetCube ARandomCubeWhich And And IsAlly Test IsALeader Test IsLarger HpOfCube Test 1
+Silent Both TakeXDamage DoubleConstant 1 ChangeMaxHp DoubleConstant -1
+Description: After an ally is placed a random allied leader with more than 1 hp loses 1 hp and 1 max hp End
+Value: -100
+BalanceCap: 3
+End
+
+PERK: Curse_Of_Lava
+WorldAbility: EveryXMinutes DoubleConstant 20 
+SetStorage NeutralCopy CubeConstant Lava TargetCube Caster
+EveryCubeWhich IsNeutral Test Both Exile
+CreateCubeOnPosition Storage PositionOfCube Target
+Description: Every 20 minutes every neutral cube is exiled and replaced by lava End
+Value: -150
+Unique
+End
+
+PERK: Curse_Of_Architects
+WorldAbility: EveryXMinutes DoubleConstant 3 TargetCube ARandomCubeInHandOfFactionWhich DoubleConstant 2 True
+GainXExtraHp DoubleConstant 1
+Description: Every 3 minutes a random cube in the enemy's hand gains 1 extra hp End
+Value: -50
+BalanceCap: 30
+End
+
+PERK: Curse_Of_Eternals
+WorldAbility: EveryMinute TargetCube ARandomCubeInHandOfFactionWhich DoubleConstant 2 True
+GainXExtraHp DoubleConstant 5
+Description: Every minute a random cube in the enemies hand gains 5 extra hp End
+Value: -250
+BalanceCap: 30
+End
+
+PERK: Curse_Of_Chaos
+WorldAbility: AtTheStartOfTheBattle AddCubeToHandOfFactionInfinitly ARandomCubeInLibraryWhich 
+And Not IsToken Test Not IsAlreadyInHandOfFaction Test DoubleConstant 2
+DoubleConstant 2
+Description: The enemy starts with an additional random cube in their hand which isn't already in their hand, it has infinite uses End
+Value: -100
+BalanceCap: 3
+End
+
+PERK: Curse_Of_Speed
+WorldAbility: BeforeACubeMoves If IsEnemy Culprit TargetCube Victim SetCaster Victim MoveInDirection EventDirection
+Description: Before an enemy moves a cube that cube moves itself in the same direction again End
+Value: -50
+BalanceCap: 3
+End
+
+PERK: Curse_Of_Knights
+WorldAbility: AtTheStartOfTheBattle TargetCube FreeCopy CubeConstant Knight
+XTimes DoubleConstant 5 AddCubeToHandOfFaction Target DoubleConstant 2
+Description: At the start of each battle 5 free knights are added to the enemy's hand End
+Value: -50
+BalanceCap: 10
+End
+
+PERK: Curse_Of_Pain
+WorldAbility: AtTheStartOfTheBattle EveryCubeWhich And IsALeader Test IsAlly Test 
+SetCaster Target
+TakeXDamage Multiplication HpOfCube Target Division DoubleConstant 3 DoubleConstant 5
+Description: At the start of each battle each allied leader deals 3/5th of its hp in damage to itself End
+Value: -50
+BalanceCap: 2
+End
+
+PERK: Curse_Of_Doubt
+WorldAbility: AfterACubeIsCreated If IsAlly Victim TargetCube Victim SetCaster Victim TakeXDamage DoubleConstant 1
+Description: After an ally is created it deals 1 damage to itself End
+Value: -50
+BalanceCap: 3
+End
+
+PERK: Curse_Of_Two
+WorldAbility: AtTheStartOfTheBattle EveryCubeWhich And IsALeader Test IsEnemy Test 
+SetStorage Target Both 
+ TargetCube CubeInDirectionFromCube North Target Exile
+ TargetCube Storage CreateCubeOnPosition Target PositionInDirectionFromPosition North PositionOfCube Target
+Description: At the start of battle each enemy leader is copied upwards, anything in the way is exiled End
+Value: -400
+BalanceCap: 20
+End
+
+PERK: Curse_Of_Regeneration
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim TargetCube Victim GainAbility RegenerationX 5
+Description: After an enemy is created it gains Regeneration 5 (healing 1 hp 5 times per minute) End
+Value: -100
+BalanceCap: 5
+End
+
+PERK: Curse_Of_The_Swarm
+WorldAbility: EveryMinute XTimes DoubleConstant 3 AddCubeToHandOfFaction FreeCopy CubeConstant Rat DoubleConstant 2
+Description: Every minute 3 free rats are added to the enemy's hand End
+Value: -50
+BalanceCap: 20
+End
+
+PERK: Curse_Of_Delay
+WorldAbility: AfterACubeIsCreated If IsAlly Victim TargetCube Victim GainAbility FrozenX 10
+Description: After an ally is created it becomes frozen for 10 seconds End
+Value: -50
+BalanceCap: 6
+End
+
+PERK: Curse_Of_Ice
+WorldAbility: AtTheStartOfTheBattle EveryCubeWhich And IsALeader Test IsAlly Test 
+GainAbility FrozenX 60
+Description: At the start of battle each allied leader becomes frozen for 1 minute End
+Value: -200
+BalanceCap: 20
+End
+
+PERK: Curse_Of_Twins
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim CreateCubeOnPosition Victim PositionInDirectionFromPosition North PositionOfCube Victim
+Description: After an enemy is created another copy is created above it End
+Value: -400
+BalanceCap: 10
+End
+
+PERK: Curse_Of_Hunger
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim TargetCube Victim GainAbility DevouringX 2
+Description: After an enemy is created it gains Devouring 2, gaining 2 extra hp on kill End
+Value: -50
+BalanceCap: 8
+End
+
+PERK: Curse_Of_Thirst
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim TargetCube Victim GainAbility LifeSteal
+Description: After an enemy is created it gains LifeSteal, healing for half the damage it deals End
+Value: -100
+BalanceCap: 4
+End
+
+PERK: Curse_Of_Staggering
+WorldAbility: AfterACubeTakesDamage If IsAlly Victim If Not IsALeader Victim If Not HasAbilityWithName Victim FrozenX TargetCube Victim GainAbility FrozenX 1
+Description: After a non frozen non leader ally takes damage it becomes frozen for 1 second End
+Value: -100
+Unique
+End
+
+PERK: Curse_Of_Snow
+WorldAbility: EveryXSeconds DoubleConstant 40 TargetCube ARandomCubeWhich IsAlly Test
+ SetCaster Target CreateCubeOnPosition NeutralCopy CubeConstant Snow TopPositionAboveCube Target
+Description: Every 40 seconds a random ally creates neutral snow at the top of the battlefield above itself End
+Value: -50
+BalanceCap: 4
+End
+
+PERK: Curse_Of_Death
+WorldAbility: EveryXMinutes DoubleConstant 5 TargetCube ARandomCubeWhich And IsAlly Test Not IsALeader Test Die
+Description: Every 5 minutes a random non leader ally dies End
+Value: -100
+BalanceCap: 8
+End
+
+PERK: Curse_Of_Unreliability
+WorldAbility: AfterACubeIsCreated If IsAlly Victim TargetCube Victim If X%Chance DoubleConstant 10 Exile
+Description: After an ally is created there is a 10% chance it is immediately exiled End
+Value: -200
+BalanceCap: 0
+End
+
+PERK: Curse_Of_The_Ankh
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim TargetCube Victim If X%Chance DoubleConstant 10 GainAbility ExtraLife
+Description: After an enemy is created there is a 10% chance it gains an extra_life End
+Value: -50
+BalanceCap: 9
+End
+
+PERK: Curse_Of_Swords
+WorldAbility: AtTheStartOfTheBattle EveryCubeWhich And IsALeader Test IsEnemy Test 
+GainAbility EveryXMeleeY 120 3
+Description: Enemy leaders start with: \A EveryXMeleeY 120 3 End
+Value: -50
+BalanceCap: 2
+End
+
+PERK: Curse_Of_Capacity
+WorldAbility: EveryXSeconds DoubleConstant 30 ChangeMaxManaOfFaction DoubleConstant -1 DoubleConstant 1
+Description: Lose 1 max mana every 30 seconds End
+Value: -100
+BalanceCap: 3
+End
+
+PERK: Curse_Of_Mana_Taxes
+WorldAbility: AfterACubeIsCreated If IsAlly Victim If IsPlaced SetCaster Victim FactionXGainsYMana DoubleConstant 1 DoubleConstant -1
+Description: After an ally is placed it generates -1 \CMANA mana \CN End
+Value: -50
+NoBalanceCap
+End
+
+PERK: Curse_Of_Prototypes
+WorldAbility: AfterACubeIsCreated If IsAlly Victim If IsPlaced 
+If Not CubeExists ARandomCubeWhich And Not IsSameCube Victim Test HasNameOfCube Victim Test
+TargetCube Victim GainAbility FrozenX 30
+Description: After an ally is placed, if there is no other ally with the same name, that ally is frozen for 30 seconds End
+Value: -50
+BalanceCap: 2
+End
+
+PERK: Curse_Of_Variety
+WorldAbility: AfterACubeIsCreated If IsAlly Victim If IsPlaced 
+EveryCubeWhich And And Not IsSameCube Victim Test HasNameOfCube Victim Test IsAlly Test
+SetCaster Target TargetCube Victim Silent TakeXDamage 1/2
+Description: After an ally is placed every other ally with the same name causes it to lose 0.5 hp End
+Value: -100
+BalanceCap: 40
+End
+
+PERK: Curse_Of_Flight
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim TargetCube Victim If X%Chance DoubleConstant 10 Both GainAbility Flying GainXExtraHp 5
+Description: After an enemy is created there is a 10% chance it gains Flying and 5 extra hp End
+Value: -50
+BalanceCap: 5
+End
+
+PERK: Curse_Of_Knives
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim TargetCube Victim GainAbility EveryXMeleeY 120 1
+Description: After an enemy is created it gains: \A EveryXMeleeY 120 1 End
+Value: -100
+BalanceCap: 7
+End
+
+PERK: Curse_Of_Oblivion
+WorldAbility: EveryXMinutes DoubleConstant 10 EveryCubeWhich IsAlly Test SetCaster Target TakeXDamage DoubleConstant 10
+Description: Every 10 minutes every ally deals 10 damage to themselves End
+Value: -150
+BalanceCap: 2
+End
+
+PERK: Curse_Of_Grief
+WorldAbility: AfterACubeDies If IsAlly Victim Cooldown 60 EveryCubeWhich And IsAlly Test HasNameOfCube Test Victim TakeXDamage DoubleConstant 1
+Description: After an ally dies every ally with the same name takes 1 damage, cooldown 1 second End
+Value: -50
+BalanceCap: 10
+End
+
+PERK: Curse_Of_Competition
+WorldAbility: AfterYouWin ChangeDifficulty DoubleConstant 1 
+AbilityText: After you win difficulty is increased by 1 End
+WorldAbility: AfterYouLose ChangeDifficulty DoubleConstant -1 
+AbilityText: After you Lose difficulty is decreased by 1 End
+Description: After you win difficulty is permanently increased by 1. After you lose difficulty is permanently decreased by 1 End
+Value: -100
+BalanceCap: 0
+End
+
+PERK: Curse_Of_Debt
+WorldAbility: EveryMinute FactionXGainsYMana DoubleConstant 1 Minus Division WorldTime DoubleConstant 3600
+Description: Every minute gain -1 \CMANA mana \CN multiplied by the amount of minutes already elapsed that battle End
+Value: -100
+BalanceCap: 30
+End
+
+PERK: Curse_Of_Defeat
+WorldAbility: AfterYouLose LoseALife
+Description: After you lose a battle lose an additional life (only losing a battle with 1 or less lives will end a run still) End
+Value: -200
+BalanceCap: 1
+End
+
+PERK: Curse_Of_Investment
+WorldAbility: AfterYouLose ChangeStartingMana DoubleConstant -25
+Description: After you lose a battle your starting mana is permanently reduced by 25 End
+Value: -50
+BalanceCap: 3
+End
+
+PERK: Curse_Of_Falling
+WorldAbility: AfterACubeMoves If IsAlly Victim If IsSameDirection South EventDirection SetCaster Victim TargetCube Victim TakeXDamage DoubleConstant 1
+Description: After an ally moves south it deals 1 damage to itself End
+Value: -50
+BalanceCap: 20
+End
+
+PERK: Curse_Of_Struggles
+ObtainAction: ChangeDifficulty DoubleConstant 1
+RemoveAction: ChangeDifficulty DoubleConstant -1
+Description: Game difficulty is increased by 1 End
+Value: -50
+BalanceCap: 1
+End
+
+PERK: Curse_Of_Deadly_Strikes
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim TargetCube Victim GainAbility DeadlyX 1
+Description: After an enemy is created it gains: \A DeadlyX 1 End
+Value: -200
+BalanceCap: 5
+End
+
+PERK: Curse_Of_Hierarchy
+WorldAbility: AfterACubeIsCreated If IsAlly Victim If IsPlaced
+SetCaster Victim TargetCube ARandomCubeWhich And And IsAllyToCaster Test IsSmaller MaxHpOfCube Test MaxHpOfCube Caster
+Not IsALeader Test
+TakeXDamage DoubleConstant 1000
+Description: After an ally is placed it deals 1000 damage to a random non leader ally with less max hp End
+Value: -250
+BalanceCap: 2
+End
+
+PERK: Curse_Of_Abandonment
+WorldAbility: EveryXSeconds DoubleConstant 3 If Not CubeExists ARandomCubeWhich And IsAlly Test Not IsALeader Test
+EveryCubeWhich And IsAlly Test IsALeader Test SetCaster Target TakeXDamage DoubleConstant 3 
+Description: Every 3 seconds, if there is no non leader ally every allied leader deals 3 damage to itself End
+Value: -50
+BalanceCap: 1
+End
+
+PERK: Curse_Of_Preparation
+WorldAbility: AtTheStartOfTheBattle Both ChangeMaxManaOfFaction 60 2 FactionXGainsYMana 2 60
+Description: At the start of battle the enemy gains 60 max mana and current mana End
+Value: -50
+BalanceCap: 1000
+End
+
+PERK: Curse_Of_The_Hive_Mind
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim TargetCube Victim 
+Both GainAbility LEADER
+GainAbilityText EveryXMinutes DoubleConstant 3 GenerateXMana DoubleConstant 1
+Every 3 minutes this generate 1 \CMANA mana \CN End
+Description: After an enemy is created it gains LEADER and the ability to generate 1 \CMANA mana \CN every 3 minutes End
+Value: -100
+Unique
+End
+
+PERK: Curse_Of_Nine
+WorldAbility: AfterACubeIsCreated If IsAlly Victim If IsPlaced
+If IsLarger AmountOfCubesWhich And IsAlly Test HasNameOfCube Victim Test DoubleConstant 9
+TargetCube ARandomCubeWhich And And IsAlly Test HasNameOfCube Victim Test Not IsSameCube Victim Test
+Die
+Description: After an ally is placed if there are already at least 9 other allies with the same name a random one of those die End
+Value: -100
+Unique
+End
+
+PERK: Curse_Of_Front_Lines
+WorldAbility: AfterACubeIsCreated If IsAlly Victim If IsPlaced
+SetCaster Victim EveryCubeWhich And And Not IsALeader Test IsAllyToCaster Test IsSmaller XOfPosition PositionOfCube Test
+XOfPosition PositionOfThis
+TakeXDamage DoubleConstant 1
+Description: After an ally is placed it deals 1 damage to every non leader ally further back than it End
+Value: -150
+BalanceCap: 7
+End
+
+PERK: Curse_Of_Connection
+WorldAbility: AtTheStartOfTheBattle EveryCubeInHandOfFactionWhich DoubleConstant 1 True
+GainAbilityText BeforeThisIsPlaced If Not CubeExists ARandomCubeWhich And IsAllyToCaster Test
+IsSmaller DistanceOfPositions PositionOfCube Victim PositionOfCube Test
+DoubleConstant 6
+NegateX DoubleConstant 1
+This can't be placed more than 5 spaces away from another ally End
+Description: At the start of battle cubes in your hand gain: This can't be placed more than 5 spaces away from another ally End
+Value: -100
+Unique
+End
+
+PERK: Curse_Of_Decks
+ObtainAction: ChangeDeckSize DoubleConstant -1
+RemoveAction: ChangeDeckSize DoubleConstant 1
+Description: Decrease the amount of cubes you can bring from your collection to each battle by 1 End
+Value: -100
+BalanceCap: 2
+End
+
+PERK: Curse_Of_Weakness
+WorldAbility: AtTheStartOfTheBattle EveryCubeWhich And IsALeader Test IsAlly Test 
+GainAbility StrengthX -2
+Description: At the start of battle each allied leader gains -2 Strength, dealing 2 less damage (this negates the base melee attack) End
+Value: -100
+Unique
+End
+
+PERK: Curse_Of_Strategies
+WorldAbility: AtTheStartOfTheBattle 
+TargetCube ARandomCubeInHandOfFactionWhich DoubleConstant 1 Not HasLimitedUses Test
+ChangeManaCost Division ManaCostOfCube Target DoubleConstant 2
+Description: At the start of battle a random cube in your hand which has infinite uses has its cost increased by half End
+Value: -150
+BalanceCap: 7
+End
+
+PERK: Curse_Of_The_Funnel
+WorldAbility: EveryXMinutes DoubleConstant 2 ChangeCurrency DoubleConstant -1
+Description: Every 2 minutes lose 1 gold (During battles) End
+Value: -100
+BalanceCap: 10
+End
+
+PERK: Curse_Of_Indecision
+ObtainAction: ChangeRerollCost DoubleConstant 25
+RemoveAction: ChangeRerollCost DoubleConstant -25
+Description: Increase reroll cost by 25 gold End
+Value: -50
+BalanceCap: 2
+End
+
+PERK: Curse_Of_Wages
+WorldAbility: AtTheStartOfTheBattle 
+EveryCubeInHandOfFactionWhich DoubleConstant 1 True
+ChangeCurrency DoubleConstant -1
+Description: At the start of each battle lose 1 gold for every cube in your hand End
+Value: -50
+BalanceCap: 7
+End
+
+PERK: Curse_Of_Attention
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim If IsPlaced TargetCube Victim 
+GainXExtraHp RoundedDown Division AbsoluteAmount Currency DoubleConstant 100
+Description: Placed enemies gain 1 extra hp for each 100 gold or debt you have End
+Value: -50
+BalanceCap: 3
+End
+
+PERK: Curse_Of_Looting
+WorldAbility: AfterYouLose If IsLarger Currency DoubleConstant 0 ChangeCurrency Division Currency DoubleConstant -2
+Description: After you lose a battle also lose half your gold if you have any End
+Value: -100
+BalanceCap: 3
+End
+
+PERK: Curse_Of_Missing_Options
+ObtainAction: ChangeCampaignVariable CUBEREWARDCHOICES DoubleConstant -1
+RemoveAction: ChangeCampaignVariable CUBEREWARDCHOICES DoubleConstant 1
+Description: Choose from one less cube when you add a cube to your inventory from a choice of cubes (for example after a battle) End
+Value: -100
+BalanceCap: 3
+End
+
+PERK: Curse_Of_Rerolls
+ObtainAction: ChangeCampaignVariable ADDITIONALREROLLS DoubleConstant -1
+RemoveAction: ChangeCampaignVariable ADDITIONALREROLLS DoubleConstant 1
+Description: You may reroll 1 less time in the future, which usually prevents you from rerolling End
+Value: -100
+Unique
+End
+
+PERK: Curse_Of_Asphyxiation
+WorldAbility: EveryXSeconds DoubleConstant 10 EveryCubeWhich IsAlly Test
+If And And And Not IsPositionEmpty PositionInDirectionFromPosition North PositionOfCube Target
+Not IsPositionEmpty PositionInDirectionFromPosition East PositionOfCube Target
+Not IsPositionEmpty PositionInDirectionFromPosition South PositionOfCube Target
+Not IsPositionEmpty PositionInDirectionFromPosition West PositionOfCube Target
+SetCaster Target TakeXDamage DoubleConstant 1
+Description: Every 10 seconds every ally which is touching no empty space deals 1 damage to itself End
+Value: -50
+BalanceCap: 3
+End
+
+PERK: Curse_Of_Market_Stability
+ObtainAction: ChangeCampaignVariable SHOPPRICEFLUCTUATION Division DoubleConstant -2 DoubleConstant 10
+ObtainAction: ChangeCampaignVariable SHOPPRICEADD DoubleConstant 10
+RemoveAction: ChangeCampaignVariable SHOPPRICEFLUCTUATION Division DoubleConstant 2 DoubleConstant 10
+RemoveAction: ChangeCampaignVariable SHOPPRICEADD DoubleConstant -10
+Description: Shop prices fluctuate 20% of their price less (Usually reducing fluctuation to 0) and are increased by 10 End
+Value: -50
+Unique
+Requirement: FirstMap
+End
+
+PERK: Curse_Of_Temporal_Acceleration
+WorldAbility: EveryMinute EveryCubeWhich IsEnemy Test
+AccelerateX TimeConstant 300
+Description: Every minute 5 seconds of additional time happen for all enemies End
+Value: -50
+BalanceCap: 5
+End
+
+PERK: Curse_Of_Loans
+ObtainAction: ChangeCurrency DoubleConstant 50 
+Ability: AtTheStartOfTheBattle ChangeCurrency Minus Lowest Multiplication DoubleConstant 2 Difficulty 25
+Description: After you gain this curse also gain 50 gold, at the start of each battle lose gold equal to twice the current difficulty (max 25) End
+Value: -50
+BalanceCap: 1
+End
+
+PERK: Curse_Of_Mystery
+ObtainAction: Both ChangeCurrency DoubleConstant 20 ReadAScenario Random_Curse_Reward
+Description: Gain a random curse which can't be rerolled, but also gain 20 gold End
+Value: -50
+RemoveUponObtaining
+BalanceCap: 10
+End
+
+PERK: Curse_Of_Vorp
+CampaignAbility: BeforeACubeIsAddedToInventory IfElse X%Chance DoubleConstant 50
+Nothing
+NegateX DoubleConstant 1
+Description: Before a cube is added to your inventory there is a 50% chance you get it normally otherwise you just don't End
+Value: -100
+BalanceCap: 2
+End
+
+PERK: Curse_Of_The_Time_Loop
+WorldAbility: AfterYouLose ReadAScenario Map_Portal
+Description: After you lose a battle return to the beginning of a new map End
+Value: -200
+Unique
+End
+
+PERK: Curse_Of_Persistence
+WorldAbility: BeforeACubeDies If IsEnemy Victim If X%Chance DoubleConstant 50 Both NegateX DoubleConstant 1 
+SetCaster Victim TargetCube Victim HealXDamage DoubleConstant 1
+Description: Before an enemy would die there is a 50% chance it doesn't and heals itself 1 hp instead End
+Value: -150
+BalanceCap: 5
+End
+
+PERK: Curse_Of_Frozen_Fingers
+WorldAbility: AfterACubeMoves If IsAlly Victim TargetCube Victim Secret GainAbility FrozenX 1
+Description: After an ally moves it becomes frozen for a second End
+Value: -100
+BalanceCap: 10
+End
+
+PERK: Curse_Of_Second_Chances
+WorldAbility: AfterACubeTakesDamage If And IsEnemy Victim IsALeader Victim If IsSmaller HpOfCube Victim Division MaxHpOfCube Victim DoubleConstant 2
+Both RemoveThisAbility
+XTimes DoubleConstant 10
+TargetCube ARandomCubeWhich And IsAlly Test Not IsALeader Test Exile
+Description: After an enemy leader is reduced to less than half hp after taking damage, exile 10 random non leader allies, once per battle End
+Value: -100
+BalanceCap: 2
+End
+
+PERK: Curse_Of_Forgetfulness
+WorldAbility: AtTheStartOfTheBattle 
+TargetCube ARandomCubeInHandOfFactionWhich DoubleConstant 1 Not HasLimitedUses Test
+Exile
+Description: At the start of each battle exile a random cube from your hand which has infinite uses End
+Value: -250
+BalanceCap: 5
+End
+
+PERK: Curse_Of_Curses
+WorldAbility: AfterYouWin ReadAScenario Basic_Curse_Reward
+Description: After you win a battle choose 1 of 3 curses to obtain End
+Value: -200
+BalanceCap: 3
+End
+
+PERK: Curse_Of_Doom_Spiral
+WorldAbility: AfterYouLose ReadAScenario Random_Curse_Reward
+Description: After you lose a battle get a random curse with no rerolling End
+Value: -50
+BalanceCap: 2
+End
+
+PERK: Curse_Of_Courage
+WorldAbility: AfterACubeTakesDamage If IsAlly Victim SetCaster Victim TargetCube Victim MoveInDirection Forwards
+Description: After an ally takes damage it moves forwards End
+Value: -50
+BalanceCap: 3
+End
+
+PERK: Curse_Of_Serenity
+WorldAbility: BeforeManaIsGenerated If IsAlly Culprit
+If X%Chance Multiplication DoubleConstant 100 Division ManaOfFaction DoubleConstant 1 MaxManaOfFaction DoubleConstant 1
+NegateX EventAmount
+Description: Before an ally generates \CMANA mana \CN % chance it generates 0 instead, where the % is how full your \CMANA mana \CN is (E.g. 50% full, 50% chance) End
+Value: -150
+BalanceCap: 2
+End
+
+PERK: Curse_Of_Blue_Footprints
+CampaignAbility: BeforeYouTakeAStep ChangeStartingMana DoubleConstant -3
+Description: After you take a step on the map lose 3 starting mana End
+Value: -50
+Requirement: MapLeft
+BalanceCap: 5
+End
+
+PERK: Curse_Of_Beartraps
+CampaignAbility: AfterAMapIsGenerated SufferXWounds 2
+Description: At the start of each map suffer 2 wounds (At battle start allies in hand and battlefield deal 2 damage to themselves, then lose 1 wound) End
+Value: -50
+Requirement: MapLeft
+BalanceCap: 10
+End
+
+PERK: Curse_Of_Red_Footprints
+CampaignAbility: BeforeYouTakeAStep If X%Chance DoubleConstant 50 SufferXWounds 1
+Description: After you take a step on the map 50% chance to suffer 1 wound (At battle start allies in hand and battlefield deal 1 damage to themselves, then lose 1 wound) End
+Value: -100
+BalanceCap: 3
+End
+
+PERK: Curse_Of_Wounds
+WorldAbility: AfterYouLose SufferXWounds 3
+Description: After you lose a battle also suffer 3 wounds (at battle start allies in hand and battlefield deal 3 damage to themselves, then lose 1 wound) End
+Value: -50
+BalanceCap: 2
+End
+
+PERK: Curse_Of_Heartattack
+WorldAbility: AtTheStartOfTheBattle XTimes GetCampaignVariable LIVES AddCubeToHandOfFaction FreeCopy CubeConstant Attacking_Heart DoubleConstant 2
+Description: At the start of each battle the enemy gains a strong melee attacker for each life you still have left End
+Value: -50
+BalanceCap: 3
+End
+
+PERK: Curse_Of_Certain_Doom
+WorldAbility: AfterACubeIsCreated If IsAlly Victim If IsPlaced If IsLarger HpOfCube Victim DoubleConstant 0
+Cooldown TimeConstant 10800 TargetCube Victim ChangeHp Minus HpOfCube Target
+Description: After an ally with more than 0 hp is placed set its hp to 0, cooldown 3 minutes (3 minutes before first and between each activation) End
+Value: -50
+PerkBarSplit
+BalanceCap: 10
+End
+
+PERK: Curse_Of_The_Resilient_Leaf
+WorldAbility: BeforeACubeTakesDamage If IsEnemy Victim If IsLarger EventAmount DoubleConstant 0 
+Cooldown DoubleConstant 1200 NegateX EventAmount
+Description: Before an enemy takes more than 0 damage negate that damage, cooldown of 20 seconds End
+Value: -50
+PerkBarSplit
+NoBalanceCap
+End
+
+PERK: Curse_Of_Midas
+Ability: AfterACubeIsCreated If IsPlaced If IsAllyToCaster Victim TargetCube Victim
+Both RemoveAllAbilities GainAbility Golden
+ObtainAction: ChangeCurrency DoubleConstant 10000
+RemoveAction: ChangeCurrency DoubleConstant -10000
+Description: Gain 10000 gold until you lose this perk. After an ally is placed it loses all abilities and becomes golden (they don't do anything) End
+Value: -200
+Unique
+BalanceCap: 0
+End
+
+PERK: Curse_Of_Burning
+WorldAbility: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich DoubleConstant 1 True
+GainAbility Burning RemoveThisAbility
+Description: At the start of each battle cubes in your hand gain Burning, they deal 1 damage to themself and touching cubes after 5 seconds End
+Value: -50
+BalanceCap: 6
+End
+
+PERK: Curse_Of_Obsidian
+WorldAbility: BeforeACubeTakesDamage If IsEnemy Victim If X%Chance DoubleConstant 50 NegateX DoubleConstant 1
+Description: Before an enemy takes damage 50% chance to reduce that damage by 1 End
+Value: -50
+BalanceCap: 7
+End
+
+PERK: Curse_Of_Side_Armor
+WorldAbility: BeforeACubeTakesDamage If IsEnemy Victim If IsALeader Victim If IsEqual YOfPosition PositionOfCube Victim YOfPosition PositionOfCube Culprit
+NegateX DoubleConstant 1
+Description: Enemy leaders take 1 less damage from cubes in the same row End
+Value: -50
+BalanceCap: 5
+End
+
+PERK: Curse_Of_Splintering_Leadership
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim Cooldown DoubleConstant 3600 TargetCube Victim Both GainAbility Leader
+ GainAbilityText EveryXSeconds DoubleConstant 5 GenerateXMana DoubleConstant 1
+ Every 5 seconds generate 1 \CMANA mana \CN End
+Description: After an enemy is created it becomes a leader and generates 1 mana every 5 seconds, cooldown of 1 minute End
+Value: -100
+BalanceCap: 3
+End
+
+PERK: Curse_Of_Masons
+WorldAbility: AfterACubeIsCreated If IsAlly Victim If IsPlaced TargetCube Victim ChangeHp DoubleConstant -1
+Description: After an ally is placed it loses 1 hp End
+Value: -50
+BalanceCap: 6
+End
+
+PERK: Curse_Of_Golden_Blood
+WorldAbility: BeforeACubeTakesDamage If IsAlly Victim Both ChangeCurrency DoubleConstant -1 NegateX DoubleConstant 1
+Description: Before an ally takes damage lose 1 gold and negate 1 of that damage End
+Value: -400
+BalanceCap: 0
+End
+
+PERK: Curse_Of_Slogroth
+CampaignAbility: AfterAMapIsGenerated SetMapNodeScenario ARandomMapNodeWhich And And And IsLarger Test DoubleConstant 0 ExcludeLastXNodes DoubleConstant 2
+ Not MapNodeIsType Test Boss
+ MapNodeIsType Test Battle
+ Forced_Loss_Battle
+Description: At the start of each map a random non boss battle is replaced with a battle against Slogroth (near impossible to win, avoid it) End
+Requirement: FirstMap
+Value: -50
+BalanceCap: 2
+End
+
+PERK: Curse_Of_Closed_Shops
+ObtainAction: ChangeCampaignVariable SHOPADDEDROWS DoubleConstant -1
+RemoveAction: ChangeCampaignVariable SHOPADDEDROWS DoubleConstant 1
+Description: Future shops have 1 less row of perks and cubes End
+Value: -50
+Requirement: FirstMap
+Unique
+End
+
+PERK: Curse_Of_Crab
+WorldAbility: AfterACubeDies If IsEnemy Culprit If IsAlly Victim 
+If X%Chance DoubleConstant 20 CreateCubeOnPosition CopyWithAction CubeConstant Replicrab SetFaction DoubleConstant 2 PositionOfCube Victim
+Description: After an enemy kills an ally, 20% chance the enemy creates a Replicrab in the ally's position End
+Value: -50
+BalanceCap: 6
+End
+
+PERK: Curse_Of_Tainted_Bottles
+CampaignAbility: AfterYouGainAPerk If PerkIsType Target Consumable Both LosePerk Target
+ObtainPerk ARandomPerkInLibraryWhich And PerkIsType Test Consumable IsSmaller ValueOfPerk Test ValueOfPerk Target
+Description: After you gain a consumable immediately lose it and gain a random consumable with lower value End
+Value: -50
+Unique
+End
+
+PERK: Curse_Of_Sprawl
+WorldAbility: Every20Seconds Secret Both ChangeMaxManaOfFaction AmountOfPerksInInventoryWhich True DoubleConstant 2
+FactionXGainsYMana DoubleConstant 2 AmountOfPerksInInventoryWhich True
+Description: Every 20 seconds the opponent gains 1 max mana and 1 mana for each perk you have End
+Value: -50
+BalanceCap: 0
+End
+
+PERK: Curse_Of_Forced_Purchase
+ObtainAction: ChangeCampaignVariable SHOPMINBUY DoubleConstant 2
+RemoveAction: ChangeCampaignVariable SHOPMINBUY DoubleConstant -2
+Description: Must buy at least 2 things before leaving a shop or fully buy out the shop End
+Value: -50
+Requirement: FirstMap
+BalanceCap: 10
+End
+
+PERK: Curse_Of_Splitting
+WorldAbility: AfterACubeTakesDamage If IsEnemy Victim If Not IsSmaller Addition HpOfCube Victim EventAmount MaxHpOfCube Victim
+If IsLarger HpOfCube Victim DoubleConstant 0 SetCaster Victim CreateCubeOnPosition Victim PositionInDirectionFromPosition Backwards PositionOfThis
+Description: After an undamaged enemy takes damage if it still has hp left it creates a copy of itself behind itself End
+Value: -150
+Unique
+End
+
+PERK: Curse_Of_Compression
+WorldAbility: Every30Seconds EveryCubeWhich IsEnemy Test
+If IsPositionEmpty PositionInDirectionFromPosition South PositionOfCube Target
+SetCaster Target Both MoveInDirection South
+GainXExtraHp DoubleConstant 1
+Description: Every 30 seconds every enemy with empty space below moves downwards and gains 1 extra hp End
+Value: -50
+BalanceCap: 3
+End
+
+PERK: Curse_Of_Clumsiness
+WorldAbility: AfterACubeIsCreated If IsAlly Victim
+ If Not X%Chance 80 SetCaster Victim TargetCube Victim MoveInDirection RandomDirection
+Description: After an ally is created 80% chance nothing happens otherwise it moves in a random direction End
+Value: -50
+BalanceCap: 7
+End
+
+PERK: Curse_Of_Narrow_Paths
+ObtainAction: ChangeCampaignVariable TERRAINREWARDCHOICES DoubleConstant -2
+RemoveAction: ChangeCampaignVariable TERRAINREWARDCHOICES DoubleConstant 2
+Description: Choose from two less terrains when you choose from terrains (for example at the start of a new map) End
+Value: -50
+Requirement: HasPerkOrUpgrade PerkConstant Nightmare_Of_Strange_Worlds
+Unique
+End
+
+PERK: Curse_Of_The_Timer
+Ability: AtTheStartOfTheBattle Both GainAbilityStacking PoisonX 0 GetCampaignVariable CURSEOFTHETIMER RemoveThisAbility
+WorldAbility: AfterYouWin ChangeCampaignVariable CURSEOFTHETIMER 1
+Description: Your starting leader starts with CVARIABLE CURSEOFTHETIMER poison, after you win increase the poison amount of this kind of curse by 1 End
+Value: -150
+BalanceCap: 1
+End
+
+PERK: Curse_Of_Sleepiness
+ObtainAction: ChangeStartingMana -40
+RemoveAction: ChangeStartingMana +40
+Description: -40 starting mana End
+Value: -100
+BalanceCap: 5
+End
+
+PERK: Curse_Of_Sparks
+WorldAbility: EveryXSeconds 15 AddCubeToHandOfFaction FreeCopy CubeConstant Spark 2
+Description: Every 15 seconds add a free Spark to the opponents hand (Sparks are 2 damage projectiles) End
+BalanceCap: 20
+Value: -50
+End
+
+PERK: Curse_Of_Crackling
+WorldAbility: AfterACubeTakesDamage If IsAlly Victim EveryXTimes DoubleConstant 10
+TargetCube ARandomCubeWhich IsAlly Test SetCaster Culprit TakeXDamage DoubleConstant 1
+Description: Every 10 times allies take damage the last culprit also deals 1 damage to another ally End
+BalanceCap: 5
+Value: -50
+End
+
+PERK: Curse_Of_The_Crusade
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim TargetCube Victim GainAllAbilitiesOfCube CubeConstant Knight
+Description: After an enemy is created it gains all abilities of a Knight End
+Value: -400
+BalanceCap: 3
+End
+
+PERK: Curse_Of_Violent_Ground
+WorldAbility: EveryMinute EveryCubeWhich IsNeutral Test
+SetCaster Target TargetCube CubeInDirectionFromCube North Caster
+If IsAlly Target TakeXDamage 1
+Description: Every minute every neutral cube deals 1 damage to every ally above them End
+BalanceCap: 6
+Value: -50
+End
+
+PERK: Curse_Of_Betrayal
+WorldAbility: AfterACubeTakesDamage If IsAlly Victim If X%Chance 5
+SetCaster Culprit TargetCube Victim GainAbility BetrayalX 1
+Description: After an ally takes damage 5% chance the culprit also applies 1 Betrayal, once Betrayal >= hp the ally converts to an enemy and becomes inspatial End
+BalanceCap: 10
+Value: -100
+End
+
+PERK: Curse_Of_Electric_Fences
+WorldAbility: AtTheStartOfTheBattle TargetCube FreeCopy CubeConstant Electric_Fence
+XTimes DoubleConstant 4 AddCubeToHandOfFaction Target DoubleConstant 2
+Description: At the start of each battle 4 free electric fences are added to the enemy's hand End
+Value: -50
+BalanceCap: 20
+End
+
+PERK: Curse_Of_Entrenchment
+WorldAbility: BeforeACubeTakesDamage If IsEnemy Victim If Not IsALeader Victim If IsEqual FactionOfCube Victim PlacabilityOfPosition PositionOfCube Victim
+ NegateX Division EventAmount 2
+Description: Non leader enemies on the enemies side of the battlefield take half damage End
+Value: -200
+BalanceCap: 2
+End
+
+PERK: Curse_Of_Shields
+WorldAbility: AtTheStartOfTheBattle Both RemoveThisAbility ChangeCampaignVariable ENEMY_SHIELDS DoubleConstant 100
+WorldAbility: BeforeACubeTakesDamage If IsEnemy Victim If IsEqual FactionOfCube Victim PlacabilityOfPosition PositionOfCube Victim
+ If IsLarger EventAmount DoubleConstant 0
+IfElse Not IsSmaller EventAmount GetCampaignVariable ENEMY_SHIELDS
+ Both NegateX GetCampaignVariable ENEMY_SHIELDS
+ SetCampaignVariable ENEMY_SHIELDS DoubleConstant 0
+ Both ChangeCampaignVariable ENEMY_SHIELDS Minus EventAmount
+ NegateX EventAmount
+Description: Negate the first 100 damage enemies on their side of the battlefield would take each battle \N 
+Shield Left: CVARIABLE ENEMY_SHIELDS End
+WorldAbility: AfterEndOfTheBattle SetCampaignVariable ENEMY_SHIELDS DoubleConstant 0
+AbilityText: At the end of the battle set shields to 0 End
+Value: -50
+BalanceCap: 20
+End
+
+PERK: Curse_Of_Isolation
+WorldAbility: EveryXSeconds DoubleConstant 10 EveryCubeWhich IsAlly Test
+If And And And 
+ Not IsEqual FactionOfCube CubeInDirectionFromCube North Target FactionOfCube Target
+ Not IsEqual FactionOfCube CubeInDirectionFromCube East Target FactionOfCube Target
+ Not IsEqual FactionOfCube CubeInDirectionFromCube South Target FactionOfCube Target
+ Not IsEqual FactionOfCube CubeInDirectionFromCube West Target FactionOfCube Target
+SetCaster Target TakeXDamage DoubleConstant 1
+Description: Every 10 seconds every ally which is touching no other ally deals 1 damage to itself End
+Value: -100
+BalanceCap: 5
+End
+
+PERK: Curse_Of_Wrath
+WorldAbility: AfterACubeTakesDamage If And IsEnemy Victim IsALeader Victim
+SetCaster Victim TargetCube ARandomEnemy TakeXDamage EventAmount
+ExtraTrigger: EveryXMinutes 5 RemoveThisAbility
+Description: After an enemy leader takes damage, during the first 5 minutes of each battle, it deals that much damage to a random ally (player cube) End
+Value: -50
+BalanceCap: 5
+End
+
+PERK: Curse_Of_Insulation
+WorldAbility: AtTheStartOfTheBattle TargetCube FreeCopy CubeConstant Gray_Foam
+XTimes DoubleConstant 25 AddCubeToHandOfFaction Target DoubleConstant 2
+Description: At the start of each battle 25 free Gray_Foam cubes are added to the enemy's hand End
+Value: -50
+BalanceCap: 20
+End
+
+PERK: Curse_Of_Temporary_Armor
+WorldAbility: BeforeACubeTakesDamage If IsALeader Victim If IsEnemy Victim
+Both NegateX 2
+NegateX Minus RoundedDown Division Division WorldTime 3600 5
+Description: Enemy leaders take 2 less damage, but 1 more for every 5 minutes which have passed this battle End
+Value: -50
+BalanceCap: 3
+End
+
+PERK: Curse_Of_Mana_Siphon
+WorldAbility: AfterACubeIsCreated If IsPlaced If IsAlly Victim Both ChangeMaxManaOfFaction 2 2 FactionXGainsYMana 2 2
+Description: After an ally is placed the enemy gains 2 max mana and 2 mana End
+Value: -50
+BalanceCap: 100
+End
+
+PERK: Curse_Of_Hasty_Placement
+WorldAbility: AfterACubeIsCreated If IsPlaced If IsEnemy Victim TargetCube Victim AccelerateX 300
+Description: After an enemy is placed it's accelerated for 5 seconds End
+Value: -50
+BalanceCap: 30
+End
+
+PERK: Curse_Of_Safety
+WorldAbility: AfterACubeTakesDamage If IsEnemy Victim If IsALeader Victim If IsCubeTouchingCube Victim Culprit Both RemoveThisAbility 
+ EveryCubeWhich And IsAlly Test IsEqual FactionOfCube Victim PlacabilityOfPosition PositionOfCube Test Exile
+Description: The first time a cube damages a touching enemy leader exile all allies on enemy positions End
+Value: -50
+Unique
+End
+
+PERK: Curse_Of_Mimicry
+WorldAbility: AfterACubeIsCreated If IsPlaced If IsAlly Culprit If Not IsLarger ManaCostOfCube Victim 40
+ Both EveryXTimes 3 RemoveThisAbility
+  AddCubeToHandOfFaction CopyWithAction FreeCopy Victim SetFaction 2  2
+Description: The first three times you place a cube with cost 40 or less each battle add a free enemy copy to the enemies hand End
+Value: -50
+BalanceCap: 10
+End
+
+PERK: Curse_Of_The_Greed_Demon
+WorldAbility: AtTheStartOfTheBattle AddCubeToHandOfFaction CubeConstant Greed_Demon DoubleConstant 2
+Description: At the start of each battle a greed demon is added to the enemy's hand End
+Value: -300
+BalanceCap: 0
+End
+
+PERK: Curse_Of_Slimy_Blood
+WorldAbility: AfterACubeDies If IsAlly Culprit If IsEnemy Victim If Not HasNameOfCube Victim CubeConstant Small_Warrior_Slime
+If X%Chance 20 CreateCubeOnPosition CopyWithAction CubeConstant Small_Warrior_Slime SetFaction 2 ARandomRightPosition
+Description: After a non Small_Warrior_Slime enemy is killed by an ally 20% chance to create an enemy Small_Warrior_Slime on a random right side position End
+Value: -50
+BalanceCap: 50
+End
+
+PERK: Curse_Of_Missing_Perks
+ObtainAction: ChangeCampaignVariable PERKREWARDCHOICES DoubleConstant -1
+RemoveAction: ChangeCampaignVariable PERKREWARDCHOICES DoubleConstant 1
+Description: remove a perk from each perk choice, won't remove the last perk in a perk reward End
+Value: -100
+Unique
+End
+
+PERK: Curse_Of_No_Map
+ObtainAction: SetCampaignVariable AUTOMAP DoubleConstant 1
+RemoveAction: SetCampaignVariable AUTOMAP DoubleConstant -1
+Description: When you return to the node map automatically take a random path (it won't even show up on screen, this makes it nearly impossible to save the run) End
+Value: -300
+Unique
+End
+
+PERK: Curse_Of_Clicking
+CampaignAbility: BeforeYouTakeAStep XTimes 2 ClickPerk ARandomPerkInInventoryWhich True 
+Ability: AtTheStartOfTheBattle XTimes 2 ClickPerk ARandomPerkInInventoryWhich True 
+RemoveAction: SetCampaignVariable AUTOMAP DoubleConstant -1
+Description: Before each map step and at the start of each battle automatically click 2 random perks in your inventory End
+Value: -100
+BalanceCap: 3
+End
+
+PERK: Curse_Of_Stolen_Ideas
+WorldAbility: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich 1 TRUE
+  AddCubeToHandOfFaction CopyWithAction FreeCopy Target SetFaction 2 2
+   SetHandSizeOfFaction Addition 10 HandsizeOfFaction 2 2
+Description: At the start of each battle add a free copy of every cube in your hand into the opponents hand and increase the opponents handsize by 10 End
+Value: -200
+BalanceCap: 20
+End
+
+PERK: Curse_Of_Tiredness
+WorldAbility: BeforeManaIsGenerated If IsAlly Culprit NegateX
+Multiplication 
+ Division EventAmount 10 
+ Highest 0 Subtraction 5 RoundedDown Division WorldTime 3600
+Description: Allies generate 50% less mana, -10% to this effect for each passed minute (past minute 5 this curse has no effect) End
+Value: -150
+BalanceCap: 3
+End
+
+PERK: Curse_Of_Cheap_Cubes
+WorldAbility: AfterACubeIsCreated If IsAlly Victim If IsPlaced If IsSmaller ManaCostOfCube Victim 40
+ EveryCubeInHandOfFactionWhich FactionOfCube Victim HasNameOfCube Test Victim 
+ ChangeManaCost 1
+Description: After an ally is placed if it costs less than 40 increase the cost of every cube in your hand with the same name by 1 End
+BalanceCap: 10
+Value: -100
+End
+
+PERK: Curse_Of_Sickness
+Ability: DecayX 4
+Description: Your starting leader has decay 4, losing 1 hp 4 times per minute stopping at 1 or less End
+BalanceCap: 10
+Value: -50
+End
+
+PERK: Curse_Of_Growth
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim TargetCube Victim Secret GainAbility GrowthX 3
+Description: After an enemy is created it gains Growth 3, gaining 3 extra hp per minute End
+BalanceCap: 50
+Value: -100
+End
+
+PERK: Curse_Of_Fervor
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim If IsPlaced TargetCube Victim Secret GainAbility FervorX 1
+Description: After an enemy is placed it gains Fervor 1, increasing the next damage it deals by 1 End
+BalanceCap: 30
+Value: -50
+End
+
+PERK: Curse_Of_Guards
+WorldAbility: AtTheStartOfTheBattle TargetCube FreeCopy CubeConstant Royal_Guard Both GainAbility PoisonX 5
+XTimes DoubleConstant 4 AddCubeToHandOfFaction Target DoubleConstant 2
+Description: At the start of each battle 4 free Royal_Guard are added to the enemy's hand, except they have 5 poison End
+Value: -50
+BalanceCap: 5
+End
+
+PERK: Curse_Of_Disorder
+WorldAbility: EveryMinute EveryCubeInHandOfFactionWhich 2 TRUE SwapWithPosition PositionOfCube ARandomCubeInHandOfFactionWhich 2 TRUE
+Description: Every minute every cube in the opponents hand swaps position with another random cube in the opponents hand End
+Value: -50
+Unique
+End
+
+PERK: Curse_Of_Healing
+WorldAbility: EveryXSeconds 10 TargetCube ARandomCubeWhich And IsEnemy Test IsDamaged SetCaster Target HealXDamage 3
+Description: Every 10 seconds a random damaged enemy heals itself for 3 hp End
+Value: -100
+BalanceCap: 10
+End
+
+PERK: Curse_Of_Incursions
+WorldAbility: AtTheStartOfTheBattle AddCubeToHandOfFactionInfinitly CopyWithAction CubeConstant Incursion 
+ GainAbilityText AfterThisIsCreated GenerateXMana 10  After this is created this generates 10 mana End
+ 2
+Description: Enemy starts with an infinite use incursion, except it generates its mana back when created End
+Value: -50
+LevelRequirement: 15
+Unique
+End
+
+PERK: Curse_Of_Mortars
+WorldAbility: EveryXSeconds 20 AddCubeToHandOfFaction FreeCopy CubeConstant Mortar_Projectile 2
+Description: Every 20 seconds add a free Mortar_Projectile to the opponents hand (they are 4 damage arcing projectiles) End
+BalanceCap: 30
+Value: -50
+End
+
+PERK: Curse_Of_Inspatial
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim TargetCube Victim Secret GainInspatial
+Description: After an enemy is created it gains Inspatial, making the space behind the enemy adjacent to the space infront of the enemy End
+Value: -250
+Unique
+LevelRequirement: 15
+End
+
+PERK: Curse_Of_A_Murder
+WorldAbility: AtTheStartOfTheBattle TargetCube FreeCopy CubeConstant  Crow
+XTimes DoubleConstant 3 AddCubeToHandOfFaction Target DoubleConstant 2
+Description: At the start of each battle 3 free Crow are added to the enemy's hand (flyers which dive attack) End
+Value: -50
+BalanceCap: 30
+End
+
+PERK: Curse_Of_Armor
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim If IsPlaced TargetCube Victim Secret GainAbility ArmorX 1
+ExtraTrigger: AfterACubeTakesDamage If IsEnemy Victim If X%Chance 1 TargetCube Victim RemoveAbilityWithName ArmorX
+Description: After an enemy is placed it gains 1 Armor, reducing damage taken by 1, after an enemy takes damage 1% chance to remove all armor End
+Value: -400
+BalanceCap: 10
+End
+
+PERK: Curse_Of_Expensive_Materials
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim If IsPlaced If Not IsSmaller ManaCostOfCube Victim 40 TargetCube Victim Secret GainXExtraHp 5
+Description: After an enemy with manacost 40 or greater is placed it gains 5 extra hp End
+Value: -50
+BalanceCap: 25
+End
+
+PERK: Curse_Of_Misery
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim TargetCube Victim Secret GainAbility MiseryX 1
+Description: After an enemy is created it gains 1 Misery (after it deals damage it also deals 1 damage to every cube with the same name) End
+Value: -400
+BalanceCap: 3
+End
+
+PERK: Curse_Of_The_Scythe
+WorldAbility: AfterACubeDies Cooldown 60 FactionXGainsYMana 2 1
+Description: After a cube dies the enemy gains 1 mana, cooldown 1 second End
+Value: -150
+BalanceCap: 30
+End
+
+PERK: Curse_Of_Gunpowder 
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim TargetCube Victim Secret GainAbility ExplodesX 1
+ExtraTrigger: BeforeACubeTakesDamage If IsEnemy Victim If IsEnemy Culprit NegateX 1
+Description: After an enemy is created it gains 1 Explodes (dealing 1 damage to touching cubes on death), enemies take -1 damage from other enemies End
+Value: -100
+BalanceCap: 10
+End
+
+PERK: Curse_Of_Summer
+WorldAbility: AtTheStartOfTheBattle TargetCube FreeCopy CubeConstant Summer_Shrine
+XTimes DoubleConstant 5 AddCubeToHandOfFaction Target DoubleConstant 2
+Description: At the start of each battle 5 free Shrines_Of_Summer are added to the enemies hand (they add 1 extra hp to a random enemy every 5 seconds) End
+Value: -100
+BalanceCap: 20
+End
+
+PERK: Curse_Of_The_Statue
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim If IsPlaced 1Shot TargetCube Victim Both GainXExtraHp 100 Both GainAbility Unmovable GainAbility Golden
+Description: The first enemy placed each battle gains +100 hp, can't move and looks golden End
+Value: -50
+BalanceCap: 10
+End
+
+PERK: Curse_Of_Simple_Chains
+WorldAbility: AtTheStartOfTheBattle Both Both
+ ChangeDelayOfSlotXOfFactionY 1 1 25200
+ ChangeDelayOfSlotXOfFactionY 2 1 25200
+ ChangeDelayOfSlotXOfFactionY 3 1 25200
+Description: The first three slots in your hand start locked for 10 minutes, locked slots can't be placed  End
+Value: -50
+Unique
+End
+
+PERK: Curse_Of_Random_Chains
+WorldAbility: AtTheStartOfTheBattle
+ ChangeDelayOfSlotXOfFactionY RandomRoundBetweenXtoY 1 GetCampaignVariable DECKSIZE 1 36000
+Description: At the start of each battle lock a random slot from 1 to your decksize for 10 minutes, locked slots can't be placed End
+Value: -100
+BalanceCap: 1
+End

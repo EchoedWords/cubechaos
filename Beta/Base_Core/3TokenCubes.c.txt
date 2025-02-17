@@ -1,0 +1,339 @@
+ALL TOKENS for other Cubes are saved here
+
+COMPOUND: ABILITY
+LeaderDifficultyScaling
+AtTheStartOfTheBattle Both Both
+ChangeMaxManaOfFaction Difficulty FactionOfThis 
+GainXExtraHp Difficulty
+RemoveThisAbility
+Text: At the start of the battle this gains extra hp and gives its faction max mana equal to difficulty End
+LOCAL
+NORANDOM
+End
+
+COMPOUND: ABILITY
+LeaderDifficultyManaGen
+EverySecond GenerateXMana Addition Division 8 10  Multiplication Difficulty Division 1 10
+Text: Every second generate 0.8 \CMANA mana \CN + 0.1 \CMANA mana \CN per difficulty End
+LOCAL
+NORANDOM
+End
+
+COMPOUND: ABILITY
+ShowEnemyMana
+Nothing
+Text: Current Enemy Mana: \E End
+LOCAL
+NORANDOM
+End
+
+CUBE: Void 1000 1000 1000
+TOKEN
+Ability: BeforeThisCollides TargetCube Victim Die
+Text: Before a cube collides with this kill it End
+Ability: Unmovable
+Ability: EveryXSeconds 10 TargetCube CubeInDirectionFromCube South Caster If IsNeutral Target If Not HasNameOfCube Target Caster
+ Both Exile TargetCube Caster TeleportToPosition PositionInDirectionFromPosition South PositionOfThis
+Text: Every 10 seconds, if there is a not void neutral below, exile it and teleport this downwards End
+Visual: Target 0 1 0 0 0
+End
+
+CUBE: Difficulty_Leader 2000 50 50
+Ability: LEADER
+Ability: EveryXMeleeY 120 2
+Ability: LeaderDifficultyManaGen
+Ability: LeaderDifficultyScaling
+Ability: ShowEnemyMana
+TOKEN
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Competent_Leader 2000 50 50
+Ability: LEADER
+Ability: EveryXMeleeY 120 2
+Ability: LeaderDifficultyManaGen
+TOKEN
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Enemy_Tutorial_Leader 2000 50 50
+TOKEN
+Ability: LEADER
+Animation: Crumble HP 0 EQUAL 4
+End
+
+CUBE: Mana_Node 1000 50 50
+TOKEN
+Ability: Unmovable
+Ability: RegenerationX 60
+Ability: EverySecond TargetCube CubeInDirectionFromCube North Caster GenerateXMana DoubleConstant 1
+Text: Every second generate 1 \CMANA mana \CN for the faction of the cube above End
+Visual: Target 0 -1 0 38 255
+End
+
+CUBE: Earth 5 10 10
+TOKEN
+AiPlacementRule: AiStacking
+Ability: Burrowed
+Animation: Crumble HP 0 EQUAL 4
+End
+
+CUBE: Mana_Crystal 100 9 9
+TOKEN
+Ability: AfterThisDies TargetCube Culprit Both 
+ ChangeMaxManaOfFaction DoubleConstant 30 FactionOfCube Culprit
+ FactionXGainsYMana FactionOfCube Culprit DoubleConstant 30
+Text: After this dies add 30 max mana and 30 \CMANA mana \CN to the killer's faction End
+Animation: Crumble HP 0 EQUAL 4
+End
+
+CUBE: Excavate 10 0 0
+TOKEN
+TYPE Spell
+Ability: AfterThisIsCreated TargetCube CubeInDirectionFromCube South Caster TakeXDamageEffect DoubleConstant 3 0 Melee_Swing
+Text: After this is created deal 3 damage to the cube below End
+Visual: Sword 0 1 255 0 0 3
+Ability: StrengthX 2
+AiPlacementRule: AiEnemySouth
+End
+
+CUBE: Tutorial_Leader 2000 50 50
+TOKEN
+Ability: LEADER
+Ability: EveryXMeleeY 120 2
+Ability: BaseManaGen
+FlavourText: This is your leader, it may look different based on your class and species, \N 
+outside of the tutorial you will also slowly gain a special cube to your hand to break stalemates End
+End
+
+CUBE: Fighting_Symbol 13 15 15
+TOKEN
+End
+
+CUBE: A_Life 20 20 20
+TOKEN
+End
+
+CUBE: Chest 3 19 19
+TOKEN
+End
+
+CUBE: Boss 2000 50 50
+Ability: LEADER
+Ability: EveryXMeleeY 120 3
+Ability: LeaderDifficultyManaGen
+Ability: LeaderDifficultyScaling
+Ability: ShowEnemyMana
+Ability: Nothing
+Text: This fight starts with a Boss_Scaling perk active providing slow escalation End
+TOKEN
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Cursed_Fighting_Symbol 1 0 0
+TOKEN
+End
+
+CUBE: Random_Event 1 5 5
+TOKEN
+End
+
+CUBE: Rock 20 10 10
+TOKEN
+Ability: ArmorX 1
+Ability: Burrowed
+Animation: Crumble HP 0 EQUAL 5
+End
+
+CUBE: 100_Instant_Mana 0 0 0
+TOKEN
+UNUSED
+Ability: AfterThisIsCreated Both GenerateXMana DoubleConstant 100 Exile
+Text: After this is created generate 100 \CMANA mana \CN and exile this End
+End
+
+CUBE: Evil_Chest 1 75 75
+TOKEN
+End
+
+CUBE: Gift 20 0 0
+TOKEN
+Ability: AfterThisIsCreated TargetCube CubeInDirectionFromCube South Caster SetFaction EnemyFaction
+Visual: Target 0 1 155 238 255
+Text: After this is created the cube below joins the enemy End
+End
+
+CUBE: Yellow_Portal 0 255 255
+TOKEN
+End
+
+CUBE: Blue_Portal 0 0 255
+TOKEN
+End
+
+CUBE: Red_Portal 255 0 0
+TOKEN
+End
+
+CUBE: Cursed_Trade 10 20 20
+TOKEN
+End
+
+CUBE: Shop 50 200 200
+TOKEN
+End
+
+CUBE: Curse 666 666 666
+TOKEN
+End
+
+CUBE: Pandoras_Box 3 0 0
+TOKEN
+Ability: AfterThisIsCreated TargetCube ARandomCubeInLibraryWhich
+  And Not IsToken Test 
+  And Not IsAlreadyInHandOfFaction Test DoubleConstant 1 
+  Or IsLarger ScalingOfCube Test DoubleConstant 10
+  IsLarger PressureOfCube Test DoubleConstant 10
+ Both XTimes DoubleConstant 3 AddCubeToHandOfFaction Target DoubleConstant 1
+ XTimes DoubleConstant 3 AddCubeToHandOfFaction Target DoubleConstant 2
+Text: After this is created add 3 copies of a random dangerous cube to each players hand \N
+(After 10 minutes and every 5 minutes there after the game adds one of these to your hand) End
+End
+
+CUBE: Spatial_Scramble 100 10 10
+TOKEN
+UNUSED
+Ability: AfterThisIsCreated Both SetVariable TEMPX MaxWorldX 
+Until IsSmaller GetVariableOnCube TEMPX Caster DoubleConstant 1
+ Both ChangeVariable TEMPX DoubleConstant -1
+ Both SetVariable TEMPY MaxWorldY
+ Until IsSmaller GetVariableOnCube TEMPY Caster DoubleConstant 1
+  Both ChangeVariable TEMPY DoubleConstant -1
+   Both NewAdjacency PositionFromXAndY GetVariableOnCube TEMPX Caster GetVariableOnCube TEMPY Caster North ARandomPosition
+   Both NewAdjacency PositionFromXAndY GetVariableOnCube TEMPX Caster GetVariableOnCube TEMPY Caster East ARandomPosition
+   Both NewAdjacency PositionFromXAndY GetVariableOnCube TEMPX Caster GetVariableOnCube TEMPY Caster South ARandomPosition
+        NewAdjacency PositionFromXAndY GetVariableOnCube TEMPX Caster GetVariableOnCube TEMPY Caster West ARandomPosition
+  Nothing
+ Nothing 
+Text: After this is created scramble all of space by changing all adjacencies completly randomly End
+Ability: Unmovable
+Ability: AfterThisDies ResetAdjacency
+Text: After this dies reset adjacency back to normal End
+End
+
+CUBE: Deep_Rock 30 10 10
+TOKEN
+Ability: ArmorX 1
+Ability: AfterThisIsCreated IfElse IsLarger Subtraction YOfPosition PositionOfThis StartingMaxWorldY DoubleConstant 20
+ Both Exile 
+ CreateCubeOnPosition CubeConstant Magma PositionOfThis
+ If IsLarger Subtraction YOfPosition PositionOfThis StartingMaxWorldY DoubleConstant 0
+ Silent
+ Both GainXExtraHp Multiplication DoubleConstant 3 Subtraction YOfPosition PositionOfThis StartingMaxWorldY
+ Both GainAbilityStacking ArmorX 0 RoundedDown Division Subtraction YOfPosition PositionOfThis StartingMaxWorldY DoubleConstant 5 
+ RemoveThisAbility
+Text: Scales with depth below starting depth of the world, turns into magma after depth 20 End
+Ability: Flying
+Ability: Burrowed
+Animation: Crumble HP 0 EQUAL 6
+AiPlacementRule: AiStacking
+End
+
+CUBE: Forge 0 0 0
+TOKEN
+End
+
+CUBE: Magma 1000 1000 1000
+TOKEN
+Ability: ArmorX 10
+Ability: EveryXAcidicY 60 5
+Ability: AfterThisKills CreateCubeOnPosition CubeConstant Magma PositionOfCube Victim
+Text: After this kills a cube create magma in the victim place End
+Ability: RetaliateX 5
+Ability: AfterThisIsCreated IfElse IsLarger Subtraction YOfPosition PositionOfThis StartingMaxWorldY DoubleConstant 30
+ Both Exile 
+ CreateCubeOnPosition CubeConstant Rotten_Flesh PositionOfThis
+ Silent RemoveThisAbility
+Text: If this is deep enough replace with Rotten_Flesh End
+AiPlacementRule: AiStacking
+End
+
+CUBE: Leader 2000 50 50
+Ability: LEADER
+Ability: EveryXMeleeY 120 2
+Ability: BaseManaGen
+TOKEN
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Win 0 0 0
+TOKEN
+Ability: AfterThisIsCreated Win
+Text: After this is created win (and end) the current battle End
+Ability: FreePlacement
+End
+
+CUBE: Erase_From_Reality 10 0 0
+TOKEN
+Ability: AfterThisIsCreated TargetCube CubeInDirectionFromCube South Caster 
+If Not And IsEnemyToCaster Target IsALeader Target
+Banish
+Text: After this is created, if the cube below is not an enemy leader, exile all cubes with the cube below's name from the world, the games library, your inventory, your deck,
+ in short from everywhere (DO NOT USE THIS ON YOURSELF) End
+End
+
+CUBE: World_Cube_Copy 0 0 0
+TOKEN
+Ability: AfterThisIsCreated Both GenerateXMana DoubleConstant 20 Exile
+Text: After this is created exile this and gain 20 mana. \N (You made a copy of the world cube (responsibly for gravity and curses) which is not allowed, instead you get this) End
+End
+
+CUBE: Concrete 10 20 20
+TOKEN
+AiPlacementRule: AiStacking
+Ability: Burrowed
+Animation: Crumble HP 0 EQUAL 4
+End
+
+CUBE: Reinforced_Concrete 10 25 25
+TOKEN
+AiPlacementRule: AiStacking
+Ability: Burrowed
+Animation: Crumble HP 0 EQUAL 4
+End
+
+CUBE: Boss_Shield 50 20 20
+TOKEN
+AiPlacementRule: AiStacking
+Ability: LeaderDifficultyScaling
+Ability: ThrummingX 2
+Ability: BeforeThisMovesNegation If Or Or Or 
+ IsALeader CubeInDirectionFromCube North Caster
+ IsALeader CubeInDirectionFromCube East Caster
+ IsALeader CubeInDirectionFromCube South Caster
+ IsALeader CubeInDirectionFromCube West Caster
+NegateX 1
+Text: Can't move while touching a leader End
+Animation: Crumble HP 0 EQUAL 4
+End
+
+CUBE: Rotten_Flesh 10000 10000 10000
+TOKEN
+Ability: ArmorX 20
+Ability: Every10Seconds EveryCubeWhich Not IsNeutral Test TakeXDamage DoubleConstant 1
+Text: Every 10 seconds deal 1 damage to every non neutral cube End
+Ability: PoisonousX 100
+Ability: AfterThisIsCreated IfElse IsEqual Subtraction YOfPosition PositionOfThis StartingMaxWorldY DoubleConstant 35
+  Both Exile 
+  CreateCubeOnPosition CubeConstant Dead_Brain_Mass PositionOfThis
+ Silent RemoveThisAbility
+Text: If this is deep enough replace with Dead_Brain_Mass End
+AiPlacementRule: AiStacking
+End
+
+CUBE: Dead_Brain_Mass 100 100 100
+TOKEN
+Ability: AfterThisDies If Not IsLarger GetCampaignVariable DEAD_BRAIN_MASS 0
+Both ObtainPerk PerkConstant Dead_Brain_Mass ChangeCampaignVariable DEAD_BRAIN_MASS 10
+Text: After this dies gain the Dead_Brain_Mass perk, only happens once per run End
+End

@@ -1,0 +1,1167 @@
+
+PERK: Priest-Dwarf
+BelongsTo: CLASSSPECIES
+Description: Your stone regenerates 6 hp per minute End
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Stone
+GainAbility RegenerationX 6
+RemoveThisAbility
+End
+
+PERK: Wizard-Dwarf
+BelongsTo: CLASSSPECIES
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Stone
+GainAbility ManaStorageX 20
+RemoveThisAbility
+Description: Your stone increases your max mana by 20 until it dies End
+End
+
+PERK: Warrior-Dwarf
+BelongsTo: CLASSSPECIES
+Description: Your stone has a Melee attack End
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Stone
+GainAbility EveryXMeleeY 120 3
+RemoveThisAbility
+End
+
+PERK: Rogue-Dwarf
+BelongsTo: CLASSSPECIES
+Description: Your stone gives you control over its touching positions every 3 minutes, allowing you to place there End
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Stone
+GainAbilityText 
+EveryXMinutes DoubleConstant 3 Both Both Both
+SetPositionPlacability PositionInDirectionFromThis North FactionOfThis
+SetPositionPlacability PositionInDirectionFromThis East FactionOfThis
+SetPositionPlacability PositionInDirectionFromThis South FactionOfThis
+SetPositionPlacability PositionInDirectionFromThis West FactionOfThis
+Every 3 minutes gain control of all touching positions allowing you to place there End
+RemoveThisAbility
+Unique
+End
+
+PERK: Engineer-Dwarf
+BelongsTo: CLASSSPECIES
+Description: At the start of each battle add a copy of the first stone in your hand to your hand, except the copy is an upgrade and costs 10 more End
+Ability: AtTheStartOfTheBattle Both TargetCube TheFirstCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Stone
+ AddCubeToHandOfFactionInfinitly CopyWithAction CopyWithAction Target GainAbility Upgrade Both ChangeManaCost DoubleConstant 10 SetSpriteToCube CubeConstant Upgrade_Stone
+ FactionOfThis 
+RemoveThisAbility
+Unique
+End
+
+PERK: Pyromaniac-Dwarf
+BelongsTo: CLASSSPECIES
+Description: Your stone deals 1 damage to all touching cubes after it takes damage at a 40% chance End
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Stone
+GainAbilityText AfterThisTakesDamage EveryCubeTouchingPosition PositionOfThis
+If X%Chance DoubleConstant 40 TakeXDamage DoubleConstant 1
+ After this takes damage 40% chance this deals 1 damage to all touching cubes End
+RemoveThisAbility
+End
+
+PERK: Chronomancer-Dwarf
+BelongsTo: CLASSSPECIES
+Description: Your stone accelerates a random non leader non stone ally for 1 second every 10 seconds End
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Stone
+GainAbilityText Every10Seconds TargetCube ARandomCubeWhich And IsAllyToCaster Test And Not IsALeader Test Not HasNameOfCube Test Caster
+AccelerateX TimeConstant 60
+Every 10 Seconds this accelerates a random non leader ally with a different name for 1 second End
+RemoveThisAbility
+End
+
+PERK: No_Class-Dwarf
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If CubeHasName Victim Stone
+EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Stone
+GainXExtraHp DoubleConstant 1
+Description: After stone is created every stone in your hand gets 1 extra hp End
+Value: 210
+End
+
+PERK: Priest-Plant
+BelongsTo: CLASSSPECIES
+Ability: EveryXMinutes DoubleConstant 3 EveryCubeWhich IsAllyToCaster Test ChangeMaxHp DoubleConstant 5
+Description: Every 3 minutes every ally gains 5 max hp End
+End
+
+PERK: Wizard-Plant
+BelongsTo: CLASSSPECIES
+Ability: EveryMinute GainXExtraHp Division ManaOfFaction FactionOfThis DoubleConstant 10
+Description: Every minute your starting leader gains extra hp equal to 10% of your \CMANA mana \CN End
+End
+
+PERK: Warrior-Plant
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeDies If And IsAllyToCaster Victim IsEnemyToCaster Culprit 
+ TargetCube ARandomCubeWhich And IsAllyToCaster Test HasAbilityWithName Test EveryXMeleeY
+GainAbility StrengthX 1
+Description: After an ally is killed by an enemy a random ally with a Melee attack gains 1 strength End
+End
+
+PERK: Rogue-Plant
+BelongsTo: CLASSSPECIES
+Ability: EveryXMinutes DoubleConstant 3 EveryCubeWhich And IsAllyToCaster Test IsEnemyToCaster CubeInDirectionFromCube South Test
+Both CreateCubeOnPosition Target PositionInDirectionFromPosition Forwards PositionOfCube Target
+CreateCubeOnPosition Target PositionInDirectionFromPosition Backwards PositionOfCube Target
+Description: Every 3 minutes create a copy of every ally which is above an enemy to either side of itself End
+End
+
+PERK: Engineer-Plant
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated 
+If IsAllyToCaster Victim If Not IsPlaced
+If X%Chance DoubleConstant 20 Cooldown DoubleConstant 1
+TargetCube Victim GainAbility FreeUpgrade
+Description: After an ally is created but not placed there is a 20% chance it becomes an upgrade,
+ except it doesn't consume any mana and won't upgrade neutrals or leaders, cooldown 1 tick End
+End
+
+PERK: Pyromaniac-Plant
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeTakesDamage If IsAllyToCaster Victim TargetCube ARandomAlly TakeXDamage DoubleConstant 0
+Description: After an ally takes damage, another random ally takes 0 damage from your starting leader End
+End
+
+PERK: Chronomancer-Plant
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If CubeHasName Victim Time_Warp TargetCube CubeInDirectionFromCube South Victim 
+GainAbilityText EveryXMinutes DoubleConstant 2 GainAbility GrowthX 1
+ Every 2 minutes this gains 1 growth (gaining 1 extra hp per minute) End
+Description: After a Time_Warp is created the cube below also gains 1 growth every 2 minutes End
+End
+
+PERK: No_Class-Plant
+BelongsTo: CLASSSPECIES
+Ability: RetaliateX 1
+Ability: EveryXMinutes DoubleConstant 3 GainAbility StrengthX 1
+AbilityText: Every 3 minutes this gains 1 strength End
+Description: Your starting leader deals 1 damage to cubes damaging it and every 3 minutes it gains 1 Strength End
+Value: 210
+End
+
+PERK: Priest-Crystal
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsPlaced
+SetCaster Victim
+EveryCubeWhich Or IsEqual XOfPosition PositionOfCube Caster XOfPosition PositionOfCube Test
+ IsEqual YOfPosition PositionOfCube Caster YOfPosition PositionOfCube Test
+ HealXDamage DoubleConstant 3
+Description: After an ally is placed it heals every cube in its row or column for 3 hp (including enemies) End
+End
+
+PERK: Wizard-Crystal
+BelongsTo: CLASSSPECIES
+Ability: EveryXSeconds DoubleConstant 2 If Not IsEqual MaxManaOfFaction FactionOfThis
+ Multiplication DoubleConstant 100 RoundedDown Division MaxManaOfFaction FactionOfThis DoubleConstant 100
+ChangeMaxManaOfFaction DoubleConstant 1 FactionOfThis
+Description: Every 2 seconds if your max mana isn't a multiple of 100 gain 1 max mana End
+End
+
+PERK: Warrior-Crystal
+BelongsTo: CLASSSPECIES
+Ability: BeforeACubeTakesDamage If And IsAllyToCaster Culprit HasAbilityWithName Culprit EveryXMeleeY 
+EveryCubeTouchingPosition PositionOfCube Culprit If IsAllyToCaster Target
+NegateX DoubleConstant -1
+Description: Allies with melee deal 1 more damage for every ally touching them End
+End
+
+PERK: Rogue-Crystal
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsLarger HpOfCube Victim DoubleConstant 0
+EveryCubeWhich And IsEnemyToCaster Test IsEqual XOfPosition PositionOfCube Victim XOfPosition PositionOfCube Test
+TargetCube Victim GainXExtraHp DoubleConstant 2
+Description: Created allies with more than 0 hp also gain 2 extra hp for every enemy in their column End
+End
+
+PERK: Engineer-Crystal
+BelongsTo: CLASSSPECIES
+Ability: BeforeACubeTakesDamage If IsAllyToCaster Victim If Not IsSmaller HpOfCube Victim MaxHpOfCube Victim 
+NegateX Division EventAmount DoubleConstant 2
+Description: Before an ally with full hp takes damage negate half that damage End
+End
+
+PERK: Pyromaniac-Crystal
+BelongsTo: CLASSSPECIES
+Ability: BeforeACubeTakesDamage If And IsAllyToCaster Victim IsAllyToCaster Culprit NegateX Division EventAmount DoubleConstant 2
+Description: Allies take half damage from other allies End
+End
+
+PERK: Chronomancer-Crystal
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim Silent TargetCube Victim GainAbilityText
+EveryXMinutes DoubleConstant 10 Both Both RemoveThisAbility Exile CreateCubeOnPosition Caster PositionOfThis
+After 10 minutes exile this and create a copy of this in its place, (then lose this ability and immediately gain it) End
+Description: After an ally is created it gains: After 10 minutes exile this and create a copy of this here End
+Unique
+End
+
+PERK: No_Class-Crystal
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim
+EveryCubeTouchingPosition PositionOfCube Victim 
+If IsAllyToCaster Target If Not HasAbilityWithName Target Flickering
+If IsLarger HpOfCube Target DoubleConstant 0 SetCaster Target Both Both
+GainAbility Flickering
+Exile CreateCubeOnPosition Caster PositionOfCube Caster
+Description: After an ally is created each touching ally with more than 0 hp exiles itself and creates a copy of itself in its place, it can't be affected by this for 10 seconds End
+Value: 210
+End
+
+PERK: Priest-Elemental
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeHeals If IsAllyToCaster Victim Secret XTimes DoubleConstant 10 TargetCube ARandomCubeWhich IsNeutral Test 
+Both ChangeMaxHp EventAmount Silent HealXDamage EventAmount
+Description: After an ally is healed ten random neutral cubes gain max hp and are (without triggering anything) healed the same amount End
+End
+
+PERK: Wizard-Elemental
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If CubeHasName Victim Concentrate
+SetStorage NeutralCopy Victim
+SetStorage CombinationOf2Cubes Storage Storage
+CreateCubeOnPosition Storage PositionInDirectionFromPosition North PositionOfCube Victim
+Description: After concentrate is created create a doubled neutral copy above it End
+Unique
+End
+
+PERK: Warrior-Elemental
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeTakesDamage If IsNeutral Victim If IsEnemyToCaster Culprit
+TargetCube Culprit TakeXDamage DoubleConstant 1
+Description: After a neutral cube takes damage by an enemy your starting leader deals 1 damage to that enemy End
+End
+
+PERK: Rogue-Elemental
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeDies If IsNeutral Victim SetPositionPlacability PositionOfCube Victim FactionOfThis
+Description: After a neutral cube dies you are allowed to place on its position End
+Unique
+End
+
+PERK: Engineer-Elemental
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If IsNeutral Victim 
+If IsNeutral Culprit TargetCube Victim SetFaction FactionOfThis
+Description: After a neutral cube creates a neutral cube convert the creation to your faction End
+Unique
+End
+
+PERK: Pyromaniac-Elemental
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeTakesDamage If IsNeutral Victim EveryXTimes DoubleConstant 40 TargetCube ARandomEnemy TakeXDamage DoubleConstant 3
+Description: Every 40 times neutral cubes take damage your starting leader deals 2 damage to a random enemy End
+End
+
+PERK: Chronomancer-Elemental
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsPlaced TargetCube CubeInDirectionFromCube South Victim 
+If CubeHasName Victim Time_Warp If IsEnemyToCaster Target
+SetFaction DoubleConstant 0
+Description: Placing a Time_Warp above an enemy sets its faction to neutral End
+Unique
+End
+
+PERK: No_Class-Elemental
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeDies If IsNeutral Victim
+CreateCubeOnPosition CopyWithAction Victim
+ Both SetFaction DoubleConstant 1
+  RemoveAbilityWithName Elemental_Attuned
+ PositionOfCube Victim
+Description: After a neutral cube dies create an allied copy of itself without attuned in its place (which likely then also dies) End
+Value: 210
+End
+
+PERK: Priest-Shadow
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If CubeHasName Victim Solid_Shadow TargetCube Victim GainAbility RegenerationX 60
+Description: Solid_Shadow regenerates 1 hp every second End
+End
+
+PERK: Wizard-Shadow
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If Not IsEnemyToCaster Victim TargetCube Victim 
+XTimes AmountOfCubesWhich CubeHasName Test Solid_Shadow
+If X%Chance DoubleConstant 1 GainAbility StrengthX 1
+Description: After a neutral or ally is created it has a 1% chance to gain 1 strength for every Solid_Shadow cube End
+End
+
+PERK: Warrior-Shadow
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated Both If CubeHasName Victim Solid_Shadow TargetCube Victim GainAbility EveryXMeleeY 70 1
+If CubeHasName Victim Warriors_Heart TargetCube Victim GainAbilityText
+BeforeThisTakesDamage If CubeHasName Culprit Solid_Shadow NegateX EventAmount
+Before this takes damage from solid shadow negate that damage End
+Description: Solid_Shadow cubes have a melee attack and the warriors heart takes no damage from them End
+End
+
+PERK: Rogue-Shadow
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeDies If CubeHasName Victim Solid_Shadow TargetCube Victim 
+SetPositionPlacability PositionOfCube Victim FactionOfThis
+Description: After a Solid_Shadow cube dies you can now place in its position End
+Unique
+End
+
+PERK: Engineer-Shadow
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If CubeHasName Victim Solid_Shadow If X%Chance DoubleConstant 10
+TargetCube Victim Silent Both Exile
+TargetCube CombinationOf2Cubes Victim CubeInDirectionFromCube North Caster
+Both SetName StringConstant Solid_Shadow
+CreateCubeOnPosition Target PositionOfCube Victim
+Description: After a Solid_Shadow cube is created, 10% chance it's silently replaced, with a combination of it and the cube above your starting leader, except the combination is just called Solid_Shadow End
+End
+
+PERK: Pyromaniac-Shadow
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If CubeHasName Victim Solid_Shadow TargetCube Victim 
+Both GainAbility ExplodesX 5
+GainAbility DieAfterX 1800
+Description: Solid_Shadow cubes die after 30 seconds and explode for 5 damage on death End
+End
+
+PERK: Chronomancer-Shadow
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If CubeHasName Victim Solid_Shadow
+TargetCube Victim AccelerateX DoubleConstant 300
+Description: Solid_Shadow cubes are accelerated for 5 seconds when they are created End
+End
+
+PERK: No_Class-Shadow
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If CubeHasName Victim Solid_Shadow TargetCube Victim 
+Both GainXExtraHp DoubleConstant 10
+Both GainAbility RandomMovementX 120
+Both GainAbilityText BeforeThisDealsDamage If Not IsEqual FactionOfCube Victim DoubleConstant 1 NegateX Minus EventAmount
+ Deals double damage to non player cubes End
+GainAbility Flying
+Description: All Solid_Shadow cubes have 10 extra hp, can fly, move around randomly and deal double damage to non player cubes End
+Value: 210
+End
+
+PERK: Priest-Chaos
+BelongsTo: CLASSSPECIES
+Ability: BeforeACubeIsAddedToYourHand TargetCube Victim GainAbility RegenerationX 5
+Description: Before a cube is added to your hand it gains 5 Regeneration, healing 5 hp per minute End
+End
+
+PERK: Wizard-Chaos
+BelongsTo: CLASSSPECIES
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Concentrate
+GainAbilityText AfterThisIsCreated AddCubeToHandOfFaction ARandomCubeInLibraryWhich And Not IsAlreadyInHandOfFaction Test FactionOfThis Not IsToken Test FactionOfThis 
+After this is created add a random cube from the library to your hand which isn't already in your hand End
+RemoveThisAbility
+Description: Concentrate adds 1 use of a random cube from the library to your hand which isn't already in your hand End
+End
+
+PERK: Warrior-Chaos
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeTakesDamage If IsAlly Culprit If Not IsSmaller EventAmount DoubleConstant 5
+TargetCube Culprit Both GainARandomBonus GainAbility StrengthX -1
+Description: After an ally deals 5 or more damage at once it gains a random bonus and -1 Strength End
+End
+
+PERK: Rogue-Chaos
+BelongsTo: CLASSSPECIES
+Ability: EveryXMinutes DoubleConstant 2 AddCubeToHandOfThis CopyWithAction FreeCopy ARandomCubeWhich And IsEnemyToCaster Test Not IsALeader Test
+SetFaction FactionOfThis
+Description: Every 2 minutes add a copy of a random non leader enemy to your hand, except it costs 0 and it's your faction End
+End
+
+PERK: Engineer-Chaos
+BelongsTo: CLASSSPECIES
+Ability: BeforeACubeIsAddedToYourHand TargetCube Victim GainAbility Upgrade
+Description: Cubes which are added to your hand are also upgrades End
+End
+
+PERK: Pyromaniac-Chaos
+BelongsTo: CLASSSPECIES
+Ability: BeforeACubeGainsAnAbility If IsAllyToCaster Victim TargetCube Victim GainAbility ExplodesX 3
+Description: Before an ally gains an ability it also gains explodes 3 End
+End
+
+PERK: Chronomancer-Chaos
+BelongsTo: CLASSSPECIES
+Ability: BeforeACubeIsAddedToYourHand EveryCubeInHandOfFactionWhich FactionOfThis 
+Not HasNameOfCube Test Victim AccelerateX TimeConstant 60
+Description: Before a cube is added to your hand, every differently named cube in your hand is accelerated by 1 second End
+End
+
+PERK: No_Class-Chaos
+BelongsTo: CLASSSPECIES
+Ability: EveryMinute TargetCube CombinationOf2Cubes 
+ARandomCubeInLibraryWhich Not IsToken Test
+ARandomCubeInLibraryWhich Not IsToken Test
+Both ChangeManaCost Division ManaCostOfCube Target DoubleConstant -2
+AddCubeToHandOfThis Target
+Description: Every minute add a random cube to your hand which is a combination of 2 random cubes from the library but only costs half as much End
+Value: 210
+End
+
+PERK: Priest-Undead
+BelongsTo: CLASSSPECIES
+Ability: Every30Seconds TargetCube ARandomCubeWhich And IsAllyToCaster Test HasAbilityWithName Test Undead RemoveAbilityWithName Undead
+Description: Every 30 seconds remove undead from a random ally with it End
+End
+
+PERK: Wizard-Undead
+BelongsTo: CLASSSPECIES
+Ability: BeforeACubeDies If IsAllyToCaster Victim If IsEqual HpOfCube Victim DoubleConstant 0
+TargetCube Victim GainXExtraHp DoubleConstant 1
+Description: Before an ally with 0 hp dies give it 1 extra hp (it can now resurrect)  End
+End
+
+PERK: Warrior-Undead
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If HasAbilityWithName Victim Undead TargetCube Victim
+GainAbility StrengthX 2
+Description: After an ally with undead is created it gains 2 strength, dealing 2 more damage End
+End
+
+PERK: Rogue-Undead
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeDies If IsEnemyToCaster Victim 
+If HasAbilityWithName Victim PoisonX
+If X%Chance DoubleConstant 50
+ TargetCube CopyOfCube Victim
+ Both SetFaction FactionOfThis
+ CreateCubeOnPosition Target PositionOfCube Victim
+Description: After a poisoned enemy dies there is a 50% chance you create an allied copy in its place (it's not healed, but for example could ressurect) End
+End
+
+PERK: Engineer-Undead
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If HasAbilityWithName Victim Upgrade 
+TargetCube CubeInDirectionFromCube South Victim
+RemoveAbilityWithName Undead
+Description: After an ally with upgrade is created the cube below loses undead End
+Unique
+End
+
+PERK: Pyromaniac-Undead
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If HasAbilityWithName Victim Undead TargetCube Victim
+GainAbility ExplodesX 3
+Description: After an ally with undead is created it gains Explodes 3, dealing 3 damage to touching cubes when it dies End
+End
+
+PERK: Chronomancer-Undead
+BelongsTo: CLASSSPECIES
+Ability: BeforeACubeDies If IsAllyToCaster Victim
+TargetCube Victim Both SetHp DoubleConstant 1 AccelerateX DoubleConstant 180
+Description: Before an ally dies set its hp to 1 and 3 seconds instantly happen for it (it still dies) End
+End
+
+PERK: No_Class-Undead
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeDies If IsAllyToCaster Victim If X%Chance DoubleConstant 30 
+SetCaster Victim CreateCubeOnPosition CopyWithAction Victim HealXDamage DoubleConstant 2 
+ PositionOfCube Victim
+Description: After an ally dies there is still a 30% chance it creates itself again and heals for 2 hp End
+Value: 210
+End
+
+PERK: Priest-No_Species
+BelongsTo: CLASSSPECIES
+Ability: BeforeACubeHeals If IsAllyToCaster Victim NegateX Minus EventAmount
+Description: Healing on allies is doubled End
+Value: 210
+End
+
+PERK: Wizard-No_Species
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If CubeHasName Victim Concentrate
+CreateCubeOnPosition Victim PositionInDirectionFromPosition North PositionOfCube Victim
+Description: After a concentrate is created create a copy above it End
+Value: 210
+End
+
+PERK: Warrior-No_Species
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeTakesDamage If IsAllyToCaster Culprit TargetCube Culprit AccelerateX DoubleConstant 120
+Description: After an ally deals damage 2 second instantly happens for that ally End
+Value: 210
+End
+
+PERK: Rogue-No_Species
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeTakesDamage If IsEnemyToCaster Victim If IsAllyToCaster Culprit SetPositionPlacability PositionOfCube Victim FactionOfThis
+Description: After allies deal damage to an enemy you can place in the position of that enemy (once it's not blocked by an enemy) End
+Unique
+Value: 210
+End
+
+PERK: Engineer-No_Species
+BelongsTo: CLASSSPECIES
+Ability: BeforeManaIsGenerated If IsAllyToCaster Victim If IsSmaller EventAmount DoubleConstant 0
+IfElse IsSmaller EventAmount DoubleConstant -31 NegateX DoubleConstant -30
+NegateX Subtraction EventAmount DoubleConstant -1
+Description: If an ally would generate negative \CMANA mana \CN reduce it by 30 to at most -1 End
+Unique
+Value: 210
+End
+
+PERK: Pyromaniac-No_Species
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeDies SetCaster Victim EveryCubeTouchingPosition PositionOfCube Victim  TakeXDamage DoubleConstant 1
+Description: After a cube dies it deals 1 damage to touching cubes End
+Value: 210
+End
+
+PERK: Chronomancer-No_Species
+BelongsTo: CLASSSPECIES
+Ability: EveryXMinutes DoubleConstant 4 AddCubeToHandOfThis FreeCopy CubeConstant Major_Time_Warp
+Description: Every 4 minutes add a free Major_Time_Warp to your hand which warps for 2 minutes End
+Value: 210
+End
+
+PERK: No_Class-No_Species
+BelongsTo: CLASSSPECIES
+Ability: Every2Seconds GenerateXMana DoubleConstant 1
+ExtraTrigger: BeforeACubeTakesDamage If IsAllyToCaster Victim
+If IsType Excessmana
+NegateX EventAmount
+Description: Every 2 seconds gain 1 additional \CMANA mana \CN \B , negate all damage from excess mana to allies End
+Value: 320
+End
+
+PERK: Priest-Devourer
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeHeals If IsAllyToCaster Culprit TargetCube Victim GainAbility InfestedX 1
+Description: After an ally heals a cube that cube gains 1 infested End
+End
+
+PERK: Wizard-Devourer
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If CubeHasName Victim Concentrate
+TargetCube Victim GainAbilityText AfterACubeIsCreated TargetCube Victim GainAbility InfestedX 6
+ After a cube is created it gains 6 infested End
+Description: Concentrate also makes all created cubes gain 6 infested End
+End
+
+PERK: Warrior-Devourer
+BelongsTo: CLASSSPECIES
+Ability: AfterThisDealsDamage TargetCube Victim GainAbility InfestedX 10
+Description: After a cube is damaged by your starting leader it gains 10 infested End
+End
+
+PERK: Rogue-Devourer
+BelongsTo: CLASSSPECIES
+Ability: BeforeACubeGainsAnAbility TargetCube Victim Secret GainAbility InfestedX 1
+Description: After a cube gains an ability it gains 1 infested (this includes poison and infested) End
+End
+
+PERK: Engineer-Devourer
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If HasAbilityWithName Victim Upgrade If IsPlaced TargetCube Victim GainAbility InfestedX 10
+Description: After an upgrade is placed it gains 10 infested End
+End
+
+PERK: Pyromaniac-Devourer
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeTakesDamage If IsAllyToCaster Victim If IsLarger EventAmount DoubleConstant 0 TargetCube Victim GainAbility InfestedX 1
+Description: After an ally takes more than 0 damage it gains 1 infested End
+End
+
+PERK: Chronomancer-Devourer
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If IsPlaced
+If CubeHasName Victim Time_Warp TargetCube CubeInDirectionFromCube South Victim
+If HasAbilityWithName Target InfestedX GainAbility InfestedX 10
+Description: Placing a Time_Warp above an infested cube adds 10 infested End
+End
+
+PERK: No_Class-Devourer
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsEnemyToCaster Culprit TargetCube Victim
+Both GainAllAbilitiesOfCube Culprit RemoveAbilityWithName InfestedX
+Description: After an ally is created by an enemy the ally gains all abilities of the enemy, then loses all infested End
+End
+
+PERK: Cryomancer-Dwarf
+BelongsTo: CLASSSPECIES
+Ability: AtTheStartOfTheBattle EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Stone
+GainAbility FrozenX 60
+ExtraTrigger: BeforeACubeTakesDamage If IsAllyToCaster Victim If HasAbilityWithName Victim FrozenX NegateX DoubleConstant 1
+Description: Your stone starts 1 minute frozen, frozen allies take -1 damage End
+End
+
+PERK: Cryomancer-Plant
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeLosesAnAbility If IsAllyToCaster Victim If Not IsALeader Victim
+TargetCube ARandomCubeInLibraryWhich HasNameOfCube Test Victim
+If Not IsSmaller HpOfCube Victim DoubleConstant 1
+If Not IsSmaller HpOfCube Victim Multiplication DoubleConstant 2 HpOfCube Target
+SetCaster Victim TargetCube Victim Both ChangeHp Division HpOfCube Victim DoubleConstant -2
+CreateCubeOnPosition Caster PositionInDirectionFromPosition North PositionOfThis
+Description: After a non leader ally loses an ability, if it has at least twice base hp (min 1), it loses half to replicate upwards End
+Unique
+End
+
+PERK: Cryomancer-Crystal
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If Not IsPlaced TargetCube Victim SwapWithPosition
+PositionOfCube ARandomCubeWhich And And IsAllyToCaster Test HasNameOfCube Test Target IsSmaller HpOfCube Test HpOfCube Target
+Description: After an ally is created but not placed it swaps position with another random ally with the same name but less hp End
+Unique
+End
+
+PERK: Cryomancer-Devourer
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeLosesAnAbility TargetCube Victim GainAbility InfestedX 5
+Description: After a cube loses an ability it gains 5 infested End
+End
+
+PERK: Cryomancer-Shadow
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeTakesDamage If CubeHasName Culprit Solid_Shadow SetCaster Culprit TargetCube Victim GainAbility FrozenX 2
+Description: After a cube is damaged by a Solid_Shadow it's also frozen for 2 seconds End
+End
+
+PERK: Cryomancer-Chaos
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeLosesAnAbility If IsAllyToCaster Victim If Not IsALeader Victim TargetCube Victim GainARandomBonus
+Description: After a non leader ally loses an ability it gains a random bonus End
+End
+
+PERK: Cryomancer-Undead
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeDies If HasAbilityWithName Victim FrozenX If Not CubeHasName Victim Zombie CreateCubeOnPosition CopyWithAction CubeConstant Zombie
+GainAbility FrozenX 40 PositionOfCube Victim
+Description: After a frozen non zombie cube dies create a 40 seconds frozen zombie in its place End
+End
+
+PERK: Cryomancer-No_Species
+BelongsTo: CLASSSPECIES
+Ability: BeforeACubeGainsAnAbility If IsAllyToCaster Culprit If X%Chance DoubleConstant 50 NegateX DoubleConstant -1
+Description: Before an ally grants a cube an ability, 50% chance to apply that ability an additional time (this includes energy) End
+Value: 210
+End
+
+PERK: Cryomancer-Elemental
+BelongsTo: CLASSSPECIES
+Ability: EverySecond EveryCubeWhich And IsNeutral Test HasAbilityWithName Test FrozenX
+Secret Both HealXDamage DoubleConstant 1 GainAbility FrozenX 1
+Description: Every second every frozen neutral cube gains 1 frozen and heals 1 hp End
+End
+
+PERK: Priest-Moil
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If CubeHasName Victim Perk_Moil TargetCube Victim
+Both GainAbility RegenerationX 3 GainAbility GrowthX 3
+Description: After a Perk_Moil is created it gains 3 regeneration and 3 growth End
+End
+
+PERK: Warrior-Moil
+BelongsTo: CLASSSPECIES
+Ability: BeforeACubeTakesDamage If CubeHasName Culprit Perk_Moil NegateX DoubleConstant -1
+Description: Your Perk_Moil deal +1 damage End
+End
+
+PERK: Wizard-Moil
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If CubeHasName Victim Perk_Moil TargetCube Victim
+If Not IsSmaller ManaOfFaction FactionOfThis ManaCostOfCube Victim
+Both GenerateXMana Minus ManaCostOfCube Victim
+GainAllAbilitiesOfCube Victim
+Description: After a Perk_Moil is created if you have more mana than it costs lose that much to have it gain its abilities again End
+End
+
+PERK: Rogue-Moil
+BelongsTo: CLASSSPECIES
+Ability: BeforeACubeGainsAnAbility If X%Chance 20 TargetCube Victim Silent GainAffectedAbility
+Description: Before a cube gains an ability 20% chance they gain another copy (without triggering anything) End
+End
+
+PERK: Cryomancer-Moil
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeLosesAnAbility If CubeHasName Victim Perk_Moil TargetCube Victim Both MoveInDirection Forwards ChangeManaCost
+Highest DoubleConstant -5 Subtraction DoubleConstant 10 ManaCostOfCube Victim
+Description: After a Perk_Moil loses an ability move it forwards and reduce its manacost by 5, min 10 End
+End
+
+PERK: Engineer-Moil
+BelongsTo: CLASSSPECIES
+Ability: BeforeACubeIsAddedToYourHand If CubeHasName Victim Perk_Moil TargetCube Victim GainAbility Upgrade
+Description: Perk_Moil added to your hand gain Upgrade End
+Unique
+End
+
+PERK: Pyromaniac-Moil
+BelongsTo: CLASSSPECIES
+Ability: BeforeACubeTakesDamage If CubeHasName Victim Perk_Moil If IsAllyToCaster Culprit NegateX EventAmount
+Description: Before a Perk_Moil takes damage from an ally reduce that damage to 0 End
+Unique
+End
+
+PERK: Chronomancer-Moil
+BelongsTo: CLASSSPECIES
+ObtainAction: LockPerk PerkConstant Chronomancer
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Perk_Moil
+GainAbilityText EveryXSeconds Multiplication DoubleConstant 10 ManaCostOfCube Caster
+ CreateCubeOnPosition Caster PositionInDirectionFromPosition North PositionOfThis
+ Every X seconds this replicates upwards, where X is 10 times the manacost End
+RemoveThisAbility
+Description: Perk_Moil replicate upwards every X seconds where X is 10 times their manacost, lock the chronomancer perk End
+Unique
+End
+
+PERK: No_Class-Moil
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If CubeHasName Victim Perk_Moil TargetCube Victim
+RefundX Division ManaCostOfCube Victim DoubleConstant 2
+Description: After a Perk_Moil is created refund half its cost End
+Value: 210
+End
+
+
+
+SCENARIO: Dwarf_Fragment_Reward
+Info: Choose 1 of 3 dwarf fragment perks End
+End
+PERK_REWARD: 
+OPTIONS: Highest 1 Addition 3 GetCampaignVariable PERKREWARDCHOICES
+SPECIFIC: Trigger:_Ally_Kills_Neutral
+SPECIFIC: Target:_Your_Stone
+SPECIFIC: Trigger:_Stone_Takes_Damage
+End
+SEnd
+
+PERK: Programmer-Dwarf
+BelongsTo: CLASSSPECIES
+ObtainAction: ReadAPartialScenario Dwarf_Fragment_Reward
+Description: Choose one of 3 dwarf perk fragments End
+End
+
+
+SCENARIO: Plant_Fragment_Reward
+Info: Choose 1 of 3 plant fragment perks End
+End
+PERK_REWARD: 
+OPTIONS: Highest 1 Addition 3 GetCampaignVariable PERKREWARDCHOICES
+SPECIFIC: Effect:_Gain_1_Growth
+SPECIFIC: Target:_Victim_Leader_Hp
+SPECIFIC: Target:_Plant_Pot
+End
+SEnd
+
+PERK: Programmer-Plant
+BelongsTo: CLASSSPECIES
+ObtainAction: ReadAPartialScenario Plant_Fragment_Reward
+Description: Choose one of 3 plant perk fragments End
+End
+
+
+SCENARIO: Crystal_Fragment_Reward
+Info: Choose 1 of 3 crystal fragment perks End
+End
+PERK_REWARD: 
+OPTIONS: Highest 1 Addition 3 GetCampaignVariable PERKREWARDCHOICES
+SPECIFIC: Trigger:_First_Damage
+SPECIFIC: Target:_Crystal_Intensity 
+SPECIFIC: Effect:_Gain_Crystal_Hp
+End
+SEnd
+
+PERK: Programmer-Crystal
+BelongsTo: CLASSSPECIES
+ObtainAction: ReadAPartialScenario Crystal_Fragment_Reward
+Description: Choose one of 3 crystal perk fragments End
+End
+
+
+SCENARIO: Devourer_Fragment_Reward
+Info: Choose 1 of 3 devourer fragment perks End
+End
+PERK_REWARD: 
+OPTIONS: Highest 1 Addition 3 GetCampaignVariable PERKREWARDCHOICES
+SPECIFIC: Trigger:_Gain_Ability
+SPECIFIC: Trigger:_Swarm_Created 
+SPECIFIC: Effect:_Gain_1_Infested
+End
+SEnd
+
+PERK: Programmer-Devourer
+BelongsTo: CLASSSPECIES
+ObtainAction: ReadAPartialScenario Devourer_Fragment_Reward
+Description: Choose one of 3 devourer perk fragments End
+End
+
+SCENARIO: Shadow_Fragment_Reward
+Info: Choose 1 of 3 shadow fragment perks End
+End
+PERK_REWARD: 
+OPTIONS: Highest 1 Addition 3 GetCampaignVariable PERKREWARDCHOICES
+SPECIFIC: Trigger:_Solid_Shadow_Created
+SPECIFIC: Trigger:_Solid_Shadow_Damage
+SPECIFIC: Effect:_Shadow_Afflict
+End
+SEnd
+
+PERK: Programmer-Shadow
+BelongsTo: CLASSSPECIES
+ObtainAction: ReadAPartialScenario Shadow_Fragment_Reward
+Description: Choose one of 3 shadow perk fragments End
+End
+
+SCENARIO: Undead_Fragment_Reward
+Info: Choose 1 of 3 undead fragment perks End
+End
+PERK_REWARD: 
+OPTIONS: Highest 1 Addition 3 GetCampaignVariable PERKREWARDCHOICES
+SPECIFIC: Trigger:_Undead_Created
+SPECIFIC: Trigger:_Ally_Hp_Death
+SPECIFIC: Effect:_Create_Zombie
+End
+SEnd
+
+PERK: Programmer-Undead
+BelongsTo: CLASSSPECIES
+ObtainAction: ReadAPartialScenario Undead_Fragment_Reward
+Description: Choose one of 3 undead perk fragments End
+End
+
+PERK: Programmer-Moil
+BelongsTo: CLASSSPECIES
+ObtainAction: AddCubeToDeck CubeConstant Cube_Slot_Linker
+ObtainAction: ChangeCampaignVariable MOIL_AMOUNT DoubleConstant 1
+RemoveAction: ChangeCampaignVariable MOIL_AMOUNT DoubleConstant -1
+ObtainAction: ObtainPerk PerkConstant Starting_Fragment
+Description: Add a cube to your hand which links a cube ability to a hypothetical inventory perk slot (complicated), +1 moil species effect range, +1 manufactory charges End
+End
+
+SCENARIO: Chaos_Fragment_Reward
+Info: Choose 1 of 3 chaos fragment perks End
+End
+PERK_REWARD: 
+OPTIONS: Highest 1 Addition 3 GetCampaignVariable PERKREWARDCHOICES
+SPECIFIC: Trigger:_Cube_Added_To_Hand
+SPECIFIC: Effect:_Gain_Random_Bonus
+SPECIFIC: Effect:_High_Chaos
+End
+SEnd
+
+PERK: Programmer-Chaos
+BelongsTo: CLASSSPECIES
+ObtainAction: ReadAPartialScenario Chaos_Fragment_Reward
+Description: Choose one of 3 chaos perk fragments End
+End
+
+PERK: Programmer-No_Species
+BelongsTo: CLASSSPECIES
+ObtainAction: ObtainPerk PerkConstant Starting_Fragment
+CampaignAbility: BeforeYouTakeAStep SetCampaignVariable PROGRAMMER_NO_SPECIES_ENABLED 1
+CampaignAbility: AfterYouGainAPerk If Not BattleOngoing If IsEqual 1 GetCampaignVariable PROGRAMMER_NO_SPECIES_ENABLED
+  If And And And And
+  IsLarger ValueOfPerk Target 0
+  Not PerkIsType Target TriggerFragment Not PerkIsType Target TargetFragment 
+  Not PerkIsType Target EffectFragment Not PerkIsType Target ChainFragment
+ Both ChangeCampaignVariable PROGRAMMER_NOSPECIES 1
+  If IsLarger GetCampaignVariable PROGRAMMER_NOSPECIES 1
+   Both ChangeCampaignVariable PROGRAMMER_NOSPECIES -2
+   RandomlyX 4
+    ReadAScenario Random_Trigger_Fragment_Reward
+    ReadAScenario Random_Target_Fragment_Reward
+    ReadAScenario Random_Effect_Fragment_Reward
+    ReadAScenario Random_Chain_Fragment_Reward
+Description: +1 starting fragment. Every 2nd time you get a non fragment perk with value > 0 also get a random perk fragment, starts working only after you have moved a map step and only outside of battles End
+Value: 210
+End
+
+SCENARIO: Elemental_Fragment_Reward
+Info: Choose 1 of 3 elemental fragment perks End
+End
+PERK_REWARD: 
+OPTIONS: Highest 1 Addition 3 GetCampaignVariable PERKREWARDCHOICES
+SPECIFIC: Trigger:_Neutral_Created
+SPECIFIC: Trigger:_Neutral_Damaged
+SPECIFIC: Effect:_Add_Neutral_Copy
+End
+SEnd
+
+PERK: Programmer-Elemental
+BelongsTo: CLASSSPECIES
+ObtainAction: ReadAPartialScenario Elemental_Fragment_Reward
+Description: Choose one of 3 elemental perk fragments End
+End
+
+PERK: Priest-Fungus
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeHeals If IsAllyToCaster Culprit EveryXTimes 10 TargetCube Victim GainAbility MyceliumGrowth
+Description: Every 10th cube healed by an ally also gains mycelium_growth End
+End
+
+PERK: Warrior-Fungus
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeCollides If IsAllyToCaster Culprit If CubeHasName Storage Mycelium Cooldown 60
+TargetCube Victim SwapWithPosition PositionOfCube Storage
+Description: After an ally moves a cube into mycelium the cube and mycelium swap position, cooldown 1 second End
+Unique
+End
+
+PERK: Pyromaniac-Fungus
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeTakesDamage If X%Chance 2 Both TargetCube Victim GainAbility MyceliumGrowth TargetCube Caster HealXDamage 1
+Description: After a cube takes damage 2% chance it gains mycelium_growth and your starting leader heals 1 hp End
+End
+
+PERK: Wizard-Fungus
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If IsAllyToCaster Culprit If IsAllyToCaster Victim 
+ If HasAbilityWithName Culprit StrengthX TargetCube Victim GainAbility StrengthX 1
+Description: After an ally with strength creates an ally the creation also gains 1 strength End
+End
+
+PERK: Rogue-Fungus
+BelongsTo: CLASSSPECIES
+Ability: EveryXMinutes 3 TargetCube ARandomCubeWhich IsEnemyToCaster Test GainAbility MyceliumGrowth
+Description: Every 3 minutes a random enemy gains mycelium_growth End
+End
+
+PERK: Cryomancer-Fungus
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeLosesAnAbility If IsSameString NameOfAbility AffectedAbility StringConstant FrozenX 
+If X%Chance 20 TargetCube Victim GainAbility MyceliumGrowth
+Description: After a cube loses frozen 20% chance it gains mycelium_growth End
+End
+
+PERK: Engineer-Fungus
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If HasAbilityWithName Victim Flying TargetCube Victim 
+ Both RemoveAbilityWithName Flying 
+ Both GainAbility Buoyant
+ GainInspatial
+Description: Created allies with flying lose flying and gains both buoyant and inspatial End
+Unique
+End
+
+PERK: Chronomancer-Fungus
+BelongsTo: CLASSSPECIES
+Ability: EveryXSeconds 5 Both GenerateXMana -3 AccelerateX 180
+Description: Every 5 seconds lose 3 mana and 3 seconds instantly happen for your starting leader End
+End
+
+SCENARIO: Fungus_Fragment_Reward
+Info: Choose 1 of 3 fungus fragment perks End
+End
+PERK_REWARD: 
+OPTIONS: Highest 1 Addition 3 GetCampaignVariable PERKREWARDCHOICES
+SPECIFIC: Trigger:_Mycelium_Created
+SPECIFIC: Trigger:_High_Cost_Ally_Created
+SPECIFIC: Effect:_Apply_Mycelium_Growth
+End
+SEnd
+
+PERK: Programmer-Fungus
+BelongsTo: CLASSSPECIES
+ObtainAction: ReadAPartialScenario Fungus_Fragment_Reward
+Description: Choose one of 3 fungus perk fragments End
+End
+
+PERK: No_Class-Fungus
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If Not IsALeader Victim If Not IsPlaced If IsAllyToCaster Victim SetCaster Victim
+RandomlyX 4
+ CreateCubeOnPosition Caster PositionInDirectionFromPosition North PositionInDirectionFromPosition North PositionOfThis
+ CreateCubeOnPosition Caster PositionInDirectionFromPosition East PositionInDirectionFromPosition East PositionOfThis
+ CreateCubeOnPosition Caster PositionInDirectionFromPosition South PositionInDirectionFromPosition South PositionOfThis
+ CreateCubeOnPosition Caster PositionInDirectionFromPosition West PositionInDirectionFromPosition West PositionOfThis
+Description: After a non leader ally is created but not placed it creates a copy of itself 2 spaces in a random direction End
+Value: 210
+End
+
+
+
+PERK: Roboticist-Dwarf
+BelongsTo: CLASSSPECIES
+Description: Your stone creates a Tiny_Missile above after moving upwards End
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Stone  GainAbilityText 
+ AfterThisMoves If IsSameDirection North EventDirection CreateCubeOnPosition CubeConstant Tiny_Missile PositionInDirectionFromPosition North PositionOfCube Caster
+ After this moves upwards create a Tiny_Missile above End
+RemoveThisAbility
+Unique
+End
+
+PERK: Roboticist-Plant
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeMoves If IsAllyToCaster Victim If X%Chance 3 TargetCube Victim GainXExtraHp 1
+Description: After an ally moves 3% chance it gains 1 extra hp End
+End
+
+PERK: Roboticist-Crystal
+BelongsTo: CLASSSPECIES
+Ability: EveryXSeconds 10 EveryCubeWhich IsAllyToCaster Test 
+Both Both Both Both Both
+SetVariable TEMP DoubleConstant 0
+If IsAllyToCaster CubeInDirectionFromCube North Target ChangeVariable TEMP DoubleConstant 1
+If IsAllyToCaster CubeInDirectionFromCube East Target ChangeVariable TEMP DoubleConstant 1
+If IsAllyToCaster CubeInDirectionFromCube South Target ChangeVariable TEMP DoubleConstant 1
+If IsAllyToCaster CubeInDirectionFromCube West Target ChangeVariable TEMP DoubleConstant 1
+If IsLarger GetVariableOnCube TEMP Target DoubleConstant 1
+ SetCaster Target EveryCubeTouchingPosition PositionOfCube Target If IsEnemyToCaster Target TakeXDamage 5
+Description: Every 10 seconds every ally touching at least 2 other allies deal 5 damage to all touching enemies End
+End
+
+PERK: Roboticist-Shadow
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeDies If HasAbilityWithName Culprit Shadow If IsEnemyToCaster Victim Cooldown 3600 AddCubeToHandOfFaction FreeCopy CopyWithAction Victim
+ Both SetFaction FactionOfThis
+ Both ChangeHp Subtraction MaxHpOfCube Target HpOfCube Target
+  GainAbility RobotPartX 4
+FactionOfThis
+Description: After a cube with shadow kills an enemy add a free, allied, full hp, robotpart copy to your hand. Cooldown 1 minute End
+End
+
+PERK: Roboticist-Devourer
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeMoves If HasAbilityWithName Victim RobotPartX TargetCube Victim If X%Chance 10 GainAbility InfestedX 2
+Description: After a robotpart moves 10% chance it gains 2 infested End
+End
+
+PERK: Roboticist-Undead
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeDies If HasAbilityWithName Victim Undead If X%Chance 20 AddCubeToHandOfFaction FreeCopy CopyWithAction Victim
+ Both ChangeHp Subtraction MaxHpOfCube Target HpOfCube Target
+  GainAbility RobotPartX 4
+FactionOfThis
+Description: After an undead ally dies 20% chance to add a free, full hp, robotpart copy to your hand End
+End
+
+PERK: Roboticist-Moil
+BelongsTo: CLASSSPECIES
+Ability: BeforeACubeIsAddedToYourHand If CubeHasName Victim Perk_Moil TargetCube Victim Both Both
+ GainAbility RobotPartX 4 
+ ChangeManaCost Division ManaCostOfCube Target -2
+ GainAbility Returning
+Description: Before a perk moil is added to your hand give it robotpart, reduce manacost by 50% and it returns to your hand on death End
+End
+
+PERK: Roboticist-Chaos
+BelongsTo: CLASSSPECIES
+Ability: BeforeACubeIsAddedToYourHand TargetCube Victim Both Both
+ GainAbility RobotPartX 4 
+ ChangeManaCost Division ManaCostOfCube Target -2
+ GainAbility Slowed 50
+Description: Before a cube is added to your hand give it robotpart, reduce manacost by 50% and it becomes slowed by 50% End
+End
+
+PERK: Roboticist-Fungus
+BelongsTo: CLASSSPECIES
+Ability: EveryXSeconds 20 EveryCubeWhich HasAbilityWithName Test RobotPartX SetCaster Target EveryCubeTouchingPosition PositionOfThis 
+ If Not IsALeader Target If IsAllyToCaster Target Both GainAbility RobotPartX 0 RemoveAbilityWithName DiagonalAnchor
+Description: Every 20 seconds every robot part grants robotpart to all touching non leader allies and remove diagonal anchoring End
+End
+
+PERK: Roboticist-No_Species
+BelongsTo: CLASSSPECIES
+Ability: AtTheStartOfTheBattle
+ Both GainAllAbilitiesOfCube CubeConstant Robot_Core 
+ Both SetName NameOfCube CubeConstant Robot_Core
+ RemoveThisAbility 
+Ability: AfterThisMoves EveryXTimes 2 GenerateXMana -1
+ObtainAction: RemoveCubeFromInventory CubeConstant Robot_Core
+ObtainAction: AddCubeToInventory CubeConstant Robot_Remote
+ObtainAction: RemoveCubeFromDeck CubeConstant Robot_Core
+Description: At the start of each battle your starting leader gains all abilities and the name of Robot_Core. Lose Robot_Core cube, gain Robot_Remote cube. Lose 1 mana every 2 times your starting leader moves End
+Unique
+Value: 210
+End
+
+PERK: Roboticist-Elemental
+BelongsTo: CLASSSPECIES
+Ability: BeforeACubeTakesDamage If IsNeutral Culprit If HasAbilityWithName Victim RobotPartX NegateX EventAmount
+Description: Neutral cubes deal 0 damage to robotpart cubes End
+Unique
+End
+
+
+
+PERK: Priest-Remnant
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If And IsPlaced IsAllyToCaster Victim TargetCube Victim Both GainAbility RegenerationX 6 GainAbilityText
+ AfterThisMoves Both GainAbility RegenerationX -6 
+  Both If Not IsLarger GetStackingOfAbilityOnCube RegenerationX Caster 0 RemoveAbilityWithName RegenerationX RemoveThisAbility 
+ After this moves gain -6 regeneration and remove this ability End
+Description: After an ally is placed give it regeneration 6 until it moves End
+End
+
+PERK: Warrior-Remnant
+BelongsTo: CLASSSPECIES
+Ability: BeforeACubeTakesDamage If IsAllyToCaster Culprit If HasAbilityWithName Culprit StrengthX NegateX -1
+ObtainAction: Both RemoveCubeFromInventory CubeConstant War_Improvements AddCubeToInventory CubeConstant Strength_Pylon
+Description: Allies with strength deal +1 damage, replace War_Improvements cube with Strength_Pylon End
+End
+
+PERK: Pyromaniac-Remnant
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If IsPlaced If IsAllyToCaster Victim TargetCube Victim GainAbility ExplodesX 1
+Description: Placed allies gain explodes 1 End
+End
+
+PERK: Wizard-Remnant
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim Secret GainAbilityText EveryMinute GenerateXMana 1 
+ Every minute generate 1 mana End
+Description: Created allies gain: "Every minute generate 1 mana" End
+End
+
+PERK: Rogue-Remnant
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim EveryCubeTouchingPosition PositionOfCube Victim If IsEnemyToCaster Target
+SetStorage Target Cooldown 600 TargetCube Victim EveryAbilityOfCubeWhich Storage Not AbilityHasName Test ChargeEveryX GainAbility Target
+Description: Allies created next to an enemy gain all its abilities except charging, Cooldown 10 seconds End
+End
+
+PERK: Cryomancer-Remnant
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If X%Chance 50 TargetCube Victim Both GainAbility Formless GainAbility FrozenX 5
+Description: After an ally is created 50% chance it gains formless and frozen for 5 seconds End
+End
+
+PERK: Engineer-Remnant
+BelongsTo: CLASSSPECIES
+Ability: BeforeACubeGainsAnAbility If IsAllyToCaster Victim If AbilityExists ARandomAbilityOfCubeWhich Victim IsSameString NameOfAbility Test NameOfAbility AffectedAbility
+ If Not AbilityHasName AffectedAbility EnergyX NegateX 1
+Description: Allies can't gain abilities with the same name as an ability they already have, except energy End
+Unique
+Value: -50
+End
+
+PERK: Chronomancer-Remnant
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If And IsAllyToCaster Culprit IsAllyToCaster Victim Both TargetCube Culprit GainAbility DoubleTimeX 2 
+TargetCube Victim GainAbility DoubleTimeX 2
+Description: After a non leader ally creates an ally both gain 2 seconds of double time End
+End
+
+SCENARIO: Remnant_Fragment_Reward
+Info: Choose 1 of 3 remnant fragment perks End
+End
+PERK_REWARD: 
+OPTIONS: Highest 1 Addition 3 GetCampaignVariable PERKREWARDCHOICES
+SPECIFIC: Trigger:_Ally_Creates_Ally
+SPECIFIC: Effect:_Temporary_Unmovable
+SPECIFIC: Target:_Every_Rusty_Cube
+End
+SEnd
+
+PERK: Programmer-Remnant
+BelongsTo: CLASSSPECIES
+ObtainAction: ReadAPartialScenario Remnant_Fragment_Reward
+Description: Choose one of 3 remnant perk fragments End
+End
+
+PERK: Roboticist-Remnant
+BelongsTo: CLASSSPECIES
+Ability: AfterACubeIsCreated If HasAbilityWithName Victim RobotPartX EveryCubeWhich IsEnemyToCaster Test GainAbility TemporaryUnmovable 180
+Description: After you place a cube with robotpart all enemies become unmovable for 3 second End
+Unique
+End
+
+PERK: No_Class-Remnant
+BelongsTo: CLASSSPECIES
+Ability: AtTheStartOfTheBattle EveryCubeInHandOfFactionWhich FactionOfThis HasNameOfCube Test CubeConstant Production_Augment 
+Both GainAbility Addon ChangeManaCost ManaCostOfCube Target
+Description:  At the start of each battle Production_Augment cubes in your hand gains Addon, but costs twice as much End
+Value: 210
+End

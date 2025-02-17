@@ -1,0 +1,531 @@
+All of these perks are of type null and can only be obtained by beeing given to you by a perk/event/scenario
+
+PERK: Betrayal_Of_Spiders
+BelongsTo: NULL
+Value: -100
+Ability: EveryTick If IsSmaller Currency DoubleConstant 0 Lose
+Description: As long as you have debt immediately lose every battle End
+Unique
+End
+
+PERK: Sage's_Blindness
+BelongsTo: NULL
+Value: -50
+CampaignAbility: BeforeACubeIsAddedToInventory Both NegateX DoubleConstant 1
+ChangeStartingMana DoubleConstant 5
+Description: Before a cube would be added to your inventory instead increase your starting mana by 5 End
+Unique
+End
+
+PERK: Lost_Spellbook
+BelongsTo: NULL
+Value: 20
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Lost_Spellbook RemoveThisAbility
+Description: Start each battle with a free Lost_Spellbook cube, which adds a random free 0 hp cube to your hand every 3 minutes End
+End
+
+PERK: Caravan_Security
+BelongsTo: NULL
+Value: 20
+ObtainAction: SetCampaignVariable CARAVAN_COUNTER DoubleConstant 0
+WorldAbility: AfterYouLose LosePerkWithScreen PerkConstant Caravan_Security
+AbilityText: After you lose a battle, lose the caravan security perk End
+WorldAbility: AfterYouWin Both ChangeCampaignVariable CARAVAN_COUNTER DoubleConstant 1
+If IsLarger GetCampaignVariable CARAVAN_COUNTER DoubleConstant 2 Both ChangeCurrency DoubleConstant 100 LosePerkWithScreen PerkConstant Caravan_Security
+Description: When you lose a battle lose this perk, after you win 3 battles gain 100 gold and lose this perk \N
+Battles Won: CVARIABLE CARAVAN_COUNTER End
+Unique
+End
+
+PERK: Wounded
+BelongsTo: NULL
+Value: 0
+WorldAbility: AtTheStartOfTheBattle Both EveryCubeWhich IsAlly Test SetCaster Target TakeXDamage GetCampaignVariable WOUNDS
+Both EveryCubeInHandOfFactionWhich DoubleConstant 1 True SetCaster Target TakeXDamage GetCampaignVariable WOUNDS
+Both ChangeCampaignVariable WOUNDS DoubleConstant -1
+If Not IsLarger GetCampaignVariable WOUNDS DoubleConstant 0 LosePerk PerkConstant Wounded
+RemoveAction: SetCampaignVariable WOUNDS DoubleConstant 0
+Description: At the start of each battle each ally in your hand and on the field deals damage to itself equal the the number of wounds you have, then lose a wound \N
+Wounds: CVARIABLE WOUNDS End
+Unique
+End
+
+PERK: Paranoia
+BelongsTo: NULL
+Value: -50
+WorldAbility: Nothing
+Description: After each battle 1% chance to lose a life End
+End
+
+PERK: Red_Glue
+BelongsTo: NULL
+Value: 50
+Ability: BeforeACubeTakesDamage If IsEnemyToCaster Victim 
+If HasAbilityWithName Culprit Sticky NegateX DoubleConstant -1 
+Description: Sticky cubes deal +1 damage to enemies End
+End
+
+PERK: Mischief_Moil
+BelongsTo: NULL
+Value: 30
+CampaignAbility: AfterYouGainOrLoseCurrency IfElse X%Chance DoubleConstant 50 
+ChangeCurrency DoubleConstant 10
+ChangeCurrency DoubleConstant -5
+Description: After you gain or lose gold 50% chance to gain 10 gold otherwise lose 5 gold End
+End
+
+PERK: Stress
+BelongsTo: NULL
+Value: -30
+WorldAbility: BeforeACubeTakesDamage If Or IsType Excessmana
+IsSameCube Culprit Victim NegateX Multiplication DoubleConstant -9 EventAmount
+Description: All mana burn and self damage is multiplied by 10 End
+End
+
+PERK: Confusion
+BelongsTo: NULL
+Value: -20
+WorldAbility: AfterACubeIsCreated If And IsPlaced IsAlly Victim TargetCube Victim SetCaster Victim If X%Chance DoubleConstant 1
+CreateCubeOnPosition ARandomCubeInLibraryWhich Not IsToken Test PositionInDirectionFromThis North
+Description: After an ally is placed it has a 1% chance to create a random cube from the library above itself End
+End
+
+PERK: Certainty
+BelongsTo: NULL
+Value: 20
+WorldAbility: BeforePercentChance If IsAlly Culprit
+TargetCube Culprit 
+Both Secret ChangeVariable CERTAINTY Division EventAmount DoubleConstant 2
+Both GainAbility ShowCERTAINTY
+Both NegateX EventAmount
+If Not IsSmaller GetVariableOnCube CERTAINTY Culprit DoubleConstant 100 
+Both ChangeVariable CERTAINTY DoubleConstant -100
+NegateX DoubleConstant -100
+Description: Instead of rolling X% chance of ally abilities, that ally gains half X Certainty and succeeds only by consuming 100 Certainty End
+Unique
+End
+
+PERK: Lessons_Of_Pain
+BelongsTo: NULL
+Value: 50
+Ability: AfterACubeTakesDamage If IsAllyToCaster Victim If X%Chance DoubleConstant 20 TargetCube Victim ChangeMaxHp DoubleConstant 1
+Description: After an ally takes damage 20% chance it gains 1 max hp End
+End
+
+PERK: Leftover_Rubble
+BelongsTo: NULL
+Value: 20
+Ability: AtTheStartOfTheBattle Both XTimes DoubleConstant 3 AddCubeToHandOfThis FreeCopy CubeConstant Stone RemoveThisAbility
+Description: At the start of each battle add 3 free Stone to your hand End
+End
+
+PERK: Mold_Farm
+BelongsTo: NULL
+Value: 40
+WorldAbility: AfterYouWin Both ChangeCurrency 30 ObtainPerk PerkConstant Mold_Exchange
+Description: After you win a battle gain 30 gold and the Mold_Exchange perk End
+End
+
+PERK: Tinfoil_Hat
+BelongsTo: NULL
+Value: 30
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich DoubleConstant 1 True GainAbility ArmorX 1 RemoveThisAbility
+Ability: AfterACubeIsCreated If IsPlaced If HasAbilityWithName Victim ArmorX
+TargetCube Victim GainAbility ArmorX -1
+Description: At the start of each battle all cubes in your hand gain 1 armor, after you place a cube it loses 1 armor if it has any End
+End 
+
+PERK: Fusioning
+BelongsTo: NULL
+Value: 70
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfFactionInfinitly CombinationOf2Cubes TheXSlotInHandOfFaction DoubleConstant 0 FactionOfThis
+TheXSlotInHandOfFaction DoubleConstant 1 FactionOfThis FactionOfThis
+RemoveThisAbility
+Description: At the start of each battle add a combination of the cubes in the first two slots of your hand to your hand with infinite uses End
+Unique
+End
+
+PERK: Empty_Bottle
+BelongsTo: Active
+Value: 1
+Ability: Nothing
+Description: does nothing End
+End
+
+PERK: Missing_Reflection
+BelongsTo: NULL
+Value: 20
+CampaignAbility: AfterYouGainAPerk If IsLarger AmountOfPerksInInventoryWhich PerkHasNameOfPerk Target Test DoubleConstant 1
+Both LosePerk Target ObtainPerk ARandomPerkInLibraryWhich And IsEqual ValueOfPerk Target ValueOfPerk Test Not HasPerk Test
+Description: After you gain a duplicate perk, lose it and gain a random perk of the same value End
+Disableable: false
+End
+
+PERK: Cleansed_Water
+BelongsTo: NULL
+Value: 80
+CampaignAbility: AfterYouLoseAPerk If Not IsSmaller ValueOfPerk Target DoubleConstant 0
+If X%Chance DoubleConstant 30 ObtainPerk Target
+Description: After you lose a non curse perk, 30% you immediatly regain it End
+Unique
+End
+
+PERK: Enemy_Blue_Chains
+BelongsTo: NULL
+Value: 20
+WorldAbility: BeforeManaIsGenerated If IsEqual EventFaction DoubleConstant 2 NegateX Division EventAmount DoubleConstant 3
+ExtraTrigger: AFterEndOfTheBattle LosePerkWithScreen PerkConstant Enemy_Blue_Chains
+Description: Enemies generate a third less \CMANA mana \CN , lose this perk after 1 battle End
+Disableable: false
+End
+
+PERK: Blue_Chains
+BelongsTo: NULL
+Value: -20
+WorldAbility: BeforeManaIsGenerated If IsEqual EventFaction DoubleConstant 1 NegateX Division EventAmount DoubleConstant 3
+ExtraTrigger: AfterYouWin ChangeCurrency DoubleConstant 50
+ExtraTrigger: AfterEndOfTheBattle LosePerkWithScreen PerkConstant Blue_Chains
+Description: Allies generate a third less \CMANA mana \CN , lose this perk after 1 battle, if you win gain 50 gold End
+End
+
+PERK: Eternal_Chains
+BelongsTo: NULL
+Value: 10
+WorldAbility: BeforeManaIsGenerated If IsEqual EventFaction DoubleConstant 1 NegateX Division EventAmount DoubleConstant 3
+AbilityText: The players allies generate a third less \CMANA mana \CN End
+CampaignAbility: AfterYouGainOrLoseCurrency If IsLarger EventAmount DoubleConstant 0 ChangeCurrency EventAmount
+Description: Allies generate a third less \CMANA mana \CN \B , after you gain gold gain that much gold again End
+Disableable: false
+End
+
+PERK: Maddening_Carousel
+BelongsTo: NULL
+Value: 0
+WorldAbility: AfterACubeMoves If X%Chance DoubleConstant 5 SetVariable GRAVITY RandomRoundBetweenXtoY DoubleConstant 0 DoubleConstant 3
+ExtraTrigger: AfterYouWin LosePerk PerkConstant Maddening_Carosel
+Description: Every time a cube moves 5% chance to change the direction of gravity to a random direction. After you win a battle lose whatever this classifies as End
+UNUSED
+End
+
+PERK: Spatial_Duplication_Error
+BelongsTo: NULL
+Value: 20
+Ability: AfterACubeMoves If IsAllyToCaster Victim TargetCube Victim GainAbility SpatialDuplicationError
+Description: 5 seconds after an ally moves it tries to create a copy of itself below itself End
+Unique
+UNUSED
+End
+
+PERK: Active_Replibottle
+BelongsTo: Active
+Value: 20
+CampaignAbility: AfterYouLoseAPerk If Not PerkHasNameOfPerk Target PerkConstant Active_Replibottle
+If Not PerkHasNameOfPerk Target PerkConstant Replibottle
+Both LosePerkWithScreen PerkConstant Active_Replibottle
+ObtainPerk Target
+Description: After you lose a non replibottle perk immediately gain a copy of it and lose this perk End
+End
+
+PERK: Honey
+BelongsTo: NULL
+Value: 15
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis True
+GainAbility RegenerationX 1 RemoveThisAbility
+Description: At the start of each battle apply 1 regeneration to every cube in your hand, they heal 1 hp per minute End
+End
+
+PERK: Wrath_Of_Bees
+BelongsTo: NULL
+Value: -10
+WorldAbility: Every2Seconds CreateCubeOnPosition CopyWithAction CubeConstant Bee SetFaction DoubleConstant 2 ARandomRightPosition
+ExtraTrigger: AfterEndOfTheBattle LosePerkWithScreen PerkConstant Wrath_Of_Bees
+Description: Every 2 seconds a 2 damage enemy homing bee projectile is created on a random position on the right side of the battlefield, lose this perk after one battle End
+End
+
+PERK: Bee_Host
+BelongsTo: NULL
+Value: 20
+Ability: EveryXMinutes DoubleConstant 4
+ Both TakeXDamage DoubleConstant 3
+ TargetCube CubeConstant Beeswax
+ Both CreateCubeOnPosition Target PositionInDirectionFromThis North
+ Both CreateCubeOnPosition Target PositionInDirectionFromThis East
+ Both CreateCubeOnPosition Target PositionInDirectionFromThis South
+ CreateCubeOnPosition Target PositionInDirectionFromThis West
+Description: At the start of each battle and every 4 minutes your starting leader takes 3 damage and creates beeswax cubes around itself End
+Ability: AtTheStartOfTheBattle Both
+ Both TakeXDamage DoubleConstant 3
+ TargetCube CubeConstant Beeswax
+ Both CreateCubeOnPosition Target PositionInDirectionFromThis North
+ Both CreateCubeOnPosition Target PositionInDirectionFromThis East
+ Both CreateCubeOnPosition Target PositionInDirectionFromThis South
+ CreateCubeOnPosition Target PositionInDirectionFromThis West
+RemoveThisAbility
+Unique
+End
+
+PERK: Eldritch_Asylum
+BelongsTo: NULL
+Value: 15
+Ability: EveryMinute AddCubeToHandOfThis CopyWithAction ARandomCubeInLibraryWhich HasAbilityWithName Test Eldritch
+ RemoveAbilityWithName Eldritch
+Description: Every minute add a random cube with eldritch to your hand except it loses eldritch End
+End
+
+PERK: Toaster
+BelongsTo: NULL
+Ability: AfterACubeDies If IsEnemyToCaster Victim If IsAllyToCaster Culprit
+CreateCubeOnPosition NeutralCopy CubeConstant Toast
+ PositionInDirectionFromPosition North PositionOfCube Victim
+Description: After an ally kills an enemy create a neutral 6 hp toast above it which moves upwards and heals its killer for 1 hp End
+Unique
+Value: 15
+End
+
+PERK: Free_Win
+BelongsTo: Active
+WorldAbility: BeforeYouLose If IsLarger EventAmount -1 Both Both NegateX 1 LosePerkWithScreen PerkConstant Free_Win Win
+Description: Before you lose a battle, lose one of this perk and win instead End
+Value: 100
+End
+
+PERK: Greed_Demon_Arrival
+BelongsTo: NULL
+Value: -50
+WorldAbility: AtTheStartOfTheBattle Both AddCubeToHandOfFaction CubeConstant Greed_Demon DoubleConstant 2 LosePerkWithScreen PerkConstant Greed_Demon_Arrival
+Description: At the start of the next battle a greed demon is added to the enemy's hand (then lose this perk) End
+End
+
+PERK: Screenshot_Timing
+BelongsTo: NULL
+Value: 10
+Ability: AtTheStartOfTheBattle Both Secret EveryCubeWhich Not HasAbilityWithName Test ChargeEveryX
+ AccelerateX RandomRoundBetweenXtoY DoubleConstant 0 DoubleConstant 600 RemoveThisAbility
+Ability: AfterACubeIsCreated If IsEnemyToCaster Victim Both TargetCube Victim AccelerateX RandomRoundBetweenXtoY DoubleConstant 0 DoubleConstant 300 RemoveThisAbility
+Description: At the start of the battle and after an enemy is created all cubes experience anywhere from 0 to 10 seconds End
+Invisible
+End
+
+PERK: Final_Hour
+BelongsTo: NULL
+Ability: AfterACubeDies If Not IsALeader Victim If Not IsLarger HpOfCube Victim DoubleConstant 0 TargetCube Victim Banish
+Description: After a non leader dies if it has 0 or less hp exile it, exile all cubes with its name from the world, the game's library, your inventory, your deck, in short from everywhere (NEVER SEEN AGAIN) End
+Value: 3000
+End
+
+PERK: T-Shirt
+BelongsTo: NULL
+Ability: AtTheStartOfTheBattle Both RemoveThisAbility SetSpriteToCube
+ CombinationOf2Cubes Caster CubeConstant T-Shirt
+Description: I opened a box and all I got was this T-Shirt End
+Value: 0
+End
+
+PERK: Masons_Designs
+BelongsTo: NULL
+Value: 15
+Ability: AtTheStartOfTheBattle TargetCube TheXSlotInHandOfFaction DoubleConstant 3 FactionOfThis GainXExtraHp DoubleConstant 1
+Description: At the start of the battle the cube in your 4th slot gains 1 extra hp End
+End
+
+PERK: Hired_Mason
+BelongsTo: NULL
+Value: 40
+Ability: Every10Seconds TargetCube ARandomCubeWhich And IsAllyToCaster Test IsSmaller HpOfCube Test DoubleConstant 10 GainXExtraHp DoubleConstant 1
+Description: Every 10 seconds a random ally with less than 10 hp gains 1 extra hp End
+End
+
+PERK: Straight_Line
+BelongsTo: NULL
+Value: 15
+Ability: BeforeACubeTakesDamage If IsAllyToCaster Culprit NegateX Minus Division EventAmount DoubleConstant 10
+Description: Before an ally deals damage increase that damage by 10% (no rounding) End
+End
+
+PERK: Square
+BelongsTo: NULL
+Value: 15
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If Not IsEqual HpOfCube Victim Multiplication DoubleConstant 2 RoundedDown Division HpOfCube Victim DoubleConstant 2
+Secret TargetCube Victim GainXExtraHp DoubleConstant 1
+Description: After an ally is created if its hp is uneven it gains 1 extra hp End
+Unique
+End
+
+PERK: Circle
+BelongsTo: NULL
+Value: 15
+ObtainAction: ChangeCampaignVariable DISTANCESUBTRACTION DoubleConstant 1
+RemoveAction: ChangeCampaignVariable DISTANCESUBTRACTION DoubleConstant -1
+Description: All effects which affect up to X spaces away from a cube affects cubes in an 1 space larger area End
+End
+
+PERK: Spiral
+BelongsTo: NULL
+Value: 15
+CampaignAbility: AfterYouGainAPerk If Not PerkIsUnique Target If X%Chance DoubleConstant 5 ObtainPerk Target
+Description: After you gain a non unique perk 5% chance to gain it again End
+Unique
+End
+
+PERK: Junk
+BelongsTo: NULL
+Value: 15
+Ability: AtTheStartOfTheBattle Both XTimes DoubleConstant 10 AddCubeToHandOfThis FreeCopy CubeConstant Junk
+RemoveThisAbility
+Description: Start each battle with 10 junk cubes End
+End
+
+PERK: Copper_Wire
+BelongsTo: NULL
+Value: 15
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim Secret GainAbility EnergyX 3
+Description: After an ally is created it gains 3 energy End
+End
+
+PERK: Rusted_Plate
+BelongsTo: NULL
+Value: 15
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim Secret Both GainXExtraHp DoubleConstant 1 
+IfElse X%Chance DoubleConstant 10 Nothing SetCaster Victim TakeXDamage DoubleConstant 1
+Description: After an ally is created it gains 1 extra hp and 10% chance it doesn't deal 1 damage to itself End
+End
+
+PERK: Cardboard_Box
+BelongsTo: NULL
+Value: 15
+Ability: AfterACubeIsCreated If IsAllyToCaster Culprit If IsPlaced 1Shot TargetCube Victim 
+RefundX Multiplication DoubleConstant 3 Division ManaCostOfCube Target DoubleConstant 10
+Description: Refund 30% of the manacost of the first cube you place each battle End
+End
+
+PERK: Oil_Can
+BelongsTo: NULL
+Value: 15
+Ability: AfterACubeMoves If IsAllyToCaster Victim If X%Chance DoubleConstant 30 TargetCube Victim SetCaster Victim MoveInDirection EventDirection
+Description: After an ally moves 30% chance it moves again End
+End
+
+PERK: Bubble_Shield
+BelongsTo: NULL
+Value: 15
+Ability: BubbleX 1200
+Description: Before your starting leader takes more than 0 damage negate the damage, cooldown 20 seconds End 
+End
+
+PERK: Festive_Fireworks
+BelongsTo: NULL
+Value: 15
+Ability: EveryMinute EveryCubeWhich IsAllyToCaster Test SetCaster Target CreateCubeOnPosition CopyWithAction CubeConstant Firework SetFaction DoubleConstant 2 ARandomPosition
+Description: Every minute every ally creates a firework enemy in a random position, fireworks explode and are immediately killed by their creator End
+End
+
+PERK: Nasty_Betrayal
+BelongsTo: NULL
+Value: 15
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsAllyToCaster CubeInDirectionFromCube Forwards Victim
+SetCaster Victim TargetCube CubeInDirectionFromCube Forwards Victim
+Both TakeXDamage DoubleConstant 3 HealXDamage DoubleConstant 3
+Description: After an ally is created it deals 3 damage to any ally infront then heals that cube for 3 hp End
+End
+
+PERK: Surprising_Appearance
+BelongsTo: NULL
+Value: 15
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsPlaced If X%Chance DoubleConstant 50
+TargetCube Victim GainAbilityText EverySecond Both RemoveThisAbility Both Exile CreateCubeOnPosition Caster PositionOfCube Caster
+After 1 seconds lose this ability, exile this and create a copy here End
+Description: After an ally is placed 50% chance for it to 1 second later exile itself and create a copy of itself in its place End 
+End
+
+PERK: Death_Monologue
+BelongsTo: NULL
+Value: 15
+Ability: BeforeACubeDies If IsAllyToCaster Victim TargetCube Victim Both SetHp DoubleConstant 10 Both GainAbility Unmovable
+Both GainAbilityText BeforeThisDealsDamage NegateX EventAmount 
+ Before this deals damage reduce that damage to 0 End
+AccelerateX TimeConstant 600
+Description: Before an ally dies its hp is set to 10 and 10 seconds instantly happen for that ally but its damage is reduced to 0 and it can't move (it still dies at the end) End 
+End
+
+PERK: Candle_Throwing
+BelongsTo: NULL
+Ability: Every30Seconds EveryAlly CreateCubeOnPosition CubeConstant Throwing_Candle PositionInDirectionFromPosition Forwards PositionOfCube Target
+Description: Every 30 seconds every ally throws a candle forward End
+Value: 50
+End
+
+PERK: Survival_Management
+BelongsTo: NULL
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim Both GainAbility FoodX 8 GainAbility WaterX 3
+ExtraTrigger: AfterACubeMoves If IsAllyToCaster Culprit TargetCube Victim IfElse IsLarger GetStackingOfAbilityOnCube FoodX Victim DoubleConstant 0
+ Both MoveInDirection EventDirection ChangeAbilityStacking FoodX DoubleConstant -1
+ If IsLarger HpOfCube Victim DoubleConstant 0
+ Both MoveInDirection EventDirection ChangeHp DoubleConstant -1
+ExtraTrigger: BeforeACubeTakesDamage If IsAllyToCaster Culprit TargetCube Culprit IfElse IsLarger GetStackingOfAbilityOnCube WaterX Culprit DoubleConstant 0
+ Both NegateX Minus EventAmount ChangeAbilityStacking WaterX DoubleConstant -1
+ If IsLarger HpOfCube Culprit DoubleConstant 0
+ Both NegateX Minus EventAmount ChangeHp DoubleConstant -1
+Description: Each created ally starts with 8 food and 3 water, allied movement/damage is doubled but consumes 1 food/1 water, consuming hp if unavailable End
+Value: 60
+End
+
+PERK: Cube_Of_Darkness
+BelongsTo: NULL
+Ability: AtTheStartOfTheBattle CreateCubeOnPosition CubeConstant Stygian_Die PositionInDirectionFromPosition North PositionOfThis
+Description: At the start of the battle create a Stygian_Die above your starting leader, every 30 seconds it deals damage equal to its value to the front most enemy then rerolls End
+Value: 40
+End
+
+PERK: Hot_Head
+BelongsTo: NULL
+Ability: AfterACubeIsCreated If And IsAllyToCaster Culprit IsPlaced Both
+  Both TargetCube Victim RefundX Division ManaCostOfCube Target 10
+   ChangeCampaignVariable HEAT DoubleConstant 1
+ If Not IsSmaller GetCampaignVariable HEAT DoubleConstant 3
+  EveryCubeInHandOfFactionWhich FactionOfThis HasNameOfCube Victim Test GainAbility Burning
+ExtraTrigger: Every30Seconds SetCampaignVariable HEAT DoubleConstant 0
+ExtraTrigger: AtTheStartOfTheBattle SetCampaignVariable HEAT DoubleConstant 0
+Description: Reset heat every 30 seconds, after placing a cube refund 10% of cost and gain 1 heat at 3+ heat give cubes with that name in your hand burning \N 
+Current Heat: CVARIABLE HEAT End
+Value: 15
+End
+
+PERK: Splintering_Mind
+BelongsTo: NULL
+Ability: EveryMinute TargetCube ARandomCubeWhich And IsAllyToCaster Test Not IsALeader Test
+Both GainRandomAbilityOfCube Caster
+Both GainAbility LEADER
+GainAbilityText BeforeManaIsGenerated If IsSameCube Caster Culprit NegateX EventAmount
+Before this generates mana reduce it to 0 End
+AbilityText: Every minute a random non leader ally gains a random ability of this, leader and can't generate mana End
+Description: Every minute a random non leader ally gains one of your starting leader's abilities and becomes a leader and can't generate mana End
+Value: 50
+End
+
+PERK: Tear
+BelongsTo: Active
+Value: 30
+ClickAction: If Not BattleOngoing Both LoseThisPerk ReadAScenario Trash_One_Curse
+Description: Click on this outside of battle to lose this and then trash up to one curse of your choice End
+End
+
+PERK: Cracked_Mana_Crystal
+BelongsTo: NULL
+Ability: AtTheStartOfTheBattle Randomly ChangeMaxManaOfFaction 20 FactionOfThis GenerateXMana 20
+Description: At the start of each battle randomly either gain 20 max mana or gain 20 mana End
+Value: 15
+End
+
+PERK: Empty_Water_Bottle
+BelongsTo: NULL
+Value: 5
+WorldAbility: AfterYouWin If HasPerk PerkConstant Empty_Water_Bottle Both LosePerk PerkConstant Empty_Water_Bottle ObtainPerk PerkConstant Water_Bottle
+Description: After you win a battle lose this perk and gain a Water_Bottle End
+End
+
+PERK: Eaten_Medicine
+BelongsTo: NULL
+Value: 10
+Ability: RegenerationX 1
+Description: Your leader starts with 1 Regeneration, healing 1 hp per minute End
+End

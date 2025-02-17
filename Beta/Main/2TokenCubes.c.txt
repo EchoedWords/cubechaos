@@ -1,0 +1,1291 @@
+ALL TOKENS for other Cubes are saved here
+
+CUBE: Laser_Beam 2 1 1
+TOKEN
+Ability: LaserXY 1 0 TakeXDamage DoubleConstant 1
+Visual: Sword 1 0 255 0 0 2
+Ability: Flying
+AiPlacementRule: AiMissile
+End
+
+CUBE: Death_Laser_Beam 40 2 2
+TOKEN
+Ability: LaserXY 1 0 Die
+Visual: Sword 1 0 0 0 0 2
+Ability: Flying
+AiPlacementRule: AiMissile
+End
+
+CUBE: Diagonal_Down_Laser_Beam 4 2 2
+TOKEN
+Ability: LaserXY 1 1 TakeXDamage DoubleConstant 1
+Visual: Sword 1 1 255 0 0 2
+Ability: Flying
+AiPlacementRule: AiMissile
+End
+
+CUBE: Diagonal_Up_Laser_Beam 4 2 2
+TOKEN
+Ability: LaserXY 1 -1 TakeXDamage DoubleConstant 1
+Visual: Sword 1 -1 255 0 0 2
+Ability: Flying
+AiPlacementRule: AiMissile
+End
+
+CUBE: Duality_Laser_Beam 3 1 1
+TOKEN
+Ability: LaserXY 1 0 IfElse IsAllyToCaster Target HealXDamage DoubleConstant 1
+ TakeXDamage DoubleConstant 1 
+Text: \C255 0 0 Laser: \CN Every tick the cube infront will heal 1 hp if it's an ally or take 1 damage otherwise and this dies, if empty replicate in that direction. Before this dies exile this End 
+Visual: Sword 1 0 255 0 0 2
+Visual: Plus 1 0 0 254 33
+Ability: Flying
+AiPlacementRule: Or AiMissile And CubeExists TheFirstCubeInDirectionFromPositionWhich Forwards PositionOfThis True 
+IsAllyToCaster TheFirstCubeInDirectionFromPositionWhich Forwards PositionOfThis True 
+End
+
+CUBE: Healing_Laser_Beam 2 1 1
+TOKEN
+Ability: LaserXY 1 0 HealXDamage DoubleConstant 1
+Visual: Plus 1 0 0 254 33
+Ability: Flying
+AiPlacementRule: And CubeExists TheFirstCubeInDirectionFromPositionWhich Forwards PositionOfThis True 
+IsAllyToCaster TheFirstCubeInDirectionFromPositionWhich Forwards PositionOfThis True 
+End
+
+CUBE: Fallout 3 10 10
+TOKEN
+Ability: EveryXAcidicY 60 1
+Ability: RandomMovementX 60
+Ability: Flying
+Ability: DieAfterX 30000
+AiPlacementRule: AiFrontline
+End
+
+CUBE: Flesh_Ball 1000 1 1
+TOKEN
+End
+
+CUBE: Slime_Droppod 15 4 4
+TOKEN
+Ability: ProjectileX 2
+Ability: OnDeathCreateCube CubeConstant Medium_Warrior_Slime
+Ability: ChargeEveryX 60
+Ability: Flying
+Ability: DieAfterX 1200
+AiPlacementRule: And AiFrontline AiFlying
+End
+
+CUBE: Downward_Lightning 10 3 3
+TOKEN
+Ability: Flying
+Ability: LaserXY 0 1 TakeXDamage DoubleConstant 5
+Visual: Sword 0 1 255 0 0 3
+AiPlacementRule: AiEnemySouth
+End
+
+CUBE: Overgrowth 100 5 5
+TOKEN
+Ability: Every10Seconds RandomlyX 3 
+ CreateCubeOnPosition CubeConstant Overgrowth PositionInDirectionFromThis North
+ CreateCubeOnPosition CubeConstant Overgrowth PositionInDirectionFromThis East
+ CreateCubeOnPosition CubeConstant Overgrowth PositionInDirectionFromThis West
+Text: Every 10 seconds randomly create overgrowth above, infront or behind End
+Visual: Square 1 0 96 96 96
+Visual: Square -1 0 96 96 96
+Visual: Square 0 -1 96 96 96
+Ability: BeforeThisDealsDamage NegateX Division HpOfCube Caster DoubleConstant -10
+Text: Before this deals damage increase that damage by 10% of this cubes hp End
+Ability: EveryXAcidicY 120 0
+Ability: GrowthX 10
+Ability: AlwaysNeutral
+AiPlacementRule: AiFrontline
+End
+
+CUBE: Poisonous_Laser_Beam 10 1 1
+TOKEN
+Ability: LaserXY 1 0 TakeXDamage DoubleConstant 1
+Visual: Sword 1 0 255 0 0 2
+Ability: PoisonousX 2
+Ability: Flying
+AiPlacementRule: AiMissile
+End
+
+CUBE: Brown_Ant 4 1 1
+TOKEN
+Ability: ChargeEveryX 60
+Ability: EveryXMeleeY 60 1
+Ability: DieAfterX 3600
+Ability: Climbing
+AiPlacementAbility: AiWarrior
+End
+
+CUBE: Green_Ant 7 1 1
+TOKEN
+Ability: ChargeEveryX 60
+Ability: EveryXMeleeY 90 1
+Ability: PoisonousX 2
+Ability: DieAfterX 3600
+Ability: Climbing
+AiPlacementAbility: AiWarrior
+End
+
+CUBE: Pink_Ant 10 1 1
+TOKEN
+Ability: ChargeEveryX 30
+Ability: EveryXMeleeY 90 5
+Ability: Eldritch
+Ability: Climbing
+AiPlacementAbility: AiWarrior
+UNUSED
+End
+
+CUBE: Yellow_Ant 6 1 1
+TOKEN
+Ability: ChargeEveryX 10
+Ability: EveryXMeleeY 60 1
+Ability: DieAfterX 600
+Ability: Climbing
+AiPlacementAbility: AiWarrior
+End
+
+CUBE: Red_Ant 6 1 1
+TOKEN
+Ability: ChargeEveryX 60
+Ability: EveryXMeleeY 60 1
+Ability: ExplodesX 1
+Ability: DieAfterX 3600
+Ability: Climbing
+AiPlacementAbility: AiWarrior
+End
+
+CUBE: Rainbow_Ant 7 1 1
+TOKEN
+Ability: ChargeEveryX 60
+Ability: EveryXMeleeY 60 1
+Ability: RandomBonus
+Ability: DieAfterX 3600
+Text: This dies after a minute End
+Ability: Climbing
+AiPlacementAbility: AiWarrior
+End
+
+CUBE: Broken_Eye_Container 20 2 2
+TOKEN
+Ability: AlwaysNeutral
+Ability: EyeXY TimeConstant 60 DoubleConstant 1
+Animation: Blink CLOCK 0 4 0 0.1 0.1 0.7
+AiPlacementRule: AiStacking
+End
+
+CUBE: Rapid_Bullet 1 1 1
+TOKEN
+Ability: ProjectileX 1
+Ability: ChargeEveryX 5
+Ability: Flying
+Ability: DieAfterX 300
+AiPlacementRule: AiMissile
+End
+
+CUBE: Angry_Unleashed_Souls 100 10 10
+TOKEN
+Ability: RetaliateX 10
+Ability: VengeanceX 100
+Ability: EyeXY TimeConstant 12 DoubleConstant 1
+Ability: AlwaysNeutral
+Ability: Flying
+Ability: EverySecond Both MoveInDirection North If Not IsEmptyAbove TakeXDamage DoubleConstant 6
+Text: Every second move north, if there is a cube above deal 6 damage to this End
+Visual: Arrow 0 -1 155 238 255 1
+AiPlacementRule: AiFrontline
+End
+
+CUBE: Mana_Berry 2 5 5
+TOKEN
+UNUSED
+Ability: RegenerationX 10
+Ability: ManaStorageX 30
+Ability: AfterThisDies GenerateXMana DoubleConstant 5
+Text: After this dies generate 5 \CMANA mana \CN End
+AiPlacementRule: And AiBackline AiStacking
+End
+
+CUBE: Scrap_Bullet 3 2 2
+TOKEN
+Ability: ProjectileX 2
+Ability: ChargeEveryX 10
+Ability: EverySecond Randomly MoveInDirection North MoveInDirection South
+Text: Every second randomly either move up or down End
+Visual: Arrow 0 -1 155 238 255 1
+Visual: Arrow 0 1 155 238 255 3
+Ability: Flying
+Ability: DieAfterX 600
+AiPlacementRule: AiMissile
+End
+
+CUBE: Pulling_Projectile 3 1 1
+TOKEN
+Ability: Projectile
+Ability: EveryTick If Not IsPositionEmpty PositionInDirectionFromThis Forwards
+Both Exile
+TargetCube CubeInDirectionFromCube Forwards Caster MoveInDirection Backwards
+Text: Every tick if there is a cube infront, exile this and move it towards this End
+Visual: Arrow 1 0 155 238 255 4
+Ability: ChargeEveryX 20
+Ability: Flying
+Ability: DieAfterX 3600
+AiPlacementRule: AiMissile
+End
+
+CUBE: Growing_Worm_Piece 2 4 4
+TOKEN
+Ability: RetaliateX 1
+Ability: Flying
+Ability: DieAfterX 7200
+AiPlacementRule: And AiDefense AiStacking
+End
+
+CUBE: Orange_Ant 6 1 1
+TOKEN
+Ability: ChargeEveryX 60
+Ability: EveryXMeleeY 60 1
+Ability: VengeanceX 1
+Ability: DieAfterX 3600
+Ability: Climbing
+AiPlacementAbility: AiWarrior
+End
+
+CUBE: Mana_Dimensional_Beast 30 10 10
+TOKEN
+Ability: AfterThisIsCreated Until Not 
+HaveMoreThanXMana DoubleConstant 0
+Both GainARandomBonus GenerateXMana DoubleConstant -10
+RemoveThisAbility
+Text: After this is created generate -10 \CMANA mana \CN and gain a random bonus until you don't have more than 0 \CMANA mana \CN then lose this ability End
+AiPlacementRule: And AiBackline AiStacking
+End
+
+CUBE: Plant_Stem 10 4 4 
+TOKEN
+Ability: RegenerationX 4
+Ability: GrowthX 1
+AiPlacementRule: And AiDefense AiStacking
+End
+
+CUBE: Ant_Laser_Beam 20 1 1
+TOKEN
+Ability: EveryTick CreateCubeOnPosition CubeConstant Brown_Ant PositionInDirectionFromThis North
+Text: Every tick create a Brown_Ant above End
+Visual: Square 0 -1 96 96 96
+Ability: LaserXY 1 0 TakeXDamage DoubleConstant 1
+Visual: Sword 1 0 255 0 0 2
+Ability: Flying
+AiPlacementRule: AiMissile
+End
+
+CUBE: Teleport_Target 0 0 0
+TOKEN
+Ability: AfterThisIsCreated TargetCube ARandomCubeWhich HasAbilityWithName Test TeleportTarget 
+Both TeleportToPosition PositionInDirectionFromThis South
+RemoveAbilityWithName TeleportTarget
+Text: After this is created teleport a random cube with the \C255 0 220 Teleportation Target \CN ability below this and remove \C255 0 220 Teleportation Target \CN End
+Visual: Target 0 1 255 0 220
+AiPlacementRule: AiEmptySouth
+End
+
+CUBE: Evolve_Moil 30 10 10
+TOKEN
+Ability: ChargeEveryX 180
+Ability: EveryXMeleeY 120 3
+Ability: AfterThisIsCreated If IsPlaced Both Both
+ChangeManaCost DoubleConstant 50
+TargetCube ARandomCubeInHandOfFactionWhich FactionOfThis HasNameOfCube Test Caster ChangeManaCost DoubleConstant 50
+RemoveThisAbility
+Text: After this is placed increase the manacost of this and a random cube with the same name in your hand by 50, then remove this ability End
+AiPlacementAbility: AiWarrior
+AiPlacementRule: IsSmaller ManaCostOfCube Caster 20
+End
+
+CUBE: Simple_Ant 4 0 0
+TOKEN
+Ability: ChargeEveryX 60
+Ability: EveryXMeleeY 60 1
+Ability: DieAfterX 3600
+Ability: Climbing
+AiPlacementAbility: AiWarrior
+End
+
+CUBE: Nightmare_Bomb 100 10 10
+TOKEN
+Ability: AlwaysNeutral
+Ability: BeforeThisDies Both EveryCubeInRadiusXAroundTarget DoubleConstant 5 TakeXDamage DoubleConstant 1
+Both CreateAoEParticlesColourRadiusPosition DoubleConstant 16738816 DoubleConstant 5 PositionOfThis
+PlaySound Small_Explosion 
+Text: Before this dies deal 1 damage to every cube at most 5 spaces away from this End
+Visual: Area 5 Mist 255 0 0
+Ability: MiseryX 1
+Ability: PoisonousX 6
+Ability: Shadow
+Ability: OnDeathCreateCube CubeConstant Eldritch_Portal
+Ability: AfterThisIsCreated XTimes 6 MoveInDirection Forwards
+Text: After this is created move forwards 6 times End
+Visual: Arrow 1 0 155 238 255 2
+Visual: Arrow 2 0 155 238 255 2
+Visual: Arrow 3 0 155 238 255 2
+Visual: Arrow 4 0 155 238 255 2
+Visual: Arrow 5 0 155 238 255 2
+Visual: Arrow 6 0 155 238 255 2
+Ability: DieAfterX 3000
+AiPlacementRule: And AiFrontline AiStacking
+End
+
+CUBE: Fragment_Of_Possibility 100 10 10
+TOKEN
+Ability: EverySecond If X%Chance DoubleConstant 50 Both Exile TargetCube CombinationOf2Cubes CubeConstant Fragment_Of_Possibility ARandomCubeInLibraryWhich
+Not IsToken Test
+CreateCubeOnPosition Target PositionOfThis
+Text: Every second 50% chance to replace this with a combination of a Fragment_Of_Possibility and a random cube from the library End
+Ability: AfterThisIsCreated If X%Chance DoubleConstant 10 CreateCubeOnPosition CubeConstant Fragment_Of_Possibility
+PositionInDirectionFromThis North
+Text: After this is created 10% chance to create a Fragment_Of_Possibility above this End
+Visual: Square 0 -1 96 96 96
+Ability: AfterThisIsCreated If IsSmaller ManaOfFaction FactionOfThis DoubleConstant 0 
+GenerateXMana Minus ManaOfFaction FactionOfThis
+Text: After this is created, if your \CMANA mana \CN is negative, generate \CMANA mana \CN up to 0 End
+FlavourText: Anything and Everything until Anihilation End
+Ability: RandomMovementX 30
+Ability: Flying
+AiPlacementRule: True
+End
+
+CUBE: Temporal_Amplifier 100 10 10
+TOKEN
+Ability: EveryXSeconds DoubleConstant 2 Secret EveryCubeWhich IsAllyToCaster Test AccelerateX TimeConstant 60
+Text: Every 2 seconds a second happens for every ally End
+FlavourText: Tick Tick Tock End
+AiPlacementRule: And AiBackline AiStacking
+End
+
+CUBE: Infinite_Stone 100 20 20
+TOKEN
+Ability: OnDeathCreateCube CubeConstant Infinite_Stone
+Ability: DamagePassing
+FlavourText: Everlasting End
+AiPlacementRule: And AiDefense AiStacking
+End
+
+CUBE: Blood_Transfusion 0 0 0
+TOKEN
+Ability: AfterThisIsCreated Both TargetCube CubeInDirectionFromCube South Caster HealXDamage GetEnergy
+TargetCube Caster Exile
+Visual: Plus 0 1 0 254 33
+Text: After this is created heal the cube below equal to the energy on this and exile this End
+Ability: FreePlacement
+AiPlacementRule: And AiAllySouth
+IsSmaller HpOfCube CubeInDirectionFromCube South Caster MaxHpOfCube CubeInDirectionFromCube South Caster
+End
+
+CUBE: Reverse_Engineer 100 0 0
+TOKEN
+Ability: AfterThisIsCreated AddCubeToHandOfFactionInfinitly CopyWithAction CubeInDirectionFromCube South Caster 
+ If Not IsLarger ManaCostOfCube Target DoubleConstant 0 ChangeManaCost Subtraction DoubleConstant 5 ManaCostOfCube Target
+ FactionOfThis
+Visual: Target 0 1 255 255 255
+Text: After this is created add a copy of the cube below to your hand with infinite uses, except its manacost is at least 5 End
+FlavourText: One too many End
+Ability: FreePlacement
+AiPlacementRule: And AiAllySouth
+Not CubeExists ARandomCubeInHandOfFactionWhich EventFaction HasNameOfCube Test CubeInDirectionFromCube South Caster
+End
+
+CUBE: Down_Laser_Beam 2 1 1
+TOKEN
+Ability: LaserXY 0 1 TakeXDamage DoubleConstant 1
+Visual: Sword 0 1 255 0 0 3
+Ability: Flying
+AiPlacementRule: AiEnemySouth
+End
+
+CUBE: Mortar_Projectile 4 1 1
+TOKEN
+Ability: ProjectileX 4
+Ability: Arcing DoubleConstant 180
+Ability: AfterThisIsCreated SetVariable ARCING RandomRoundBetweenXtoY DoubleConstant 17 DoubleConstant 25
+Text: After this is created gain a slightly random amount of arcing momentum End
+Ability: ChargeEveryX 15
+AiPlacementRule: And AiFrontline AiEmptyNorth
+End
+
+CUBE: Blast_Mortar_Projectile 4 1 1
+TOKEN
+Ability: ProjectileX 1
+Ability: AfterThisDies Both EveryCubeInRadiusXAroundTarget DoubleConstant 4 TakeXDamage DoubleConstant 4
+Both CreateAoEParticlesColourRadiusPosition DoubleConstant 16738816 DoubleConstant 4 PositionOfThis
+PlaySound Small_Explosion 
+Text: After this dies deal 4 damage to all cubes at most 4 spaces away from this End
+Visual: Area 4 Mist 255 0 0
+Ability: Arcing DoubleConstant 180
+Ability: AfterThisIsCreated SetVariable ARCING RandomRoundBetweenXtoY DoubleConstant 17 DoubleConstant 25
+Text: After this is created gain a slightly random amount of arcing momentum End
+Ability: ChargeEveryX 15
+AiPlacementRule: And AiFrontline AiEmptyNorth
+End
+
+CUBE: Poisonous_Mortar_Projectile 5 1 1
+TOKEN
+Ability: ProjectileX 3
+Ability: PoisonousX 10
+Ability: Arcing DoubleConstant 180
+Ability: AfterThisIsCreated SetVariable ARCING RandomRoundBetweenXtoY DoubleConstant 17 DoubleConstant 25
+Text: After this is created gain a slightly random amount of arcing momentum End
+Ability: ChargeEveryX 15
+AiPlacementRule: And AiFrontline AiEmptyNorth
+End
+
+CUBE: Key_To_Freedom 100 0 0
+TOKEN
+Ability: AfterThisIsCreated EveryCubeInHandOfFactionWhich FactionOfThis Not HasAbilityWithName Test FreePlacement GainAbility FreePlacement
+Text: After this is created add \C155 238 255 FreePlacement \CN to all cubes in your hand, allowing them to be placed anywhere End
+FlavourText: Everywhere End
+AiPlacementRule: True
+End
+
+CUBE: Plant_Eye 20 3 3
+TOKEN
+Ability: EyeXY TimeConstant 1200 DoubleConstant 1
+Animation: Blink CLOCK 0 4 0 0.1 0.1 0.7
+Ability: GrowthX 1
+AiPlacementRule: And AiBackline AiEmptyNorth
+End
+
+CUBE: Ring_Of_Strength 5 0 0
+TOKEN
+Ability: Enchantment GainAbilityText EveryXMinutes DoubleConstant 2 GainAbility StrengthX 2
+Every 2 minutes this gains \C255 38 0 Strength 2 \CN End
+Ability: Enchantment GainAbilityText AfterThisDies AddCubeToHandOfFaction CubeConstant Ring_Of_Strength FactionOfThis
+After this dies add Ring_Of_Strength to your hand End
+AiPlacementRule: AiAllySouth
+End
+
+CUBE: Ring_Of_Growth 5 0 0
+TOKEN
+Ability: Enchantment GainAbility GrowthX 10 
+Text: \C178 0 255 Enchantment: \CN Apply the following to the cube below, if it isn't a leader: 
+\A GrowthX 10 End
+Ability: Enchantment GainAbilityText AfterThisDies AddCubeToHandOfFaction CubeConstant Ring_Of_Growth FactionOfThis
+After this dies add Ring_Of_Growth to your hand End
+AiPlacementRule: AiAllySouth
+End
+
+CUBE: Ring_Of_Time 5 0 0
+TOKEN
+Ability: Enchantment GainAbilityText EveryXSeconds DoubleConstant 3 AccelerateX TimeConstant 60
+Every 3 seconds an additional second happens for this cube End
+Ability: Enchantment GainAbilityText AfterThisDies AddCubeToHandOfFaction CubeConstant Ring_Of_Time FactionOfThis
+After this dies add Ring_Of_Time to your hand End
+AiPlacementRule: AiAllySouth
+End
+
+CUBE: Ring_Of_Death 5 0 0
+TOKEN
+Ability: Enchantment GainAbilityText EveryXMinutes DoubleConstant 2 GainAbility DeadlyX 1
+Every 2 minutes this gains 1 Deadly, killing the next non leader damaged End
+Ability: Enchantment GainAbilityText AfterThisDies AddCubeToHandOfFaction CubeConstant Ring_Of_Death FactionOfThis
+After this dies add Ring_Of_Death to your hand End
+AiPlacementRule: AiAllySouth
+End
+
+CUBE: Descent_Into_Madness 1 17 31
+TOKEN
+Ability: AfterThisIsCreated EveryCubeInHandOfFactionWhich FactionOfThis Not HasNameOfCube Caster Test
+Both RemoveCubeFromHandOfFaction Target FactionOfThis
+AddCubeToHandOfFactionInfinitly ARandomCubeInLibraryWhich And IsNotInHandOfThis Test
+Not IsToken Test FactionOfThis
+Text: After this is created replace every cube in your hand, not named like this, with random cubes which aren't already in your hand, they have infinite uses End
+Ability: AfterThisIsCreated EveryCubeInHandOfFactionWhich FactionOfThis True
+ChangeManaCost Division ManaCostOfCube Target DoubleConstant -2
+Text: After this is created halve the mana cost of every cube in your hand End
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Time_Of_Ice 0 0 0
+TOKEN
+Ability: AfterThisIsCreated If IsPlaced Both EveryCubeWhich IsEnemyToCaster Test GainAbility FrozenX 5 TargetCube Caster Exile
+Text: After this is placed freeze all enemies for 5 seconds and exile this End
+AiPlacementRule: True
+End
+
+CUBE: Grenade_Projectile 4 1 1
+TOKEN
+Ability: ExplodesX 1
+Ability: Projectile
+Ability: Arcing DoubleConstant 120
+Ability: AfterThisIsCreated SetVariable ARCING RandomRoundBetweenXtoY DoubleConstant 9 DoubleConstant 10
+Text: After this is created gain a slightly random amount of arcing momentum End
+Ability: ChargeEveryX 15
+End
+
+CUBE: Forward_Arrow 3 1 1
+TOKEN
+Ability: ProjectileX 2
+Ability: ChargeEveryX 10
+Ability: Flying
+AiPlacementRule: AiMissile
+End
+
+CUBE: Up_Arrow 3 1 1
+TOKEN
+Ability: ProjectileX 2
+Ability: EveryXTicks DoubleConstant 10 MoveInDirection North
+Text: Every 1/6th of a second move upwards End
+Ability: Flying
+Ability: DieAfterX 600
+End
+
+CUBE: Arcing_Arrow 3 1 1
+TOKEN
+Ability: ProjectileX 2
+Ability: Arcing DoubleConstant 120
+Ability: AfterThisIsCreated SetVariable ARCING RandomRoundBetweenXtoY DoubleConstant 18 DoubleConstant 20
+Text: After this is created gain a slightly random amount of arcing momentum End
+Ability: ChargeEveryX 10
+Ability: Flying
+End
+
+CUBE: Support_Rod 3 5 5
+TOKEN
+Ability: DieAfterX 120
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Safety_Foam 3 1 1
+TOKEN
+Ability: PoisonX 1
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Spider 10 5 5
+TOKEN
+Ability: ChargeEveryX 120
+Ability: EveryXMeleeY 120 1
+Ability: Climbing
+Ability: PoisonousX 2
+AiPlacementAbility: AiWarrior
+End
+
+CUBE: Movement_Inversion 5 5 5
+TOKEN
+Ability: AfterThisIsCreated EveryCubeWhich IsAllyToCaster Test
+GainAbility InvertedMovement
+Text: After this is created every ally gains Inverted Movement which inverts their movement, lasts 1 minute and does not stack End
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Assembling_Gear 50 5 5
+TOKEN 
+Ability: ProjectileX 2
+Ability: CascadeX 20
+Ability: ChargeEveryX 60
+Ability: Buoyant
+AiPlacementAbility: AiWarrior
+End
+
+CUBE: Buried_Artifact 20 10 10
+TOKEN
+Ability: AfterThisDies TargetCube ARandomCubeInLibraryWhich Not IsToken Test
+Both SetFaction DoubleConstant 1
+Both GainXExtraHp DoubleConstant 1
+Both GainAbilityText EveryXSeconds 10 Both ChangeMaxManaOfFaction 1 FactionOfThis GenerateXMana 1 
+ Every 10 seconds gain 1 max mana and 1 mana End
+CreateCubeOnPosition Target PositionOfThis
+Text: After this dies create a random cube here, it's allied to the player, has 1 extra hp and gives 1 max mana and 1 mana every 10 seconds End
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Generated_Cube 20 0 0
+TOKEN
+TYPE Special
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Up_Laser_Beam 2 1 1
+TOKEN
+Ability: LaserXY 0 -1 TakeXDamage DoubleConstant 1
+Visual: Sword 0 -1 255 0 0 1
+Ability: Flying
+End
+
+CUBE: Backwards_Laser_Beam 2 1 1
+TOKEN
+Ability: LaserXY -1 0 TakeXDamage DoubleConstant 1
+Visual: Sword -1 0 255 0 0 4
+Ability: Flying
+End
+
+CUBE: Zero_Size 5 100 100
+TOKEN
+Ability: EverySecond Both Both Both
+ChangeIncomingAdjacency PositionOfThis North PositionInDirectionFromThis North
+ChangeIncomingAdjacency PositionOfThis East PositionInDirectionFromThis East
+ChangeIncomingAdjacency PositionOfThis South PositionInDirectionFromThis South
+ChangeIncomingAdjacency PositionOfThis West PositionInDirectionFromThis West
+ExtraTrigger: AfterThisIsCreated Both Both Both
+ChangeIncomingAdjacency PositionOfThis North PositionInDirectionFromThis North
+ChangeIncomingAdjacency PositionOfThis East PositionInDirectionFromThis East
+ChangeIncomingAdjacency PositionOfThis South PositionInDirectionFromThis South
+ChangeIncomingAdjacency PositionOfThis West PositionInDirectionFromThis West
+Text: After this is created and every second each space adjacent to this becomes adjacent to the space after this one instead End
+Visual: Target 1 0 255 0 220
+Visual: Target -1 0 255 0 220 
+Visual: Target 0 -1 255 0 220 
+Visual: Target 0 1 255 0 220 
+Ability: Quantum
+Ability: Unmovable
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Lucky_Minute 0 20 20
+TOKEN
+Ability: BeforePercentChance If Not IsEnemyToCaster Culprit Silent If Or Or Or 
+X%Chance EventAmount X%Chance EventAmount X%Chance EventAmount X%Chance EventAmount 
+NegateX DoubleConstant -100
+Text: X% chances of non enemies are rolled 4 additional times (only one needs to succeed) End
+Ability: WorthXMore 100
+Ability: DieAfterX 3600
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Lost_Spellbook 40 7 7
+TOKEN
+Ability: EveryXMinutes DoubleConstant 3 AddCubeToHandOfThis FreeCopy ARandomCubeInLibraryWhich 
+ And IsEqual HpOfCube Test DoubleConstant 0 Not IsToken Test
+Text: Every 3 minutes add a random 0hp cube to your hand, except its free End
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Spectral_Remnant 5 0 0
+TOKEN
+Ability: DieAfterX 10800
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Perfect_Minute 0 30 30
+TOKEN
+Ability: BeforePercentChance If Not IsEnemyToCaster Culprit Silent If 
+X%Chance DoubleConstant 90 NegateX DoubleConstant -100
+Text: X% chances of non enemies have a 90% chance to succeed in addition to their normal roll (only one needs to succeed) End
+Ability: WorthXMore 100
+Ability: DieAfterX 3600
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Ring_Of_Shields 5 0 0
+TOKEN
+Ability: Enchantment GainAbilityText EveryXSeconds DoubleConstant 5
+Both CreateCubeOnPosition CubeConstant Shield PositionInDirectionFromPosition North PositionOfThis
+Both CreateCubeOnPosition CubeConstant Shield PositionInDirectionFromPosition East PositionOfThis
+Both CreateCubeOnPosition CubeConstant Shield PositionInDirectionFromPosition South PositionOfThis
+CreateCubeOnPosition CubeConstant Shield PositionInDirectionFromPosition West PositionOfThis
+Every 5 seconds create a shield on every touching position End
+Ability: Enchantment GainAbilityText AfterThisDies AddCubeToHandOfFaction CubeConstant Ring_Of_Shields FactionOfThis
+After this dies add Ring_Of_Shields to your hand End
+AiPlacementRule: AiAllySouth
+End
+
+CUBE: Attacking_Heart 25 15 15
+TOKEN
+Ability: ChargeEveryX 180
+Ability: EveryXMeleeY 120 3
+Ability: Climbing
+AiPlacementRule: AiStacking
+End
+
+CUBE: Summoning_Circle 35 5 5
+TOKEN
+Ability: Summoning_Circle_Combine
+AiPlacementRule: And And AiAllySouth AiAllyInfront AiAllyBehind
+End
+
+CUBE: Blue_Rot 0 2 2
+TOKEN
+Ability: AfterThisIsCreated Both Exile
+TargetCube ARandomAlliedLeader Both GainAbility PoisonX 3
+GenerateXMana Addition DoubleConstant 20 GetStackingOfAbilityOnCube PoisonX Target
+Text: After this is created exile this and give 3 poison to a random allied leader, then generate mana equal to its poison + 20 End
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Time_Pipe 3 2 2
+TOKEN
+Ability: Every10Seconds TargetCube TheFirstCubeInDirectionFromPositionWhich Forwards PositionOfThis Not CubeHasName Test Time_Pipe AccelerateX DoubleConstant 60
+Text: Every 10 seconds accelerate the first non Time_Pipe cube any distance in front of this by one second End
+Animation: Pump CLOCK 0 EQUAL 5
+Ability: EveryTick If Or Not IsAllyToCaster CubeInDirectionFromCube Backwards Caster
+Not IsAllyToCaster CubeInDirectionFromCube Forwards Caster Die
+Text: There must be an ally in front and behind this at all times or this dies End
+Ability: Flying
+AiPlacementRule: And AiAllyInfront AiAllyBehind
+End
+
+CUBE: Peg 10 1 1
+TOKEN
+Ability: AfterThisDies ChangeCurrency DoubleConstant 1
+Text: After this dies gain 1 gold End
+Ability: Flying
+End
+
+CUBE: Golden_Peg 10 1 1
+TOKEN
+Ability: AfterThisDies ChangeCurrency DoubleConstant 10
+Text: After this dies gain 10 gold End
+Ability: Flying
+End
+
+CUBE: Goblin_Ball 30 8 8
+TOKEN
+Ability: Arcing DoubleConstant 30
+Ability: AfterThisCollides Both SetVariable ARCING RandomRoundBetweenXtoY DoubleConstant 5 DoubleConstant 7
+TargetCube Victim If Not IsAllyToCaster Victim TakeXDamage DoubleConstant 1
+Text: After this collides gain a slightly random amount of arcing upward momentum, if it's not an ally also deal 1 damage to it End
+Ability: RoamingX 15
+End
+
+CUBE: Bee 3 1 1
+TOKEN
+Ability: ProjectileX 2
+Ability: HomingX 30
+Ability: RandomMovementX 120
+Ability: Flying
+AiPlacementRule: AiFrontline
+End
+
+CUBE: Star_Gift 3 1 1
+TOKEN
+Ability: EveryXSeconds DoubleConstant 5 Both MoveInDirection North
+If Not PositionExists PositionInDirectionFromPosition North PositionOfThis
+Both Die 
+Randomly GenerateXMana DoubleConstant 3 ChangeMaxManaOfFaction DoubleConstant 3 FactionOfThis
+Text: Every 5 seconds move upwards, if the edge of the map is above die and randomly either generate 3 \CMANA mana \CN or gain 3 max mana End
+Ability: Projectile
+Ability: Flying
+AiPlacementRule: AiEmptyNorth
+End
+
+CUBE: Beeswax 10 4 4
+TOKEN
+Ability: BeesInsideX 3
+Ability: RetaliateX 1
+Ability: RegenerationX 3
+Animation: Crumble HP 0 EQUAL 3
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Chain 3 2 2
+TOKEN
+Ability: Chained
+Ability: EveryTick If Or Not CubeExists CubeInDirectionFromCube South Caster
+Not CubeExists CubeInDirectionFromCube North Caster Die
+Text: There must be a cube above and below this at all times or this dies End
+End
+
+CUBE: Falling_Dagger 3 1 1
+TOKEN
+Ability: ProjectileX 3
+Ability: AfterThisCollides Die
+Text: After this collides with a cube this dies End
+AiPlacementRule: AiEnemySouth
+End
+
+CUBE: Toast 5 6 6
+TOKEN
+Ability: Arcing DoubleConstant 180
+DVariable: ARCING 20
+Ability: AfterThisDies TargetCube Culprit HealXDamage DoubleConstant 1
+Text: After this dies heal the killer for 1 hp End
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Inverted_One 0 0 0
+TOKEN
+UNUSED
+End
+
+CUBE: Sky_Vine 10 4 4
+TOKEN
+Ability: EveryTick If Not Or Not PositionExists PositionInDirectionFromPosition North PositionOfThis IsAllyToCaster CubeInDirectionFromCube North Caster Die
+Text: Must have an ally or the edge of the map above at all times or this dies End
+Ability: Flying
+AiPlacementRule: AiAllyNorth
+End
+
+CUBE: Sky_Vine_Bulb 10 4 4
+TOKEN
+Ability: EveryXSeconds DoubleConstant 30 Both MoveInDirection South
+Both CreateCubeOnPosition CubeConstant Sky_Vine PositionInDirectionFromPosition North PositionOfThis
+GenerateXMana DoubleConstant 1
+Text: Every 30 Seconds move downwards, create a Sky_Vine above and generate 1 mana End
+Ability: EveryTick If Not Or Not PositionExists PositionInDirectionFromPosition North PositionOfThis IsAllyToCaster CubeInDirectionFromCube North Caster Die
+Text: Must have an ally or the edge of the map above at all times or this dies End
+Ability: Flying
+AiPlacementRule: AiAllyNorth
+End
+
+CUBE: Cloud_Bridge 3 1 1
+TOKEN
+Ability: Flying
+Ability: DieAfterX 300
+Animation: Dissipate CLOCK 0 EQUAL 4
+AiPlacementRule: And AiDefense AiStacking
+End
+
+CUBE: Lighthouse_Capstone 10 5 5
+TOKEN
+Ability: EyeXY TimeConstant 3000 DoubleConstant -1
+Animation: Blink CLOCK 0 4 0 0.02 0.02 0.94
+Ability: BeforeThisDealsDamage TargetCube CubeInDirectionFromCube South Caster
+ TargetCube CubeInDirectionFromCube South Target If And IsAllyToCaster Target Not HasAbilityWithName Target EyeXY Both NegateX DoubleConstant -1
+ TargetCube CubeInDirectionFromCube South Target If And IsAllyToCaster Target Not HasAbilityWithName Target EyeXY Both NegateX DoubleConstant -1
+ TargetCube CubeInDirectionFromCube South Target If And IsAllyToCaster Target Not HasAbilityWithName Target EyeXY Both NegateX DoubleConstant -1
+ TargetCube CubeInDirectionFromCube South Target If And IsAllyToCaster Target Not HasAbilityWithName Target EyeXY Both NegateX DoubleConstant -1
+ TargetCube CubeInDirectionFromCube South Target If And IsAllyToCaster Target Not HasAbilityWithName Target EyeXY NegateX DoubleConstant -1
+Text: Before this deals damage increase that damage by 1 for every consecutive non eye ally below this, max 5 End
+AiPlacementRule: And AiAllySouth AiBackline
+End
+
+CUBE: Greed_Demon 70 0 0
+TOKEN
+Ability: AfterThisIsCreated Both Both Both Both
+ SetVariable TEMP DoubleConstant 0
+ ChangeVariable TEMP GetCampaignVariable CUBESININVENTORY
+ EveryPerkInInventoryWhich True TargetCube Caster ChangeVariable TEMP DoubleConstant 1
+ ChangeVariable TEMP RoundedDown Division AbsoluteAmount Currency DoubleConstant 10
+ Both GainXExtraHp GetVariableOnCube TEMP Caster SecretXTimes RoundedDown Division GetVariableOnCube TEMP Caster DoubleConstant 5 GainAbility StrengthX 1
+Text: After this is created gain 1 extra hp for every perk, cube, 10 gold or 10 debt the player has, then gain 1 strength for every 5 hp gained this way End
+Ability: EveryXMeleeY 120 3
+Ability: ChargeEveryX 120
+Ability: AfterThisCollides If IsSameCube Caster Culprit If IsAllyToCaster CubeInDirectionFromCube EventDirection Caster
+TeleportToPosition ARandomPosition 
+Text: After this moves into an ally teleport to a random position End
+Ability: AfterThisDies Both ChangeHp Subtraction MaxHpOfCube Caster HpOfCube Caster
+AddCubeToHandOfFaction Caster DoubleConstant 2
+Text: After this dies add a full hp copy to the AI's hand End
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Fire_Laser_Beam 2 1 1
+TOKEN
+Ability: LaserXY 1 0 TakeXDamage DoubleConstant 1
+Visual: Sword 1 0 255 0 0 2
+Ability: AfterThisDealsDamage TargetCube Victim GainAbility Burning
+Text: After this deals damage this also applies: \A Burning End
+Ability: Flying
+AiPlacementRule: AiMissile
+End
+
+CUBE: Gold_Ore 10 2 2
+TOKEN
+Ability: AfterThisDies ChangeCurrency DoubleConstant 1
+Text: After this dies gain 1 gold End
+Ability: Burrowed
+End
+
+CUBE: Buried_Gold 10 4 4
+TOKEN
+Ability: AfterThisDies ChangeCurrency DoubleConstant 10
+Text: After this dies gain 10 gold End
+Ability: Burrowed
+End
+
+CUBE: Boomerang 10 4 4
+TOKEN
+Animation: Twirl TIME 0 4 15 15 15 15
+Ability: ProjectileX 2
+Ability: AfterThisCollides If IsAllyToCaster Victim Both Die TargetCube Victim GainAbilityText
+ Every20Seconds Both RemoveThisAbility CreateCubeOnPosition CubeConstant Boomerang PositionInDirectionFromPosition Forwards PositionOfThis
+ After 20 seconds lose this ability and create a boomerang infront End
+Text: After this collides with an ally kill this and that ally creates a boomerang infront after 20 seconds End
+Ability: ChargeEveryX 15
+Ability: Flying
+Ability: DieAfterX 180
+Ability: AfterThisDies If IsSameCube Culprit Victim Both RemoveThisAbility CreateCubeOnPosition CopyWithAction Caster
+ Both Both RemoveAbilityWithName ChargeEveryX RemoveAbilityWithName DieAfterX
+ Both GainAbility DieAfterX 600 GainAbilityText 
+  EveryXTicks DoubleConstant 15 MoveInDirection Backwards 
+  4 times per second move backwards End
+ PositionOfThis
+Text: After this dies from itself create a boomerang which moves backwards instead of forwards and doesn't have this ability End
+AiPlacementRule: AiMissile
+End
+
+CUBE: Shrapnel 3 1 1
+TOKEN
+Ability: ProjectileX 1
+Ability: Arcing DoubleConstant 180
+Ability: AfterThisIsCreated SetVariable ARCING RandomRoundBetweenXtoY DoubleConstant 5 DoubleConstant 10
+Text: After this is created gain a slightly random amount of arcing momentum End
+Ability: ChargeEveryX 15
+AiPlacementRule: And AiFrontline AiEmptyNorth
+End
+
+CUBE: Prophecy 10 10 10
+TOKEN
+Ability: Prophecy
+End
+
+CUBE: Debuff_List 0 10 10
+TOKEN
+Ability: ZAP
+Ability: Burning
+Ability: PoisonX 2
+Ability: ArmorX -1
+Ability: Slowed 5
+Ability: FrozenX 1
+Ability: HarrowingPast 1
+End
+
+CUBE: Votikium_Core 5 5 5
+TOKEN
+Ability: EveryXMinutes DoubleConstant 2 Both Exile CreateCubeOnPosition CubeConstant Votikium PositionOfThis
+Text: Every 2 minutes exile this and create a votikium here End
+Animation: Gather CLOCK 0 4 0 0.25 0.25 0.25
+Ability: Flying
+AiPlacementRule: AiBackline
+End
+
+CUBE: Rainbow_Jam 10 3 3
+TOKEN
+Ability: Addon
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Junk 3 3 3
+TOKEN
+Ability: AfterThisIsCreated TakeXDamage RandomRoundBetweenXtoY DoubleConstant 0 DoubleConstant 3
+Text: After this is created randomly deal 0-3 damage to this End
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Caltrops 3 1 1
+TOKEN
+Ability: Fragile
+Ability: AfterACubeCollides If IsSameCube Caster Storage If Not IsAllyToCaster Culprit TargetCube Culprit TakeXDamage DoubleConstant 1
+Text: After an enemy collides into this, deal 1 damage to it End
+AiPlacementRule: AiNeutralSouth
+End
+
+CUBE: Steel_Caltrops 4 4 4
+TOKEN
+Ability: Fragile
+Ability: AfterACubeCollides If IsSameCube Caster Storage If Not IsAllyToCaster Culprit TargetCube Culprit TakeXDamage DoubleConstant 1
+Text: After an enemy collides into this, deal 1 damage to it End
+Ability: ArmorX 1
+AiPlacementRule: AiNeutralSouth
+End
+
+CUBE: Tower_Hat 3 1 1
+TOKEN
+Ability: Fragile
+Ability: Hat
+Ability: Buoyant
+AiPlacementRule: AiAllySouth
+End
+
+CUBE: Flat_Hat 3 1 1
+TOKEN
+Ability: Fragile
+Ability: Hat
+Ability: Buoyant
+End
+
+CUBE: Triangle_Hat 3 1 1
+TOKEN
+Ability: Fragile
+Ability: Hat
+Ability: Buoyant
+AiPlacementRule: AiAllySouth
+End
+
+CUBE: Gold_Hat 3 1 1
+TOKEN
+Ability: Fragile
+Ability: Hat
+Ability: Buoyant
+Ability: Golden
+AiPlacementRule: AiAllySouth
+End
+
+CUBE: Cap_Hat 3 1 1
+TOKEN
+Ability: Fragile
+Ability: Hat
+Ability: Buoyant
+AiPlacementRule: AiAllySouth
+End
+
+CUBE: Paper_Hat 3 1 1
+TOKEN
+Ability: Fragile
+Ability: Hat
+Ability: Buoyant
+AiPlacementRule: AiAllySouth
+End
+
+CUBE: Firework 3 1 1
+TOKEN
+Ability: AfterThisIsCreated Both XTimes DoubleConstant 5 MoveInDirection North SetCaster Culprit Die
+Text: After this is created move upwards 5 times, then the creator kills this End
+Ability: ExplodesX 1
+End
+
+CUBE: Explosive_Glue 3 1 1
+TOKEN
+Ability: ExplodesX 2
+Ability: Sticky
+AiPlacementRule: Or Or Or AiAllySouth AiAllyInfront AiAllyBehind AiAllyNorth
+End
+
+CUBE: Throwing_Candle 3 1 1
+TOKEN
+Ability: AfterThisCollides If Not IsEnemyToCaster Victim If IsLarger EventAmount DoubleConstant 0
+Both Die TargetCube Victim GainAbilityText
+ AfterThisDealsDamage If X%Chance DoubleConstant 25 If Not IsAllyToCaster Victim TargetCube Victim GainAbility Burning
+ \C255 106 0 Candle Infusion: \CN After this deals damage to a non ally 25% chance to apply 1 Burning End
+Text: After colliding with non enemies this dies and grants that cube: \C255 106 0 Candle Infusion: \CN After this deals damage to a non ally 25% chance to apply 1 burning End
+Ability: ProjectileX 1
+Ability: Knockback
+Ability: AfterThisDealsDamage TargetCube Victim GainAbility Burning
+Text: After this deals damage also apply 1 Burning End
+Ability: ChargeEveryX 60
+Ability: Flying
+Ability: DieAfterX 600
+AiPlacementRule: AiMissile
+End
+
+CUBE: Stygian_Die 40 6 6
+TOKEN
+Ability: Every30Seconds EveryCubeWhich IsEnemyToCaster Test 
+ If Not CubeExists ARandomCubeWhich And IsEnemyToCaster Test IsSmaller XOfPosition PositionOfCube Test XOfPosition PositionOfCube Target
+TakeXDamage HpOfCube Caster
+Text: Every 30 seconds deal damage equal to hp to the front most enemies End
+Ability: Every30Seconds ChangeHp Subtraction RandomRoundBetweenXtoY DoubleConstant 1 DoubleConstant 6 HpOfCube Caster 
+ExtraTrigger: AfterThisIsCreated ChangeHp Subtraction RandomRoundBetweenXtoY DoubleConstant 1 DoubleConstant 6 HpOfCube Caster 
+Text: After this is created and every 30 seconds randomize hp between 1 and 6 End
+AiPlacementRule: And AiStacking AiBackline
+Animation: Hp DOUBLE 0 10 0 1 1 1 1 1 1 1 1 1 HpOfCube Caster 6
+End
+
+CUBE: Falling_Star 3 1 1
+TOKEN
+Ability: ProjectileX 0
+Ability: BeforeThisDealsDamage NegateX Minus Division DoubleConstant 2 DoubleConstant 10
+Text: This deal 0.2 more damage End
+Ability: EveryXTicks DoubleConstant 20 MoveInDirection South
+Text: 3 times per second move downwards End
+Ability: Flying
+Ability: AfterThisCollides Die
+Text: After this collides with a cube this dies End
+AiPlacementRule: AiEnemySouth
+End
+
+CUBE: Bulwark 30 60 60
+TOKEN
+Animation: Crumble HP 0 EQUAL 3
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Cough_Bullet 3 1 1
+TOKEN
+Ability: ProjectileX 0
+Ability: PoisonousX 1
+Ability: Arcing DoubleConstant 180
+Ability: AfterThisIsCreated SetVariable ARCING RandomRoundBetweenXtoY DoubleConstant 3 DoubleConstant 12
+Text: After this is created gain a slightly random amount of arcing momentum End
+Ability: ChargeEveryX 30
+AiPlacementRule: And AiFrontline AiEmptyNorth
+End
+
+CUBE: Egg_Timer 20 10 10
+TOKEN
+Ability: EveryXSeconds DoubleConstant 3 TargetCube TheXSlotInHandOfFaction DoubleConstant 2 FactionOfThis AccelerateX TimeConstant 60
+Text: Every 3 seconds the cube in your 3rd hand slot experiences 1 second End
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Forwards_Support 3 1 1
+TOKEN
+Ability: Fragile
+Ability: EveryXSeconds DoubleConstant 20 TargetCube CubeInDirectionFromCube Forwards Caster HealXDamage DoubleConstant 1 
+Text: Every 20 seconds heal any cube infront for 1 hp End
+Visual: Plus 1 0 0 254 33
+End
+
+CUBE: Backwards_Support 3 1 1
+TOKEN
+Ability: Fragile
+Ability: EveryXSeconds DoubleConstant 20 TargetCube CubeInDirectionFromCube Backwards Caster HealXDamage DoubleConstant 1 
+Text: Every 20 seconds heal any cube behind for 1 hp End
+Visual: Plus -1 0 0 254 33
+End
+
+CUBE: Rapid_Down_Bullet 1 1 1
+TOKEN
+Ability: ProjectileX 1
+Ability: DieAfterX 300
+AiPlacementRule: AiEnemySouth
+End
+
+CUBE: Tiny_Turret 3 3 3
+TOKEN
+Ability: EveryXCreateCubeInfront TimeConstant 180 CubeConstant Rapid_Bullet
+Animation: Shoot CLOCK 0 EQUAL 3
+Ability: DieAfterX 540
+Ability: Fragile
+Ability: EveryTick If Not IsAllyToCaster CubeInDirectionFromCube South Caster Die
+Text: There must be an ally below this at all times or this dies End
+AiPlacementRule: And AiStacking AiMissile
+End
+
+CUBE: Big_Turret 8 5 5
+TOKEN
+Ability: EveryXCreateCubeInfront TimeConstant 300 CubeConstant Bullet
+Animation: Shoot CLOCK 0 EQUAL 5
+Ability: EveryTick If Not IsAllyToCaster CubeInDirectionFromCube South Caster Die
+Text: There must be an ally below this at all times or this dies End
+AiPlacementRule: And AiStacking AiMissile
+End
+
+CUBE: T-Shirt 0 0 0
+TOKEN
+End
+
+CUBE: Glitch 50 40 40
+TOKEN
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Barrier 3 5 5
+TOKEN
+Ability: AfterThisDies EveryCubeTouchingPosition PositionOfThis
+If CubeHasName Target Barrier GainAbility DieAfterX 30
+Text: After this dies touching Barrier cubes also die half a second later End
+Ability: Flying
+End
+
+CUBE: Fog 4 6 6
+TOKEN
+Ability: EveryTick EveryXTimesSteady RandomRoundBetweenXtoY 60 10800 Die
+Text: This dies after 1 seconds to 3 minutes (randomized) End
+Ability: Flying
+AiPlacementRule: AiEnemyInfront
+End
+
+CUBE: Geologist 20 30 30
+TOKEN
+Ability: EveryXSeconds 10 TargetCube CubeInDirectionFromCube South Caster
+ If IsEqual FactionOfCube Target 0
+ If IsSmaller GetVariableOnCube GEOLOGIST WorldCube 1
+  Both AddCubeToInventory ARandomCubeInLibraryWhich HasNameOfCube Test Target
+  Both TargetCube WorldCube SetVariable GEOLOGIST 1
+  TargetCube Caster Exile
+Text: After 10 seconds, if the cube below is neutral, add a base copy to your inventory and exile this, this can only happen once per battle End
+Visual: Plus 0 1 250 250 250
+End
+
+CUBE: Diagonal_Backwards_Up_Laser_Beam 4 2 2
+TOKEN
+Ability: LaserXY -1 -1 TakeXDamage DoubleConstant 1
+Visual: Sword -1 -1 255 0 0 4
+Ability: Flying
+End
+
+CUBE: Diagonal_Backwards_Down_Laser_Beam 4 2 2
+TOKEN
+Ability: LaserXY -1 1 TakeXDamage DoubleConstant 1
+Visual: Sword -1 1 255 0 0 4
+Ability: Flying
+End
+
+CUBE: Squizzel 2 15 15
+TOKEN
+Ability: ChargeEveryX 180
+Ability: EveryXMeleeY 120 2
+AiPlacementAbility: AiWarrior
+End
+
+CUBE: Ring_Of_Paper 5 0 0
+TOKEN
+Ability: Enchantment GainAbilityText EveryXMinutes DoubleConstant 3 GainAbility UnfoldingX 1
+Every 3 minutes this gains Unfolding 1, replicating the next time this moves End
+Ability: Enchantment GainAbilityText AfterThisDies AddCubeToHandOfFaction CubeConstant Ring_Of_Paper FactionOfThis
+After this dies add Ring_Of_Paper to your hand End
+AiPlacementRule: AiAllySouth
+End
+
+CUBE: Rerolling_Example 5 0 0
+TOKEN
+Ability: Rerolling
+End
+
+CUBE: CheapRerolling_Example 5 0 0
+TOKEN
+Ability: CheapRerolling
+End
+
+CUBE: Gray_Foam 5 10 10
+TOKEN
+Ability: ExplodesX 1
+Animation: Crumble HP 0 EQUAL 4
+AiPlacementRule: And AiStacking And AiDefense IsLarger YOfPosition PositionOfThis 7
+End
+
+CUBE: Spike_Ball_Projectile 4 1 1
+TOKEN
+Ability: ProjectileX 2
+Ability: Arcing DoubleConstant 60
+Ability: AfterThisIsCreated SetVariable ARCING RandomRoundBetweenXtoY DoubleConstant 6 DoubleConstant 8
+Text: After this is created gain a slightly random amount of arcing momentum End
+Ability: ChargeEveryX 15
+Ability: ExtraLife
+Ability: ExtraLife
+Ability: ExtraLife
+Ability: DieAfterX 300
+AiPlacementRule: And AiFrontline AiEmptyNorth
+End
+
+CUBE: Skewered_Corpse 4 20 20
+TOKEN
+Ability: PoisonX 5
+End
+
+CUBE: Grenade_Bullet 6 3 3
+TOKEN
+Ability: ChargeEveryX 10
+Ability: ProjectileX 2
+Ability: Flying
+Ability: DieAfterX 600
+Ability: OnDeathCreateCube CubeConstant Grenade_Projectile
+AiPlacementRule: And AiStacking AiMissile
+End
+
+CUBE: Green_Worm_Piece 3 4 4
+TOKEN
+Ability: VengeanceX 1
+Ability: DieAfterX 1200
+AiPlacementRule: And AiDefense AiStacking
+End
+
+CUBE: Recycled_Scrambler 7 4 4
+TOKEN
+Ability: ChargeEveryX 120
+Ability: EveryXMeleeY 180 3
+Ability: Climbing
+AiPlacementAbility: AiWarrior
+End
+
+CUBE: Votikium_Upgrade_Core 50 0 0
+TOKEN
+Ability: Flying
+Ability: EveryXMinutes 4 Both Exile CreateCubeOnPosition
+  ARandomCubeInInventoryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Votikium_Upgrade PositionOfThis
+Text: After 4 minutes replace this with a copy of CSVARIABLE Votikium_Upgrade from your inventory End
+End

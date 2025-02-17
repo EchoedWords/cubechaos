@@ -1,0 +1,72 @@
+PERK: Moil
+BelongsTo: SPECIES
+LevelRequirement: 26
+Ability: AtTheStartOfTheBattle Both Both SetVariable MOIL_TEMP GetCampaignVariable MOIL_AMOUNT
+EveryPerkInInventoryWhich IsTestPerkMoilable
+If IsLarger GetVariableOnCube MOIL_TEMP Caster DoubleConstant 0
+ Both ChangeVariable MOIL_TEMP DoubleConstant -1
+  AddCubeToHandOfThis CopyWithAction CubeConstant Perk_Moil Both Both Both Both
+   GainAllAbilitiesOfPerk Target
+   GainXExtraHp RoundedDown Division ValueOfPerk Target 2
+   ChangeManaCost Division ValueOfPerk Target 2
+   SetSpriteToPerk Target
+   SetSpriteToCube CombinationOf2Cubes Target CubeConstant Perk_Moil
+RemoveThisAbility
+Description: At the start of each battle add the first 3 perks in your inventory to your hand as cubes
+(Skips: Unique, Curses, Consumables, Gray Border (Neutral) Perks, and perks with out of battle effects) End
+ObtainAction: If IsSmaller GetCampaignVariable MOIL_AMOUNT DoubleConstant 3 SetCampaignVariable MOIL_AMOUNT DoubleConstant 3
+ObtainAction: AddCubeToInventory CubeConstant Spike_Moil
+ObtainAction: AddCubeToInventory CubeConstant Curious_Moil
+ObtainAction: AddCubeToInventory CubeConstant Manifold
+ObtainAction: DisablePerkAutoSort
+End
+
+PERK: Moil_Dragon_Egg
+BelongsTo: Moil
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Moil_Dragon_Egg RemoveThisAbility
+Description: You start with a free Moil_Dragon_Egg in your hand End
+End
+
+PERK: Murderous_Perks
+BelongsTo: Moil
+Ability: AfterACubeIsCreated If CubeHasName Victim Perk_Moil TargetCube Victim
+GainAbility EveryXMeleeY 60 2
+Description: After a Perk_Moil is created it gains melee, dealing 2 damage every second End
+End
+
+PERK: Continual_Discounts
+BelongsTo: Moil
+Ability: Every10Seconds EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Perk_Moil
+Both GainAbility WorthXMore 1
+ChangeManaCost DoubleConstant -1
+Description: Every 10 seconds reduce the cost of every perk moil in your hand by 1 until placed End
+End
+
+PERK: Re-Engineer
+BelongsTo: Moil
+Ability: EveryXMinutes DoubleConstant 3 EveryCubeTouchingPosition PositionOfThis If IsAllyToCaster Target AddCubeToHandOfThis Target
+AbilityText: Every 3 minutes add a copy of every ally touching this to your hand ("starting leader" is converted to "this") End
+Description: Every 3 minutes add a copy of every ally touching your starting leader to your hand End
+End
+
+PERK: Species_Copy
+BelongsTo: Moil
+ObtainAction: Both ObtainPerk ARandomPerkInInventoryWhich PerkIsType Test SPECIES LosePerk PerkConstant Species_Copy 
+Description: Gain another copy of a random species perk you have, then lose this perk End
+End
+
+PERK: More_Perk_Moils
+BelongsTo: Moil
+ObtainAction: ChangeCampaignVariable MOIL_AMOUNT DoubleConstant 2
+RemoveAction: ChangeCampaignVariable MOIL_AMOUNT DoubleConstant -2
+Description: The Moil Species perk now affects 2 more perks in your inventory End
+End
+
+PERK: Perk_Addon
+BelongsTo: Moil
+Ability: AfterACubeIsCreated If CubeHasName Victim Perk_Moil If IsAllyToCaster CubeInDirectionFromCube South Victim
+TargetCube Victim If Not HasAbilityWithName Victim Addon GainAbility Addon
+Description: After a Perk_Moil is created above an ally give the Perk_Moil \C178 0 255 Addon \CN \B , if it doesn't have it already End
+Unique
+End
+

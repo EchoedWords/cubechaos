@@ -1,0 +1,73 @@
+PERK: Pyromaniac
+BelongsTo: CLASS
+LevelRequirement: 5
+Ability: AfterACubeTakesDamage If Or IsAllyToCaster Victim IsEnemyToCaster Victim EveryXTimes DoubleConstant 7 TargetCube ARandomCubeWhich And IsEnemyToCaster Test IsLarger HpOfCube Test 0
+ TakeXDamage DoubleConstant 1
+Description: Every 7 times allies or enemies take damage, your starting leader deals 1 damage to a random enemy which has hp left End
+ObtainAction: AddCubeToInventory CubeConstant Sabotage_Agent
+ObtainAction: AddCubeToInventory CubeConstant Cauterize
+End
+
+PERK: Explosive_Dragon_Egg
+BelongsTo: Pyromaniac
+Description: You start with a free Explosive_Dragon_Egg in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Explosive_Dragon_Egg RemoveThisAbility
+End
+
+PERK: Matchstick
+BelongsTo: Pyromaniac
+Ability: AfterACubeTakesDamage If IsEnemyToCaster Victim
+If IsLarger EventAmount DoubleConstant 0
+If And Not IsSameCube Culprit Victim Or IsALeader Culprit IsEnemyToCaster Culprit 
+If X%Chance DoubleConstant 50
+TargetCube Victim GainAbility Burning
+Description: After an enemy takes more than 0 damage from another leader or another enemy 50% chance to set it on fire, causing it to deal 1 damage to touching cubes and itself 5 seconds later End
+End
+
+PERK: Safety_Procedures
+BelongsTo: Pyromaniac
+Ability: BeforeThisTakesDamage If Not IsEnemyToCaster Culprit NegateX DoubleConstant 2
+Description: Your starting leader takes 2 less damage from allies and neutral cubes End
+End
+
+PERK: Stronger_Blasts
+BelongsTo: Pyromaniac
+Ability: BeforeACubeDies TargetCube Victim GainAbility StrengthX 2
+Description: Before a cube dies it gains 2 strength increasing its damage by 2 End
+End
+
+PERK: Fiery_Vengeance
+BelongsTo: Pyromaniac
+Ability: AfterACubeDies If IsAllyToCaster Victim If IsLarger ManaCostOfCube Victim DoubleConstant 5 TargetCube ARandomEnemy TakeXDamage DoubleConstant 1
+Description: After an ally dies, if it costs more than 5 \CMANA mana \CN your starting leader deals 1 damage to a random enemy End
+End
+
+PERK: Spreading_Explosion
+BelongsTo: Pyromaniac
+Ability: AfterACubeDies EveryCubeTouchingPosition PositionOfCube Victim 
+If Not HasAbilityWithName Target ExplodesX GainAbility ExplodesX 1
+Description: After a cube dies touching cubes gain 1 explodes if they don't have any, dealing 1 damage to all touching cubes on death End
+Unique
+End
+
+PERK: Last_Betrayal
+BelongsTo: Pyromaniac
+Ability: AfterACubeDies If IsEnemyToCaster Victim If Not IsSameCube Victim Culprit If IsEnemyToCaster Culprit
+EveryCubeTouchingPosition PositionOfCube Victim TakeXDamage DoubleConstant 5
+Description: After an enemy gets killed by another enemy your starting leader deals 5 damage to all cubes touching the victim End
+End
+
+PERK: Chain_Reaction
+BelongsTo: Pyromaniac
+Ability: AfterACubeTakesDamage If X%Chance DoubleConstant 20 TargetCube Victim TakeXDamage DoubleConstant 1
+Description: After a cube takes damage there is a 20% chance for your starting leader to deal 1 damage to that cube End
+End
+
+PERK: Explosive_Decay
+BelongsTo: Pyromaniac
+Ability: AfterACubeDies If IsEnemyToCaster Victim 
+If Not IsEqual PlacabilityOfPosition PositionOfCube Victim FactionOfCube Caster
+If X%Chance DoubleConstant 20 CreateCubeOnPosition CubeConstant Time_Bomb PositionOfCube Victim
+Description: After an enemy dies on the enemy side of the battlefield there is a 20% chance for your starting leader to create a Time_Bomb in its place End
+End
+

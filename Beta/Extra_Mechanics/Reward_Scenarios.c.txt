@@ -1,0 +1,178 @@
+SCENARIO: Class_Species_Selection
+End
+
+CLASS_SELECTION
+
+SEnd
+
+
+SCENARIO: Heal
+Info: Gain 1 life and 10 gold End
+CubeImage: A_Life
+End
+START_ACTION: Both Both GainALife ChangeCurrency 10
+ChangeDifficulty DoubleConstant 1
+SEnd
+
+SCENARIO: Basic_Perk_Reward
+Info: Perk Chest End
+CubeImage: Chest
+End
+PERK_REWARD: 
+OPTIONS: Highest 1 Addition 3 GetCampaignVariable PERKREWARDCHOICES
+VALUE: Addition DoubleConstant 10 GetCampaignVariable CHESTMINVALUEADD
+ Addition DoubleConstant 50 GetCampaignVariable CHESTMAXVALUEADD
+REROLLS: Addition DoubleConstant 1 GetCampaignVariable ADDITIONALREROLLS
+HOWMANY: Addition DoubleConstant 1 GetCampaignVariable ADDITIONALPERKSINCHESTS
+BELONGSTO: IfElse IsLarger GetCampaignVariable CHESTCHAOS DoubleConstant 0 StringConstant All StringConstant Default
+End
+SEnd
+
+SCENARIO: Cursed_Trade
+Info: Get curses and perks in equal measures End
+CubeImage: Cursed_Trade
+End
+CURSED_TRADE: Addition Division DoubleConstant 3 DoubleConstant 10 GetCampaignVariable CURSEDTRADEDOUBLECHANCE
+Addition DoubleConstant 1 GetCampaignVariable ADDITIONALREROLLS
+SEnd
+
+SCENARIO: Forge
+Info: Forge: Upgrade your perks and random cubes End
+CubeImage: Forge
+End
+PERK_SELECTION: 
+TYPE: 0
+COST: Addition Multiplication 40 GetCampaignVariable FORGEDALREADY
+ Addition Minus 40
+  Multiplication 2 Subtraction ValueOfPerk UpgradeOfPerk Target ValueOfPerk Target 
+ACTION: SetCampaignVariable FORGEDALREADY 1
+COSTMULT: 1 
+CUBEUPGRADEAMOUNT: RoundedDown Division AmountOfCubesInInventoryWhich True 2
+CUBECOST: Addition Multiplication 40 GetCampaignVariable FORGEDALREADY
+ Addition Minus 40
+  Multiplication 2 ValueOfPerk Target
+INFO: Spend gold to upgrade perks and random cubes (first each run costs 40 less) End
+End
+SEnd
+
+SCENARIO: NoCube_Forge
+Info: Forge: Upgrade your perks End
+CubeImage: Forge
+End
+PERK_SELECTION: 
+TYPE: 0
+COST: Addition Multiplication 40 GetCampaignVariable FORGEDALREADY
+ Addition Minus 40
+  Multiplication 2 Subtraction ValueOfPerk UpgradeOfPerk Target ValueOfPerk Target 
+ACTION: SetCampaignVariable FORGEDALREADY 1
+COSTMULT: 1 
+INFO: Spend gold to upgrade perks (first each run costs 40 less) End
+End
+SEnd
+
+SCENARIO: Map_Forge
+Info: Forge: Upgrade your perks and random cubes End
+CubeImage: Forge
+End
+START_ACTION: ReadAScenario Forge
+SEnd
+
+SCENARIO: Random_Event
+Info: A random event, it could be (nearly) anything End
+CubeImage: Random_Event
+End
+START_ACTION: Both
+ChangeDifficulty DoubleConstant 1
+ReadARandomEvent
+SEnd
+
+SCENARIO: Shop
+Info: Shop: Buy stuff End
+CubeImage: Shop
+End
+SHOP: 
+
+PERKS: Addition DoubleConstant 2 GetCampaignVariable SHOPADDEDROWS
+DoubleConstant 3
+DoubleConstant 1
+
+CUBES: Addition DoubleConstant 2 GetCampaignVariable SHOPADDEDROWS
+DoubleConstant 1
+DoubleConstant 2
+
+REROLLS: Addition DoubleConstant 1 GetCampaignVariable ADDITIONALREROLLS
+PRICE_ADD: GetCampaignVariable SHOPPRICEADD
+PRICE_MULT: Addition DoubleConstant 1 GetCampaignVariable SHOPPRICEMULT
+PRICE_FLUCTUATION: Addition Division DoubleConstant 1 DoubleConstant 5 GetCampaignVariable SHOPPRICEFLUCTUATION
+MIN_BUY: GetCampaignVariable SHOPMINBUY
+End
+SEnd
+
+SCENARIO: Basic_Curse_Reward
+Info: Choose 1 of 3 curses to gain End
+CubeImage: Curse
+End
+PERK_REWARD: 
+VALUE: -50 -10
+OPTIONS: Highest 1 Addition 3 GetCampaignVariable PERKREWARDCHOICES
+REROLLS: Addition DoubleConstant 1 GetCampaignVariable ADDITIONALREROLLS
+End
+SEnd
+
+SCENARIO: Painfull_Perk_Chest
+Info: Perk Chest, but if you have more than 1 life lose 1 End
+CubeImage: Evil_Chest
+End
+START_ACTION: Both If IsLarger RemainingLives DoubleConstant 1 LoseALife 
+Both ChangeDifficulty DoubleConstant 1
+ReadAScenario Basic_Perk_Reward
+SEnd
+
+SCENARIO: Perk_Chest
+Info: Perk Chest End
+CubeImage: Chest
+End
+START_ACTION: Both ChangeDifficulty DoubleConstant 1
+ReadAScenario Basic_Perk_Reward
+SEnd
+
+SCENARIO: Basic_Cube_Reward
+Info: Cube Chest End
+End
+CUBE_REWARD:
+DoubleConstant 2
+Addition DoubleConstant 3 GetCampaignVariable CUBEREWARDCHOICES
+Addition DoubleConstant 1 GetCampaignVariable ADDITIONALREROLLS
+SEnd
+
+SCENARIO: Rare_Cube_Reward
+Info: Rare Cube Chest End
+End
+CUBE_REWARD: 
+DoubleConstant 1
+Addition DoubleConstant 3 GetCampaignVariable CUBEREWARDCHOICES
+Addition DoubleConstant 1 GetCampaignVariable ADDITIONALREROLLS
+SEnd
+
+SCENARIO: Trash_Positive
+Info: Trash perks with positive value End
+PerkImage: Void
+End
+PERK_SELECTION: 
+TYPE: 2 
+PERKREQ: IsLarger ValueOfPerk Target 0
+BACKOUT: true
+RESULT: TRASH End
+End
+SEnd
+
+SCENARIO: Terrain_Exchange_Reward
+Info: Lose a random terrain perk, choose one of 3 terrain perks to gain End
+End
+PERK_REWARD: 
+BELONGSTO: StringConstant Terrain
+REROLLS: Addition DoubleConstant 1 GetCampaignVariable ADDITIONALREROLLS
+OPTIONS: Highest 1 Addition Addition 3 GetCampaignVariable PERKREWARDCHOICES GetCampaignVariable TERRAINREWARDCHOICES
+End
+START_ACTION: LosePerkWithScreen ARandomPerkInInventoryWhich PerkIsType Test Terrain
+SEnd

@@ -1,0 +1,626 @@
+SCENARIO: Event_Time_Machine
+RANDOMEVENT End
+CHOICE: 
+Time Machine End
+You can only flee through time so often before it gets too crowded End
+PerkImage: Paradox_Clock
+Choice: Sell the future: \C66 180 0 +150 gold, \C255 0 0 Time Loop curse End Both ChangeCurrency DoubleConstant 150 ObtainPerk PerkConstant Curse_Of_The_Time_Loop
+Condition: Not HasPerk PerkConstant Curse_Of_The_Time_Loop
+ReferencePerk: Curse_Of_The_Time_Loop
+Choice: Replicate the present: \C66 180 0 Paradox Clock perk End ObtainPerk PerkConstant Paradox_Clock
+ReferencePerk: Paradox_Clock
+Choice: Return to the past: \C255 0 0 -50 gold, \C66 180 0 return to the start of the first map (difficulty still remains) End Both ChangeCurrency DoubleConstant -50 Both 
+ChangeCampaignVariable MAPSCOMPLETED Minus GetCampaignVariable MAPSCOMPLETED 
+ReadAScenario First_Map
+Choice: Escape the loop: \C66 180 0 remove the time loop curse End LosePerk PerkConstant Curse_Of_The_Time_Loop
+Condition: HasPerk PerkConstant Curse_Of_The_Time_Loop
+Choice: Destabilize time even more:  \C66 180 0 Gain another Tiny Temporal Distortion End ObtainPerk PerkConstant Tiny_Temporal_Distortion
+ReferencePerk: Tiny_Temporal_Distortion
+Condition: Or IsAlreadyInInventory CubeConstant Temporal_Distortion HasPerkOrUpgrade PerkConstant Tiny_Temporal_Distortion
+SEnd
+
+SCENARIO: Event_Ring_Maker
+RANDOMEVENT End
+CHOICE: 
+Ring Maker End
+Previously rings were made for decoration or ceremony, now they bear a different purpose End
+PerkImage: Ring_Of_Strength
+Choice: Help Out: \C66 180 0 +30 gold End ChangeCurrency DoubleConstant 30
+Choice: Buy a common ring: \C255 0 0 -10 gold, \C66 180 0 Ring of Strength Perk End Both ChangeCurrency DoubleConstant -10 ObtainPerk PerkConstant Ring_Of_Strength
+ReferencePerk: Ring_Of_Strength
+Choice: Buy a bunch: \C255 0 0 -100 gold, \C66 180 0 Gain 3 random ring perks End Both ChangeCurrency DoubleConstant -100
+XTimes DoubleConstant 3 Randomly Randomly ObtainPerk PerkConstant Ring_Of_Strength ObtainPerk PerkConstant Ring_Of_Growth
+Randomly ObtainPerk PerkConstant Ring_Of_Time Randomly ObtainPerk PerkConstant Ring_Of_Death ObtainPerk PerkConstant Ring_Of_Shields
+SEnd
+
+SCENARIO: Event_Spider_Queen
+RANDOMEVENT End
+CHOICE: 
+The Spider Queen End
+Whenever something is made from nothing reality notes the debt, the spiders work to find a loophole End
+CubeImage: Spider
+Choice: Gain from nothing: \C66 180 0 +50 gold, absolutely no downside End ChangeCurrency DoubleConstant 50
+Condition: Not HasPerkOrUpgrade PerkConstant Betrayal_Of_Spiders
+Choice: Pray for acceptance: \C66 180 0 Spider_Queens_Goal Perk End ObtainPerk PerkConstant Spider_Queens_Goal
+ReferencePerk: Spider_Queens_Goal
+Condition: Not HasPerkOrUpgrade PerkConstant Betrayal_Of_Spiders
+Choice: Betray: \C66 180 0 +100 gold, \C255 0 0 Gain Perk: If you start a battle in debt lose that battle End Both ChangeCurrency DoubleConstant 100 ObtainPerk PerkConstant Betrayal_Of_Spiders
+ReferencePerk: Betrayal_Of_Spiders
+Condition: Not HasPerkOrUpgrade PerkConstant Betrayal_Of_Spiders
+Choice: The spider laughs in death: \C66 180 0 Choose 1 of 3 perks to gain, \C255 0 0 -50 gold End Both ReadAScenario Basic_Perk_Reward ChangeCurrency DoubleConstant -50
+Condition: HasPerkOrUpgrade PerkConstant Betrayal_Of_Spiders
+SEnd
+
+SCENARIO: Event_Blind_Sage
+RANDOMEVENT End
+CHOICE: 
+A blind sage End
+Here they sit, pondering on all they know trying to reach the answers which may be unreachable. End
+PerkImage: The_Oracle
+Choice: Learn a little: \C66 180 0 Gain 2 random cubes chosen from 3 each time End XTimes DoubleConstant 2 ReadAScenario Basic_Cube_Reward
+Choice: Question their Knowledge: \C66 180 0 Increase your decksize by 4, \C255 0 0 Curse of Forgetfulness End 
+ Both ChangeDeckSize DoubleConstant 4 ObtainPerk PerkConstant Curse_Of_Forgetfulness
+ ReferencePerk: Curse_Of_Forgetfulness 
+Choice: Fill your head: \C66 180 0 Gain 10 random cubes, \C255 0 0 then gain Sage's Blindness End
+ Both XTimes DoubleConstant 10 AddCubeToInventory APRandomCubeInLibraryWhich And Not IsAlreadyInInventory Test Not IsToken Test
+ ObtainPerk PerkConstant Sage's_Blindness
+ ReferencePerk: Sage's_Blindness
+Choice: Discuss_Eldritch: \C120 120 120 They escape from a world strange, different and decaying. \C66 180 0 Gain Eldritch_Asylum. End ObtainPerk PerkConstant Eldritch_Asylum
+ ReferencePerk: Eldritch_Asylum
+ Condition: HasPerkOrUpgrade PerkConstant Eldritch_Help
+SEnd
+
+SCENARIO: Event_Calm_Moment
+RANDOMEVENT End
+CHOICE: 
+A calm moment End
+Nothing to do here but enjoy it End
+PerkImage: Resilient_Leaf
+Choice: Stay a while: \C66 180 0 Encounter this event again End ReadAScenario Event_Calm_Moment
+ Condition: Not HasPerkOrUpgrade PerkConstant The_Divided
+Choice: Go somewhere else: \C66 180 0 Encounter a random event End ReadARandomEvent
+Choice: Simply continue: \C66 180 0 +30 gold End ChangeCurrency DoubleConstant 30
+Choice: Experience sadness: \C66 180 0 Lose a random curse End LosePerkWithScreen ARandomPerkInInventoryWhich 
+ IsSmaller ValueOfPerk Test DoubleConstant 0
+ ReferencePerk: Crying_Chamber
+ Condition: HasPerkOrUpgrade PerkConstant Crying_Chamber
+SEnd
+
+SCENARIO: Event_Mana_Crystal
+RANDOMEVENT End
+CHOICE: 
+Mana crystal End
+Stores and contains mana aka magical energy aka death of thermodynamics End
+CubeImage: Mana_Crystal
+Choice: Smash it: \C66 180 0 Increase your starting mana by 30 End ChangeStartingMana DoubleConstant 30
+Choice: Keep it: \C66 180 0 Increase your starting max mana by 40 End ChangeStartingMaxMana DoubleConstant 40
+Choice: Bottle it: \C66 180 0 Gain a consumable which gives 100 \CMANA mana \C66 180 0 when used End ObtainPerk PerkConstant Bottled_Mana
+ReferencePerk: Bottled_Mana
+SEnd
+
+SCENARIO: Event_Spellbook
+RANDOMEVENT End
+CHOICE: 
+A lost spellbook End
+It lies here lost and unused its face on the floor and its pages dirtied and degraded by time, its owner surely long dead End
+CubeImage: Lost_Spellbook
+Choice: Plagiarize some spells: \C66 180 0 Add 3 random 0 hp cubes to your inventory End
+ XTimes DoubleConstant 3 AddCubeToInventory APRandomCubeInLibraryWhich And IsEqual HpOfCube Test DoubleConstant 0 And Not IsAlreadyInInventory Test Not IsToken Test
+Choice: Take the book: \C66 180 0 Lost Spellbook Perk End
+ ObtainPerk PerkConstant Lost_Spellbook
+ReferencePerk: Lost_Spellbook
+Choice: Cast the last spell: \C255 0 0 Lose 4 lives, \C66 180 0 open 3 perk chests End
+Both XTimes DoubleConstant 4 LoseALife XTimes DoubleConstant 3 ReadAScenario Basic_Perk_Reward
+SEnd
+
+SCENARIO: Event_Trading_Caravan
+RANDOMEVENT End
+CHOICE: 
+A traders caravan End
+They travel here, selling buying, but mostly running away from the risks of the world to when towns were still plentiful End
+PerkImage: Caravan_Security
+Choice: Attack the Caravan: \C66 180 0 Gain 20 gold and a cube chosen from 3 End Both ChangeCurrency DoubleConstant 20 ReadAScenario Basic_Cube_Reward
+Choice: Trade some stuff: \C66 180 0 Enter a shop End ReadAScenario Shop
+Choice: Offer Protection: \C66 180 0 If you win all of the next 3 battles gain 100 gold End ObtainPerk PerkConstant Caravan_Security
+ReferencePerk: Caravan_Security
+Condition: Not HasPerkOrUpgrade PerkConstant Caravan_Security
+Disableable: false
+SEnd
+
+SCENARIO: Event_Mechanical_Beholder
+RANDOMEVENT End
+CHOICE:
+The Mechanical Beholder End
+"By chance you visit, how can i help your enjoyment?" End
+PerkImage: Perk_Gear
+Choice: Some Madness: \C255 0 0 Gain a curse, \C66 180 0 gain a perk, both chosen out of 3 End Both ReadAScenario Basic_Perk_Reward ReadAScenario Basic_Curse_Reward 
+Choice: Some Creativity: \C66 180 0 Choose a cube out of 10 to gain End ReadAScenario Big_Cube_Reward
+Choice: Some Risk: \C66 180 0 +150 gold, \C255 0 0 Gain curse of doom spiral End Both ChangeCurrency DoubleConstant 150 ObtainPerk PerkConstant Curse_Of_Doom_Spiral
+ReferencePerk: Curse_Of_Doom_Spiral
+SEnd
+
+SCENARIO: Event_Bloodied_Gold
+RANDOMEVENT End
+CHOICE:
+Bloodied gold End
+A pile of gold coins lie in front of you, they are more weighty than usual End
+PerkImage: Curse_Of_The_Funnel
+Choice: Take a little: \C66 180 0 gain 30 gold End ChangeCurrency DoubleConstant 30
+Choice: Take a lot: \C255 0 0 Suffer 3 Wounds, \C66 180 0 gain 60 gold End Both SufferXWounds 3 ChangeCurrency DoubleConstant 60
+ReferencePerk: Wounded
+Choice: Take more: \C255 0 0 Lose a life, \C66 180 0 gain 50 gold, encounter this event again End Both LoseALife Both ChangeCurrency DoubleConstant 50 ReadAScenario Event_Bloodied_Gold
+Condition: IsLarger RemainingLives DoubleConstant -1
+SEnd
+
+SCENARIO: Event_Investment_Firm
+RANDOMEVENT End
+CHOICE: 
+Investment_Firm End
+Masters of the arcane practice of shuffling money around to steal more of it End
+PerkImage: Tax_Loophole
+Choice: Invest: \C66 180 0 Increase your gold by 20%, but at most +100 End ChangeCurrency Lowest Division Currency DoubleConstant 5 DoubleConstant 100
+Choice: Recalculate: \C66 180 0 Reduce reroll cost by 20 End ChangeRerollCost DoubleConstant -20
+Choice: Sabotage: \C66 180 0 Increase shop price variation by + 20% End ChangeCampaignVariable SHOPPRICEFLUCTUATION Division DoubleConstant 2 DoubleConstant 10
+Choice: Market Collapse: \C255 0 0 Lose Inflation perk, \C66 180 0 increase shop price variation by + 100% End 
+Both LosePerk PerkConstant Inflation ChangeCampaignVariable SHOPPRICEFLUCTUATION DoubleConstant 1
+Condition: HasPerk PerkConstant Inflation
+SEnd
+
+SCENARIO: Event_Tool_Shop
+RANDOMEVENT End
+CHOICE: 
+Tool Shop End
+Very useful stuff End
+PerkImage: Digging_Tools
+Choice: Buy the jump rope: \C255 0 0 -20 gold, \C66 180 0 Jump Rope perk End Both ChangeCurrency DoubleConstant -20 ObtainPerk PerkConstant Jump_Rope
+ReferencePerk: Jump_Rope
+Choice: Buy a shovel: \C255 0 0 -20 gold, \C66 180 0 Digging Tools perk End Both ChangeCurrency DoubleConstant -20 ObtainPerk PerkConstant Digging_Tools
+ReferencePerk: Digging_Tools
+Choice: Buy some glue: \C255 0 0 -20 gold, \C66 180 0 Glue perk End Both ChangeCurrency DoubleConstant -20 ObtainPerk PerkConstant Glue
+ReferencePerk: Glue
+Condition: Not HasPerkOrUpgrade PerkConstant Glue
+Choice: Improve the glue you already have: \C255 0 0 -50 gold, \C66 180 0 Red Glue perk End Both ChangeCurrency DoubleConstant -50 ObtainPerk PerkConstant Red_Glue
+ReferencePerk: Red_Glue
+Condition: HasPerkOrUpgrade PerkConstant Glue
+Choice: Buy some tinfoil: \C255 0 0 -20 gold, \C66 180 0 Tinfoil_Hat perk End Both ChangeCurrency DoubleConstant -20 ObtainPerk PerkConstant Tinfoil_Hat
+ReferencePerk: Tinfoil_Hat
+Choice: Buy nothing: \C255 0 0 Leave with nothing End Nothing
+SEnd
+
+SCENARIO: Event_You-Vention
+RANDOMEVENT End
+CHOICE: 
+You-Vention End
+Alternate versions of yourself, splinters, clones, past and future? This is a convention for them and you, there are snacks End
+PerkImage: The_Twin
+Choice: Share some knowledge: \C66 180 0 Gain a random cube and 10 starting max mana End
+Both AddCubeToInventory ARandomCubeInLibraryWhich And Not IsAlreadyInInventory Test Not IsToken Test ChangeStartingMaxMana DoubleConstant 10
+Choice: Mug one of them: \C66 180 0 50% chance you gain 40 gold, otherwise you gain 40 gold End ChangeCurrency DoubleConstant 40
+Choice: Train with one of them: \C66 180 0 Gain an additional random class (rerollable) \C255 0 0 -150 gold End
+Both ReadAScenario Random_Class_Reroll_Reward ChangeCurrency DoubleConstant -150
+SEnd
+
+SCENARIO: Event_Direction_Marker
+RANDOMEVENT End
+CHOICE: 
+Direction Marker End
+Directions, what's where and how to get there End
+PerkImage: Map_Marker
+Choice: North: \C66 180 0 Enter a shop End ReadAScenario Shop
+Choice: South: \C66 180 0 Encounter a random event, \C255 0 0 but lose 10 gold End Both ChangeCurrency DoubleConstant -10 ReadARandomEvent
+Choice: Random: \C66 180 0 Add 2 paths from the current map node to 2 random map nodes, except for the last 6 End
+XTimes DoubleConstant 2 UntilSuccess AddPathAB CurrentMapNode
+RandomRoundBetweenXtoY DoubleConstant 0 Subtraction MapNodeAmount DoubleConstant 7
+Choice: Forwards: \C66 180 0 Lose a random terrain perk, choose one of 3 new terrain perks End
+ ReadAScenario Terrain_Exchange_Reward
+Condition: PerkExists ARandomPerkInInventoryWhich PerkIsType Test Terrain
+Choice: Down: \C66 180 0 Use your digging tools to encounter a cursed trade End ReadAScenario Cursed_Trade
+Condition: HasPerkOrUpgrade PerkConstant Digging_Tools
+SEnd
+
+SCENARIO: Event_Formless_Moil
+RANDOMEVENT End
+CHOICE:
+Formless Moil End
+The moils represent concepts as creature form, they are not often accurate, but sometimes quite helpful. This one is still without a concept, you should choose one for it End
+CubeImage: Mimic_Moil
+Choice: Evolution: \C66 180 0 Gain evolve moil perk, \C255 0 0 but lose 20 starting mana End Both ObtainPerk PerkConstant Evolve_Moil ChangeStartingMana DoubleConstant -20
+ReferencePerk: Evolve_Moil
+Choice: Mischief: \C66 180 0 Perk: After you gain or lose gold: 50% chance to gain 10 gold otherwise lose 5 gold End ObtainPerk PerkConstant Mischief_Moil
+ReferencePerk: Mischief_Moil
+Choice: Empty: \C66 180 0 Gain +30 starting max mana and +1 handsize End Both ChangeStartingMaxMana DoubleConstant 30 ChangeStartingHandSize DoubleConstant 1
+SEnd
+
+SCENARIO: Event_Bad_Mental_Health
+RANDOMEVENT End
+CHOICE:
+Bad Mental Health End
+Everything here is bad for you, but everything here is good for you End
+PerkImage: Confusion
+Choice: Paranoia: \C66 180 0  Gain 30 gold, \C255 0 0 Curse: After each battle 1% chance to lose a life End Both ChangeCurrency DoubleConstant 30 ObtainPerk PerkConstant Paranoia
+ReferencePerk: Paranoia
+Choice: Stress: \C66 180 0 Gain 100 gold, \C255 0 0 Curse: All mana burn and self damage is multiplied by 10 End Both ChangeCurrency DoubleConstant 100 ObtainPerk PerkConstant Stress
+ReferencePerk: Stress
+Choice: Confusion: \C66 180 0 Gain 10 gold, \C255 0 0 Curse: After you place a cube 1% chance it creates a random cube above it End Both ChangeCurrency DoubleConstant 60 ObtainPerk PerkConstant Confusion
+ReferencePerk: Confusion
+Choice: Nothing: \C255 0 0 Nothing End Nothing
+SEnd
+
+SCENARIO: Event_Bad_Mental_Health_2
+RANDOMEVENT End
+CHOICE:
+Bad Mental Health End
+Everything here is bad for you, but everything here is good for you End
+PerkImage: Curse_Of_Courage
+Choice: Courage: \C66 180 0  Gain 100 gold, \C255 0 0 Curse: After an ally takes damage it moves forwards End 
+Both ChangeCurrency DoubleConstant 100 ObtainPerk PerkConstant Curse_Of_Courage
+ReferencePerk: Curse_Of_Courage
+Choice: Serenity: \C66 180 0 Gain 200 gold, \C255 0 0 Curse: Before an ally generates \CMANA mana \C255 0 0 X% chance it doesn't instead, where X is what % your \CMANA mana \CN is full End
+ Both ChangeCurrency DoubleConstant 200 ObtainPerk PerkConstant Curse_Of_Serenity
+ReferencePerk: Curse_Of_Serenity
+Choice: Certainty: \C66 180 0 Gain 10 gold, \C120 120 120 Perk: Certainty End 
+Both ChangeCurrency DoubleConstant 10 ObtainPerk PerkConstant Certainty
+ReferencePerk: Certainty
+Condition: Not HasPerkOrUpgrade PerkConstant Certainty
+Choice: Nothing: \C255 0 0 Nothing End Nothing
+SEnd
+
+SCENARIO: Event_Jagged_Fields
+RANDOMEVENT End
+CHOICE: 
+Jagged Fields End
+Broken earth, cracks and rubble, pain in every step End
+PerkImage: Leftover_Rubble
+Choice: Turn Around: \C255 0 0 -10 gold, \C66 180 0 Encounter a new random event End Both ChangeCurrency DoubleConstant -10 ReadARandomEvent
+Choice: Clamber across: \C66 180 0 Perk: After an ally takes damage 20% chance it gains 1 max hp, \C255 0 0 suffer 3 wounds End Both ObtainPerk PerkConstant Lessons_Of_Pain SufferXWounds 3
+ReferencePerk: Wounded
+Choice: Blast it to rubble: \C66 180 0 Perk: Add 3 free stone cubes to your hand at the start of each battle, \C255 0 0 reduce your starting mana by 10 End
+Both ObtainPerk PerkConstant Leftover_Rubble ChangeStartingMana DoubleConstant -10
+ReferenceCube: Stone
+Choice: Use your digging tools: \C66 180 0 Perk: Add 3 free stone cubes to your hand at the start of each battle End ObtainPerk PerkConstant Leftover_Rubble
+ReferenceCube: Stone
+Condition: HasPerkOrUpgrade PerkConstant Digging_Tools
+SEnd
+
+SCENARIO: Event_Knick-knack_Store
+RANDOMEVENT End
+CHOICE: 
+Knick-knack Store End
+All sorts of fun thingamabobs End
+PerkImage: The_Alchemist
+Choice: Free samples: \C66 180 0 Gain a random consumable End ReadAScenario Random_Consumable_Reward
+Choice: Buy a bunch: \C255 0 0 -30 gold, \C66 180 0 Gain 3 random consumables End Both ChangeCurrency DoubleConstant -30 XTimes DoubleConstant 3 ReadAScenario Random_Consumable_Reward
+Choice: Sponsorship: \C255 0 0 -100 gold, \C66 180 0 Perk: Gain a consumable after you win a battle End Both ChangeCurrency DoubleConstant -100 ObtainPerk PerkConstant The_Alchemist
+ReferencePerk: The_Alchemist
+SEnd
+
+SCENARIO: Event_Bath_House
+RANDOMEVENT End
+CHOICE: 
+Bath House End
+Wash away your evils, your worries, yourself End
+PerkImage: Soul_Mulligan
+Choice: No Bath: \C66 180 0 Nothing End Nothing
+Condition: Not PerkExists ARandomPerkInInventoryWhich IsSmaller ValueOfPerk Test DoubleConstant 0
+Choice: Small Bath: \C66 180 0 Lose a random curse, \C255 0 0 -50 gold End Both ChangeCurrency DoubleConstant -50 LosePerkWithScreen ARandomPerkInInventoryWhich 
+IsSmaller ValueOfPerk Test DoubleConstant 0
+Condition: PerkExists ARandomPerkInInventoryWhich IsSmaller ValueOfPerk Test DoubleConstant 0
+Choice: Large Bath: \C66 180 0 Lose 3 random perks, gain gold equal to twice their value End XTimes DoubleConstant 3 TargetPerk ARandomPerkInInventoryWhich True
+Both LosePerkWithScreen Target ChangeCurrency Multiplication DoubleConstant 2 ValueOfPerk Target
+Choice: Everything: \C66 180 0 Lose all perks, gain gold equal to twice their value, then encounter a shop End Both EveryPerkInInventoryWhich True
+Both LosePerk Target ChangeCurrency Multiplication DoubleConstant 2 ValueOfPerk Target
+ReadAScenario Shop
+Choice: Cleanse the Water with Soap: \C66 180 0 Perk: When you would lose a non curse perk 30% you regain it immediately End
+ ObtainPerk PerkConstant Cleansed_Water
+ReferencePerk: Cleansed_Water
+Condition: And HasPerkOrUpgrade PerkConstant Soap Not HasPerkOrUpgrade PerkConstant Cleansed_Water
+SEnd
+
+SCENARIO: Event_Tinkerers_Workshop
+RANDOMEVENT End
+CHOICE: 
+Tinkerers Workshop End
+More useful stuff End
+PerkImage: Fusioning
+Choice: Various addons: \C66 180 0 Gain 2 random addon cubes (Which add abilities to other cubes) End
+ XTimes DoubleConstant 2 AddCubeToInventory APRandomCubeInLibraryWhich And HasAbilityWithName Test Addon And Not IsAlreadyInInventory Test Not IsToken Test
+Choice: Small Experiment: \C255 0 0 -30 gold \C66 180 0 Gain a random perk End Both ReadAScenario Random_Perk_Reward ChangeCurrency DoubleConstant -30 
+Choice: Fusion Experiment: \C255 0 0 -100 gold, \C66 180 0 Perk: At the start of each battle add a combination of the first two cubes in your hand to your hand with infinite uses End 
+Both ChangeCurrency DoubleConstant -100 ObtainPerk PerkConstant Fusioning
+ReferencePerk: Fusioning
+Condition: Not HasPerkOrUpgrade PerkConstant Fusioning
+SEnd
+
+SCENARIO: Event_Hall_Of_Mirrors
+RANDOMEVENT End
+CHOICE: 
+Hall Of Mirrors End
+Your reflection hates you End
+PerkImage: Missing_Reflection
+Choice: Stare: \C255 0 0 Lose a random cube, \C66 180 0 gain a copy perk (Which can become any perk in your inventory) End
+ Both RemoveCubeFromInventoryWithScreen ARandomCubeInInventoryWhich True ObtainPerk PerkConstant Perk_Mimic
+ ReferencePerk: Perk_Mimic
+Choice: Take: \C255 0 0 -10 max mana \C66 180 0 Gain a Copper Mirror End Both ChangeStartingMaxMana DoubleConstant -10 ObtainPerk PerkConstant Copper_Mirror
+ ReferencePerk: Copper_Mirror
+Choice: Shatter: \C66 180 0 Gain 10 gold, \C120 120 120 gain perk: If you would gain a duplicate perk gain a random perk of same value instead End
+ Both ChangeCurrency 10 ObtainPerk PerkConstant Missing_Reflection
+ ReferencePerk: Wounded
+SEnd
+
+
+SCENARIO: Event_Seeking_Chains
+RANDOMEVENT End
+CHOICE: 
+Seeking Chains End
+They just want to hug you, forever End
+PerkImage: Blue_Chains
+Choice: Send to opponent: \C66 180 0 Next battle enemies generate a third less \CMANA mana \CN End ObtainPerk PerkConstant Enemy_Blue_Chains
+ ReferencePerk: Enemy_Blue_Chains
+Choice: Accept temporarily: \C255 0 0 Next battle generate a third less \CMANA mana \C66 180 0 , but if you win gain 50 gold End ObtainPerk PerkConstant Blue_Chains
+ ReferencePerk: Blue_Chains
+Choice: Accept forever: \C255 0 0 Perk: Generate a third less \CMANA mana \C255 0 0 forever, \C66 180 0 but if you would gain gold gain twice as much End
+ ObtainPerk PerkConstant Eternal_Chains
+ ReferencePerk: Eternal_Chains
+SEnd
+
+SCENARIO: Event_Shrine_To_The_Chaotic_Deity
+RANDOMEVENT End
+CHOICE: 
+Shrine_To_The_Chaotic_Deity End
+The one which was killed, though you don't know how gods can die End
+CubeImage: Shrine_Of_Chaos
+Choice: Silent Prayer: \C66 180 0 Obtain a random cube of the highest rarity End AddCubeToInventory ARandomCubeInLibraryWhich
+ And Not IsToken Test 
+ And IsEqual RarityOfCube Test DoubleConstant 4
+ Not IsAlreadyInInventory Test
+Choice: Embrace: \C66 180 0 Gain the chaos species, \C255 0 0 but lose 50 starting mana and lose all of the cubes it usually gives End 
+ Both ObtainPerk PerkConstant Chaos Both ChangeStartingMana DoubleConstant -50
+ Both RemoveCubeFromInventory CubeConstant Puzzle_Box
+ Both RemoveCubeFromInventory CubeConstant Transform
+ RemoveCubeFromInventory CubeConstant Chaotic_Wall
+ ReferencePerk: Chaos
+Choice: Destroy: \C255 0 0 Curse of Chaos, difficulty is increased by 1 \C66 180 0 and gain 100 gold End
+ Both ObtainPerk PerkConstant Curse_Of_Chaos
+ Both ChangeDifficulty DoubleConstant 1
+ ChangeCurrency DoubleConstant 100
+ ReferencePerk: Curse_Of_Chaos
+SEnd
+
+SCENARIO: Event_Goblin_Ball
+RANDOMEVENT End
+CHOICE:
+Goblin Ball End
+Play a round of goblin ball, win some fun prizes, timelimit of 10 minutes End
+CubeImage: Goblin_Ball
+Choice: \C66 180 0 Play a round End ReadAScenario Goblin_Ball
+Choice: Explain your curse: \C66 180 0 Gain 30 gold as a consolation prize End
+ ChangeCurrency DoubleConstant 30
+ ReferencePerk: Curse_Of_Falling
+ Condition: Or HasPerkOrUpgrade PerkConstant Curse_Of_Falling HasPerkOrUpgrade PerkConstant Curse_Of_Armor
+Choice: Send goblin to school!: \C66 180 0 Gain 50 gold (you have the tiny school perk) End
+ ChangeCurrency DoubleConstant 50
+ ReferencePerk: Tiny_School
+ Condition: HasPerkOrUpgrade PerkConstant Tiny_School
+SEnd
+
+SCENARIO: Event_Bee_Hive
+RANDOMEVENT End
+CHOICE: 
+Bee Hive End
+They buzz in harmonious wrath End
+CubeImage: Beeswax
+Choice: Bottle Some: \C66 180 0 Gain 3 bottled bees End XTimes DoubleConstant 3 ObtainPerk PerkConstant Bottled_Bees
+ ReferencePerk: Bottled_Bees
+Choice: Steal Honey: \C66 180 0 Gain Honey perk, \C255 0 0 next battle an enemy bee is created on the left side every 2 seconds End 
+Both ObtainPerk PerkConstant Honey ObtainPerk PerkConstant Wrath_Of_Bees
+ ReferencePerk: Honey
+Choice: Become Host: \C120 120 120 At the start of each battle and every 4 minutes your starting leader takes 3 damage and creates defensive beeswax around itself End
+ ObtainPerk PerkConstant Bee_Host
+ ReferencePerk: Bee_Host
+ Condition: Not HasPerkOrUpgrade PerkConstant Bee_Host
+Choice: Share Flowers: \C66 180 0 Gain Honey perk for free thanks to your flower perk End ObtainPerk PerkConstant Honey
+ ReferencePerk: Honey
+ Condition: Or HasPerkOrUpgrade PerkConstant Mana_Flower HasPerkOrUpgrade PerkConstant Flower_Of_Hope
+SEnd
+
+SCENARIO: Event_Lost_Cargo
+RANDOMEVENT End
+CHOICE: 
+Abandoned Cargo End
+Lost? Unguarded at least End
+PerkImage: Bag_Of_Tricks
+Choice: Some Bottles: \C66 180 0 Gain a consumable chosen from 3 End ReadAScenario Consumable_Reward
+Choice: Some Papers: \C66 180 0 Gain 2 random cubes End XTimes DoubleConstant 2 AddCubeToInventory APRandomCubeInLibraryWhich And Not IsAlreadyInInventory Test Not IsToken Test
+Choice: Some Shards: \C66 180 0 Gain 10 starting mana and 20 starting max mana End Both ChangeStartingMaxMana DoubleConstant 20 ChangeStartingMana DoubleConstant 10
+Choice: Some Gold: \C66 180 0 Gain 20 gold End ChangeCurrency DoubleConstant 20 
+Choice: Take everything: \C66 180 0 All of the above \C255 0 0 next battle a strong greed demon comes after you End Both Both Both Both Both
+ ReadAScenario Consumable_Reward
+ XTimes DoubleConstant 2 AddCubeToInventory APRandomCubeInLibraryWhich And Not IsAlreadyInInventory Test Not IsToken Test
+ ChangeStartingMaxMana DoubleConstant 20 
+ ChangeStartingMana DoubleConstant 10
+ ChangeCurrency DoubleConstant 20 
+ ObtainPerk PerkConstant Greed_Demon_Arrival
+ ReferencePerk: Greed_Demon_Arrival
+SEnd
+
+SCENARIO: Event_Witch_Hut
+RANDOMEVENT End
+CHOICE: 
+Witch Hut End
+Curse your breath, curse your head, \N curse and curse until you're dead End
+CubeImage: Shadow_Witch
+Choice: Watch and learn: \C66 180 0 Perk: Gain 30 gold whenever you gain a curse End ObtainPerk PerkConstant Witchery
+ ReferencePerk: Witchery
+Choice: Ask for help: \C66 180 0 Lose a random curse, \C255 0 0 lose 50 gold End Both LosePerkWithScreen ARandomPerkInInventoryWhich 
+ IsSmaller ValueOfPerk Test DoubleConstant 0 ChangeCurrency DoubleConstant -50 
+Choice: Read the future: \C66 180 0 Reduce the cost of rerolling by 80, \C255 0 0 gain 3 curses each chosen from 3 End
+ Both ChangeRerollCost DoubleConstant -80 XTimes DoubleConstant 3 ReadAScenario Basic_Curse_Reward
+Choice: Use what you know: \C66 180 0 Lose a random curse End LosePerkWithScreen ARandomPerkInInventoryWhich 
+ IsSmaller ValueOfPerk Test DoubleConstant 0 
+ Condition: HasPerkOrUpgrade PerkConstant Witchery
+SEnd
+
+SCENARIO: Event_Old_Mine
+RANDOMEVENT End
+CHOICE:
+Old_Mine End
+Dig out as much treasure as you can, timelimit of 4 minutes End
+PerkImage: Digging_Tools
+Choice: \C66 180 0 Start Digging ! End ReadAScenario Old_Mine
+Choice: \C120 120 120 Don't Dig, \C66 180 0 Gain only 10 gold End ChangeCurrency DoubleConstant 10
+SEnd
+
+SCENARIO: Event_Many_Masons
+RANDOMEVENT End
+CHOICE:
+Many_Masons End
+They are attempting to build something, defend something, a semblance of safety? Stability? Civilization? Hope? Greed? End
+PerkImage: Hired_Mason
+Choice: Copy Design Notes: \C66 180 0 Cube in 4th slot gains 1 extra hp End ObtainPerk PerkConstant Masons_Designs
+ ReferencePerk: Masons_Designs
+Choice: Attack them: \C66 180 0 Gain 100 gold, \C255 0 0 gain curse of masons End Both ChangeCurrency DoubleConstant 100 ObtainPerk PerkConstant Curse_Of_Masons
+ ReferencePerk: Curse_Of_Masons
+Choice: Hire one: \C255 0 0 Lose 50 gold, \C66 180 0 gain hired mason perk End Both ChangeCurrency DoubleConstant -50 ObtainPerk PerkConstant Hired_Mason
+ ReferencePerk: Hired_Mason
+SEnd
+
+SCENARIO: Event_Geometry_Class
+RANDOMEVENT End
+CHOICE:
+Geometry_Class End
+Which ones your favorite? End
+PerkImage: Square
+Choice: Straight Line: \C66 180 0 Allies deal 10% more damage End ObtainPerk PerkConstant Straight_Line
+ ReferencePerk: Straight_Line
+Choice: Square: \C66 180 0 Created allies with uneven hp gain 1 extra End ObtainPerk PerkConstant Square
+ ReferencePerk: Square
+ Condition: Not HasPerkOrUpgrade PerkConstant Square
+Choice: Circle: \C66 180 0 Area of effects are 1 space larger End ObtainPerk PerkConstant Circle
+ ReferencePerk: Circle
+Choice: Spiral: \C66 180 0 5% chance to gain obtained perks again End ObtainPerk PerkConstant Spiral
+ ReferencePerk: Spiral
+ Condition: Not HasPerkOrUpgrade PerkConstant Spiral
+SEnd
+
+SCENARIO: Event_Scrapyard
+RANDOMEVENT End
+CHOICE:
+Scrapyard End
+Mostly junk, but something could be useful End
+PerkImage: Junk
+Choice: Junk: \C66 180 0 Start each battle with 10 free junk cubes End ObtainPerk PerkConstant Junk
+ ReferenceCube: Junk
+Choice: Toaster: \C66 180 0 Toaster perk End ObtainPerk PerkConstant Toaster
+ ReferencePerk: Toaster
+ Condition: Not HasPerkOrUpgrade PerkConstant Toaster
+Choice: Copper_Wire \C66 180 0 Gain 20 gold, Copper_Wire perk End Both ChangeCurrency DoubleConstant 20 ObtainPerk PerkConstant Copper_Wire
+ ReferencePerk: Copper_Wire
+Choice: Rusted_Plate \C66 180 0 Rusted_Plate perk End ObtainPerk PerkConstant Rusted_Plate
+ ReferencePerk: Rusted_Plate
+Choice: Cardboard_Box \C66 180 0 Cardboard_Box perk End ObtainPerk PerkConstant Cardboard_Box
+ ReferencePerk: Cardboard_Box
+Choice: Oil_Can \C66 180 0 Oil_Can perk End ObtainPerk PerkConstant Oil_Can
+ ReferencePerk: Oil_Can
+Choice: Bubble_Shield \C66 180 0 Bubble_Shield perk End ObtainPerk PerkConstant Bubble_Shield
+ ReferencePerk: Bubble_Shield
+Choice: Cracked_Mana_Crystal \C66 180 0 Cracked_Mana_Crystal perk End ObtainPerk PerkConstant Cracked_Mana_Crystal
+ ReferencePerk: Cracked_Mana_Crystal
+RandomSubset: 3
+SEnd
+
+SCENARIO: Event_Theater_Group
+RANDOMEVENT End
+CHOICE:
+Theater_Group End
+Don't worry the blood is fake End
+PerkImage: Nasty_Betrayal
+Choice: Fireworks!: \C66 180 0 Festive Fireworks perk End ObtainPerk PerkConstant Festive_Fireworks
+ ReferencePerk: Festive_Fireworks
+Choice: Nasty_Betrayal: \C66 180 0 Nasty_Betrayal perk End ObtainPerk PerkConstant Nasty_Betrayal
+ ReferencePerk: Nasty_Betrayal
+Choice: Surprising_Appearance: \C66 180 0 Surprising_Appearance perk End ObtainPerk PerkConstant Surprising_Appearance
+ ReferencePerk: Surprising_Appearance
+Choice: Death_Monologue: \C66 180 0 Death_Monologue perk End ObtainPerk PerkConstant Death_Monologue
+ ReferencePerk: Death_Monologue
+Choice: Uninterested: \C66 180 0 Gain 15 starting mana End ChangeStartingMana DoubleConstant 15
+SEnd
+
+SCENARIO: Event_Strange_Imports
+RANDOMEVENT 
+LevelRequirement: 15
+End
+CHOICE:
+Strange_Imports End
+Perks/Mechanics from other games, for a reasonable price! End
+PerkImage: Wrapped_Gift
+Choice: Gatedelvers: \C255 0 0 70 gold \C66 180 0 Candle_Throwing End Both ChangeCurrency DoubleConstant -70 ObtainPerk PerkConstant Candle_Throwing
+ ReferencePerk: Candle_Throwing
+Choice: ZOR: \C255 0 0 70 gold \C66 180 0 Survival_Management End Both ChangeCurrency DoubleConstant -70 ObtainPerk PerkConstant Survival_Management
+ ReferencePerk: Survival_Management
+Choice: SpellRogue: \C255 0 0 40 gold \C66 180 0 Cube_Of_Darkness End Both ChangeCurrency DoubleConstant -40 ObtainPerk PerkConstant Cube_Of_Darkness
+ ReferencePerk: Cube_Of_Darkness
+Choice: Star_Vaders: \C66 180 0 Hot_Head End ObtainPerk PerkConstant Hot_Head
+ ReferencePerk: Hot_Head
+Choice: Something boring: \C255 0 0 50 gold \C66 180 0 Wrapped_Gift End Both ChangeCurrency DoubleConstant -50 ObtainPerk PerkConstant Wrapped_Gift
+ ReferencePerk: Wrapped_Gift
+SEnd
+
+SCENARIO: Event_Splintering_Mind
+RANDOMEVENT End
+CHOICE:
+A splintering mind End
+Don't worry most of it is friendly End
+PerkImage: Splintering_Mind
+Choice: Ask for help: \C255 0 0 Suffer 3 wounds \C66 180 0 Open a perk chest End Both SufferXWounds 3 ReadAScenario Basic_Perk_Reward
+ ReferencePerk: Wounded
+Choice: Burn it: \C66 180 0 Gain 150 gold \C255 0 0 Gain Curse_Of_Splintering_Leadership End Both ChangeCurrency DoubleConstant 150 ObtainPerk PerkConstant Curse_Of_Splintering_Leadership
+ ReferencePerk: Curse_Of_Splintering_Leadership
+Choice: Attempt to understand: \C255 0 0 -40 starting mana \C66 180 0 Splintering_Mind Perk End Both ChangeStartingMana DoubleConstant -40 ObtainPerk PerkConstant Splintering_Mind
+ ReferencePerk: Splintering_Mind
+SEnd
+
+SCENARIO: Event_Foot_Race
+RANDOMEVENT End
+CHOICE:
+Foot Race End
+Try and moves yourself to the end, gain 1 gold for every 5 seconds below 5 minutes End
+CubeImage: Goal_Flag
+Choice: \C66 180 0 Play a round End ReadAScenario Foot_Race
+Choice: \C120 120 120 Don't race, \C66 180 0 Gain only 10 gold End ChangeCurrency DoubleConstant 10
+SEnd
+
+SCENARIO: Event_Strange_Mold
+RANDOMEVENT
+LevelRequirement: 15
+End
+CHOICE:
+Strange Mold End
+Transforms all it touches End
+PerkImage: Mold_Farm
+Choice: Sell: \C66 180 0 Gain 30 gold End ChangeCurrency 30
+Choice: Take and Sell: \C66 180 0 Gain 50 gold \C100 100 100 Gain Mold_Exchange End Both ChangeCurrency DoubleConstant 50 ObtainPerk PerkConstant Mold_Exchange
+ ReferencePerk: Mold_Exchange
+Choice: Farm it: \C255 0 0 -50 gold \C66 180 0 After every battle you win gain a mold exchange and 30 gold End 
+ Both ChangeCurrency DoubleConstant -50 ObtainPerk PerkConstant Mold_Farm
+ ReferencePerk: Mold_Farm
+SEnd
+
+SCENARIO: Event_Laboratory
+RANDOMEVENT
+End
+CHOICE:
+Laboratory End
+Liquids of change of various kinds End
+CubeImage: Poisoners_Kit
+Choice: Take: \C66 180 0 Gain a random consumable End ReadAScenario Random_Consumable_Reward
+Choice: Drink Blue Potion: \C255 0 0 Lose a random class \C66 180 0 Choose one of 3 species End
+ Both LosePerkWithScreen ARandomPerkInInventoryWhich PerkIsType Test CLASS ReadAScenario Species_Reward
+Choice: Drink Yellow Potion: \C255 0 0 Lose a random species \C66 180 0 Choose one of 3 classes End 
+ Both LosePerkWithScreen ARandomPerkInInventoryWhich PerkIsType Test SPECIES ReadAScenario Class_Reward
+Choice: Drink Both: \C66 180 0 The above 2 and also choose 2 consumables from 3 each End
+ Both LosePerkWithScreen ARandomPerkInInventoryWhich PerkIsType Test CLASS
+ Both LosePerkWithScreen ARandomPerkInInventoryWhich PerkIsType Test SPECIES
+ Both ReadAScenario Species_Reward
+ Both ReadAScenario Class_Reward
+ XTimes 2 ReadAScenario Consumable_Reward
+SEnd

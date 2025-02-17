@@ -1,0 +1,72 @@
+PERK: Chronomancer
+BelongsTo: CLASS
+LevelRequirement: 25
+Ability: EveryXSeconds DoubleConstant 40 AddCubeToHandOfThis FreeCopy CubeConstant Time_Warp
+Description: Every 40 seconds add a free Time_Warp cube to your hand which makes 20 seconds instantly pass for the cube below End
+ObtainAction: AddCubeToInventory CubeConstant Armored_Eye
+ObtainAction: AddCubeToInventory CubeConstant Acceleration_Pedestal
+End
+
+PERK: Temporal_Dragon_Egg
+BelongsTo: Chronomancer
+Description: You start with a free Temporal_Dragon_Egg in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Temporal_Dragon_Egg RemoveThisAbility
+End
+
+PERK: Permanent_Injuries
+BelongsTo: Chronomancer
+Ability: AfterACubeTakesDamage If IsEnemyToCaster Victim If X%Chance DoubleConstant 15 TargetCube Victim Randomly 
+GainAbility PoisonX 1
+GainAbility StrengthX -1
+Description: After an enemy takes damage there is a 15% chance that enemy randomly either loses 1 strength or gains 1 poison End
+End
+
+PERK: Mana_Acceleration
+BelongsTo: Chronomancer
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsLarger HpOfCube Victim DoubleConstant 0
+TargetCube Victim AccelerateX Multiplication DoubleConstant 60 RoundedDown Division ManaCostOfCube Target DoubleConstant 5
+Description: After an ally with more than 0 hp is created accelerate it for 1 second for every 5 mana it costs End
+End
+
+PERK: Reaction_Time
+BelongsTo: Chronomancer
+Ability: AfterACubeTakesDamage If Not IsALeader Victim If IsAllyToCaster Victim If IsEnemyToCaster Culprit TargetCube Victim AccelerateX DoubleConstant 60
+Description: After a non leader ally takes damage by an enemy accelerate the ally by 1 second End
+End
+
+PERK: Perk_Accelerator
+BelongsTo: Chronomancer
+NextPerkConnection: PerkExists Test 097 104 012
+Ability: EveryXSeconds 2 Secret Both EveryAbilityOfCubeWhich Caster IsEqual PerkConnectionOfAbility Test Addition 1 PerkConnectionOfAbility ThisAbility
+ AccelerateAbilityByX Target 120
+  EveryAbilityOfCubeWhich WorldCube IsEqual PerkConnectionOfAbility Test Addition 1 PerkConnectionOfAbility ThisAbility
+ AccelerateAbilityByX Target 120
+Description: Every 2 seconds accelerate the next perk in your inventory by 2 second End
+End
+
+PERK: Degraded_Ideas
+BelongsTo: Chronomancer
+Ability: EveryXMinutes DoubleConstant 5 TargetCube ARandomCubeInHandOfFactionWhich EnemyFaction
+ And Not HasLimitedUses Test IsLarger HpOfCube Test DoubleConstant 0 TakeXDamage DoubleConstant 1
+Description: Every 5 minutes deal 1 damage to a random cube in the enemies hand, which has more than 0 hp and infinite uses End
+End
+
+PERK: Thought_Time
+BelongsTo: Chronomancer
+Ability: EveryMinute EveryCubeWhich IsAllyToCaster Test 
+EveryCubeInHandOfFactionWhich FactionOfCube Target HasNameOfCube Test Target AccelerateX DoubleConstant 180
+Description: Every minute every ally accelerates every cube in your hand with the same name by 3 seconds End
+End
+
+PERK: Additional_Time
+BelongsTo: Chronomancer
+Ability: EveryMinute TargetCube CubeInDirectionFromCube Backwards Caster AccelerateX TimeConstant 1800
+Description: Every minute your starting leader accelerates the cube behind it for 30 seconds End
+End
+
+PERK: Tooth_Of_Time
+BelongsTo: Chronomancer
+Ability: Every30Seconds XTimes Division WorldTime TimeConstant 3600
+TargetCube ARandomCubeWhich And IsLarger HpOfCube Test DoubleConstant 0 IsEnemyToCaster Test Silent TakeXDamage DoubleConstant 1
+Description: Every 30 seconds for every minute already elapsed this battle a random enemy which still has hp silently loses 1 hp End
+End

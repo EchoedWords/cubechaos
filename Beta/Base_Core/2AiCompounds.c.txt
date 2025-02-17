@@ -1,0 +1,176 @@
+COMPOUND: BOOLEAN
+AiBackline
+Or And IsLarger EventFaction 1 Not IsSmaller XOfPosition PositionOfThis Subtraction Multiplication 5 Division MaxWorldX 6 1
+ And IsEqual EventFaction 1    Not IsLarger  XOfPosition PositionOfThis Addition Multiplication 1 Division MaxWorldX 6 1
+End
+
+COMPOUND: BOOLEAN
+AiDefense
+Or And IsLarger EventFaction 1 And Not IsLarger XOfPosition PositionOfThis Addition Multiplication 5 Division MaxWorldX 6 1
+     Not IsSmaller XOfPosition PositionOfThis Subtraction Multiplication 4 Division MaxWorldX 6 1
+ And IsEqual EventFaction 1 And Not IsSmaller XOfPosition PositionOfThis Subtraction Multiplication 1 Division MaxWorldX 6 1
+     Not IsLarger XOfPosition PositionOfThis Addition Multiplication 2 Division MaxWorldX 6 1
+End
+
+COMPOUND: BOOLEAN
+AiFrontline
+Or And IsLarger EventFaction 1  Not IsLarger XOfPosition PositionOfThis Addition Multiplication 4 Division MaxWorldX 6 1
+ And IsEqual EventFaction 1 Not IsSmaller XOfPosition PositionOfThis Subtraction Multiplication 2 Division MaxWorldX 6 1
+
+End
+
+COMPOUND: BOOLEAN
+AiEmptyInfront
+IsPositionEmpty PositionInDirectionFromThis Forwards
+End
+
+COMPOUND: BOOLEAN
+AiAllyInfront
+IsAllyToCaster CubeInDirectionFromCube Forwards Caster
+End
+
+COMPOUND: BOOLEAN
+AiEnemyInfront
+IsEnemyToCaster CubeInDirectionFromCube Forwards Caster
+End
+
+COMPOUND: BOOLEAN
+AiEmptyBehind
+IsPositionEmpty PositionInDirectionFromThis Backwards
+End
+
+COMPOUND: BOOLEAN
+AiAllyBehind
+IsAllyToCaster CubeInDirectionFromCube Backwards Caster
+End
+
+COMPOUND: BOOLEAN
+AiEmptyNorth
+IsPositionEmpty PositionInDirectionFromThis North
+End
+
+COMPOUND: BOOLEAN
+AiCubeBelow
+CubeExists CubeInDirectionFromCube GravityDirection Caster
+End
+
+COMPOUND: BOOLEAN
+AiEmptySouth
+IsPositionEmpty PositionInDirectionFromThis South
+End
+
+COMPOUND: BOOLEAN
+AiCubeSouth
+CubeExists CubeInDirectionFromCube South Caster
+End
+
+COMPOUND: BOOLEAN
+AiAllySouth
+IsAllyToCaster CubeInDirectionFromCube South Caster
+End
+
+COMPOUND: BOOLEAN
+AiAllyNorth
+IsAllyToCaster CubeInDirectionFromCube North Caster
+End
+
+COMPOUND: BOOLEAN
+AiEnemySouth
+IsEnemyToCaster CubeInDirectionFromCube South Caster
+End
+
+COMPOUND: BOOLEAN
+AiNeutralSouth
+And AiCubeSouth
+IsNeutral CubeInDirectionFromCube South Caster
+End
+
+COMPOUND: BOOLEAN
+AiLeaderSouth
+And AiCubeSouth
+IsALeader CubeInDirectionFromCube South Caster
+End
+
+COMPOUND: BOOLEAN
+AiLeaderBehind
+IsALeader CubeInDirectionFromCube Backwards Caster
+End
+
+COMPOUND: BOOLEAN
+AiVoidSouth
+And Not IsPositionEmpty PositionInDirectionFromThis South
+Not CubeExists CubeInDirectionFromCube South Caster
+End
+
+COMPOUND: BOOLEAN
+AiLiquidSouth 
+HasAbilityWithName CubeInDirectionFromCube South Caster LiquidX
+End
+
+COMPOUND: BOOLEAN
+AiDangerSouth 
+Or AiLiquidSouth
+CubeHasName CubeInDirectionFromCube South Caster Void
+End
+
+COMPOUND: BOOLEAN
+AiStacking
+And Not IsPositionEmpty PositionInDirectionFromThis South
+Not AiDangerSouth
+End
+
+COMPOUND: BOOLEAN
+AiAnyDistanceAboveSafety
+And Not HasAbilityWithName TheFirstCubeInDirectionFromPositionWhich South PositionOfThis True Liquid
+Not CubeHasName TheFirstCubeInDirectionFromPositionWhich South PositionOfThis True Void
+End
+
+COMPOUND: BOOLEAN
+AiBurrowing
+Or And AiNeutralSouth Not AiDangerSouth
+AiVoidSouth
+End
+
+COMPOUND: BOOLEAN
+AiFlying
+IsPositionEmpty PositionInDirectionFromPosition GravityDirection PositionOfThis
+End
+
+COMPOUND: BOOLEAN 
+AiMissile
+And CubeExists TheFirstCubeInDirectionFromPositionWhich Forwards PositionOfThis True 
+Not IsAllyToCaster TheFirstCubeInDirectionFromPositionWhich Forwards PositionOfThis True 
+End
+
+COMPOUND: BOOLEAN
+AiDelay
+IsLarger WorldTime GenericDouble
+End
+
+COMPOUND: BOOLEAN
+AiLimit
+IsSmaller AmountOfCubesWhich HasNameOfCube Caster Test GenericConstant
+End
+
+COMPOUND: ABILITY
+AiPlacementAdd
+AiPlacement NegateX Minus GenericDouble 
+  Not GenericBoolean
+NORANDOM
+End
+
+COMPOUND: ABILITY
+AiWarrior
+AiPlacementRule AiStacking
+ExtraTrigger: AiPlacementAdd 1 AiFrontline
+ExtraTrigger: AiPlacementAdd 1 Not AiBackline
+NORANDOM
+End
+
+COMPOUND: ABILITY
+AiAggressiveBurrowing
+AiPlacementRule AiBurrowing
+ExtraTrigger: AiPlacementAdd 1 AiFrontline
+ExtraTrigger: AiPlacementAdd 1 Not AiBackline
+NORANDOM
+End

@@ -1,0 +1,124 @@
+PERK: Programmer
+BelongsTo: CLASS
+LevelRequirement: 29
+Description: Start with 2 fragments and 1 more each map, craft custom perks from fragments End
+ObtainAction: AddCubeToInventory CubeConstant Compiler
+ObtainAction: AddCubeToInventory CubeConstant Subtractor
+ObtainAction: DisablePerkAutoSort
+ObtainAction: ObtainPerk PerkConstant Programmer_Manufactory
+ObtainAction: XTimes 2 ObtainPerk PerkConstant Starting_Fragment
+End
+
+COMPOUND: ACTION
+GetLeastFragment
+ Both SetCampaignVariable PROGRAMMER_TRIGGER 0
+ Both SetCampaignVariable PROGRAMMER_TARGET 0
+ Both SetCampaignVariable PROGRAMMER_EFFECT 0 
+ Both EveryPerkInInventoryWhich TRUE
+   IfElse PerkIsType Target EffectFragment ChangeCampaignVariable PROGRAMMER_EFFECT 1
+   IfElse PerkIsType Target TargetFragment ChangeCampaignVariable PROGRAMMER_TARGET 1
+   If PerkIsType Target TriggerFragment ChangeCampaignVariable PROGRAMMER_TRIGGER 1
+ IfElse And 
+  Not IsSmaller GetCampaignVariable PROGRAMMER_TRIGGER GetCampaignVariable PROGRAMMER_EFFECT
+  Not IsSmaller GetCampaignVariable PROGRAMMER_TARGET GetCampaignVariable PROGRAMMER_EFFECT
+   ReadAPartialScenario Effect_Fragment_Reward  
+ IfElse
+  Not IsSmaller GetCampaignVariable PROGRAMMER_TRIGGER GetCampaignVariable PROGRAMMER_TARGET
+  ReadAPartialScenario Target_Fragment_Reward
+ ReadAPartialScenario Trigger_Fragment_Reward
+End
+
+PERK: Programmer_Manufactory
+BelongsTo: NULL
+Value: 50
+CampaignAbility: AfterAMapIsGenerated GetLeastFragment
+Description: At the beginning of each map choose from 3 perk fragments of the type you have least of End
+End
+
+PERK: Chain_Box
+BelongsTo: Programmer
+ObtainAction: ReadAScenario Chain_Fragment_Reward
+Description: Choose one of 3 chain fragments to gain and lose this perk (chain fragments interact with other fragments, the manufactory won't produce or account for these) End
+RemoveUponObtaining
+End
+
+PERK: Jumble_Fragments
+BelongsTo: Programmer
+ObtainAction: XTimes 2 RandomlyX 4
+ ReadAScenario Random_Trigger_Fragment_Reward
+ ReadAScenario Random_Target_Fragment_Reward
+ ReadAScenario Random_Effect_Fragment_Reward
+ ReadAScenario Random_Chain_Fragment_Reward
+Description: Gain 2 random perk fragments (no rerolling) and lose this perk End
+RemoveUponObtaining
+End
+
+PERK: Expensive_Fragments
+BelongsTo: Programmer
+ObtainAction: Both 
+ XTimes 3 RandomlyX 4
+ ReadAScenario Random_Trigger_Fragment_Reward
+ ReadAScenario Random_Target_Fragment_Reward
+ ReadAScenario Random_Effect_Fragment_Reward
+ ReadAScenario Random_Chain_Fragment_Reward
+ ChangeCurrency -40
+Description: Gain 3 random perk fragments (no rerolling), lose 40 gold and lose this perk End
+RemoveUponObtaining
+End
+
+PERK: Fragment_Merchant
+BelongsTo: Programmer
+CampaignAbility: AfterYouGainOrLoseCurrency If Not BattleOngoing If IsSmaller EventAmount 0 
+Both ChangeCampaignVariable FRAGMENT_MERCHANT Lowest AbsoluteAmount EventAmount 100
+If Not IsSmaller GetCampaignVariable FRAGMENT_MERCHANT 100
+ Both ChangeCampaignVariable FRAGMENT_MERCHANT -100
+ RandomlyX 4
+ ReadAScenario Random_Trigger_Fragment_Reward
+ ReadAScenario Random_Target_Fragment_Reward
+ ReadAScenario Random_Effect_Fragment_Reward
+ ReadAScenario Random_Chain_Fragment_Reward
+Description: Every 100 gold you lose gain a random perk fragment, doesn't work in battles, max 100 per loss \N 
+Current Counter: CVARIABLE FRAGMENT_MERCHANT End
+End
+
+PERK: Needed_Fragment
+BelongsTo: Programmer
+ObtainAction: GetLeastFragment
+Description: Choose from 3 perk fragments of the type you have least of, then lose this perk End
+RemoveUponObtaining
+End
+
+PERK: Effect_Fragments
+BelongsTo: Programmer
+ObtainAction: XTimes 2 ReadAScenario Random_Effect_Fragment_Reward
+Description: Get 2 random effect fragments (no rerolling) and lose this perk End
+RemoveUponObtaining
+End
+
+PERK: Programmed_Dragon_Egg
+BelongsTo: Programmer
+Description: You start with a free Programmed_Dragon_Egg in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Programmed_Dragon_Egg RemoveThisAbility
+End
+
+PERK: Needed_Fragment_
+BelongsTo: Programmer
+ObtainAction: GetLeastFragment
+Description: Choose from 3 perk fragments of the type you have least of, then lose this perk End
+RemoveUponObtaining
+End
+
+PERK: Needed_Fragment__
+BelongsTo: Programmer
+ObtainAction: GetLeastFragment
+Description: Choose from 3 perk fragments of the type you have least of, then lose this perk End
+RemoveUponObtaining
+End
+
+PERK: Starting_Fragment
+BelongsTo: NULL
+ClickAction: If Not BattleOngoing Both GetLeastFragment LoseThisPerk
+Description: Click to choose from 3 perk fragments of the type you have least of, then lose this perk (Doesn't work in battles) End
+End
+
+

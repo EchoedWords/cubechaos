@@ -1,0 +1,84 @@
+COMPOUND: ABILITY
+MyceliumHeart
+EveryXSeconds DoubleConstant 10 Secret EveryCubeWhich HasAbilityWithName Test MyceliumGrowth
+ Both IfElse X%Chance 10 
+    SetVariable MYCELIUM_DIR DoubleFromDirection Forwards
+    SetVariable MYCELIUM_DIR DoubleFromDirection RandomDirection
+  SetCaster Target
+  Both CreateCubeOnPosition CopyWithAction CubeConstant Mycelium SetFaction 1 
+     PositionInDirectionFromPosition DirectionFromDouble GetVariableOnCube MYCELIUM_DIR Caster PositionOfCube Target
+   SetStorage CubeOfPosition PositionInDirectionFromPosition DirectionFromDouble GetVariableOnCube MYCELIUM_DIR Caster PositionOfCube Target 
+    If IsAllyToCaster Storage
+     Both RemoveAbilityWithName MyceliumGrowth 
+      TargetCube Storage GainAbility MyceliumGrowth
+Text: Every 10 seconds every cube with Myclium_Growth chooses a random direction and creates a Mycelium there,
+ then if that position is blocked by an ally move mycelium_growth over to that cube End
+Visual: Square 1 0 96 96 96
+Visual: Square 0 1 96 96 96
+Visual: Square -1 0 96 96 96
+Visual: Square 0 -1 96 96 96
+LOCAL
+End
+
+PERK: Fungus
+BelongsTo: SPECIES
+LevelRequirement: 34
+Description: Your leader starts with mycelium_growth. Every 10 seconds every cube with mycelium_growth
+ creates player Mycelium in a random direction and moves mycelium_growth in the same direction if there is an ally End
+Ability: MyceliumHeart
+Ability: MyceliumGrowth
+ObtainAction: AddCubeToInventory CubeConstant Big_Spore
+ObtainAction: AddCubeToInventory CubeConstant Fungus_Heart
+ObtainAction: AddCubeToInventory CubeConstant Fume_Spreader
+End
+
+PERK: Fungus_Dragon_Egg
+BelongsTo: Fungus
+Description: You start with a free Fungus_Dragon_Egg in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Fungus_Dragon_Egg RemoveThisAbility
+End
+
+PERK: Mycelium_Infection
+BelongsTo: Fungus
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If Not CubeHasName Victim Mycelium If X%Chance ManaCostOfCube Victim TargetCube Victim Secret
+ GainAbility MyceliumGrowth
+Description: After a non Mycelium ally is created X% chance it gains 1 mycelium_growth where X is its manacost End
+End
+
+PERK: Languid_Mycelium
+BelongsTo: Fungus
+Ability: AfterACubeIsCreated If CubeHasName Victim Mycelium TargetCube Victim Secret
+ Both GainXExtraHp 6
+ GainAbility StrengthX -1
+Description: Created Mycelium gains 6 extra hp and -1 strength End
+End
+
+PERK: Floating_Mycelium
+BelongsTo: Fungus
+Ability: AfterACubeIsCreated If CubeHasName Victim Mycelium TargetCube Victim Secret
+ Both RemoveAbilityWithName DiagonalAnchor 
+ GainAbility Flying
+ExtraTrigger: EveryMinute EveryCubeWhich StringContainsString NameOfCube Test StringConstant Mycelium SetCaster Target MoveInDirection South
+Description: Created Mycelium gain flying and loses the diagonal anchoring, every minute every cube with mycelium in its name moves downwards End
+Unique
+End
+
+PERK: Mycelium_Source
+BelongsTo: Fungus
+Ability: EveryMinute GainAbility MyceliumGrowth
+Description: Every minute your starting leader gains mycelium_growth End
+End
+
+PERK: Mycelium_Tunneling
+BelongsTo: Fungus
+Ability: AfterACubeCollides If IsAllyToCaster Culprit If IsSameCube Culprit Victim  If CubeHasName Storage Mycelium Cooldown 1200
+ TargetCube Victim TeleportToPosition PositionXInfrontYBelowPosition 10 0 PositionOfCube Victim
+Description: After an ally moves itself into mycelium it teleports to 10 spaces forwards if there is space, cooldown 20 seconds End
+End
+
+PERK: Composting
+BelongsTo: Fungus
+Ability: AfterACubeDies If IsAllyToCaster Culprit XTimes ManacostOfCube Victim
+  EveryXTimes 100 TargetCube Culprit GainAbility MyceliumGrowth
+Description: Every 100 mana worth of cubes killed by allies the last killer gains mycelium_growth End
+End

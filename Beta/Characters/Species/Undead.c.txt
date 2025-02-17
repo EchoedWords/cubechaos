@@ -1,0 +1,65 @@
+PERK: Undead
+BelongsTo: SPECIES
+LevelRequirement: 22
+Ability: AfterACubeDies If IsAllyToCaster Victim If Not HasAbilityWithName Victim Undead
+ If IsLarger MaxHpOfCube Victim DoubleConstant 0
+ If X%Chance DoubleConstant 40 SetCaster Victim
+  CreateCubeOnPosition CopyWithAction Victim 
+   Both Secret GainAbility Undead 
+   Silent HealXDamage DoubleConstant 4
+  PositionOfCube Victim
+Description: Resurrection: After a non undead ally dies if it had more than 0 max hp, 
+40% chance for it to create a copy in its place, except the copy has 4 hp healed and is undead End
+ObtainAction: AddCubeToInventory CubeConstant Large_Abomination
+ObtainAction: AddCubeToInventory CubeConstant Summoning_Altar
+ObtainAction: AddCubeToInventory CubeConstant Haunted_Graveyard
+End
+
+PERK: Undead_Dragon_Egg
+BelongsTo: Undead
+Description: You start with a free Undead_Dragon_Egg in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Undead_Dragon_Egg 
+RemoveThisAbility
+End
+
+PERK: Advanced_Restoration
+BelongsTo: Undead
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If HasAbilityWithName Victim Undead TargetCube Victim
+HealXDamage DoubleConstant 3
+Description: After an ally with undead is created your starting leader heals it for 3 hp End
+End
+
+PERK: Sturdy_Undead
+BelongsTo: Undead
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If HasAbilityWithName Victim Undead TargetCube Victim
+Both GainXExtraHp DoubleConstant 2 GainAbility PoisonX 2
+Description: After an ally with undead is created it gains 2 extra hp, but is also poisoned losing 2 hp per minute End
+End
+
+PERK: Chosen_Life
+BelongsTo: Undead
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsPlaced TargetCube Victim
+If X%Chance DoubleConstant 5 GainAbility ExtraLife
+Description: After an ally is placed 5% chance for it to gain an extra_life End
+End
+
+PERK: Earthen_Dead
+BelongsTo: Undead
+Ability: AfterACubeDies If IsNeutral Victim XTimes MaxHpOfCube Victim If X%Chance DoubleConstant 2
+CreateCubeOnPosition CubeConstant Zombie PositionOfCube Victim
+Description: After a neutral cube dies, per 1 max hp it has, 2% chance you create a zombie in its place End
+End
+
+PERK: Risen_Enemies
+BelongsTo: Undead
+Ability: AfterACubeDies If And IsEnemyToCaster Victim IsAllyToCaster Culprit 
+If X%Chance DoubleConstant 10 CreateCubeOnPosition CubeConstant Zombie PositionOfCube Victim
+Description: After an enemy cube is killed by an ally there is a 10% chance for your leader to create an allied zombie on its position End
+End
+
+PERK: Vengeful_Undead
+BelongsTo: Undead
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If HasAbilityWithName Victim Undead TargetCube Victim
+GainAbility VengeanceX 2
+Description: After an ally with undead is created it gains vengeance 2, dealing 2 damage to whatever next kills them End
+End

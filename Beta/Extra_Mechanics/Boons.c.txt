@@ -1,0 +1,108 @@
+PERK: Old_Shop_Key
+BelongsTo: NULL
+ObtainAction: If Not BattleOngoing Both LoseThisPerk ReadAScenario Shop
+Description: Immediately enter a shop End
+Invisible
+/- Note: this perk is given by blight boon selection hardcoded -/
+Value: 20
+End
+
+PERK: Perk_Chest
+BelongsTo: Boon
+ObtainAction: If Not BattleOngoing Both LoseThisPerk ReadAScenario Basic_Perk_Reward
+Description: Open a perk chest, choose one of 3 perks (with rerolling) End
+Invisible
+Value: 75
+BalanceCap: 100
+End
+
+PERK: Cube_Chest
+BelongsTo: Boon
+ObtainAction: If Not BattleOngoing Both LoseThisPerk ReadAScenario Basic_Cube_Reward
+Description: Choose one of 3 cubes (with rerolling) End
+Invisible
+Value: 25
+BalanceCap: 20
+End
+
+PERK: Big_Shop
+BelongsTo: Boon
+ObtainAction: ChangeCampaignVariable SHOPADDEDROWS DoubleConstant 1
+Description: Shops have 1 more row of perks and cubes End
+Value: 75
+Unique
+End
+
+PERK: Cube_Draft
+BelongsTo: Boon
+ObtainAction: If Not BattleOngoing Both EveryCubeInInventoryWhich TRUE RemoveCubeFromInventory Target
+ XTimes 7 ReadAScenario Basic_Cube_Reward
+Description: Lose all cubes in your inventory (not deck) and open 7 cube rewards, choosing from 3 cubes each time End
+Invisible
+Value: 25
+Unique
+End
+
+PERK: Sturdy_Leader
+BelongsTo: Boon
+Ability: AtTheStartOfTheBattle Both GainXExtraHp DoubleConstant 30 RemoveThisAbility
+Description: Your leader starts with 30 more hp End
+Value: 25
+BalanceCap: 20
+End
+
+PERK: Double_Class
+BelongsTo: Boon
+ObtainAction: ObtainPerk ARandomPerkInInventoryWhich And And PerkIsType Test CLASS IsLarger ValueOfPerk Test 50 Not PerkIsUnique Test
+Description: Gain a copy of a random class perk you have End
+Invisible
+Value: 75
+BalanceCap: 5
+Requirement: PerkExists ARandomPerkInInventoryWhich And And PerkIsType Test CLASS IsLarger ValueOfPerk Test 50 Not PerkIsUnique Test
+End
+
+PERK: Double_Species
+BelongsTo: Boon
+ObtainAction: ObtainPerk ARandomPerkInInventoryWhich And And PerkIsType Test SPECIES IsLarger ValueOfPerk Test 50 Not PerkIsUnique Test
+Description: Gain a copy of a random species perk you have End
+Invisible
+Value: 75
+BalanceCap: 5
+Requirement: PerkExists ARandomPerkInInventoryWhich And And PerkIsType Test SPECIES IsLarger ValueOfPerk Test 50 Not PerkIsUnique Test
+End
+
+PERK: Fleeting_Mana
+BelongsTo: Boon
+WorldAbility: AtTheStartOfTheBattle If IsSmaller GetCampaignVariable MAPSCOMPLETED 1 Both ChangeMaxManaOfFaction 60 1 FactionXGainsYMana 1 60
+Description: Start battles with +60 starting mana and max mana, stops working after you complete the first node map End
+BalanceCap: 5
+Value: 50
+End
+
+PERK: Health_Compensation
+BelongsTo: Boon
+WorldAbility: AfterYouLose Both ChangeStartingMaxMana DoubleConstant 20 ChangeStartingMana DoubleConstant 20
+Description: After you lose a battle gain +20 starting mana and max mana End
+BalanceCap: 5
+Value: 25
+End
+
+PERK: Double_Combo
+BelongsTo: Boon
+ObtainAction: ObtainPerk ARandomPerkInInventoryWhich And And PerkIsType Test CLASSSPECIES IsLarger ValueOfPerk Test 50 Not PerkIsUnique Test
+Description: Gain a copy of a random class species combo perk you have End
+Invisible
+Value: 75
+BalanceCap: 5
+Requirement: PerkExists ARandomPerkInInventoryWhich And And PerkIsType Test CLASSSPECIES IsLarger ValueOfPerk Test 50 Not PerkIsUnique Test
+End
+
+PERK: Random_Cubes
+BelongsTo: Boon
+ObtainAction: If Not BattleOngoing Both LoseThisPerk XTimes 3 
+ AddCubeToInventory APRandomCubeInLibraryWhich And Not IsAlreadyInInventory Test Not IsToken Test
+Description: Gain 3 random cubes End
+Invisible
+Value: 25
+BalanceCap: 10
+End

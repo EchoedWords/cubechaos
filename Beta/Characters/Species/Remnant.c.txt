@@ -1,0 +1,71 @@
+PERK: Remnant
+BelongsTo: SPECIES
+LevelRequirement: 18
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsPlaced TargetCube Victim Both RemoveAbilityWithName ChargeEveryX ChangeMaxHp 5
+Description: Placed allies lose charging and gain 5 max hp End
+ObtainAction: AddCubeToInventory CubeConstant Production_Augment
+ObtainAction: AddCubeToInventory CubeConstant Ancient_Forge
+ObtainAction: AddCubeToInventory CubeConstant Rusted_Wall
+Disableable: false
+End
+
+PERK: Ancient_Dragon_Egg
+BelongsTo: Remnant
+Description: You start with a free Ancient_Dragon_Egg in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Ancient_Dragon_Egg RemoveThisAbility
+End
+
+PERK: Jointed_Movement
+BelongsTo: Remnant
+Ability: BeforeACubeMovesNegation If IsAllyToCaster Victim If IsSameDirection EventDirection Forwards If Not Or Or Or
+ IsAllyToCaster CubeInDirectionFromCube North Victim
+ IsAllyToCaster CubeInDirectionFromCube East Victim
+ IsAllyToCaster CubeInDirectionFromCube South Victim
+ IsAllyToCaster CubeInDirectionFromCube West Victim
+NegateX 1
+Description: Allies can't move forwards unless they are touching an ally End
+Unique
+End
+
+PERK: Ancient_Leader
+BelongsTo: Remnant
+Ability: AfterACubeIsCreated If And IsPlaced IsAllyToCaster Culprit 1Shot Both
+ TeleportToPosition PositionInDirectionFromPosition Forwards PositionOfCube Victim
+ GainXExtraHp 50
+Description: After you place the first cube each battle teleport your starting leader in front of it and grant the leader 50 extra hp End
+End
+
+PERK: Tiny_Overclocker
+BelongsTo: Remnant
+Ability: AfterACubeIsCreated If And IsAllyToCaster Culprit Not IsALeader Culprit TargetCube Culprit 
+GainAbilityStacking BankedTimeX 0 Multiplication 20 ManaCostOfCube Victim
+Description: After a non leader ally creates a cube accelerate the ally by 1/3 of a second per manacost of the creation End
+End
+
+PERK: Rust_Poison
+BelongsTo: Remnant
+Ability: AfterACubeTakesDamage If IsAllyToCaster Culprit If IsEnemyToCaster Victim If Not IsSmaller Subtraction MaxHpOfCube Culprit HpOfCube Culprit 20 TargetCube Victim GainAbility PoisonX 2
+Description: After an ally damages an enemy, if the ally has 20 or more missing hp, it also applies 2 poison End
+End
+
+PERK: Separated_Start
+BelongsTo: Remnant
+Ability: BeforeACubeMovesNegation Both
+ If IsSameDirection East EventDirection If And
+  IsSmaller XOfPosition PositionOfCube Victim Division MaxWorldX 2
+  Not IsSmaller Addition 1 XOfPosition PositionOfCube Victim Division MaxWorldX 2
+ NegateX 1
+ If IsSameDirection West EventDirection If And
+  IsLarger XOfPosition PositionOfCube Victim Division MaxWorldX 2
+  Not IsLarger Subtraction XOfPosition PositionOfCube Victim 1 Division MaxWorldX 2
+ NegateX 1
+ExtraTrigger: EveryXMinutes 3 RemoveThisAbility 
+Description: Cubes can't move past the center, lose this ability 3 minutes into each battle End
+Unique
+End
+
+PERK: Resilient_Creations
+BelongsTo: Remnant
+Ability: AfterACubeIsCreated If And And IsAllyToCaster Culprit IsAllyToCaster Victim Not IsALeader Culprit TargetCube Victim GainXExtraHp Division MaxHpOfCube Culprit 10
+Description: Allies created by non leader allies gain 10% of the maxhp of their creator as extra hp End
+End

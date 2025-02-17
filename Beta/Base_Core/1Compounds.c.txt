@@ -1,0 +1,941 @@
+Compounds
+
+COMPOUND: ABILITY
+LEADER
+Nothing
+Text: \C255 0 220 LEADER: \CN Players without a leader lose the battle End
+NO_DUPLICATES
+End
+
+COMPOUND: DOUBLE
+1/2
+Division DoubleConstant 1 DoubleConstant 2
+End
+
+COMPOUND: DOUBLE
+FactionOfThis
+FactionOfCube Caster
+End
+
+COMPOUND: DOUBLE
+EnemyFaction
+InvertedFaction FactionOfCube Caster
+End
+
+COMPOUND: DOUBLE
+Currency
+GetCampaignVariable CURRENCY
+End
+
+COMPOUND: DOUBLE
+Difficulty
+GetCampaignVariable DIFFICULTY
+End
+
+COMPOUND: DOUBLE
+CurrentMapNode
+GetCampaignVariable CURRENTMAPNODE
+End
+
+COMPOUND: DOUBLE
+MapNodeAmount
+GetCampaignVariable MAPNODEAMOUNT
+End
+
+COMPOUND: DOUBLE
+Nightmares
+GetCampaignVariable NIGHTMARES
+End
+
+COMPOUND: DOUBLE
+DifficultyXP
+Multiplication 
+ Addition DoubleConstant 5 Difficulty 
+ Addition DoubleConstant 1 Division Nightmares DoubleConstant 10
+End
+
+COMPOUND: ACTION
+1Shot
+XShots DoubleConstant 1 GenericAction
+End
+
+COMPOUND: ACTION
+Then
+GenericAction
+End
+
+COMPOUND: ACTION
+UntilSuccess
+SeperateEffect Until HadAnEffect GenericAction Nothing
+End
+
+COMPOUND: ACTION
+GenerateXMana
+FactionXGainsYMana FactionOfCube Target GenericDouble
+End
+
+COMPOUND: ACTION
+AddCubeToHandOfThis
+AddCubeToHandOfFaction GenericCube FactionOfCube Caster
+End
+
+COMPOUND: ACTION
+SetHp
+ChangeHp Subtraction GenericDouble HpOfCube Target
+End
+
+COMPOUND: ACTION
+EveryCube
+EveryCubeWhich True GenericAction
+End
+
+COMPOUND: ACTION
+GainXExtraHp
+Both SetVariable TEMP GenericDouble
+Both ChangeMaxHp GetVariableOnCube TEMP Target
+Silent HealXDamage GetVariableOnCube TEMP Target
+End
+
+COMPOUND: ACTION
+ChangeCurrency
+ChangeCampaignVariable CURRENCY GenericDouble
+End
+
+COMPOUND: ACTION
+ChangeRerollCost
+ChangeCampaignVariable REROLLCOST GenericDouble
+End
+
+COMPOUND: ACTION
+ChangeStartingMana
+ChangeCampaignVariable STARTINGMANA GenericDouble
+End
+
+COMPOUND: ACTION
+ChangeStartingMaxMana
+ChangeCampaignVariable STARTINGMAXMANA GenericDouble
+End
+
+COMPOUND: ACTION
+ChangeDifficulty
+ChangeCampaignVariable DIFFICULTY GenericDouble
+End
+
+COMPOUND: ACTION
+ChangeStartingHandSize
+ChangeCampaignVariable STARTINGHANDSIZE GenericDouble
+End
+
+COMPOUND: ACTION
+GainAffectedAbility
+GainAbility AffectedAbility
+End
+
+COMPOUND: ACTION
+GainThisAbility
+GainAbility ThisAbility
+End
+
+COMPOUND: ACTION
+GainAllAbilitiesOfCube
+EveryAbilityOfCubeWhich GenericCube True GainAbility Target
+End
+
+COMPOUND: ACTION
+GainAllAbilitiesOfPerk
+EveryLeaderAbilityOfPerkWhich GenericPerk True Both ConvertPerkAbilityDescription Target GainAbility Target
+End
+
+COMPOUND: ACTION
+GainAllWorldAbilitiesOfPerk
+EveryWorldAbilityOfPerkWhich GenericPerk True Both ConvertPerkAbilityDescription Target GainAbility Target
+End
+
+
+COMPOUND: ACTION
+GainRandomAbilityOfCube
+GainAbility ARandomAbilityOfCubeWhich GenericCube True
+End
+
+COMPOUND: ACTION
+GainRandomGeneratedAbility
+GainAbility RandomGeneratedAbility
+End
+
+COMPOUND: ACTION
+GainAbilityStacking
+GainAbility CopyWithAction GenericAbility SetAbilityStacking Target GenericDouble
+End
+
+COMPOUND: ACTION
+GainNthAbilityOfCube
+GainAbility NthAbilityOfCubeWhich GenericDouble GenericCube True
+End
+
+COMPOUND: ACTION
+SetAbilitiesPerkConnection
+EveryAbilityOfCubeWhich Target True SetAbilityPerkConnection Target GenericDouble
+End
+
+COMPOUND: ACTION
+RemoveThisAbility
+RemoveAbility ThisAbility
+End
+
+COMPOUND: ACTION
+RemoveAllAbilities
+EveryAbilityOfCubeWhich Target True RemoveAbility Target
+End
+
+COMPOUND: ACTION
+RemoveRandomAbility
+RemoveAbility ARandomAbilityOfCubeWhich Target True
+End
+
+COMPOUND: ACTION
+RemoveAbilityWithName
+RemoveAbility FirstAbilityOfCubeWhich Target IsSameString NameOfAbility Test GenericWord
+End
+
+COMPOUND: DOUBLE
+AmountOfAbilitiesOfCubeWithName
+AmountOfAbilitiesOfCubeWhich GenericCube IsSameString NameOfAbility Test GenericWord
+End
+
+COMPOUND: POSITION
+PositionOfThis
+PositionOfCube Caster
+End
+
+COMPOUND: POSITION
+PositionInDirectionFromThis
+PositionInDirectionFromPosition GenericDirection PositionOfCube Caster
+End
+
+COMPOUND: POSITION
+TopPositionAboveCube
+PositionFromXAndY XOfPosition PositionOfCube GenericCube DoubleConstant 0
+End
+
+COMPOUND: POSITION
+ARandomPosition
+PositionFromXAndY RandomRoundBetweenXtoY DoubleConstant 0 MaxWorldX RandomRoundBetweenXtoY DoubleConstant 0 MaxWorldY
+End
+
+COMPOUND: POSITION
+ARandomLeftPosition
+PositionFromXAndY RandomRoundBetweenXtoY DoubleConstant 0 Division MaxWorldX DoubleConstant 2 RandomRoundBetweenXtoY DoubleConstant 0 MaxWorldY
+End
+
+COMPOUND: POSITION
+ARandomTopPosition
+PositionFromXAndY RandomRoundBetweenXtoY DoubleConstant 0 MaxWorldX DoubleConstant 0
+End
+
+COMPOUND: POSITION
+ARandomRightPosition
+PositionFromXAndY RandomRoundBetweenXtoY Division MaxWorldX DoubleConstant 2 MaxWorldX RandomRoundBetweenXtoY DoubleConstant 0 MaxWorldY
+End
+
+COMPOUND: DIRECTION 
+North
+DirectionConstant 1
+End
+
+COMPOUND: DIRECTION 
+East
+DirectionConstant 2
+End
+
+COMPOUND: DIRECTION
+South
+DirectionConstant 3
+End
+
+COMPOUND: DIRECTION
+West
+DirectionConstant 4
+End
+
+COMPOUND: DIRECTION
+Backwards
+ReverseDirection Forwards
+End
+
+COMPOUND: DIRECTION
+RandomDirection
+DirectionFromDouble RandomRoundBetweenXtoY DoubleConstant 1 DoubleConstant 4
+End
+
+COMPOUND: ABILITY
+EveryXTicks
+EveryTick EveryXTimes GenericDouble GenericAction
+End
+
+COMPOUND: ABILITY
+Every5Ticks
+EveryTick EveryXTimes TimeConstant 5 GenericAction
+End
+
+COMPOUND: ABILITY
+Every10Ticks
+EveryTick EveryXTimes TimeConstant 10 GenericAction
+End
+
+COMPOUND: ABILITY
+Every30Ticks
+EveryTick EveryXTimes TimeConstant 30 GenericAction
+End
+
+COMPOUND: ABILITY
+EverySecond
+EveryTick EveryXTimes TimeConstant 60 GenericAction
+End
+
+COMPOUND: ABILITY
+EveryXSeconds
+EveryTick EveryXTimes Multiplication DoubleConstant 60 GenericDouble GenericAction
+End
+
+COMPOUND: ABILITY
+Every2Seconds
+EveryTick EveryXTimes TimeConstant 120 GenericAction
+End
+
+COMPOUND: ABILITY
+Every3Seconds
+EveryTick EveryXTimes TimeConstant 180 GenericAction
+End
+
+COMPOUND: ABILITY
+Every5Seconds
+EveryTick EveryXTimes TimeConstant 300 GenericAction
+End
+
+COMPOUND: ABILITY
+Every10Seconds
+EveryTick EveryXTimes TimeConstant 600 GenericAction
+End
+
+COMPOUND: ABILITY
+Every20Seconds
+EveryTick EveryXTimes TimeConstant 1200 GenericAction
+End
+
+COMPOUND: ABILITY
+Every30Seconds
+EveryTick EveryXTimes TimeConstant 1800 GenericAction
+End
+
+COMPOUND: ABILITY
+EveryMinute
+EveryTick EveryXTimes TimeConstant 3600 GenericAction
+End
+
+COMPOUND: ABILITY
+EveryXMinutes
+EveryTick EveryXTimes Multiplication DoubleConstant 3600 GenericDouble GenericAction
+End
+
+COMPOUND: ABILITY
+Every10Minutes
+EveryTick EveryXTimes TimeConstant 36000 GenericAction
+End
+
+COMPOUND: ABILITY
+AfterAnotherAllyIsCreated
+AfterACubeIsCreated If Not IsSameCube Caster Victim If IsAllyToCaster Victim GenericAction
+End
+
+COMPOUND: ABILITY
+BeforeACubeIsAddedToYourHand
+BeforeACubeIsAddedToAHand If IsEqual FactionOfThis EventFaction GenericAction
+End
+
+COMPOUND: BOOLEAN
+False
+Not True
+End
+
+COMPOUND: BOOLEAN
+IsPlaced
+IsEqual EventAmount DoubleConstant 1
+End
+
+COMPOUND: BOOLEAN
+IsCubeInfront
+Not IsPositionEmpty PositionInDirectionFromThis Forwards
+End
+
+COMPOUND: BOOLEAN
+IsEmptyAbove
+IsPositionEmpty PositionInDirectionFromThis North
+End
+
+COMPOUND: BOOLEAN
+AboveExists
+PositionExists PositionInDirectionFromThis North
+End
+
+COMPOUND: BOOLEAN
+NoCubeAbove
+Or Not AboveExists IsEmptyAbove
+End
+
+COMPOUND: BOOLEAN
+IsNotAllyInfront
+And
+Not IsPositionEmpty PositionInDirectionFromThis Forwards
+Not IsAllyToCaster CubeInDirectionFromCube Forwards Caster
+End
+
+COMPOUND: BOOLEAN
+HaveMoreThanXMana
+IsLarger ManaOfFaction FactionOfCube Caster GenericDouble
+End
+
+COMPOUND: BOOLEAN
+IsALeader
+HasAbilityWithName GenericCube LEADER
+End
+
+COMPOUND: BOOLEAN
+BattleOngoing
+WorldExists
+End
+
+COMPOUND: BOOLEAN
+FirstMap
+Or IsSmaller GetCampaignVariable MAPSCOMPLETED DoubleConstant 1 IsLarger GetCampaignVariable MAPSCOMPLETED Addition GetCampaignVariable ADDITIONALMAPSNEEDED DoubleConstant 2
+End
+
+COMPOUND: BOOLEAN
+MapLeft
+Or IsSmaller GetCampaignVariable MAPSCOMPLETED DoubleConstant 2 IsLarger GetCampaignVariable MAPSCOMPLETED Addition GetCampaignVariable ADDITIONALMAPSNEEDED DoubleConstant 2
+End
+
+COMPOUND: BOOLEAN
+IsNotInHandOfThis
+Not IsAlreadyInHandOfFaction GenericCube FactionOfThis
+End
+
+COMPOUND: BOOLEAN
+IsCubeTouchingThis
+IsPositionTouchingPosition PositionOfCube GenericCube PositionOfCube Caster
+End
+
+COMPOUND: BOOLEAN
+IsCubeTouchingCube
+IsPositionTouchingPosition PositionOfCube GenericCube PositionOfCube GenericCube
+End
+
+COMPOUND: BOOLEAN
+IsInShieldArea
+Or
+IsSameCube Test CubeOfPosition PositionXInfrontYBelowPosition DoubleConstant 2 DoubleConstant 0 PositionOfCube Target
+Or
+IsSameCube Test CubeOfPosition PositionXInfrontYBelowPosition DoubleConstant 2 DoubleConstant -1 PositionOfCube Target
+IsSameCube Test CubeOfPosition PositionXInfrontYBelowPosition DoubleConstant 2 DoubleConstant 1 PositionOfCube Target
+End
+
+COMPOUND: BOOLEAN
+IsInAoEAroundTarget
+Or
+IsSameCube Test CubeInDirectionFromCube North Target
+Or
+IsSameCube Test CubeInDirectionFromCube East Target
+Or
+IsSameCube Test CubeInDirectionFromCube South Target
+Or
+IsSameCube Test CubeInDirectionFromCube West Target
+Or
+IsSameCube Test CubeOfPosition PositionXInfrontYBelowPosition DoubleConstant 1 DoubleConstant 1 PositionOfCube Target
+Or
+IsSameCube Test CubeOfPosition PositionXInfrontYBelowPosition DoubleConstant 1 DoubleConstant -1 PositionOfCube Target
+Or
+IsSameCube Test CubeOfPosition PositionXInfrontYBelowPosition DoubleConstant -1 DoubleConstant 1 PositionOfCube Target
+IsSameCube Test CubeOfPosition PositionXInfrontYBelowPosition DoubleConstant -1 DoubleConstant -1 PositionOfCube Target
+End
+
+COMPOUND: BOOLEAN
+IsSurroundedByAllies
+And
+And
+IsAllyToCaster CubeInDirectionFromCube North Target
+IsAllyToCaster CubeInDirectionFromCube South Target
+And
+IsAllyToCaster CubeInDirectionFromCube West Target
+IsAllyToCaster CubeInDirectionFromCube East Target
+End
+
+COMPOUND: BOOLEAN
+IsDamaged
+IsLarger MaxHpOfCube Test HpOfCube Test
+End
+
+COMPOUND: BOOLEAN 
+IsEnemy
+IsLarger FactionOfCube GenericCube DoubleConstant 1
+End
+
+COMPOUND: BOOLEAN
+IsAlly
+IsEqual FactionOfCube GenericCube DoubleConstant 1
+End
+
+COMPOUND: BOOLEAN
+IsNeutral
+IsEqual FactionOfCube GenericCube DoubleConstant 0
+End
+
+COMPOUND: BOOLEAN
+HasNameOfCube
+IsSameString NameOfCube GenericCube NameOfCube GenericCube
+End
+
+COMPOUND: BOOLEAN
+PerkHasNameOfPerk
+IsSameString NameOfPerk GenericPerk NameOfPerk GenericPerk
+End
+
+COMPOUND: BOOLEAN
+AbilityHasName
+IsSameString NameOfAbility GenericAbility GenericWord
+End
+
+COMPOUND: BOOLEAN
+CubeHasName
+IsSameString NameOfCube GenericCube GenericName
+End
+
+COMPOUND: BOOLEAN
+ExcludeLastXNodes
+IsSmaller Test Subtraction GetCampaignVariable MAPNODEAMOUNT GenericDouble
+End
+
+COMPOUND: CUBE
+ARandomEnemy
+ARandomCubeWhich IsEnemyToCaster Test
+End
+
+COMPOUND: CUBE
+ARandomAlly
+ARandomCubeWhich IsAllyToCaster Test
+End
+
+COMPOUND: CUBE
+ARandomDamagedAlly
+ARandomCubeWhich And IsAllyToCaster Test IsDamaged
+End
+
+COMPOUND: CUBE
+ARandomNotLeaderEnemy
+ARandomCubeWhich And IsEnemyToCaster Test Not IsALeader Test
+End
+
+COMPOUND: CUBE
+ARandomLeaderOfFaction
+ARandomCubeWhich And IsALeader Test IsEqual FactionOfCube Test GenericDouble
+End
+
+COMPOUND: CUBE
+ARandomAlliedLeader
+ARandomCubeWhich And IsALeader Test IsAllyToCaster Test
+End
+
+COMPOUND: ACTION
+EveryLeaderOfFaction
+EveryCubeWhich And IsALeader Test IsEqual FactionOfCube Test GenericDouble GenericAction
+End
+
+COMPOUND: ACTION
+EveryAlliedLeader
+EveryCubeWhich And IsALeader Test IsAllyToCaster Test GenericAction
+End
+
+COMPOUND: ACTION
+EveryAlly
+EveryCubeWhich IsAllyToCaster Test GenericAction
+End
+
+COMPOUND: CUBE
+ARandomCube
+ARandomCubeWhich True
+End
+
+COMPOUND: ABILITY
+GhostDeath
+AfterThisDies CreateGhost
+ExtraTrigger: EveryXSeconds DoubleConstant 10 Silent RemoveThisAbility
+Text: After this dies create a ghost here (removed after 1 second) End
+NO_DUPLICATES
+INVISIBLE
+End
+
+COMPOUND: ABILITY
+OnDeathCreateCube
+AfterThisDies CreateCubeOnPosition GenericCube PositionOfCube Caster
+Text: After this dies create CODE 1 End
+End
+
+COMPOUND: ABILITY
+EveryXCreateCubeAbove
+EveryTick EveryXTimes GenericDouble CreateCubeOnPosition GenericCube PositionInDirectionFromThis North
+Visual: Square 0 -1 96 96 96
+Text: Every CODE 1 create CODE 2 above End
+End
+
+COMPOUND: ABILITY
+EveryXCreateCubeInfront
+EveryTick EveryXTimes GenericDouble CreateCubeOnPosition GenericCube PositionInDirectionFromThis Forwards
+Visual: Square 1 0 96 96 96
+Text: Every CODE 1 create CODE 2 in front End
+End
+
+COMPOUND: ABILITY
+DieAfterX
+EveryTick EveryXTimes GenericTime Die
+Text: \C200 200 200 Temporary: \CN This dies after CODE 1 End
+End
+
+COMPOUND: ABILITY
+SilentDieAfterX
+EveryTick EveryXTimes GenericTime Silent Die
+Text: This dies after CODE 1 without triggering anything End
+End
+
+COMPOUND: ABILITY
+EveryXMeleeY
+EveryTick EveryXTimes GenericTime EveryCubeTouchingPosition PositionOfThis
+If Not IsAllyToCaster Target
+If Not And HasAbilityWithName Target Burrowed 
+ IsSameCube CubeInDirectionFromCube South Caster Target
+TakeXDamageEffect GenericConstant 0 Melee_Swing
+Visual: Sword 1 0 255 0 0 2
+Visual: Sword -1 0 255 0 0 4
+Visual: Sword 0 1 255 0 0 3
+Visual: Sword 0 -1  255 0 0 1
+Text: \C255 0 0  Melee: \CN Every \C255 0 0 CODE 1 \CN deal \C255 0 0 CODE 2 damage \CN to every touching enemy and neutral End
+End
+
+COMPOUND: ABILITY
+Burrowed
+Nothing
+Text: \C107 55 20 Burrowed: \CN Won't be attacked by \C255 0 0  Melee \CN from above End
+End
+
+COMPOUND: ABILITY
+ProjectileX
+AfterThisCollides If Not IsAllyToCaster Victim
+If IsLarger EventAmount DoubleConstant 0
+Both Die
+ TargetCube Victim TakeXDamageEffect GenericConstant 0 Impact
+ExtraTrigger: AfterThisIsCreated If Not IsPlaced If IsAllyToCaster Culprit PlaySound Shoot
+Text: \C250 150 150 Projectile CODE 1 \B : \CN After this collides with a non ally, this dies and deals \C250 150 150 CODE 1 damage \CN to it End
+End
+
+COMPOUND: ABILITY
+Projectile
+AfterThisCollides If Not IsAllyToCaster Victim
+If IsLarger EventAmount DoubleConstant 0 Die
+ExtraTrigger: AfterThisIsCreated If Not IsPlaced If IsAllyToCaster Culprit PlaySound Shoot
+Text: \C250 200 200 Projectile \B : \CN After this collides with a non ally this dies End
+NORANDOM
+End
+
+COMPOUND: ABILITY
+Flying
+BeforeThisMovesNegation If IsSameCube Culprit WorldCube
+NegateX DoubleConstant 1
+Text: \C109 209 228 Flying \CN End
+NO_DUPLICATES
+End
+
+COMPOUND: ABILITY
+Buoyant
+BeforeThisMovesNegation If IsSameDirection EventDirection South
+If CubeExists CubeInDirectionFromCube South Caster
+NegateX DoubleConstant 1
+Text: \C109 109 228 Buoyant: \CN Negate downwards movement if there is a cube below (Prevents collision effects, for example liquid) End
+NO_DUPLICATES
+End
+
+COMPOUND: ABILITY
+Unmovable
+BeforeThisMovesNegation NegateX DoubleConstant 100
+Text: Can't move End
+NO_DUPLICATES
+End
+
+COMPOUND: ABILITY
+ArmorX
+BeforeThisTakesDamage NegateX GenericStacking
+Text: \C128 128 128 Armor STACKING 1 \B : \CN Before this takes damage \C128 128 128 negate STACKING 1 \CN of that damage End
+End
+
+COMPOUND: ABILITY
+RetaliateX
+AfterThisTakesDamage If Not IsAllyToCaster Culprit TargetCube Culprit TakeXDamage GenericConstant
+Text: \C198 27 33 Retaliate CODE 1 \B : \CN  After a non ally damages this deal \C198 27 33 CODE 1 damage \CN back End
+End
+
+COMPOUND: ABILITY
+AlwaysNeutral
+EveryTick SetFaction DoubleConstant 0
+Text: AlwaysNeutral: This always turns neutral End
+End
+
+COMPOUND: ABILITY
+Neutral
+AfterThisIsCreated Both SetFaction DoubleConstant 0 RemoveThisAbility
+Text: \C255 255 0 Neutral: \CN After this is created turn neutral and lose this ability End
+End
+
+COMPOUND: ABILITY
+ChargeEveryX
+EveryTick EveryXTimes GenericTime MoveInDirection Forwards
+Visual: Arrow 1 0 155 238 255 2
+Text: \C155 238 255 Charging: \CN Every \C155 238 255 CODE 1 \CN move forwards End
+End
+
+COMPOUND: ABILITY
+FleeEveryX
+EveryTick EveryXTimes GenericTime MoveInDirection Backwards
+Visual: Arrow -1 0 155 238 255 2
+Text: \C155 238 255 Fleeing: \CN Every \C155 238 255 CODE 1 \CN move backwards End
+End
+
+COMPOUND: ABILITY
+RegenerationX
+EveryTick EveryXTimes Division DoubleConstant 3600 GenericStacking HealXDamage DoubleConstant 1
+Text: \C76 255 0 Regeneration STACKING 1 \B : \CN Heal 1 hp \C76 255 0 STACKING 1 \CN times per minute End
+End
+
+COMPOUND: ABILITY
+GrowthX
+EveryTick EveryXTimes Division DoubleConstant 3600 GenericStacking GainXExtraHp DoubleConstant 1
+Text: \C0 127 14 Growth STACKING 1 \B : \CN Gain 1 extra hp \C0 127 14 STACKING 1 \CN times per minute End
+End
+
+COMPOUND: ABILITY
+PoisonX
+EveryTick EveryXTimes Division 3600 GenericStacking Both Silent TakeXDamage DoubleConstant 1
+CreateNumberParticleWithColourOnPosition 1 65168 PositionOfThis
+Text: \C0 255 144 Poison STACKING 1 \B : \CN Lose 1 hp \C0 255 144 STACKING 1 \CN times per minute End
+CubeColourShift: 0.2 0 255 144
+End
+
+COMPOUND: ABILITY
+PoisonousX
+AfterThisDealsDamage TargetCube Victim If Not IsAllyToCaster Target GainAbilityStacking PoisonX 1 GenericStacking 
+Text: \C0 255 144 Poisonous STACKING 1 \B : \CN Apply \C0 255 144 STACKING 1 poison \CN to non allies this damages End
+End
+
+COMPOUND: ABILITY
+HolyX 
+BeforeThisIsHealed NegateX Minus GenericStacking
+Text: \C0 254 33 Holy STACKING 1 \B : \CN Heals for \C0 254 33 STACKING 1 \CN more when healed End
+End
+
+COMPOUND: ABILITY
+StrengthX
+BeforeThisDealsDamage NegateX Minus GenericStacking
+Text: \C255 38 0 Strength STACKING 1 \B : \CN This deals \C255 38 0 STACKING 1 \CN more damage End
+End
+
+COMPOUND: ABILITY
+LifeSteal
+AfterThisDealsDamage HealXDamage Division EventAmount DoubleConstant 2
+Text: \C255 38 0 LifeSteal: \CN This heals for half the damage it deals End
+End
+
+COMPOUND: ABILITY
+Crippling
+AfterThisDealsDamage TargetCube Victim If Not IsAllyToCaster Target ChangeMaxHp Division EventAmount DoubleConstant -1
+Text: Crippling: After this deals damage the victim also loses that much maximum hp End
+End
+
+COMPOUND: ABILITY
+ExplodesX
+BeforeThisDies Both PlaySound Small_Explosion 
+EveryCubeTouchingPosition PositionOfThis TakeXDamageEffect GenericConstant 0 NULL
+Visual: Mist 1 0 182 0 0
+Visual: Mist 0 1 182 0 0
+Visual: Mist -1 0 182 0 0
+Visual: Mist 0 -1 182 0 0
+Text: \C182 0 0 Explodes CODE 1 \B : \CN Before this dies deal \C182 0 0 CODE 1 damage \CN to touching cubes End
+End
+
+COMPOUND: ABILITY
+EveryXAcidicY
+EveryTick EveryXTimes GenericTime EveryCubeTouchingPosition PositionOfThis 
+If Not HasNameOfCube Target Caster TakeXDamage GenericConstant
+Visual: Sword 0 -1  255 0 0 1
+Visual: Sword 1 0 255 0 0 2
+Visual: Sword 0 1 255 0 0 3
+Visual: Sword -1 0 255 0 0 4
+Text: \C155 55 134 Acidic: \CN Every \C155 55 134 CODE 1 \CN deal \C155 55 134 CODE 2 damage \CN to all touching cubes with different names End
+End
+
+COMPOUND: ABILITY
+VengeanceX
+BeforeThisDies TargetCube Culprit TakeXDamage GenericConstant
+Text: \C191 87 87 Vengeance CODE 1 \B : \CN Before this dies deal \C191 87 87 CODE 1 damage \CN to the cube which killed this End
+End
+
+COMPOUND: ABILITY
+UpToXEfficiency
+AfterThisIsCreated EveryCubeInHandOfFactionWhich FactionOfCube Caster HasNameOfCube Test Caster 
+If IsLarger ManaCostOfCube Target GenericConstant ChangeManaCost DoubleConstant -1
+Text: \C0 0 255 Efficiency CODE 1 \B : \CN After this is created cubes with the same name in your hand cost 1 less, minimum cost \C0 0 255 CODE 1 \CN End
+End
+
+COMPOUND: ABILITY
+LifeDebtX
+AfterThisIsCreated If IsPlaced TargetCube ARandomAlliedLeader Silent TakeXDamage GenericStacking
+Text: LifeDebt: After this is placed an allied leader loses STACKING 1 hp End
+End
+
+COMPOUND: ACTION
+RefundX
+Both SetVariable TEMP GenericDouble
+Both ChangeManaCost Minus GetVariableOnCube TEMP Target
+GenerateXMana GetVariableOnCube TEMP Target
+End
+
+COMPOUND: ACTION
+NoManaCost
+ChangeManaCost Multiplication ManaCostOfCube Target DoubleConstant -1
+End
+
+COMPOUND: ABILITY
+LiquidX
+EveryTick EveryXTimes GenericTime Randomly MoveInDirection West MoveInDirection East
+ExtraTrigger: 
+BeforeThisCollides
+ If Not HasAbilityWithName Victim LiquidX 
+  If IsLarger EventAmount DoubleConstant 0
+Both NegateX DoubleConstant 1
+If Not IsSamePosition OriginalPosition PositionOfThis
+ SwapWithPosition PositionOfCube Victim
+Text: \C0 132 255 Liquid: \CN Move sideways randomly every \C0 132 255 CODE 1 \CN \B . Non liquids colliding with this swap position instead End
+End
+
+COMPOUND: ABILITY
+WorthXMore
+AfterThisIsCreated Both ChangeManaCost GenericStacking RemoveThisAbility
+Text: After this is created increase manacost by STACKING 1 End
+End
+
+COMPOUND: ABILITY
+RandomMovementX
+EveryTick EveryXTimes GenericTime Randomly
+Randomly MoveInDirection North MoveInDirection South
+Randomly MoveInDirection East MoveInDirection West
+Visual: Arrow 1 0 155 238 255 2
+Visual: Arrow 0 1 155 238 255 3
+Visual: Arrow -1 0 155 238 255 4
+Visual: Arrow 0 -1 155 238 255 1
+Text: Every CODE 1 move in a random direction End
+End
+
+COMPOUND: ACTION 
+EveryCubeInRadiusXAroundTarget
+EveryCubeWhich Not IsLarger Subtraction DistanceOfPositions PositionOfCube Test PositionOfCube Target GetCampaignVariable DISTANCESUBTRACTION
+GenericDouble
+GenericAction
+End
+
+COMPOUND: ABILITY
+FrozenX
+BeforeTime Both EveryXTimes DoubleConstant 60 
+ Both Silent ChangeAbilityStacking FrozenX DoubleConstant -1
+ If Not IsLarger GenericStacking DoubleConstant 0 RemoveThisAbility
+NegateX DoubleConstant 100
+Text: \C186 226 255 Frozen: \CN Unaffected by time for \C186 226 255 STACKING 1 seconds \CN End
+CubeColourShift: 0.5 186 226 225
+End
+
+COMPOUND: ABILITY
+FreePlacement
+BeforeThisIsPlaced NegateX DoubleConstant -10
+Text: \C155 238 255  FreePlacement \CN End
+End
+
+COMPOUND: ABILITY
+Unplaceable
+BeforeThisIsPlaced NegateX DoubleConstant 10
+Text: \C155 238 255 Unplaceable \CN End
+End
+
+COMPOUND: ABILITY
+NormalWinLoss
+EveryTick Both If Not CubeExists ARandomLeaderOfFaction DoubleConstant 1 Lose
+If And CubeExists ARandomLeaderOfFaction DoubleConstant 1 Not CubeExists ARandomLeaderOfFaction DoubleConstant 2 Win
+Text: EveryTick if you have no leader lose, if player 2 has no leader but you have one you win End
+NORANDOM
+End
+
+COMPOUND: ACTION
+ResetManaCost
+IfElse CubeExists ARandomCubeInLibraryWhich HasNameOfCube Target Test
+ ChangeManaCost Subtraction ManaCostOfCube ARandomCubeInLibraryWhich HasNameOfCube Target Test ManaCostOfCube Target
+ ChangeManaCost Subtraction DoubleConstant 100 ManaCostOfCube Test
+End
+
+COMPOUND: ABILITY
+ResetManaCostOnce
+AfterThisIsCreated Both RemoveThisAbility ResetManaCost
+Text: After this is created reset the manacost of this and remove this ability End
+NO_DUPLICATES
+End
+
+COMPOUND: ACTION
+AddDepthRow
+Both TargetCube Caster SetVariable TEMPX MaxWorldX 
+Until IsSmaller GetVariableOnCube TEMPX Caster DoubleConstant 0
+ Both Both
+  Secret SetPositionPlacability PositionFromXAndY GetVariableOnCube TEMPX Caster MaxWorldY PlacabilityOfPosition PositionFromXAndY GetVariableOnCube TEMPX Caster Subtraction MaxWorldY DoubleConstant 1
+  CreateCubeOnPosition GenericCube PositionFromXAndY GetVariableOnCube TEMPX Caster MaxWorldY
+  ChangeVariable TEMPX DoubleConstant -1
+ Nothing
+End
+
+COMPOUND: CUBE 
+FreeCopy
+CopyWithAction GenericCube
+Both GainAbility ResetManaCostOnce NoManaCost
+End
+
+COMPOUND: CUBE 
+NeutralCopy
+CopyWithAction GenericCube
+SetFaction DoubleConstant 0
+End
+
+COMPOUND: DIRECTION
+GravityDirection
+DirectionFromDouble GetVariableOnCube GRAVITY WorldCube
+End
+
+COMPOUND: ACTION
+LoseThisPerk
+LosePerk Target
+End
+
+COMPOUND: ABILITY
+BaseManaGen
+EverySecond GenerateXMana DoubleConstant 1
+Text: Every second generate 1 \CMANA mana \CN End
+End
+
+COMPOUND: ABILITY
+ThrummingX
+AfterThisTakesDamage EveryXTimes 3 TargetCube TheFirstCubeInDirectionFromPositionWhich Forwards PositionOfThis
+ And IsLarger ManaCostOfCube Test ManaCostOfCube Culprit IsEnemyToCaster Test
+TakeXDamage GenericConstant
+Text: \C200 150 150 Thrumming CODE 1 \B : \CN Every 3rd time this takes damage deal \C250 150 150 CODE 1 damage \CN to the first enemy any distance infront with higher manacost than the culprit End
+Visual: Sword 1 0 200 110 110 2
+Visual: Infinite
+End
+

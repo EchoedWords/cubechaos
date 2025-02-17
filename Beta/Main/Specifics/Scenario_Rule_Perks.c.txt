@@ -1,0 +1,67 @@
+PERK: Only_Mysterious_Journey
+BelongsTo: NULL
+ObtainAction: AddCubeToDeck CubeConstant Mysterious_Journey
+RemoveAction: RemoveCubeFromDeck CubeConstant Mysterious_Journey
+ObtainAction: ChangeDeckSize DoubleConstant -100
+RemoveAction: ChangeDeckSize DoubleConstant 100
+ObtainAction: ChangeCampaignVariable CUBEREWARDCHOICES DoubleConstant -3
+RemoveAction: ChangeCampaignVariable CUBEREWARDCHOICES DoubleConstant 3
+Ability: AtTheStartOfTheBattle TargetCube ARandomLeaderOfFaction DoubleConstant 1 
+GainAbilityText EverySecond GenerateXMana DoubleConstant 1
+Every Second this generates 1 \CMANA mana \CN End
+Description: Start with mysterious journey, your decksize is 0, choice of cubes contain 0 options, your starting leader generates 1 additional \CMANA mana \CN every second End
+Unique
+DefaultLocked
+End
+
+PERK: Only_Gain_Generated_Cubes
+BelongsTo: NULL
+ObtainAction: ChangeCampaignVariable CUBEREWARDCHOICES DoubleConstant -2
+RemoveAction: ChangeCampaignVariable CUBEREWARDCHOICES DoubleConstant 2
+CampaignAbility: BeforeACubeIsAddedToInventory If Not CubeHasName Victim Generated_Cube
+Both NegateX DoubleConstant 1
+AddCubeToInventory CopyWithAction CubeConstant Generated_Cube Silent Both XTimes DoubleConstant 3 IfElse X%Chance DoubleConstant 70 GainRandomGeneratedAbility
+  GainRandomAbilityOfCube ARandomCubeInLibraryWhich Not IsToken Test
+ Both If X%Chance DoubleConstant 90 GainRandomGeneratedAbility
+ Both If X%Chance DoubleConstant 40 GainRandomGeneratedAbility
+ Both If X%Chance DoubleConstant 1 GainRandomAbilityOfCube ARandomCubeInLibraryWhich IsToken Test
+ Both If X%Chance DoubleConstant 50 GainAllAbilitiesOfPerk ARandomPerkInLibraryWhich IsTestPerkCubable
+ Both SetSpriteToCube CombinationOf2Cubes ARandomCubeInLibraryWhich True ARandomCubeInLibraryWhich True 
+ Both SetName RandomName
+ Both GainXExtraHp RandomRoundBetweenXtoY DoubleConstant 5 DoubleConstant 30
+ Both If X%Chance DoubleConstant 10 GainXExtraHp RandomRoundBetweenXtoY DoubleConstant 0 DoubleConstant 100
+ Both If X%Chance DoubleConstant 10 TakeXDamage RandomRoundBetweenXtoY DoubleConstant 1 DoubleConstant 10
+ Both If X%Chance DoubleConstant 30 Both ChangeManaCost RandomRoundBetweenXtoY DoubleConstant 1 DoubleConstant 70 GainRandomGeneratedAbility
+ If X%Chance DoubleConstant 5 ChangeManaCost RandomRoundBetweenXtoY DoubleConstant -10 DoubleConstant -1
+Description: Before a cube would be added to your inventory instead a generated cube is added to your inventory End
+Unique
+DefaultLocked
+End
+
+PERK: Void
+BelongsTo: NULL
+ClickAction: If Not BattleOnGoing ReadAScenario Trash_Positive
+Description: Click this outside of battles to open a menu which allows you to trash perks with positive value End
+Unique
+DefaultLocked
+End
+
+PERK: No_Deck
+BelongsTo: NULL
+CampaignAbility: BeforeACubeIsAddedToInventory Both NegateX DoubleConstant 1
+ Both AddCubeToDeck Victim ChangeStartingHandSize DoubleConstant 1
+ObtainAction: ChangeDeckSize DoubleConstant -100
+ObtainAction: ChangeStartingHandSize DoubleConstant -8
+Description: Before a cube would be added to your inventory instead add it to your deck permanently and gain 1 handsize, -100 starting deck and -8 starting handsize End
+Unique
+DefaultLocked
+End
+
+PERK: No_Perk_Clicking
+BelongsTo: NULL
+ObtainAction: SetCampaignVariable ALLOWPERKCLICKING -1
+Description: You cannot manually click perks End
+Unique
+DefaultLocked
+End
+

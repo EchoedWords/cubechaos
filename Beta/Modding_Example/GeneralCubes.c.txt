@@ -1,0 +1,20 @@
+ARTOVERRIDE: Dwarven_Warrior
+
+CUBE: Earth 72 188000 199
+IDENT 1 0 100 0 0
+TYPE Wall
+Ability: EveryXMeleeY 120 6
+OVERRIDE
+End
+
+CUBE: Spiders_Though 55 10 10
+TOKEN
+Ability: EveryXMeleeY 180 2
+Ability: PoisonousX 5
+Ability: ChargeEveryX 180
+Ability: Climbing
+Ability: FunnyErrorExample
+Debug
+End
+
+DOACTION: CUBE Stone  ChangeHp 10

@@ -1,0 +1,70 @@
+PERK: Crystal
+BelongsTo: SPECIES
+LevelRequirement: 6
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsLarger HpOfCube Victim DoubleConstant 0 TargetCube Victim 
+EveryCubeTouchingPosition PositionOfCube Target If IsAllyToCaster Target TargetCube Victim
+GainXExtraHp DoubleConstant 1
+Description: After an ally with more than 0 hp is created it gets 1 extra hp for every ally touching it End
+ObtainAction: AddCubeToInventory CubeConstant Crystal_Wall
+ObtainAction: AddCubeToInventory CubeConstant Pain_Mirror
+ObtainAction: AddCubeToInventory CubeConstant Crystal_Crush
+End
+
+PERK: Crystal_Dragon_Egg
+BelongsTo: Crystal
+Description: You start with a free Crystal_Dragon_Egg in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Crystal_Dragon_Egg RemoveThisAbility
+End
+
+PERK: Growing_Together
+BelongsTo: Crystal
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim 
+Both Both Both Both Both
+SetVariable TEMP DoubleConstant 0
+If IsAllyToCaster CubeInDirectionFromCube North Victim ChangeVariable TEMP DoubleConstant 1
+If IsAllyToCaster CubeInDirectionFromCube East Victim ChangeVariable TEMP DoubleConstant 1
+If IsAllyToCaster CubeInDirectionFromCube South Victim ChangeVariable TEMP DoubleConstant 1
+If IsAllyToCaster CubeInDirectionFromCube West Victim ChangeVariable TEMP DoubleConstant 1
+If IsLarger GetVariableOnCube TEMP Target DoubleConstant 2
+GainAbility RegenerationX 10
+Description: Allies created touching 3 or more allies gain \A RegenerationX 10 End
+End
+
+PERK: Crystal_Magnet
+BelongsTo: Crystal
+Ability: AfterACubeDies If And IsAllyToCaster Victim IsLarger MaxHpOfCube Victim DoubleConstant 4
+GainXExtraHp DoubleConstant 2
+Description: After an ally dies, if it had more than 4 max hp, your starting leader gains 2 extra hp End
+End
+
+PERK: Holding_Together
+BelongsTo: Crystal
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsPlaced Both 
+EveryCubeTouchingPosition PositionOfCube Victim
+If IsAllyToCaster Target TargetCube Victim
+GainXExtraHp DoubleConstant 1
+TargetCube Victim
+Both Silent TakeXDamage DoubleConstant 1
+ ChangeMaxHp DoubleConstant -1
+Description: After an ally is placed it loses 1 hp but then gains an additional 1 extra hp for every ally next to it End
+End
+
+PERK: Distance_Shielding
+BelongsTo: Crystal
+Ability: BeforeThisTakesDamage Both NegateX DoubleConstant 1 
+EveryCubeTouchingPosition PositionOfThis
+If IsEnemyToCaster Target NegateX DoubleConstant -1
+Description: Your starting leader takes 1 less damage from everything, but 1 more for every enemy touching it End
+End
+
+PERK: Hardened_Earth
+BelongsTo: Crystal
+Ability: AtTheStartOfTheBattle Both EveryCubeWhich IsNeutral Test GainAbility ArmorX 1 RemoveThisAbility
+Description: At the start of each battle neutrals gain 1 armor, taking 1 less damage from everything End
+End
+
+PERK: Imperfections
+BelongsTo: Crystal
+Ability: EveryMinute EveryCubeWhich IsDamaged TakeXDamage DoubleConstant 1
+Description: Every minute your starting leader deals 1 damage to every damaged cube End
+End
