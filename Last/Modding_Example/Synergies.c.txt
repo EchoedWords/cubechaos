@@ -1,0 +1,8 @@
+PERK: Priest-Dwarf
+BelongsTo: CLASSSPECIES
+Description: Your stone regenerates 10 hp per minute End
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Stone
+GainAbility RegenerationX 10
+RemoveThisAbility
+OVERRIDE
+End

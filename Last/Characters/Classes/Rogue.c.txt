@@ -1,0 +1,76 @@
+PERK: Rogue
+BelongsTo: CLASS
+LevelRequirement: 11
+Ability: EveryXSeconds DoubleConstant 40 AddCubeToHandOfThis FreeCopy CubeConstant Incursion
+Description: Every 40 seconds add a free Incursion to your hand, which allow you to place cubes on the enemy's side End
+ObtainAction: AddCubeToInventory CubeConstant Time_Bomb
+ObtainAction: AddCubeToInventory CubeConstant Poisoners_Kit
+WorldAbility: AtTheStartOfTheBattle Both RemoveThisAbility ShowPlacementLine
+End
+
+PERK: Invasive_Dragon_Egg
+BelongsTo: Rogue
+Description: You start with a free Invasive_Dragon_Egg in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Invasive_Dragon_Egg RemoveThisAbility
+End
+
+PERK: Convincing_Incursion
+BelongsTo: Rogue
+Ability: AfterACubeIsCreated If CubeHasName Victim Incursion 
+TargetCube CubeInDirectionFromCube Forwards Victim If IsEnemyToCaster Target
+GainAbility BetrayalX 3
+Description: After an Incursion is created, if there is an enemy in front apply 3 Betrayal (converts to opposite faction when hp < betrayal, then gains inspatial) End
+End
+
+PERK: Head_Hunt
+BelongsTo: Rogue
+Ability: AfterACubeDies If IsEnemyToCaster Victim If IsLarger ManaCostOfCube Victim DoubleConstant 49 GenerateXMana DoubleConstant 5
+Description: After an enemy which costs 40 or more mana dies gain 5 \CMANA mana \CN End
+End
+
+PERK: Stolen_Tools
+BelongsTo: Rogue
+Ability: AfterACubeIsCreated If CubeHasName Victim Incursion 
+TargetCube CubeInDirectionFromCube Forwards Victim If IsEnemyToCaster Target
+AddCubeToHandOfThis CopyWithAction Target
+ Both SetFaction FactionOfThis
+ Secret HealXDamage Addition HpOfCube Target MaxHpOfCube Target
+Description: After an Incursion is created, if there is an enemy in front, add an allied full hp copy of it into your hand End
+End
+
+PERK: Fear_Campaign
+BelongsTo: Rogue
+Ability: AfterACubeTakesDamage If IsEnemyToCaster Victim TargetCube Victim If X%Chance DoubleConstant 10
+GainAbility BetrayalX 1
+Description: After an enemy takes damage 10% chance it gains 1 Betrayal (converts to opposite faction when hp < betrayal, then gains inspatial) End
+End
+
+PERK: Smugglers_Incursion
+BelongsTo: Rogue
+Ability: AfterACubeDies If CubeHasName Victim Incursion 
+ CreateCubeOnPosition ARandomCubeInHandOfFactionWhich FactionOfThis And Not CubeHasName Test Incursion Not IsLarger ManaCostOfCube Test DoubleConstant 10
+ PositionOfCube Victim
+Description: After an Incursion dies create another random cube from your hand with manacost 10 or less in its place End
+Unique
+End
+
+PERK: Aggressive_Incursion
+BelongsTo: Rogue
+Ability: AfterACubeIsCreated If CubeHasName Victim Incursion 
+TargetCube CubeInDirectionFromCube Forwards Victim TakeXDamage DoubleConstant 5
+Description: After an Incursion is created your starting leader deals 5 damage to any cube in front of it End
+End
+
+PERK: Tiny_Poisoners_Kit
+BelongsTo: Rogue
+Ability: AfterACubeTakesDamage If IsEnemyToCaster Victim If X%Chance 50 TargetCube Victim GainAbility PoisonX 1
+Description: After an enemy takes damage 50% chance they are poisoned losing 1 hp per minute End
+End
+
+PERK: Controlling_Earth
+BelongsTo: Rogue
+Ability: EveryMinute EveryCubeWhich And CubeExists CubeInDirectionFromCube South Test 
+IsEqual DoubleConstant 0 FactionOfCube CubeInDirectionFromCube South Test
+SetCaster Target GenerateXMana DoubleConstant 1
+Description: Every minute every cube above a neutral cube generates 1 \CMANA mana \CN (to their faction) End
+End

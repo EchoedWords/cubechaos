@@ -1,0 +1,724 @@
+COMPOUND: BOOLEAN
+IsCubeOnLeftSide
+IsSmaller XOfPosition PositionOfCube GenericCube Division MaxWorldX DoubleConstant 2
+End
+
+COMPOUND: ABILITY
+Inheritable
+AfterThisCreates If Not IsPlaced TargetCube Victim GainThisAbility
+ExtraTrigger: BeforeThisAddsACubeToHand TargetCube Victim GainThisAbility
+NORANDOM
+End
+
+COMPOUND: ABILITY
+Climbing
+BeforeThisMoves If Or IsSameDirection EventDirection Forwards IsSameDirection EventDirection Backwards
+  If CubeExists CubeInDirectionFromCube EventDirection Caster
+   MoveInDirection North 
+Text: Climbing: Before this is blocked from moving horizontally move upwards End
+Visual: Arrow 0 -1 155 238 255 1
+End
+
+COMPOUND: ABILITY
+Eldritch
+AfterThisDies TargetCube ARandomAlliedLeader
+Both TakeXDamage MaxHpOfCube Caster
+ChangeMaxHp Division MaxHpOfCube Caster DoubleConstant -1
+Text: \C178 0 255 Eldritch: \CN After this dies a random allied leader takes damage and loses max hp equal to this cubes max hp End
+End
+
+COMPOUND: ABILITY
+CascadeX
+AfterThisDies CreateCubeOnPosition TheFirstCubeInHandOfFactionWhich FactionOfThis And
+Not HasLimitedUses Test
+Not IsLarger ManaCostOfCube Test Subtraction ManaCostOfCube Caster GenericConstant
+PositionOfThis
+Text: \C0 127 127 Cascade CODE 1 \B : \CN After this dies create the first cube from your hand which costs at least \C0 127 127 CODE 1 less \CN than this End
+End
+
+COMPOUND: ABILITY
+ScalingX
+AfterThisIsCreated EveryCubeInHandOfFactionWhich FactionOfCube Caster HasNameOfCube Test Caster ChangeManaCost GenericStacking
+Text: \C50 50 205 Scaling STACKING 1 \B : \CN After this is created cubes with the same name in your hand cost \C50 50 205 STACKING 1 more \CN End
+End
+
+COMPOUND: ABILITY
+ManaStorageX
+AfterThisIsCreated ChangeMaxManaOfFaction GenericConstant FactionOfThis
+ExtraTrigger: AfterThisDies ChangeMaxManaOfFaction Minus DescriptionValue 1 FactionOfThis
+Text: \CMANA ManaStorage CODE 1 \B : \CN After this is created gain \CMANA CODE 1 max mana \CN \B , after this dies lose that much End
+End
+
+COMPOUND: ABILITY
+EnergyX
+Counter GenericStacking
+Text: \C255 255 0 Energy: STACKING 1 \CN End
+NORANDOM
+End
+
+COMPOUND: ABILITY
+FoodX
+Counter GenericStacking
+Text: Food: STACKING 1 End
+NORANDOM
+End
+
+COMPOUND: ABILITY
+WaterX
+Counter GenericStacking
+Text: Water: STACKING 1 End
+NORANDOM
+End
+
+COMPOUND: ABILITY
+EnergyGenerationX
+EveryMinute GainAbilityStacking EnergyX 0 GenericStacking
+Text: \C255 255 0 EnergyGeneration: \CN Every minute gain \C255 255 0 STACKING 1 energy \CN End
+End
+
+COMPOUND: DOUBLE
+GetEnergy
+GetStackingOfAbilityOnCube EnergyX Caster
+End
+
+COMPOUND: ACTION
+EnergyNegation
+If IsLarger EventAmount 0
+Both If Or IsEqual EventAmount GetEnergy IsLarger EventAmount GetEnergy
+ Both NegateX GetEnergy
+ ChangeAbilityStacking EnergyX Minus GetEnergy
+If IsSmaller EventAmount GetEnergy
+ Both ChangeAbilityStacking EnergyX Minus EventAmount
+ NegateX EventAmount
+End
+
+COMPOUND: ABILITY
+ManaCharged
+AfterAnotherAllyIsCreated If IsSameCube CubeInDirectionFromCube North Caster Victim TargetCube Victim Both
+Exile
+TargetCube Caster GainAbilityStacking EnergyX 0 ManaCostOfCube Victim
+Visual: Target 0 -1 0 38 255
+Text: \C0 38 255 Mana\C255 255 0 Charged: \CN After an ally is created above, exile it and gain energy equal to its manacost End
+End
+
+COMPOUND: ABILITY
+MiseryX
+AfterThisDealsDamage EveryCubeWhich And IsEnemyToCaster Test HasNameOfCube Test Victim 
+TakeXDamage GenericConstant
+Text: \C0 0 150 Misery CODE 1 \B : \CN After this deals damage to a cube additionally deal \C0 0 150 CODE 1 damage \CN to every enemy with the same name End
+End
+
+COMPOUND: ABILITY
+EyeXY
+EveryTick EveryXTimes GenericDouble TargetCube ARandomEnemy
+TakeXDamageEffect GenericDouble 0 Eye
+Text: \C255 0 0 Eye: \CN Every \C255 0 0 CODE 1 \CN deal \C255 0 0 CODE 2 damage \CN to a random enemy End
+End
+
+COMPOUND: ABILITY
+DeadlyX
+AfterThisDealsDamage If Not IsALeader Victim TargetCube Victim Both Die
+TargetCube Caster Both ChangeAbilityStacking DeadlyX DoubleConstant -1
+If Not IsLarger GenericStacking DoubleConstant 0 RemoveThisAbility
+Text: Deadly STACKING 1 \B : Kill the next STACKING 1 non leader cubes this damages End
+End
+
+COMPOUND: ABILITY
+DarkReturn
+OnDeathCreateCube NeutralCopy CubeConstant Solid_Shadow
+Text: \C38 38 38 Dark Return: \CN After this dies create a neutral Solid_Shadow here. Doesn't stack End
+NO_DUPLICATES
+End
+
+COMPOUND: ABILITY
+Shadow
+AfterThisDealsDamage If And Not HasAbilityWithName Victim DarkReturn Not HasAbilityWithName Victim VengeanceX TargetCube Victim GainAbility DarkReturn
+ExtraTrigger: Inheritable
+Text: \C61 61 61 Shadow: \CN After this damages a cube without \C191 87 87 Vengeance \CN it now creates a Solid_Shadow on death. Inheritable End
+NO_DUPLICATES
+End
+
+COMPOUND: ABILITY
+Phasing
+Every5Ticks If IsAllyToCaster CubeInDirectionFromCube Forwards Caster TeleportToPosition PositionInDirectionFromPosition Forwards PositionInDirectionFromThis Forwards
+Visual: Target 2 0 255 0 220
+Text: \C255 0 220 Phasing: \CN When there is a single ally in front teleport across it End
+End
+
+COMPOUND: ABILITY
+DevouringX
+AfterThisKills GainXExtraHp GenericConstant
+Text: \C0 78 0 Devouring CODE 1 \B : \CN After this kills a cube gain \C0 78 0 CODE 1 \CN extra hp End
+End
+
+COMPOUND: ABILITY
+Burrowing
+EveryTick TargetCube CubeInDirectionFromCube South Caster If IsEqual FactionOfCube Target DoubleConstant 0
+Both TakeXDamageEffect DoubleConstant 20 0 Melee_Swing
+Both TargetCube Caster GainAbility Burrowed
+RemoveThisAbility
+Visual: Sword 0 1 128 128 128 3
+Text: \C128 128 128 Burrowing: \CN When there is a neutral cube below deal 20 damage to it, then replace this ability with \C107 55 20 Burrowed \CN End
+End
+
+COMPOUND: ABILITY
+DamagePassing
+BeforeThisTakesDamage If Not IsPositionEmpty PositionInDirectionFromThis Backwards
+TargetCube CubeInDirectionFromCube Backwards Caster
+ If IsAllyToCaster Target Both SetCaster Culprit TakeXDamage EventAmount NegateX EventAmount
+Visual: Sword -1 0 150 125 0 4
+Text: \C150 125 0 DamagePassing: \CN Before this takes damage redirect it to the ally behind this, if there is one End
+End
+
+COMPOUND: ABILITY
+Addon
+AfterACubeIsCreated If And IsAllyToCaster Victim IsPlaced
+If Not HasAbilityWithName Victim Addon
+Both RemoveThisAbility
+Both Die
+TargetCube Victim GainAllAbilitiesOfCube Caster
+Text: \C178 0 255 Addon: \CN After a non \C178 0 255 Addon \CN ally is placed give it all other abilities of this, however this loses \C178 0 255 Addon \CN and dies End
+End
+
+COMPOUND: ABILITY
+Enchantment
+AfterThisIsCreated TargetCube CubeInDirectionFromCube South Caster If Not IsALeader Target GenericAction
+Text: \C178 0 255 Enchantment: \CN Apply the following to the cube below, if it isn't a leader: CODE 1 End
+Visual: Target 0 1 178 0 255
+End
+
+COMPOUND: ABILITY
+Unique
+AfterThisIsCreated If IsPlaced Both EveryCubeWhich And And And IsAllyToCaster Test Not IsALeader Test
+ HasNameOfCube Test Caster Not IsSameCube Caster Test Exile
+RemoveThisAbility
+Text: Unique: After this is placed exile all other non leader allies with the same name and lose this ability End
+NO_DUPLICATES
+End
+
+COMPOUND: ABILITY
+LaserXY
+EveryTick SetStorage CubeOfPosition PositionXInfrontYBelowPosition GenericConstant GenericConstant PositionOfThis 
+ Both IfElse CubeExists Storage TargetCube Storage GenericAction
+  Silent CreateCubeOnPosition Caster PositionXInfrontYBelowPosition DescriptionValue 1 DescriptionValue 2 PositionOfThis
+ TargetCube Caster Silent Die
+ExtraTrigger: AfterThisIsCreated PlaySound Shoot_Laser
+Text: \C255 0 0 Laser: \CN Every tick the cube CODE 1 infront and CODE 2 below will CODE 3 and this silently dies, if empty silently replicate in that direction instead End
+End
+
+COMPOUND: ABILITY
+Undead
+BeforeThisIsHealed NegateX DoubleConstant 1
+Text: \C0 50 0 Undead: \CN Heals for 1 less when healed End
+End
+
+COMPOUND: ABILITY
+ExtraLife
+AfterThisDies Both RemoveThisAbility
+CreateCubeOnPosition CopyWithAction Target 
+ Both Silent HealXDamage Multiplication HpOfCube Target DoubleConstant -1
+ Silent HealXDamage MaxHpOfCube Target
+ PositionOfCube Caster
+Text: \C255 255 0 ExtraLife: \CN After this dies lose this ability and create a full hp copy of this here End
+End
+
+COMPOUND: ABILITY
+Eternal
+AfterThisIsCreated EveryCubeInHandOfFactionWhich FactionOfThis
+HasNameOfCube Test Caster GainXExtraHp DoubleConstant 5
+Text: \C128 128 128 Eternal: \CN After this is created give 5 extra hp to every cube in your hand with the same name  End
+End
+
+COMPOUND: ABILITY
+PowderMovement
+BeforeThisMoves If Not IsPositionEmpty PositionInDirectionFromPosition EventDirection PositionOfThis
+Randomly TeleportToPosition PositionInDirectionFromPosition EventDirection PositionInDirectionFromPosition 
+RotateClock EventDirection PositionOfCube Caster
+TeleportToPosition PositionInDirectionFromPosition EventDirection PositionInDirectionFromPosition 
+RotateCounterClock EventDirection PositionOfCube Caster
+Text: Powder: Before this moves in a blocked direction instead randomly teleport diagonally in that direction End
+End
+
+COMPOUND: ABILITY
+Arcing
+EveryXTicks Division GenericDouble AbsoluteAmount GetVariableOnCube ARCING Caster
+Both If IsLarger GetVariableOnCube ARCING Caster DoubleConstant 0 MoveInDirection ReverseDirection GravityDirection
+If IsSmaller GetVariableOnCube ARCING Caster DoubleConstant 0 MoveInDirection GravityDirection
+ExtraTrigger: EveryXTicks DoubleConstant 10 Secret ChangeVariable ARCING DoubleConstant -1
+ExtraTrigger: BeforeThisMovesNegation If IsSameCube Culprit WorldCube
+NegateX DoubleConstant 1
+ExtraTrigger: BeforeThisIsDrawn If IsSmaller GetVariableOnCube ARCING Caster DoubleConstant 0 FlipSprite True
+Text: \C155 238 255 ARCING \CN VARIABLE ARCING End
+NORANDOM
+End
+
+COMPOUND: ABILITY
+JumpXY
+EveryXTicks Division GenericDouble AbsoluteAmount GenericStacking
+Both If IsLarger GetStackingOfAbilityOnCube JumpXY Caster DoubleConstant 0 MoveInDirection ReverseDirection GravityDirection
+If IsSmaller GetStackingOfAbilityOnCube JumpXY Caster DoubleConstant 0 MoveInDirection GravityDirection
+ExtraTrigger: EveryXTicks DoubleConstant 10 Secret ChangeAbilityStacking JumpXY DoubleConstant -1
+ExtraTrigger: BeforeThisMovesNegation If IsSameCube Culprit WorldCube
+NegateX DoubleConstant 1
+ExtraTrigger: AfterThisMoves If IsSameDirection EventDirection GravityDirection If Not IsPositionEmpty PositionInDirectionFromPosition EventDirection PositionOfThis RemoveThisAbility
+Text: \C155 238 255 JUMPING \CN STACKING 1 End
+NORANDOM
+End
+
+COMPOUND: ABILITY
+Ascension
+AfterThisIsCreated TargetCube TheFirstCubeInHandOfFactionWhich FactionOfThis 
+ GenericBoolean
+ GenericAction
+Text: \C255 175 96 Ascension: \CN After this is created the first cube in your hand which CODE 1 CODE 2 End
+End
+
+COMPOUND: ABILITY
+GiveWay
+EveryTick TargetCube CubeInDirectionFromCube Backwards Caster 
+If And IsAllyToCaster Target HasAbilityWithName Target ChargeEveryX 
+TargetCube Caster Die
+Text: When there is an ally with charging behind this, this dies End
+NO_DUPLICATES
+End
+
+COMPOUND: ABILITY
+DiveEnemiesX
+EveryTick EveryXTimes GenericTime 
+TargetCube TheFirstCubeInDirectionFromPositionWhich South PositionOfThis True 
+If IsEnemyToCaster Target
+TargetCube Caster MoveInDirection South
+ExtraTrigger: BeforeThisMoves 
+TargetCube TheFirstCubeInDirectionFromPositionWhich South PositionOfThis True 
+If IsEnemyToCaster Target
+If Not IsSameDirection South EventDirection
+NegateX DoubleConstant 1
+Text: \C255 0 0 Dive Attack: \CN Every CODE 1 \B , if the first cube any distance below is an enemy, move downwards and this can only move downwards while the enemy is there End
+Visual: Arrow 0 1 155 238 255 3
+End
+
+COMPOUND: ABILITY
+KeepAltitudeX
+EveryTick EveryXTimes GenericTime Both
+If IsSmaller YOfPosition PositionOfThis GetVariableOnCube ALTITUDE Caster MoveInDirection South
+If IsLarger YOfPosition PositionOfThis GetVariableOnCube ALTITUDE Caster MoveInDirection North
+ExtraTrigger: AfterThisIsCreated SetVariable ALTITUDE YOfPosition PositionOfThis
+Visual: Arrow 0 -1 155 238 255 1
+Visual: Arrow 0 1 155 238 255 3
+Text: Every CODE 1 move up or down towards the row this was created in End
+End
+
+COMPOUND: ABILITY
+RoamingX
+EveryTick EveryXTimes GenericTime Both
+If Not PositionExists PositionInDirectionFromPosition DirectionFromDouble Addition 
+ GetVariableOnCube ROAMING Caster 
+ Multiplication FactionOfThis DoubleConstant 2
+ PositionOfThis
+ ChangeVariable ROAMING DoubleConstant 2
+MoveInDirection DirectionFromDouble Addition 
+ GetVariableOnCube ROAMING Caster 
+ Multiplication FactionOfThis DoubleConstant 2
+ExtraTrigger: BeforeThisMoves If IsSameDirection EventDirection DirectionFromDouble Addition 
+ GetVariableOnCube ROAMING Caster 
+ Multiplication FactionOfThis DoubleConstant 2
+If Not IsPositionEmpty PositionInDirectionFromPosition EventDirection PositionOfThis
+ChangeVariable ROAMING DoubleConstant 2
+Visual: Arrow 1 0 155 238 255 2
+Visual: Arrow -1 0 155 238 255 4
+Text: Every CODE 1 move forwards, turn around if there's no space End
+End
+
+COMPOUND: ABILITY
+Debt
+EveryTick If Not IsSmaller Currency DoubleConstant 0 Exile
+Text: DEBT: When there is no more debt exile this End
+End
+
+COMPOUND: ACTION 
+ResetAdjacencyAtTarget
+Both ChangeIncomingAdjacency PositionOfCube Target North PositionOfCube Target
+Both ChangeIncomingAdjacency PositionOfCube Target East PositionOfCube Target
+Both ChangeIncomingAdjacency PositionOfCube Target South PositionOfCube Target
+ChangeIncomingAdjacency PositionOfCube Target West PositionOfCube Target
+End
+
+COMPOUND: ABILITY
+Quantum
+AfterThisDies ResetAdjacencyAtTarget
+ExtraTrigger: AfterThisMoves Both ChangeIncomingAdjacency OriginalPosition North OriginalPosition
+Both ChangeIncomingAdjacency OriginalPosition East OriginalPosition
+Both ChangeIncomingAdjacency OriginalPosition South OriginalPosition
+ChangeIncomingAdjacency OriginalPosition West OriginalPosition
+ExtraTrigger: AfterACubeTeleports If IsSameCube Caster Victim Both ChangeIncomingAdjacency OriginalPosition North OriginalPosition
+Both ChangeIncomingAdjacency OriginalPosition East OriginalPosition
+Both ChangeIncomingAdjacency OriginalPosition South OriginalPosition
+ChangeIncomingAdjacency OriginalPosition West OriginalPosition
+Text: After this dies, teleports or moves reset all adjacency at the previous position End
+NO_DUPLICATES
+End
+
+COMPOUND: ABILITY
+TemporaryStrength
+BeforeThisDealsDamage NegateX Minus GenericConstant
+ExtraTrigger: EveryXTicks GenericTime RemoveThisAbility
+Text: \C255 38 0 Temporary Strength CODE 1 \B : \CN This deals \C255 38 0 CODE 1 \CN more damage for \C255 38 0 CODE 2 \CN End
+CubeColourShift: 0.1 255 38 0
+End
+
+COMPOUND: ABILITY
+TemporaryFlying
+Flying
+ExtraTrigger: EveryXTicks GenericTime RemoveThisAbility
+Text: \C109 209 228 Temporary Flying \B : \CN This has flying for \C109 209 228 CODE 1 \CN End
+CubeColourShift: 0.1 109 209 228
+End
+
+COMPOUND: ABILITY
+TemporaryUnmovable
+BeforeThisMovesNegation NegateX DoubleConstant 100
+ExtraTrigger: EveryXTicks GenericTime RemoveThisAbility
+Text: Can't move, remove this ability after CODE 1 End
+CubeColourShift: 0.1 155 155 155
+End
+
+COMPOUND: ABILITY
+TemporaryDoubleTime
+BeforeTime Both Secret AccelerateX DoubleConstant 1 EveryXTimes GenericTime RemoveThisAbility
+Text: \C197 204 112 Temporary Double Time \B : \CN Experience time twice as fast for \C197 204 112 CODE 1 \CN End
+CubeColourShift: 0.1 197 204 112
+/- This is no longer used besides by possible some mods which is why this is here -/
+NORANDOM
+End
+
+COMPOUND: ABILITY
+DoubleTimeX
+BeforeTime Both Secret AccelerateX 1
+ EveryXTimes 60 Both Silent ChangeAbilityStacking DoubleTimeX -1
+ If Not IsLarger GenericStacking DoubleConstant 0 RemoveThisAbility
+Text: \C197 204 112 Double Time \B : \CN Experience time twice as fast for \C197 204 112 STACKING 1 \CN second(s) End
+CubeColourShift: 0.1 197 204 112
+End
+
+COMPOUND: ABILITY
+BankedTimeX
+EveryTick Both RemoveThisAbility Secret AccelerateX GenericStacking 
+Text: \C197 204 112 Banked Time \B : \CN Next tick remove this ability and accelerate for \C197 204 112 CODE 1 \CN ticks (1/60th of seconds) End
+NORANDOM
+End
+
+COMPOUND: ACTION
+GainARandomBonus
+ GainRandomAbilityOfCube CubeConstant Random_Bonus_List
+End
+
+COMPOUND: ABILITY
+RandomBonus
+AfterThisIsCreated Both
+RemoveThisAbility
+GainARandomBonus
+Text: After this is created exchange this ability with a random bonus End
+End
+
+COMPOUND: ABILITY
+TimeShift
+EverySecond TargetCube CubeOfPosition GenericPosition AccelerateX DoubleConstant 60
+Text: \C197 204 112 TimeShift: \CN Every second accelerate the cube on X by 1 second End
+NO_DUPLICATES
+End
+
+COMPOUND: ABILITY
+Inspatial
+Quantum
+ExtraTrigger: AfterThisIsCreated ChangeIncomingAdjacency PositionOfThis Forwards PositionInDirectionFromThis Forwards
+ExtraTrigger: AtTheStartOfTheBattle ChangeIncomingAdjacency PositionOfThis Forwards PositionInDirectionFromThis Forwards
+ExtraTrigger: AfterThisMoves ChangeIncomingAdjacency PositionOfThis Forwards PositionInDirectionFromThis Forwards
+ExtraTrigger: AfterACubeTeleports If IsSameCube Caster Victim ChangeIncomingAdjacency PositionOfThis Forwards PositionInDirectionFromThis Forwards
+Text: Inspatial: The space behind this is adjacent to the space in front of this, updates after this moves, dies or teleports End
+NO_DUPLICATES
+Visual: Target -1 0 255 255 255
+Visual: Target 1 0 255 255 255
+End
+
+COMPOUND: ACTION
+GainInspatial
+Both GainAbility Inspatial
+SetCaster Target ChangeIncomingAdjacency PositionOfThis Forwards PositionInDirectionFromThis Forwards
+End
+
+COMPOUND: ABILITY
+Knockback
+AfterThisDealsDamage If Not IsSameCube Culprit Victim 
+TargetCube Victim MoveInDirection ReverseDirection DirectionFromPosToPos PositionOfCube Caster PositionOfCube Target
+ExtraTrigger: AfterThisCreates If Not IsPlaced TargetCube Victim GainThisAbility
+Text: Knockback: After this damages a cube also move it away. Inheritable End
+End
+
+COMPOUND: ABILITY
+HomingX
+EveryXTicks GenericTime SetStorage CubeOfPosition PositionFromXAndY GetVariableOnCube HOMINGX Caster GetVariableOnCube HOMINGY Caster
+IfElse And CubeExists Storage IsEnemyToCaster Storage 
+ MoveInDirection DirectionFromPosToPos PositionOfCube Storage PositionOfThis
+ SetStorage ARandomCubeWhich IsEnemyToCaster Test
+ Both Silent Both SetVariable HOMINGX XOfPosition PositionOfCube Storage SetVariable HOMINGY YOfPosition PositionOfCube Storage
+ SetStorage CubeOfPosition PositionFromXAndY GetVariableOnCube HOMINGX Caster GetVariableOnCube HOMINGY Caster
+ MoveInDirection DirectionFromPosToPos PositionOfCube Storage PositionOfThis
+Text: \C155 238 255 Homing: \CN Every \C155 238 255 CODE 1 \CN move towards the position of an enemy, retargets if that position no longer contains an enemy End
+End
+
+COMPOUND: ABILITY
+HorizontalHomingX
+EveryXTicks GenericTime SetStorage CubeOfPosition PositionFromXAndY GetVariableOnCube HOMINGX Caster GetVariableOnCube HOMINGY Caster Both
+ If Not And CubeExists Storage IsEnemyToCaster Storage 
+  SetStorage ARandomCubeWhich IsEnemyToCaster Test
+  Silent Both SetVariable HOMINGX XOfPosition PositionOfCube Storage SetVariable HOMINGY YOfPosition PositionOfCube Storage
+ If And CubeExists Storage IsEnemyToCaster Storage Both
+  If IsLarger GetVariableOnCube HOMINGX Caster XOfPosition PositionOfCube Caster MoveInDirection East
+  If IsSmaller GetVariableOnCube HOMINGX Caster XOfPosition PositionOfCube Caster MoveInDirection West
+ExtraTrigger: AfterThisCollides SetStorage ARandomCubeWhich IsEnemyToCaster Test
+  Silent Both SetVariable HOMINGX XOfPosition PositionOfCube Storage SetVariable HOMINGY YOfPosition PositionOfCube Storage
+Text: \C155 238 255 Homing: \CN Move forwards or backwards towards the position of an enemy every \C155 238 255 CODE 1 \CN \B , retargets if that position no longer contains an enemy or after colliding End
+End
+
+COMPOUND: ABILITY
+Slowed
+BeforeTime If Not X%Chance Subtraction DoubleConstant 100 GenericConstant NegateX DoubleConstant 1
+Text: \C0 74 127 Slowed CODE 1 \B : CODE 1 \B % \CN chance to not experience time End
+CubeColourShift: 0.1 0 74 127
+End
+
+COMPOUND: ABILITY
+Zap
+EverySecond Both TargetCube ARandomCubeWhich And And Not IsLarger DistanceOfPositions PositionOfThis PositionOfCube Test DoubleConstant 7
+IsAllyToCaster Test Not IsSameCube Test Caster
+RemoveThisAbility 
+TakeXDamageEffect DoubleConstant 1 2 Zap
+Text: \C255 255 0 ZAP: \CN After a second deal 1 damage to another random ally within range of 7 spaces and lose this ability End
+End
+
+COMPOUND: ABILITY
+ReturningZap
+EveryTick EveryXTimes Highest DoubleConstant 60 Division DoubleConstant 3600 GenericStacking If Not HasAbilityWithName Caster Zap GainAbility Zap
+Text: \C255 255 0 Infini Zap STACKING 1 \B : \CN Gain \C255 255 0 ZAP STACKING 1 \CN times per minute if without \C255 255 0 ZAP \CN End
+End
+
+COMPOUND: ABILITY
+Burning
+EverySecond CreateParticlesWithColourOnPosition DoubleConstant 16738816 PositionOfThis
+ExtraTrigger: Every5Seconds Both Both Both PlaySound Fire
+EveryCubeTouchingPosition PositionOfThis TakeXDamage DoubleConstant 1
+TargetCube Caster TakeXDamage DoubleConstant 1
+RemoveThisAbility
+Text: \C255 106 0 BURNING: \CN After 5 seconds deal 1 damage to every touching cube and this End
+CubeColourShift: 0.2 255 106 0
+End
+
+COMPOUND: ABILITY
+Returning 
+AfterThisDies AddCubeToHandOfThis CopyWithAction Caster HealXDamage Subtraction MaxHpOfCube Caster HpOfCube Caster
+Text: Returning: After this dies add a healed copy of this to your hand End
+End
+
+COMPOUND: ABILITY
+BeesInsideX
+AfterThisDies XTimes GenericStacking CreateCubeOnPosition CubeConstant Bee ARandomLeftPosition
+Text: \C255 255 0 Bees Inside STACKING 1 \B : \CN After this dies create \C255 255 0 STACKING 1 \CN Bees on random left side positions (Bees are 2 damage homing projectiles) End
+End
+
+COMPOUND: ABILITY
+Golden
+Nothing
+Text: \C255 238 0 Golden End
+NO_DUPLICATES
+CubeColourShift: 0.9 255 238 0
+End
+
+COMPOUND: ABILITY
+BubbleX 
+BeforeThisTakesDamage If IsLarger EventAmount DoubleConstant 0 Cooldown GenericTime NegateX EventAmount
+Text: \C0 254 255 Bubble CODE 1 \B : \CN Before this takes more than 0 damage negate that damage (reducing it to 0), cooldown \C0 254 255 CODE 1 \CN End
+End
+
+COMPOUND: ABILITY
+Hat
+AfterACubeMoves If IsSameCube Caster CubeOfPosition PositionInDirectionFromPosition North OriginalPosition MoveInDirection EventDirection
+Text: After a cube moves from the space below, move in the same direction End
+Visual: Target 0 1 0 254 255
+NO_DUPLICATES
+End
+
+COMPOUND: ABILITY
+Fragile
+AfterACubeCollides If IsSameCube Caster Storage Die
+Text: \C160 130 100 Fragile \B : \CN After a cube collides into this, or this blocks a cubes creation, kill this End
+ExtraTrigger: AfterThisBlocksCreation Die
+NO_DUPLICATES
+End
+
+COMPOUND: ABILITY
+Hovering
+BeforeThisMovesNegation If IsSameCube Culprit WorldCube If CubeExists CubeOfPosition PositionInDirectionFromPosition South PositionInDirectionFromPosition South PositionOfCube Caster
+NegateX DoubleConstant 1
+Text: \C109 209 228 Hovering: \CN Doesn't fall if 2 spaces above another cube End
+Visual: Target 0 2 109 209 228
+NO_DUPLICATES
+End
+
+COMPOUND: ABILITY
+Advanced_Hovering
+BeforeThisMovesNegation If IsSameCube Culprit WorldCube If Or CubeExists CubeOfPosition PositionInDirectionFromPosition South PositionInDirectionFromPosition South PositionOfCube Caster
+CubeExists CubeOfPosition PositionInDirectionFromPosition South PositionInDirectionFromPosition South PositionInDirectionFromPosition South PositionOfCube Caster
+NegateX DoubleConstant 1
+Text: \C109 209 228 Advanced Hovering: \CN Doesn't fall if 2 or 3 spaces above another cube End
+Visual: Target 0 2 109 209 228
+Visual: Target 0 3 109 209 228
+NO_DUPLICATES
+End
+
+
+COMPOUND: ABILITY
+UnfoldingX
+AfterThisMoves If IsPositionEmpty OriginalPosition
+  Both Silent ChangeAbilityStacking UnfoldingX DoubleConstant -1
+  Both If Not IsLarger GenericStacking DoubleConstant 0 RemoveThisAbility
+  CreateCubeOnPosition CopyWithAction Caster RemoveAbilityWithName UnfoldingX OriginalPosition
+Text: \C109 209 228 Unfolding STACKING 1 \B : \CN After this moves create a copy of this in the previous position if empty,
+ except the copy does not have unfolding, \C109 209 228 STACKING 1 \CN creations left End
+NO_DUPLICATES
+End
+
+COMPOUND: ABILITY
+SplinterX
+BeforeThisTakesDamage Both NegateX Minus GenericStacking RemoveThisAbility
+Text: \C197 204 112 Splinter STACKING 1 \B : \CN Next damage taken is increased by \C197 204 112 STACKING 1 \CN then remove this ability End
+End
+
+COMPOUND: ABILITY
+BetrayalX
+EveryTick If Not IsLarger HpOfCube Caster GenericStacking Both RemoveThisAbility 
+Both SetFaction InvertedFaction FactionOfThis GainInspatial
+Text: \C127 0 127 Betrayal STACKING 1 \B : \CN When this has less or exactly \C127 0 127 STACKING 1 \CN hp, lose this ability, convert to the enemy faction and gain Inspatial End
+End
+
+COMPOUND: ABILITY
+Manifold
+Nothing
+Text: \C255 0 220 Manifold: \CN Can't gain abilities via manifold again End
+NO_DUPLICATES
+CubeColourShift: 0.2 255 0 220
+NORANDOM
+End
+
+COMPOUND: ABILITY
+CheaperX
+AfterThisIsCreated If IsPlaced Both ChangeManaCost GetStackingOfAbilityOnCube CheaperX Caster
+ Both TargetCube Storage Both RemoveAbilityWithName CheaperX ChangeManaCost GenericStacking
+ RemoveThisAbility
+Text: \C40 40 197 Cheaper STACKING 1 \B : \CN Raise cost by \C40 40 197 STACKING 1 \CN after placement and remove this ability End
+End
+
+COMPOUND: ABILITY
+CheaperLaterX
+AfterThisIsCreated If IsPlaced 
+ Both TargetCube Storage Both RemoveAbilityWithName CheaperLaterX 
+    Both ChangeManaCost Minus GenericStacking 
+      GainAbilityStacking CheaperX 0 GetStackingOfAbilityOnCube CheaperLaterX Caster
+ RemoveThisAbility
+Text: \C40 40 197 Cheaper Later STACKING 1 \B : \CN Reduce cost by \C40 40 197 STACKING 1 \CN and apply that much cheaper after placement and remove this ability End
+CubeColourShift: 0.9 40 40 197
+End
+
+COMPOUND: BOOLEAN
+IsTestPerkMoilable
+And And And And
+ Not PerkIsUnique Test 
+ IsLarger ValueOfPerk Test DoubleConstant 0
+ Not PerkIsType Test Consumable
+ Not PerkIsType Test Neutral
+ IsLarger CopiableAbilitiesOfPerk Test DoubleConstant 0
+End
+
+COMPOUND: BOOLEAN
+IsTestPerkCubable 
+And And And And And And And And
+ Not PerkIsUnique Test 
+ IsLarger ValueOfPerk Test DoubleConstant 0
+ Not PerkIsType Test Consumable
+ Not PerkIsType Test Neutral
+ Not PerkIsType Test TriggerFragment
+ Not PerkIsType Test TargetFragment
+ Not PerkIsType Test EffectFragment
+ Not PerkIsType Test ChainFragment
+ IsLarger CopiableAbilitiesOfPerk Test DoubleConstant 0
+End
+
+COMPOUND: ABILITY
+Synchronized
+BeforeTime Both
+ If IsEqual WorldTime Multiplication 60 RoundedDown Division WorldTime 60 RemoveThisAbility
+NegateX DoubleConstant 100
+Text: \C186 226 255 Synchronized: \CN Unaffected by time until a full second (then loses this ability) End
+CubeColourShift: 0.5 186 226 225
+End
+
+COMPOUND: ABILITY
+Hanging
+ BeforeThisMovesNegation If CubeExists CubeInDirectionFromCube North Caster NegateX EventAmount
+Text: Hanging: Can't move downwards while there is a cube above End
+End
+
+COMPOUND: ABILITY
+AnyProjectileX
+AfterThisCollides
+If IsLarger EventAmount DoubleConstant 0
+Both Die
+ TargetCube Victim TakeXDamageEffect GenericConstant 0 Impact
+ExtraTrigger: AfterThisIsCreated If Not IsPlaced If IsAllyToCaster Culprit PlaySound Shoot
+Text: \C250 150 150 AnyProjectile CODE 1 \B : \CN Before this collides with a cube, this dies and deals \C250 150 150 CODE 1 damage \CN to it End
+End
+
+COMPOUND: ABILITY
+DecayX
+EveryTick EveryXTimes Division DoubleConstant 3600 GenericStacking If IsLarger HpOfCube Caster 1 Both Silent TakeXDamage DoubleConstant 1
+CreateParticlesWithColourOnPosition DoubleConstant 1499648 PositionOfThis
+Text: \C0 255 144 Decay STACKING 1 \B : \CN Lose 1 hp \C0 255 144 STACKING 1 \CN times per minute, stops at 1 or less hp End
+End
+
+COMPOUND: ABILITY
+FervorX
+BeforeThisDealsDamage Both NegateX Minus GenericStacking RemoveThisAbility
+Text: \C255 38 0 Fervor STACKING 1 \B : \CN Before this deals damage deal \C255 38 0 STACKING 1 more \CN then remove this ability End
+End
+
+COMPOUND: ABILITY
+Formless
+AfterThisBlocksCreation If IsAllyToCaster Culprit If Not HasNameOfCube Victim Caster
+  Both RemoveThisAbility
+  Both Exile CreateCubeOnPosition CombinationOf2Cubes Caster Victim
+ PositionOfCube Caster
+Text: Formless: After this blocks a differently named allies creation (not placement), remove this ability and replace this with a combination End
+End
+
+COMPOUND: ABILITY
+DiagonalAnchor
+BeforeThisMovesNegation If Or 
+Not IsPositionEmpty PositionXInfrontYBelowPosition DoubleConstant -1 DoubleConstant 1 PositionOfThis
+Not IsPositionEmpty PositionXInfrontYBelowPosition DoubleConstant 1 DoubleConstant 1 PositionOfThis
+If IsSameDirection EventDirection South 
+NegateX DoubleConstant 1
+Text: Can only move down if the positions diagonally below are also empty End
+Visual: Target 1 1 255 255 255
+Visual: Target -1 1 255 255 255
+End
+
+COMPOUND: ABILITY
+Adaptable
+BeforeThisGainsAnAbility If Not AbilityHasName AffectedAbility Adaptable Both RemoveThisAbility NegateX -1 
+Text: Adaptable: Before this gains an ability except adaptable lose this ability to gain the new ability an additional time End
+End
+
+COMPOUND: ABILITY
+Stable
+BeforeThisDies If IsSameCube Culprit Caster NegateX DoubleConstant 1
+Text: Stable: Before this dies to itself, it doesn't instead End
+End

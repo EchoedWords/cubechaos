@@ -1,0 +1,74 @@
+PERK: Engineer
+BelongsTo: CLASS
+LevelRequirement: 21
+ObtainAction: AddCubeToDeck CubeConstant Tinkering
+RemoveAction: RemoveCubeFromDeck CubeConstant Tinkering
+Description: Tinker with cubes to combine them with other cubes End
+ObtainAction: AddCubeToInventory CubeConstant Charging_Gun
+ObtainAction: AddCubeToInventory CubeConstant Treadmill
+Unique
+End
+
+PERK: Iron_Dragon_Egg
+BelongsTo: Engineer
+Description: You start with a free Iron_Dragon_Egg in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Iron_Dragon_Egg RemoveThisAbility
+End
+
+PERK: Copy_Mirror
+BelongsTo: Engineer
+Ability: Every10Minutes AddCubeToHandOfThis CubeConstant Full_Copy
+Description: Every 10 minutes add a free Full_Copy cube to your hand which completely copies a non leader cube End
+End
+
+PERK: Remote_Charger
+BelongsTo: Engineer
+Ability: Every5Seconds TargetCube ARandomCubeWhich And IsAllyToCaster Test HasAbilityWithName Test EnergyX
+GainAbility EnergyX 1
+Description: Every 5 seconds add 1 energy to a random ally which has energy End
+End
+
+PERK: Distant_Inspiration
+BelongsTo: Engineer
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Tinkering
+GainAbility FreePlacement RemoveThisAbility
+Description: Tinkering can be placed anywhere End
+Unique
+End
+
+PERK: Tinker_Armor_Plates
+BelongsTo: Engineer
+Ability: AfterACubeIsCreated If CubeHasName Victim Tinkering TargetCube CubeInDirectionFromCube South Victim GainXExtraHp DoubleConstant 2
+Description: Tinkering adds 2 extra hp to the cube below End
+End
+
+PERK: Conductivity
+BelongsTo: Engineer
+Ability: EverySecond EveryCubeWhich And IsAllyToCaster Test HasAbilityWithName Test EnergyX
+SetCaster Target EveryCubeTouchingPosition PositionOfCube Target
+If And IsAllyToCaster Target HasAbilityWithName Target EnergyX
+If IsLarger GetEnergy GetStackingOfAbilityOnCube EnergyX Target
+Both ChangeAbilityStacking EnergyX DoubleConstant 1
+TargetCube Caster ChangeAbilityStacking EnergyX DoubleConstant -1
+Description: Touching allies which have energy exchange energy at a rate of 1 per second trying to equalize End
+End
+
+PERK: Capacitors
+BelongsTo: Engineer
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsPlaced If Not CubeHasName Victim Capacitor
+AddCubeToHandOfThis CubeConstant Capacitor 
+Description: After you place a non capacitor ally also add a capacitor upgrade to your hand which adds energygeneration and 10 energy End
+End
+
+PERK: Repairing 
+BelongsTo: Engineer
+Ability: AfterACubeIsCreated If CubeHasName Victim Tinkering TargetCube CubeInDirectionFromCube South Victim HealXDamage DoubleConstant 5
+Description: Tinkering also heals the cube below for 5 Hp End
+End
+
+PERK: Mechanical_Helper
+BelongsTo: Engineer
+Ability: AfterAnotherAllyIsCreated If IsPlaced Cooldown DoubleConstant 10800 If HasAbilityWithName Victim Upgrade
+GenerateXMana DoubleConstant 50
+Description: After you place an upgrade gain 50 mana, cooldown 3 minutes End
+End

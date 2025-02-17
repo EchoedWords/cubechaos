@@ -1,0 +1,69 @@
+PERK: Devourer
+BelongsTo: SPECIES
+LevelRequirement: 12
+Ability: AfterACubeTakesDamage If IsAllyToCaster Culprit TargetCube Victim If X%Chance DoubleConstant 20
+GainAbility InfestedX 5
+Description: After an ally damages a cube the victim has a 20% chance to gain 5 infested, choose what bursts forth in the infested's demise End
+ObtainAction: AddCubeToInventory CubeConstant Toothy_Barrier
+ObtainAction: AddCubeToInventory CubeConstant Strange_Crawler
+ObtainAction: AddCubeToInventory CubeConstant Unstable_Egg
+ObtainAction: AddCubeToDeck CubeConstant Join_The_Swarm
+End
+
+PERK: Devouring_Dragon_Egg
+BelongsTo: Devourer
+Description: You start with a free Devouring_Dragon_Egg in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Devouring_Dragon_Egg RemoveThisAbility
+End
+
+PERK: Variable_Evolution
+BelongsTo: Devourer
+Ability: AfterACubeIsCreated If IsPlaced If CubeHasName Victim Join_The_Swarm 1Shot GenerateXMana DoubleConstant 30
+Description: Increase your starting handsize by 2, the first time you place a Join_The_Swarm each battle gain 30 mana End
+ObtainAction: ChangeStartingHandSize DoubleConstant 2
+RemoveAction: ChangeStartingHandSize DoubleConstant -2
+Disableable: false
+End
+
+PERK: Manifold_Evolution
+BelongsTo: Devourer
+Ability: AfterACubeIsCreated If HasAbilityWithName Victim Swarm 
+SetStorage ARandomCubeInHandOfFactionWhich DoubleConstant 1 And And
+ HasAbilityWithName Test Swarm
+ Not IsSmaller ManaCostOfCube Test 3
+ Not IsLarger 
+  ManaCostOfCube Test 
+  Division ManaCostOfCube Victim 2
+TargetCube Victim 
+ GainAllAbilitiesOfCube Storage
+Description: After a cube with swarm is created it gains all abilities of a random cube in your hand which costs at most half as much and at least 3 End
+End
+
+PERK: Feeding_Time
+BelongsTo: Devourer
+Ability: AfterACubeDies TargetCube Culprit GainAbilityStacking InfestedX 1 Division GetStackingOfAbilityOnCube InfestedX Victim DoubleConstant 2 
+Description: After an infested cube is killed its killer gains half that much infested End
+End
+
+PERK: Hive_Child
+BelongsTo: Devourer
+Ability: AfterACubeIsCreated If IsAllyToCaster Culprit If Not HasAbilityWithName Victim Swarm
+If Not IsALeader Culprit TargetCube Victim GainAbilityStacking InfestedX 0 Division GetStackingOfAbilityOnCube InfestedX Culprit DoubleConstant 2
+Description: After an infested non leader ally creates a cube without swarm the creation gains half that much infested End
+End
+
+PERK: Blood_Hunger
+BelongsTo: Devourer
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If HasAbilityWithName Victim Swarm 
+If Not HasAbilityWithName Victim LifeSteal If X%Chance DoubleConstant 50 
+Both TargetCube Victim GainAbility LifeSteal ChangeHp Division HpOfCube Victim DoubleConstant -2
+Description: After an ally with swarm is created, if it doesn't have lifesteal, 50% chance to give it lifesteal but remove half its hp End
+End
+
+PERK: Worm_Bread
+BelongsTo: Devourer
+Ability: AfterACubeTakesDamage If IsEnemyToCaster Victim TargetCube Victim SetCaster Victim Both GainXExtraHp DoubleConstant 1 GainAbility PoisonX 2
+Description: After an enemy takes damage it gives itself 1 extra hp but also 2 poison End
+End
+
+

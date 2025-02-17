@@ -1,0 +1,1026 @@
+ALL TOKENS for other Cubes are saved here
+
+CUBE: Area_Heal 5 0 0
+TOKEN
+UNUSED
+Ability: AfterThisIsCreated EveryCubeInRadiusXAroundTarget DoubleConstant 2 HealXDamage DoubleConstant 2
+Visual: Area 2 Plus 0 254 33
+Text: After this is created heal 2 hp of every cube up to 2 spaces away End
+End
+
+CUBE: Leaders_Retreat 10 0 0
+TOKEN
+Ability: AfterThisIsCreated TargetCube 
+ARandomCubeWhich And And IsAllyToCaster Test IsALeader Test Not CubeHasName Test Warriors_Heart
+ Both TeleportToPosition PositionInDirectionFromThis South
+ HealXDamage DoubleConstant 5
+Text: After this is created teleport a random allied leader not named Warriors Heart below this and heal it for 5 hp End
+Visual: Square 0 1 255 0 220
+AiPlacementRule: And And AiAnyDistanceAboveSafety AiBackline AiEmptySouth
+End
+
+CUBE: Tinkering 15 0 0
+TOKEN
+Ability: AfterThisIsCreated If Not IsNeutral CubeInDirectionFromCube South Caster
+AddCubeToHandOfFaction CopyWithAction CubeInDirectionFromCube South Caster
+ Both SetFaction FactionOfThis GainAbility Upgrade
+ FactionOfThis
+Text: After this is created add an allied copy of the non neutral cube below to your hand, except it's an upgrade which makes it combine with cubes below it End
+Visual: Target 0 1 38 127 0
+AiPlacementRule: Or AiEnemySouth AiAllySouth
+End
+
+CUBE: Warriors_Heart 100 50 50
+TOKEN
+Ability: LEADER
+Ability: AfterThisDies TargetCube ARandomAlliedLeader IfElse CubeExists Culprit 
+  SetCaster Culprit TakeXDamage DoubleConstant 500
+ TakeXDamage DoubleConstant 500
+Text: After this dies the killer also deals 500 damage to another allied leader End
+Ability: AfterACubeDies If IsALeader Victim Both 
+GainAbilityText EverySecond GenerateXMana DoubleConstant 1
+Every second generate 1 \CMANA mana \CN End
+RemoveThisAbility
+Text: After a leader dies, lose this ability and gain: \N Every second generate 1 \CMANA mana \CN End
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Wizard_Apprentice 20 4 4
+TOKEN
+Ability: AfterAnotherAllyIsCreated If IsPlaced Both GainAbility EnergyX 1
+If IsLarger GetEnergy DoubleConstant 9
+Both RemoveAbilityWithName EnergyX
+CreateCubeOnPosition Victim PositionInDirectionFromThis North
+Text: After another ally is placed this gains 1 energy, then if this has more than 9 energy lose all energy
+and create a copy of the placed cube above End
+Visual: Square 0 -1 96 96 96
+Ability: AfterThisCreates TargetCube Victim GainAbility DieAfterX 600
+Text: After this creates a cube give it: This dies after 10 seconds End
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Mana_Flower 1 1 1
+TOKEN
+Ability: Every30Seconds GenerateXMana DoubleConstant 1
+Text: Every 30 seconds generate 1 \CMANA mana \CN End
+Ability: EverySecond If CubeExists CubeOfPosition PositionInDirectionFromThis North TakeXDamage DoubleConstant 1
+Text: Every second, if there is a cube on top, this takes 1 damage End
+Visual: Sword 0 -1 255 0 0 3
+AiPlacementRule: And And AiStacking Not AiFrontline AiEmptyNorth
+End
+
+CUBE: Air_Mana_Storage 0 2 2
+TOKEN
+Ability: ManaStorageX 5
+Ability: Flying
+AiPlacementRule: AiFlying
+End
+
+CUBE: Chaos_Cast 10 0 0
+TOKEN
+UNUSED
+Ability: AfterThisIsCreated CreateCubeOnPosition CopyWithAction ARandomCubeInLibraryWhich And IsEqual HpOfCube Test DoubleConstant 0 Not IsToken Test
+Both GainAbilityText AfterThisIsCreated Both GainXExtraHp DoubleConstant 1 RemoveThisAbility
+ After this is created this gains 1 extra hp then loses this ability End
+ GainAbility DieAfterX 60
+ PositionInDirectionFromThis South
+Text: After this is created create a random 0 hp cube from the library below, except it has 1 extra hp and dies after 1 second End
+Visual: Square 0 1 96 96 96
+AiPlacementRule: AiEmptySouth
+End
+
+CUBE: Holy_Dragon_Egg 10 3 3
+TOKEN
+Ability: Dragon_Egg CubeConstant Baby_Holy_Dragon
+Ability: ArmorX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Baby_Holy_Dragon 5 2 2
+TOKEN
+Ability: GrowingUp 25 CubeConstant Holy_Dragon
+Ability: GrowthX 1
+Ability: RegenerationX 1
+Ability: EveryXMeleeY 300 1
+Ability: WorthXMore 25
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Holy_Dragon 200 25 25
+TOKEN
+Ability: EverySecond TargetCube ARandomDamagedAlly HealXDamage DoubleConstant 1
+Text: Every second heal a random damaged ally for 1 hp End
+Ability: GrowthX 1
+Ability: EveryXMeleeY 60 2
+Ability: RegenerationX 40
+Ability: AfterACubeHeals If IsAllyToCaster Victim TargetCube Victim RemoveAbilityWithName PoisonX
+Text: After an ally is healed remove its poison End
+AiPlacementRule: And AiStacking Not AiFrontline
+End
+
+CUBE: Anger_Dragon_Egg 10 3 3
+TOKEN
+Ability: Dragon_Egg CubeConstant Baby_Anger_Dragon
+Ability: ArmorX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Baby_Anger_Dragon 5 3 3
+TOKEN
+Ability: GrowingUp 50 CubeConstant Anger_Dragon
+Ability: GrowthX 2
+Ability: RegenerationX 1
+Ability: EveryXMeleeY 60 1
+Ability: WorthXMore 25
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Anger_Dragon 200 50 50
+TOKEN
+Ability: AfterAnotherAllyIsCreated TargetCube Victim GainAbility EveryXMeleeY 10 1
+Text: After another ally is created give it the following ability: 
+\A EveryXMeleeY 10 1 End
+Ability: EveryXMeleeY 30 10
+Ability: GrowthX 1
+Ability: RegenerationX 10
+AiPlacementRule: And AiStacking Not AiFrontline
+End
+
+CUBE: Magic_Dragon_Egg 10 2 2
+TOKEN
+Ability: Dragon_Egg CubeConstant Baby_Magic_Dragon
+Ability: ArmorX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Baby_Magic_Dragon 5 2 2
+TOKEN
+Ability: GrowingUp 25 CubeConstant Magic_Dragon
+Ability: GrowthX 1
+Ability: RegenerationX 3
+Ability: WorthXMore 25
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Magic_Dragon 200 25 25
+TOKEN
+Ability: BeforeACubeTakesDamage If IsAllyToCaster Culprit If Not IsAllyToCaster Victim
+NegateX DoubleConstant -2
+Text: Before an ally deals damage to a non ally increase that damage by 2 End
+Ability: EveryXCreateCubeInfront TimeConstant 3600 CubeConstant Shock_Wave
+Ability: EveryXMeleeY 300 10
+Ability: GrowthX 1
+Ability: RegenerationX 6
+AiPlacementRule: And And AiStacking AiBackline AiEmptyInfront
+End
+
+CUBE: Iron_Dragon_Egg 10 4 4
+TOKEN
+Ability: Dragon_Egg CubeConstant Baby_Iron_Dragon
+Ability: ArmorX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Baby_Iron_Dragon 5 2 2
+TOKEN
+Ability: GrowingUp 25 CubeConstant Iron_Dragon
+Ability: GrowthX 2
+Ability: RegenerationX 1
+Ability: WorthXMore 50
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Iron_Dragon 200 25 25
+TOKEN
+Ability: Every30Seconds EveryCubeWhich IsAllyToCaster Test GainXExtraHp DoubleConstant 1
+Text: Every 30 seconds every ally gains 1 extra hp End
+Ability: EveryMinute AddCubeToHandOfThis FreeCopy CubeConstant Iron
+Text: Every minute add a free Iron cube to your hand End
+Ability: EveryXMeleeY 180 5
+Ability: ArmorX 1
+Ability: GrowthX 1
+Ability: RegenerationX 3
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Explosive_Dragon_Egg 10 2 2
+TOKEN
+Ability: Dragon_Egg CubeConstant Baby_Explosive_Dragon
+Ability: ExplodesX 3
+Ability: ArmorX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Baby_Explosive_Dragon 5 3 3
+TOKEN
+Ability: GrowingUp 25 CubeConstant Explosive_Dragon
+Ability: GrowthX 1
+Ability: ExplodesX 20
+Ability: WorthXMore 50
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Explosive_Dragon 200 35 35
+TOKEN
+Ability: AfterACubeDies XTimes DoubleConstant 4
+TargetCube ARandomCubeWhich IsEnemyToCaster Test GainAbility ExplodesX 1
+Text: After every 4th time a cube dies a random enemy gains \C182 0 0 Explodes 1 \CN End
+Ability: BeforeThisDealsDamage NegateX Minus MaxHpOfCube Caster
+Text: Before this deals damage increase that damage by X where X is this cube's max hp End
+Ability: ExplodesX 1
+Ability: RetaliateX 1
+Ability: GrowthX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Thorn_Leaves 10 2 4
+TOKEN
+Ability: RegenerationX 10
+Ability: RetaliateX 1
+Animation: Crumble HP 0 EQUAL 3
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Castle_Knight 15 7 7
+TOKEN
+Ability: ChargeEveryX 120
+Ability: EveryXMeleeY 120 3
+Ability: Climbing
+AiPlacementAbility: AiWarrior
+End
+
+CUBE: Incursion 10 10 10
+TOKEN
+Ability: AfterThisIsCreated Both SetPositionPlacability PositionInDirectionFromThis Forwards FactionOfThis Die
+Text: After this is created gain ownership of the position in front (Only you can place in that position) and this dies End
+Visual: Target 1 0 255 255 255
+AiPlacementRule: Not IsEqual EventFaction PlacabilityOfPosition PositionInDirectionFromPosition Forwards PositionOfCube Caster
+End
+
+CUBE: Invasive_Dragon_Egg 10 2 2
+TOKEN
+Ability: Dragon_Egg CubeConstant Baby_Invasive_Dragon
+Ability: ArmorX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Baby_Invasive_Dragon 5 3 3
+TOKEN
+Ability: GrowingUp 25 CubeConstant Invasive_Dragon
+Ability: EveryMinute Both 
+TeleportToPosition PositionInDirectionFromPosition North PositionOfCube ARandomCubeWhich And IsPositionEmpty PositionInDirectionFromPosition North PositionOfCube Test IsAllyToCaster Test
+TargetCube Caster Both ChangeMaxHp DoubleConstant 1
+HealXDamage DoubleConstant 2
+Text: Every minute teleport above a random ally which has space, gives this 1 max hp and heal 2 hp End
+Ability: ArmorX 1
+Ability: Flying
+Ability: WorthXMore 50
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Invasive_Dragon 200 25 25
+TOKEN
+Ability: Every30Seconds Both 
+SetStorage ARandomCubeWhich And IsEnemyToCaster Test IsPositionEmpty PositionInDirectionFromPosition North PositionOfCube Test Both
+TeleportToPosition PositionInDirectionFromPosition North PositionOfCube Storage
+SetPositionPlacability PositionOfThis FactionOfThis
+TargetCube Caster Both
+ChangeMaxHp DoubleConstant 2
+HealXDamage DoubleConstant 3
+Text: Every 30 seconds teleport above a random enemy which has space, gain ownership of that position, give this 2 max hp and heal 3 hp End
+Ability: ArmorX 1
+Ability: RetaliateX 1
+Ability: PoisonousX 5
+Ability: Flying
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Solid_Shadow_Hive 100 10 10
+TOKEN
+Ability: Shadow
+Ability: GrowthX 1
+Ability: LifeSteal
+Ability: ArmorX 1
+Ability: Every5Seconds TargetCube ARandomCubeWhich IsEnemyToCaster Test TakeXDamage DoubleConstant 1
+Text: Every 5 seconds deal 1 damage to a random enemy End
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Stone_Dragon_Egg 10 10 10
+TOKEN
+Ability: Dragon_Egg CubeConstant Baby_Stone_Dragon
+Ability: ArmorX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Baby_Stone_Dragon 5 10 10
+TOKEN
+Ability: GrowingUp 50 CubeConstant Stone_Dragon
+Ability: GrowthX 4
+Ability: WorthXMore 50
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Stone_Dragon 200 50 50
+TOKEN
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim GainXExtraHp Multiplication DoubleConstant 4 HpOfCube Victim
+Text: After an allied cube is created give it extra hp equal to 4 times its current hp End
+Ability: EveryXMeleeY 300 10
+Ability: ArmorX 1
+Ability: GrowthX 10
+Ability: RegenerationX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Shadow_Dragon_Egg 10 3 3
+TOKEN
+Ability: Dragon_Egg CubeConstant Baby_Shadow_Dragon
+Ability: ArmorX 1
+Ability: Shadow
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Baby_Shadow_Dragon 5 5 5
+TOKEN
+Ability: GrowingUp 25 CubeConstant Shadow_Dragon
+Ability: GrowthX 2
+Ability: Shadow
+Ability: BeforeThisTakesDamage If CubeHasName Culprit Solid_Shadow NegateX EventAmount
+Text: Negate all damage this takes from solid shadow End
+Ability: WorthXMore 50
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Shadow_Dragon 200 25 25
+TOKEN
+Ability: EverySecond TargetCube ARandomCubeWhich And CubeHasName Test Solid_Shadow Not IsAllyToCaster Test
+Both GainAbility ChargeEveryX 10
+Both GainAbility StrengthX 2
+SetFaction FactionOfThis
+Text: Every second a random not allied Solid_Shadow gains both: \N
+\A ChargeEveryX 10 \N
+\A StrengthX 2 \N
+and then joins your faction End
+Ability: Shadow
+Ability: BeforeThisTakesDamage If CubeHasName Culprit Solid_Shadow NegateX EventAmount
+Text: Negate all damage this takes from solid shadow End
+Ability: EveryXMeleeY 120 2
+Ability: GrowthX 1
+Ability: RegenerationX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Elemental_Dragon_Egg 10 4 4
+TOKEN
+Ability: Dragon_Egg CubeConstant Baby_Elemental_Dragon
+Ability: ArmorX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Baby_Elemental_Dragon 5 2 2
+TOKEN
+Ability: GrowingUp 25 CubeConstant Elemental_Dragon
+Ability: GrowthX 2
+Ability: RegenerationX 1
+Ability: WorthXMore 50
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Elemental_Dragon 200 25 25
+TOKEN
+Ability: AfterACubeTakesDamage If IsAllyToCaster Victim If IsNeutral Culprit NegateX EventAmount
+Text: Allies take no damage from neutral cubes End
+Ability: EverySecond SetStorage NeutralCopy ARandomCubeInLibraryWhich Not IsToken Test
+TargetCube ARandomCubeWhich And Not IsAllyToCaster Test IsPositionEmpty PositionInDirectionFromPosition North PositionOfCube Test
+CreateCubeOnPosition Storage
+PositionInDirectionFromPosition North PositionOfCube Target
+Text: Every second create a neutral copy of a random cube in the library above a random not allied cube End
+Ability: RegenerationX 5
+Ability: RetaliateX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Plant_Dragon_Egg 10 4 4
+TOKEN
+Ability: Dragon_Egg CubeConstant Baby_Plant_Dragon
+Ability: ArmorX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Baby_Plant_Dragon 5 2 2
+TOKEN
+Ability: GrowingUp 100 CubeConstant Plant_Dragon
+Ability: GrowthX 10
+Ability: RegenerationX 5
+Ability: WorthXMore 50
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Plant_Dragon 200 100 100
+TOKEN
+Ability: AfterACubeDies If IsAllyToCaster Victim TargetCube ARandomCubeWhich IsAllyToCaster Test
+Both ChangeMaxHp MaxHpOfCube Victim
+HealXDamage Division MaxHpOfCube Victim DoubleConstant 2
+Text: After an ally dies add its max hp to another random ally, then also heal the ally for half that amount End
+Ability: EveryXMeleeY 120 2
+Ability: GrowthX 10
+Ability: RegenerationX 20
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Crystal_Dragon_Egg 10 3 3
+TOKEN
+Ability: Dragon_Egg CubeConstant Baby_Crystal_Dragon
+Ability: ArmorX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Baby_Crystal_Dragon 5 2 2
+TOKEN
+Ability: GrowingUp 15 CubeConstant Crystal_Dragon
+Ability: GrowthX 1
+Ability: ArmorX 1
+Ability: EveryXMeleeY 300 1
+Ability: WorthXMore 25
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Crystal_Dragon 200 35 35
+TOKEN
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim 
+ EveryCubeTouchingPosition PositionOfCube Victim If IsAllyToCaster Target If Not IsSameCube Caster Target SetStorage Target
+ TargetCube Victim GainRandomAbilityOfCube Storage 
+Text: After an ally is created copy a random ability from each touching ally onto it, wont copy from this cube End
+Ability: EveryXMeleeY 120 4
+Ability: ArmorX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Chaos_Dragon_Egg 10 3 3
+TOKEN
+Ability: Dragon_Egg CubeConstant Baby_Chaos_Dragon
+Ability: ArmorX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Baby_Chaos_Dragon 5 2 2
+TOKEN
+Ability: GrowingUp 25 CubeConstant Chaos_Dragon
+Ability: GrowthX 1
+Ability: RandomBonus
+Ability: WorthXMore 25
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Chaos_Dragon 200 25 25
+TOKEN
+Ability: EverySecond TargetCube ARandomCubeWhich IsAllyToCaster Test GainAbilityText OnDeathCreateCube ARandomCubeInLibraryWhich True
+After this dies create a random cube from the library here End
+Text: Every second a random ally gains: After this dies create a random cube here, this may even create token cubes and normally unobtainable cubes End
+Ability: EveryXMeleeY 180 4
+Ability: RandomBonus
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Miracle_Of_Fire 100 0 0
+TOKEN
+Ability: AfterThisIsCreated EveryCubeWhich IsEnemyToCaster Test CreateCubeOnPosition CubeConstant Holy_Fire
+PositionInDirectionFromPosition North PositionOfCube Target
+Text: After this is created create a Holy_Fire above every enemy End
+AiPlacementRule: True
+End
+
+CUBE: Holy_Fire 15 10 10
+TOKEN
+Ability: EveryXSeconds 2 Both 
+ EveryCubeTouchingPosition PositionOfThis If Not IsAllyToCaster Target TakeXDamage DoubleConstant 1
+  TargetCube Caster Both TakeXDamage 1 GainAbility StrengthX 1
+Text: Every 2 seconds deal 1 damage to all touching non allies, 1 damage to this and gain 1 strength End
+AiPlacementRule: AiEnemySouth
+End
+
+CUBE: Time_Warp 50 0 0
+TOKEN
+Ability: AfterThisIsCreated Both Exile TargetCube CubeInDirectionFromCube South Caster 
+If Not IsALeader Target AccelerateX TimeConstant 1200
+Text: After this is created exile this, then accelerate the cube below by 20 seconds, unless its a leader End
+Visual: Target 0 1 197 204 112
+AiPlacementRule: And AiAllySouth Not AiLeaderSouth
+End
+
+CUBE: Major_Time_Warp 200 0 0
+TOKEN
+Ability: AfterThisIsCreated Both Exile  TargetCube CubeInDirectionFromCube South Caster 
+If Not IsALeader Target AccelerateX TimeConstant 7200
+Text: After this is created exile this, then accelerate the cube below by 2 minutes, unless its a leader End
+Visual: Target 0 1 197 204 112
+AiPlacementRule: And AiAllySouth Not AiLeaderSouth
+End
+
+CUBE: Temporal_Dragon_Egg 10 3 3
+TOKEN
+Ability: Dragon_Egg CubeConstant Baby_Temporal_Dragon
+Ability: ArmorX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Baby_Temporal_Dragon 5 2 2
+TOKEN
+Ability: GrowingUp 40 CubeConstant Temporal_Dragon
+Ability: GrowthX 1
+Ability: EverySecond AccelerateX TimeConstant 60
+Text: Every second accelerate this for 1 second End
+Ability: WorthXMore 25
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Temporal_Dragon 200 50 50
+TOKEN
+Ability: EnergyGenerationX 60
+Ability: EverySecond TargetCube ARandomCubeWhich And Not IsSameCube Test Caster IsAllyToCaster Test AccelerateX GetEnergy
+Text: Every second accelerate another random ally by a 60th of a second for every energy on this End
+Ability: GrowthX 1
+Ability: EveryXMeleeY 60 2
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Abomination_Piece 12 2 2
+TOKEN
+Ability: ChargeEveryX 120
+Ability: EveryXMeleeY 40 2
+Ability: Climbing
+AiPlacementAbility: AiWarrior
+End
+
+CUBE: Vengeful_Spirit 20 4 4
+TOKEN
+Ability: VengeanceX 4
+Ability: Flying
+AiPlacementRule: AiFlying
+End
+
+CUBE: Undead_Dragon_Egg 10 3 3
+TOKEN
+Ability: Dragon_Egg CubeConstant Baby_Undead_Dragon
+Ability: ArmorX 1
+Ability: Undead
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Baby_Undead_Dragon 5 2 2
+TOKEN
+Ability: GrowingUp 50 CubeConstant Undead_Dragon
+Ability: GrowthX 3
+Ability: ExtraLife
+Ability: Undead
+Ability: WorthXMore 25
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Undead_Dragon 200 50 50
+TOKEN
+Ability: AfterACubeDies If IsAllyToCaster Victim If X%Chance DoubleConstant 50 
+CreateCubeOnPosition CopyWithAction Victim HealXDamage MaxHpOfCube Target PositionOfCube Victim
+Text: After an ally dies 50% chance to create a copy on its position which is healed for its max hp End
+Ability: GrowthX 2
+Ability: ExtraLife
+Ability: EveryXMeleeY 180 10
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Elemental_Knight 15 5 5
+TOKEN
+Ability: ChargeEveryX 120
+Ability: EveryXMeleeY 120 6
+Ability: Climbing
+AiPlacementAbility: AiWarrior
+End
+
+CUBE: Capacitor 3 1 1
+TOKEN
+Ability: Upgrade
+Ability: EnergyGenerationX 10
+Ability: EnergyX 10
+End
+
+CUBE: Concentrate 20 5 5
+TOKEN
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim GainAbility StrengthX 1
+Text: After an ally is created it gains \A StrengthX 1 End
+Ability: Every10Seconds Both Both RemoveThisAbility GenerateXMana -20 Die 
+Text: After 10 seconds lose this ability, generate -20 mana and this dies End
+AiPlacementRule: And AiFlying AiBackline
+End
+
+CUBE: Join_The_Swarm 30 0 0
+TOKEN
+Ability: AfterThisIsCreated TargetCube CubeInDirectionFromCube South Caster
+EveryCubeInHandOfFactionWhich FactionOfThis HasNameOfCube Test Target
+Both GainAbility Swarm
+RemoveAbilityWithName InfestedX
+Text: After this is created check the name of the cube below, every cube in your hand with that name gains \C255 0 220 Swarm \CN and loses any \C76 255 0 Infested \CN \B End
+Visual: Target 0 1 255 255 255
+Ability: InfestedX 5
+AiPlacementRule: And AiAllySouth CubeExists ARandomCubeInHandOfFactionWhich EventFaction And Not HasAbilityWithName Test Swarm HasNameOfCube Test CubeInDirectionFromCube South Target
+End
+
+CUBE: Devouring_Dragon_Egg 10 7 7
+TOKEN
+Ability: Dragon_Egg CubeConstant Baby_Devouring_Dragon
+Ability: ArmorX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Baby_Devouring_Dragon 5 2 2
+TOKEN
+Ability: GrowingUp 50 CubeConstant Devouring_Dragon
+Ability: GrowthX 3
+Ability: DevouringX 1
+Ability: WorthXMore 25
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Devouring_Dragon 200 50 50
+TOKEN
+Ability: EveryXSeconds DoubleConstant 10 EveryCubeWhich True GainAbility InfestedX 1
+Text: Every 10 seconds every cube gains 1 infested End
+Ability: EveryXMeleeY 180 5
+Ability: GrowthX 2
+Ability: DevouringX 10
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Snap_Freeze 10 0 0
+TOKEN
+Ability: AfterThisIsCreated TargetCube CubeInDirectionFromCube South Caster Both Both
+ GainAbility FrozenX 10
+ GainXExtraHp DoubleConstant 1
+ RemoveAbilityWithName DieAfterX
+Text: After this is created the cube below: \N 
+ Gains \A FrozenX 10 \N 
+ Gains 1 extra hp \N
+ Loses \C200 200 200 Temporary \CN End
+Visual: Target 0 1 255 255 255
+AiPlacementRule: AiEnemySouth
+End
+
+CUBE: Icy_Dragon_Egg 10 7 7
+TOKEN
+Ability: Dragon_Egg CubeConstant Baby_Icy_Dragon
+Ability: ArmorX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Baby_Icy_Dragon 5 25 25
+TOKEN
+Ability: FrozenX 900
+Ability: GrowingUp 20 CubeConstant Icy_Dragon
+Ability: WorthXMore 25
+Ability: Flying
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Icy_Dragon 200 30 30
+TOKEN
+Ability: EveryXSeconds DoubleConstant 4 EveryCubeWhich IsEnemyToCaster Test Both GainAbility FrozenX 1
+If IsLarger GetStackingOfAbilityOnCube FrozenX Target ManaCostOfCube Target Die
+Text: Every 4 seconds freeze all enemies for 1 second and if they have more frozen than manacost they die End
+Ability: AfterThisTakesDamage TargetCube Culprit GainAbility FrozenX 5
+Text: After this takes damage freeze the culprit for 5 seconds End
+Ability: EveryXMeleeY 120 4
+Ability: GrowthX 2
+Ability: Flying
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Upgrade_Stone 10 20 20
+TYPE Wall
+TOKEN
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Perk_Moil 0 0 0
+TOKEN
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Moil_Dragon_Egg 10 7 7
+TOKEN
+Ability: Dragon_Egg CubeConstant Baby_Moil_Dragon
+Ability: ArmorX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Baby_Moil_Dragon 5 10 10
+TOKEN
+Ability: GrowingUp 30 CubeConstant Moil_Dragon
+Ability: GrowthX 2
+Ability: EveryXMeleeY 120 3
+Ability: WorthXMore 25
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Moil_Dragon 200 40 40
+TOKEN
+Ability: Every20Seconds Both GainAllAbilitiesOfCube ARandomCubeWhich Not IsALeader Test 
+GainAllAbilitiesOfPerk ARandomPerkInInventoryWhich IsTestPerkMoilable
+Text: Every 20 seconds gain all abilities of a random non leader cube and a random applicable perk in your inventory End
+Ability: Stable
+Ability: GrowthX 4
+Ability: EveryXMeleeY 120 4
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Cube_Slot_Linker 5 0 0
+TOKEN
+Ability: AfterThisIsCreated TargetCube CubeInDirectionFromCube South Caster
+ SetAbilitiesPerkConnection Subtraction XOfPosition PositionOfCube Target 100
+Text: After this is created set the abilities of the cube below as if they were in the hypothetical Nth slot of your inventory, N is equal to the cubes X coordinate - 100 \N 
+(this allows perk moils of fragments to trigger perk moils of fragments in the next column) End
+Visual: Target 0 1 255 255 255
+AiPlacementRule: AiAllySouth
+End
+
+CUBE: Trigger_Clock 20 10 10
+TOKEN
+Ability: Every20Seconds Both NegateX Subtraction EventAmount GetVariableOnCube TARGET_PERK Caster TriggerWorldSomething TARGETFRAGMENT
+Text: Every 20 seconds trigger the "Target:" perk in slot VARIABLE TARGET_PERK of your inventory End
+Animation: Turn CLOCK 0 EQUAL 4
+End
+
+CUBE: Periscope 5 1 1
+TOKEN
+Ability: Fragile
+End
+
+CUBE: Programmed_Dragon_Egg 10 7 7
+TOKEN
+Ability: Dragon_Egg CubeConstant Baby_Programmed_Dragon
+Ability: ArmorX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Baby_Programmed_Dragon 5 5 5
+TOKEN
+Ability: GrowingUp 25 CubeConstant Programmed_Dragon
+Ability: GrowthX 2
+Ability: EveryXMeleeY 60 2
+Ability: ArmorX 1
+Ability: WorthXMore 25
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Programmed_Dragon 200 40 40
+TOKEN
+Ability: Every5Seconds Both NegateX EventAmount
+ Until IsLarger EventAmount AmountOfPerksInInventoryWhich True
+  Both NegateX -1
+   TriggerWorldSomething TARGETFRAGMENT
+ Nothing
+Text: Every 5 seconds trigger every "Target:" perk in your inventory End
+Ability: GrowthX 3
+Ability: ArmorX 2
+Ability: EveryXMeleeY 60 6
+Ability: ChargeEveryX 120
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Mycelium 5 5 5
+TOKEN
+Ability: Every5Seconds EveryCubeTouchingPosition PositionOfThis
+ If IsEnemyToCaster Target
+  TakeXDamageEffect 2 0 Melee_Swing
+Visual: Sword 1 0 255 0 0 2
+Visual: Sword -1 0 255 0 0 4
+Visual: Sword 0 1 255 0 0 3
+Visual: Sword 0 -1  255 0 0 1
+Text: Every 5 seconds deal 2 damage to every touching enemy End
+Ability: DiagonalAnchor
+Ability: Formless
+Animation: Crumble HP 0 EQUAL 4
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Big_Spore 19 20 20
+TOKEN
+Ability: AfterACubeIsCreated If And And IsPlaced IsAllyToCaster Victim Not IsSameCube Caster Victim Both Die TargetCube Victim XTimes RoundedDown Division ManaCostOfCube Victim 20 
+ GainAbility MyceliumGrowth
+Animation: Grow TRIGGER 0 EQUAL 3 30
+Text: After another ally is placed kill this and give the ally 1 MyceliumGrowth for every 20 mana it costs End
+Ability: VengeanceX 5
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Fungus_Heart 75 25 25
+TOKEN
+TYPE Factory
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If HasAbilityWithName Victim Formless
+ Cooldown 5400
+ SetStorage ARandomCubeInLibraryWhich IsSameString NameOfCube Test GetVariableOnCube FUNGUS_HEART Caster 
+ Both TargetCube Storage Exile 
+ CreateCubeOnPosition Storage PositionOfCube Victim
+ExtraTrigger: AfterACubeIsCreated If IsAllyToCaster Victim If IsPlaced If Not IsSameCube Victim Caster
+  SetStorage ARandomCubeInLibraryWhich IsSameString NameOfCube Test NameOfCube Victim
+   If CubeExists Storage If Not IsSameString NameOfCube Storage StringConstant Fungus_Heart
+   1Shot Both SetSVariable FUNGUS_HEART NameOfCube Victim
+    AddCubeSpriteAtXYSizeZ Storage 4 4  7
+Text: Store the name of the next placed ally which has a different base version, \N
+ After a formless ally is created create a base cube of the stored name in the same place, cooldown 1.5 minutes End
+Animation: Cooldown CLOCK 0 EQUAL 10
+Ability: RetaliateX 1
+Ability: Flying
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Fungus_Dragon_Egg 10 7 7
+TOKEN
+Ability: Dragon_Egg CubeConstant Baby_Fungus_Dragon
+Ability: ArmorX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Baby_Fungus_Dragon 5 5 5
+TOKEN
+Ability: GrowingUp 40 CubeConstant Fungus_Dragon
+Ability: GrowthX 4
+Ability: EveryXMeleeY 120 3
+Ability: WorthXMore 25
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Fungus_Dragon 100 50 50
+TOKEN
+Ability: Every20Seconds CreateCubeOnPosition Caster PositionInDirectionFromPosition RandomDirection PositionOfThis
+Text: Every 20 seconds create a copy of this in a random direction End
+Ability: GrowthX 10
+Ability: EveryXMeleeY 120 7
+Ability: ChargeEveryX 240
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Robot_Core 10 20 20
+TOKEN
+Ability: RobotPartX 4
+Ability: RobotHeartX 4
+Ability: RobotMovement
+Ability: AfterThisIsCreated Both EveryCubeWhich And CubeHasName Test Robot_Core Not IsSameCube Caster Test Die RemoveThisAbility
+Text: After this is created kill all other Robot_Core and lose this ability End
+Ability: AfterACubeIsCreated If IsAllyToCaster Culprit If IsAllyToCaster Victim If IsPlaced
+ If Not HasAbilityWithName Victim RobotPartX Both RemoveThisAbility GainAbility ChargeEveryX 240
+Text: After you place a non robotpart ally lose this ability and gain: "Every 4 seconds move forwards" End
+Animation: Move BOOLEAN 0 HasAbilityWithName Caster ChargeEveryX 2
+End
+
+CUBE: Piston_Leg 15 5 5
+TOKEN
+Ability: RobotPartX 12
+Ability: EveryTick TargetCube CubeInDirectionFromCube South Caster
+ If Not HasAbilityWithName Target RobotPartX
+ Cooldown 600
+ Both EveryCubeWhich CubeHasName Test Robot_Core MoveInDirection North
+  CreateCubeOnPosition CubeConstant Extended_Leg PositionInDirectionFromPosition South PositionOfThis
+Text: When there is a non robotpart below, move every robot core upwards and create a temporary extended leg below, Cooldown 10 seconds End
+Animation: Charge CLOCK 0 EQUAL 7
+Ability: AfterThisMoves If IsSameDirection EventDirection Forwards
+ EveryCubeWhich And IsAllyToCaster Test HasAbilityWithName Test RobotPartX HealXDamage 1
+Text: After this moves forwards heal all robot parts for 1 hp End
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Extended_Leg 6 3 3
+TOKEN
+Ability: DieAfterX 90
+Ability: AfterThisIsCreated TargetCube CubeInDirectionFromCube South Caster
+ If Not IsAllyToCaster Target If Not HasAbilityWithName Target Burrowed TakeXDamage HpOfCube Caster
+Text: After this is created if the cube below is not an ally and doesn't have burrowed deal X damage to it, where X is this cubes hp End
+End
+
+CUBE: Robot_Remote 5 0 0
+TOKEN
+Ability: AfterThisIsCreated TargetCube ARandomCubeWhich And IsAllyToCaster Test HasAbilityWithName Test RobotMovement
+ IfElse HasAbilityWithName Target ChargeEveryX Both RemoveAbilityWithName ChargeEveryX GainAbility FleeEveryX 180
+  If HasAbilityWithName Target FleeEveryX Both RemoveAbilityWithName FleeEveryX GainAbility ChargeEveryX 180
+Text: After this is created a random robot movement ally swaps between charging and fleeing, moving forwards or backwards every 3 seconds End
+End
+
+CUBE: Robot_Dragon_Egg 10 7 7
+TOKEN
+Ability: Dragon_Egg CubeConstant Baby_Robot_Dragon
+Ability: ArmorX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Baby_Robot_Dragon 5 30 30
+TOKEN
+Ability: GrowingUp 100 CubeConstant Robot_Dragon
+Ability: GrowthX 5
+Ability: AfterThisMoves If IsAllyToCaster Culprit GainXExtraHp 1 
+Text: After an ally moves this this gains 1 extra hp End
+Ability: EveryXMeleeY 120 2
+Ability: WorthXMore 25
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Robot_Dragon 200 150 150
+TOKEN
+Ability: AfterACubeMoves If IsAllyToCaster Culprit If Not IsALeader Victim If Not IsSameCube Culprit Victim If X%Chance 30 
+ If Not HasAbilityWithName CubeOfPosition PositionInDirectionFromPosition ReverseDirection EventDirection OriginalPosition RobotPartX
+ If Not CubeHasName Victim Piston_Leg
+ CreateCubeOnPosition CopyWithAction Victim Both SetFaction FactionOfThis RemoveAbilityWithName RobotPartX
+  OriginalPosition
+Text: After an ally moves another non leader ally 30% chance to create an allied copy in the cubes previous position, except it looses robot part, won't split apart robot parts or create Piston_Leg End
+Ability: EveryMinute EveryCubeWhich IsAllyToCaster Test MoveInDirection DirectionFromPosToPos PositionOfThis PositionOfCube Target
+Text: Every minute move every ally towards this End
+Ability: GrowthX 15
+Ability: EveryXMeleeY 120 7
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Robot_Core_Creator 20 20 20
+TOKEN
+Ability: EveryXSeconds 10 If Not CubeExists ARandomCubeWhich And IsAllyToCaster Test CubeHasName Test Robot_Core
+ CreateCubeOnPosition CubeConstant Robot_Core PositionXInfrontYBelowPosition DoubleConstant 0 DoubleConstant 3 PositionOfCube Caster
+Text: Every 10 seconds create a robot core 3 spaces below, if there is no allied robot core End
+Visual: Square 0 3 96 96 96
+Ability: Flying
+End
+
+CUBE: Robot_Pull 5 0 0
+TOKEN
+Ability: AfterThisIsCreated TargetCube ARandomCubeWhich And IsAllyToCaster Test HasAbilityWithName Test RobotMovement
+ XTimes 10 MoveInDirection DirectionFromPosToPos PositionOfThis PositionOfCube Target
+Text: After this is created move a random robot core towards this 10 times End
+End
+
+CUBE: Production_Augment 20 15 15
+TOKEN
+TYPE Starter
+TYPE Modifier
+Ability: AfterACubeIsCreated If Not IsALeader Culprit 
+If IsCubeTouchingCube Caster Culprit TargetCube Victim Cooldown 300
+EveryAbilityOfCubeWhich Caster Not IsSameAbility Test ThisAbility GainAbility Target
+Text: After a touching non leader creates a cube give the creation all other abilities of this, Cooldown 5 seconds End
+Visual: Target 1 0 255 255 255
+Visual: Target 0 1 255 255 255
+Visual: Target -1 0 255 255 255
+Visual: Target 0 -1 255 255 255
+Animation: Cooldown CLOCK 0 EQUAL 6
+Ability: StrengthX 1
+AiPlacementRule: And AiDefense AiStacking
+End
+
+CUBE: Faulty_Automaton 10 8 17
+TOKEN
+Ability: ChargeEveryX 120
+Ability: EveryXMeleeY 120 1
+Ability: PoisonX 3
+Ability: Climbing
+AiPlacementAbility: AiWarrior
+End
+
+CUBE: Strength_Pylon 40 10 10
+TOKEN
+Ability: Addon
+Ability: StrengthX 1
+Ability: AfterACubeIsCreated If IsCubeTouchingThis Victim
+ TargetCube Victim GainAbility StrengthX 1
+Text: After an ally is created touching this one give it Strength 1 End
+Visual: Target 1 0 255 255 255
+Visual: Target 0 1 255 255 255
+Visual: Target -1 0 255 255 255
+Visual: Target 0 -1 255 255 255
+AiPlacementRule: AiStacking
+End
+
+CUBE: Ancient_Dragon_Egg 10 10 20
+TOKEN
+Ability: Dragon_Egg CubeConstant Baby_Ancient_Dragon
+Ability: ArmorX 1
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Baby_Ancient_Dragon 5 40 70
+TOKEN
+Ability: GrowingUp 150 CubeConstant Ancient_Dragon
+Ability: GrowthX 10
+Ability: EveryXMeleeY 120 2
+Ability: WorthXMore 25
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Ancient_Dragon 200 250 250
+TOKEN
+Ability: EveryMinute EveryCubeWhich IsAllyToCaster Test
+ ChangeIncomingAdjacency PositionInDirectionFromPosition Forwards PositionOfCube Target 
+  Forwards PositionOfCube
+   TheFirstCubeInDirectionFromPositionWhich Forwards PositionOfCube Target IsEnemyToCaster Test
+Text: Every minute every ally becomes adjacent to the first enemy in front of it (but not the other way around) End
+Ability: AfterACubeCreationIsBlocked If IsAllyToCaster Victim If IsEnemyToCaster CubeOfPosition PositionOfCube Victim
+  CreateCubeOnPosition Victim PositionInDirectionFromPosition Backwards OriginalPosition
+Text: Before an enemy blocks an allied cubes creation this creates a copy of the ally 1 space further back End
+Ability: AfterThisDies ResetAdjacency
+Text: After this dies reset all adjacencies everywhere back to normal End
+Ability: GrowthX 15
+Ability: EveryXMeleeY 120 5
+AiPlacementRule: And AiStacking AiBackline
+End

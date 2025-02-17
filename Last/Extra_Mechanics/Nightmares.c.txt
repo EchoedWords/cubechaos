@@ -1,0 +1,111 @@
+PERK: Nightmare_Of_Strange_Worlds
+BelongsTo: Nightmare
+ObtainAction: ObtainPerk PerkConstant Base_Terrain
+CampaignAbility: AfterAMapIsGenerated Both ChangeDifficulty 1 ReadAScenario Terrain_Exchange_Reward
+Description: After each map suffer +1 difficulty then choose one of 3 terrain perks, replacing one you already have End
+Invisible
+End
+
+PERK: Nightmare_Of_Drowning_Mana
+BelongsTo: Nightmare
+WorldAbility: BeforeManaIsGenerated If IsEnemy Culprit If IsALeader Culprit
+NegateX Division Difficulty DoubleConstant -20
+ObtainAction: ChangeDifficulty 1
+Description: Enemy leaders generate 0.05 more \CMANA mana \CN per difficulty, +1 starting difficulty End
+Invisible
+End
+
+PERK: Nightmare_Of_Choice
+BelongsTo: Nightmare
+ObtainAction: Both Both 
+ ChangeCampaignVariable BLIGHT_VALUE 2
+ ChangeCampaignVariable BOON_VALUE 0
+ ReadAScenario Blight_Boon_Selection
+Description: Go to a Blight and Boon selection with 2 Blight value End
+Invisible
+End
+
+PERK: Nightmare_Of_Benefits
+BelongsTo: Nightmare
+ObtainAction: Both Both
+ ChangeCampaignVariable BLIGHT_VALUE 2
+ ChangeCampaignVariable BOON_VALUE 2
+ ChangeDifficulty 2
+Description: +2 Blight value, +2 Boon value, +2 Starting difficulty End
+Invisible
+End
+
+PERK: Nightmare_Of_Larger_Choice_1
+BelongsTo: Nightmare
+ObtainAction: Both
+ ChangeCampaignVariable BLIGHT_VALUE 2
+ ChangeCampaignVariable BOON_VALUE 1
+Description: +2 Blight value, +1 Boon value End
+Invisible
+End
+
+PERK: Nightmare_Of_Larger_Choice_2
+BelongsTo: Nightmare
+ObtainAction: Both
+ ChangeCampaignVariable BLIGHT_VALUE 2
+ ChangeCampaignVariable BOON_VALUE 1
+Description: +2 Blight value, +1 Boon value End
+Invisible
+End
+
+PERK: Nightmare_Of_Harsh_Choice_1
+BelongsTo: Nightmare
+ObtainAction: Both
+ ChangeCampaignVariable BLIGHT_VALUE 3
+ ChangeCampaignVariable BOON_VALUE 1
+Description: +3 Blight value, +1 Boon value End
+Invisible
+End
+
+PERK: Nightmare_Of_Larger_Choice_3
+BelongsTo: Nightmare
+ObtainAction: Both
+ ChangeCampaignVariable BLIGHT_VALUE 2
+ ChangeCampaignVariable BOON_VALUE 1
+Description: +2 Blight value, +1 Boon value End
+Invisible
+End
+
+PERK: Nightmare_Of_Larger_Choice_4
+BelongsTo: Nightmare
+ObtainAction: Both
+ ChangeCampaignVariable BLIGHT_VALUE 2
+ ChangeCampaignVariable BOON_VALUE 1
+Description: +2 Blight value, +1 Boon value End
+Invisible
+End
+
+PERK: Nightmare_Of_Terrain
+BelongsTo: Nightmare
+ObtainAction: Both Both Both
+ ChangeCampaignVariable BLIGHT_VALUE 2
+ ChangeCampaignVariable BOON_VALUE 1
+  LosePerk ARandomPerkInInventoryWhich PerkIsType Test Terrain
+  ReadAScenario Small_Terrain_Reward
+Description: Choose one of 2 terrains to replace your starting one, +2 Blight value, +1 Boon value End
+Invisible
+End
+
+PERK: Nightmare_Of_Infinite_Choice
+BelongsTo: Nightmare
+ObtainAction: Both 
+ ChangeCampaignVariable BLIGHT_VALUE 3
+ ChangeCampaignVariable INFINITE_BOON_VALUE 1
+Description: +3 Blight value, slightly more boon value (amount of infinite choice to the power of 0.7) End
+Invisible
+End
+
+SCENARIO: Blight_Boon_Selection
+Info: Choose some amount of blights and boons remaining turning into difficulty and gold End
+CubeImage: Cursed_Trade
+End
+DOUBLE_SIDED_PERK_SELECTION: 
+ BlightValue: GetCampaignVariable BLIGHT_VALUE
+ BoonValue: Addition GetCampaignVariable BOON_VALUE Power GetCampaignVariable INFINITE_BOON_VALUE Division 7 10
+ End
+SEnd

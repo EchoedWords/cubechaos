@@ -1,0 +1,11 @@
+PERK: No_Class
+BelongsTo: CLASS
+LevelRequirement: 38
+Description: Start with 3 random cubes in your inventory End
+ObtainAction: Both Both 
+AddCubeToInventory APRandomCubeInLibraryWhich And And IsLarger ScalingOfCube Test DoubleConstant 5 Not IsAlreadyInInventory Test Not IsToken Test
+ AddCubeToInventory APRandomCubeInLibraryWhich And And HasCategory Test ATTACKER Not IsAlreadyInInventory Test Not IsToken Test
+ AddCubeToInventory APRandomCubeInLibraryWhich And Not IsAlreadyInInventory Test Not IsToken Test
+Value: 40
+RemoveUponObtaining
+End

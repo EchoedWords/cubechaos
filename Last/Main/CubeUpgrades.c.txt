@@ -1,0 +1,1125 @@
+COMPOUND: CUBE
+CubeUpgradeTarget
+ ARandomCubeInInventoryWhich IsSameString NameOfCube Test GetCampaignVariable NameOfPerk Target 
+End
+
+COMPOUND: ACTION
+TargetUpgradeCube
+ TargetCube CubeUpgradeTarget GenericAction
+End
+
+COMPOUND: BOOLEAN
+CubeContainsString
+ AbilityExists FirstAbilityOfCubeWhich GenericCube StringContainsString DescriptionOfAbility Test GenericString
+End
+
+COMPOUND: BOOLEAN
+RequirementContainsString
+ CubeContainsString RequirementCube GenericString
+End
+
+COMPOUND: BOOLEAN
+RequirementDamagesCubes
+AbilityExists FirstAbilityOfCubeWhich RequirementCube And
+  StringContainsString DescriptionOfAbility Test SpaceAddition StringConstant damage StringEmpty
+  Not IsSameString NameOfAbility Test StringConstant Burrowing
+End
+
+
+COMPOUND: ACTION
+FindTargetUpgradeCube
+  SetStorage CubeUpgradeTarget
+ Both If Not CubeExists Storage 
+  Both SetCampaignSVariable NameOfPerk Target NameOfCube ARandomCubeInInventoryWhich True
+  SetStorage CubeUpgradeTarget Nothing
+ TargetCube Storage GenericAction
+End
+
+COMPOUND: ACTION
+ThisPerksAction
+ SpecialPerkAction Target
+End
+
+COMPOUND: ABILITY
+RegeneratingUsesX
+EveryHandTick EveryXTimes Highest 1 Multiplication 3600 GenericStacking ChangeVariable LIMITEDUSES 1
+ExtraTrigger: BeforeThisIsPlaced If Not IsLarger GetVariableOnCube LIMITEDUSES Caster 0 NegateX 1000
+ExtraTrigger: AfterThisIsCreated Both RemoveThisAbility If IsPlaced TargetCube Storage ChangeVariable LIMITEDUSES -1
+Text: \C100 100 220 Limited: \CN VARIABLE LIMITEDUSES uses left, gain 1 use per STACKING 1 minutes elapsed that battle End
+End
+
+COMPOUND: ACTION
+GainRegeneratingUsesX
+Both Both GainAbilityStacking RegeneratingUsesX 0 GenericDouble
+ SetVariable LIMITEDUSES 1
+ SetLimited True
+End
+
+/- 
+Design Notes:
+-UpgradeCost: how powerful this is
+-Limiter: how variedly powerful this is on average
+-BalanceCap: Increases the odds for more restrictive upgrades which would otherwise be super unlikely
+-Add inheritable whenever reasonably possible (And it woulden't break the game in half aka replicrab inheritable)
+IMPROVEMENTS:
+-Votikium cube upgrade animation
+-/
+ 
+PERK: Strength_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 2 GainAbility StrengthX 1
+Description: CSVARIABLE THISPERK in your inventory gains Strength 1 End
+CubeImage: CubeUpgradeTarget
+Requirement: RequirementDamagesCubes
+BalanceCap: 2
+End
+
+PERK: Burrowing_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 2 GainAbility Burrowing
+Description: CSVARIABLE THISPERK in your inventory gains Burrowing End
+Requirement: IsLarger HpOfCube RequirementCube 0
+CubeImage: CubeUpgradeTarget
+CubeImageXY: 5 0
+End
+
+PERK: Sturdy_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 1 IfElse IsSmaller HpOfCube Target 1
+ GainXExtraHp RoundedDown Division ManaCostOfCube Target 2
+ GainXExtraHp Addition 1 RoundedDown Division HpOfCube Target 3
+Description: CSVARIABLE THISPERK in your inventory gains extra hp End
+Requirement: Or IsEqual HpOfCube RequirementCube 0 IsLarger HpOfCube RequirementCube 9
+CubeImage: CubeUpgradeTarget
+End
+
+
+COMPOUND: ABILITY
+BurningDamage
+ AfterThisDealsDamage If Not IsAllyToCaster Victim TargetCube Victim GainAbility Burning
+ExtraTrigger: Inheritable
+Text: After this damages a non ally also apply Burning, Inheritable End
+LOCAL
+End
+
+PERK: Burning_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 1 Both GainAbility Burning GainAbility BurningDamage
+Description: CSVARIABLE THISPERK in your inventory gains Burning and applies Burning when damaging non allies End
+Requirement: RequirementDamagesCubes
+CubeImage: CubeUpgradeTarget
+BalanceCap: 2
+End
+
+PERK: ManaStorage_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 1 GainAbility StringResolvedAbility 
+ SpaceAddition StringConstant ManaStorageX StringFromDouble RoundedDown Division ManaCostOfCube Target 2
+Description: CSVARIABLE THISPERK in your inventory gains ManaStorage End
+Requirement: IsLarger HpOfCube RequirementCube 0
+CubeImage: CubeUpgradeTarget
+Value: 10
+End
+
+PERK: Melee_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 2
+ IfElse Not HasAbilityWithName Target EveryXMeleeY
+ GainAbility StringResolvedAbility 
+  SpaceAddition SpaceAddition StringConstant EveryXMeleeY StringConstant 120 StringFromDouble Highest 1 Division ManaCostOfCube Target 20
+ GainAbility StringResolvedAbility 
+  SpaceAddition SpaceAddition StringConstant EveryXMeleeY StringConstant 240 StringFromDouble Highest 1 Division ManaCostOfCube Target 20
+Description: CSVARIABLE THISPERK in your inventory gains Melee End
+Requirement: And Not HasAbilityWithName RequirementCube EveryXMeleeY IsLarger HpOfCube RequirementCube 0
+CubeImage: CubeUpgradeTarget
+End
+
+PERK: Efficency_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 2 
+ XTimes RoundedDown Addition 1 Division ManaCostOfCube Target 40 GainAbility UpToXEfficiency 10
+Description: CSVARIABLE THISPERK in your inventory gains Efficiency End
+Requirement: IsLarger ManaCostOfCube RequirementCube 20
+CubeImage: CubeUpgradeTarget
+End
+
+PERK: Explodes_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 1 GainAbility StringResolvedAbility 
+ SpaceAddition StringConstant ExplodesX StringFromDouble Highest 1 Division ManaCostOfCube Target 2
+Description: CSVARIABLE THISPERK in your inventory gains Explodes End
+CubeImage: CubeUpgradeTarget
+End
+
+PERK: Addon_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 4 GainAbility Addon
+Description: CSVARIABLE THISPERK in your inventory gains Addon End
+CubeImage: CubeUpgradeTarget
+Value: 40
+End
+
+COMPOUND: ABILITY
+TransformX
+EveryXTicks GenericTime Both Exile CreateCubeOnPosition GenericCube PositionOfThis
+Text: After CODE 1 replace this with CODE 2 End
+End
+
+PERK: Evolve_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 2
+ Both If Not CubeExists APRandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Evolve_Upgrade_Evolve
+  SetCampaignSVariable StringConstant Evolve_Upgrade_Evolve NameOfCube APRandomCubeInLibraryWhich 
+  And Not IsToken Test And IsLarger ManaCostOfCube Test ManaCostOfCube Target
+   IsSmaller ManaCostOfCube Test Multiplication 3 ManaCostOfCube Target
+ GainAbility StringResolvedAbility SpaceAddition SpaceAddition SpaceAddition
+  StringConstant TransformX
+  StringFromDouble Highest 300 Multiplication 180 RoundedDown Division Multiplication 50 Subtraction ManaCostOfCube APRandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Evolve_Upgrade_Evolve ManaCostOfCube Target
+   ManaCostOfCube Target
+  StringConstant CubeConstant
+  GetCampaignVariable StringConstant Evolve_Upgrade_Evolve
+Description: CSVARIABLE THISPERK in your inventory replaces itself with CSVARIABLE Evolve_Upgrade_Evolve after some time End
+Requirement: And IsSmaller ManaCostOfCube RequirementCube 100 IsLarger HpOfCube RequirementCube 0
+CubeImage: CubeUpgradeTarget
+Value: 40
+LevelRequirement: 15
+End
+
+COMPOUND: ABILITY
+ProductConversionToCubeAfterX
+AfterThisCreates SetStorage GenericCube If Not HasNameOfCube Victim Storage Both TargetCube Victim Exile
+ XTimes ManaCostOfCube Victim EveryXTimes ManaCostOfCube Storage CreateCubeOnPosition Storage PositionOfCube Victim
+Text: After this creates a cube which isn't CODE 1 exile it, then every time the manacost of the exiled cubes add up to CODE 1 create CODE 1 in its place End
+End
+
+PERK: Strange_Product_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 2
+ Both If Not CubeExists APRandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Strange_Product_Upgrade_Product
+  SetCampaignSVariable StringConstant Strange_Product_Upgrade_Product NameOfCube APRandomCubeInLibraryWhich Not IsToken Test
+ GainAbility StringResolvedAbility SpaceAddition SpaceAddition
+  StringConstant ProductConversionToCubeAfterX
+  StringConstant CubeConstant
+  GetCampaignVariable StringConstant Strange_Product_Upgrade_Product
+Description: CSVARIABLE THISPERK in your inventory now creates CSVARIABLE Strange_Product_Upgrade_Product after some attempts instead of its usual output End
+Requirement: RequirementContainsString SpaceAddition StringConstant create StringEmpty
+BalanceCap: 3
+CubeImage: CubeUpgradeTarget
+LevelRequirement: 15
+End
+
+PERK: Growth_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 1 Both GainXExtraHp 1 GainAbilityStacking GrowthX 0 Addition 1 Division HpOfCube Target 10
+CubeImage: CubeUpgradeTarget
+Requirement: Not HasAbilityWithName RequirementCube DieAfterX
+Description: CSVARIABLE THISPERK in your inventory gains 1 extra hp and Growth End
+End
+
+PERK: Container_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 2
+ Both If Not CubeExists APRandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Container_Upgrade_Product 
+  SetCampaignSVariable StringConstant Container_Upgrade_Product NameOfCube 
+   APRandomCubeInLibraryWhich And And Not IsLarger ManaCostOfCube Test Division ManaCostOfCube Target 2 Not IsToken Test
+    IsLarger ManaCostOfCube Test Division ManaCostOfCube Target 4
+ GainAbility StringResolvedAbility SpaceAddition SpaceAddition
+  StringConstant OnDeathCreateCube
+  StringConstant CubeConstant
+  GetCampaignVariable StringConstant Container_Upgrade_Product
+Description: CSVARIABLE THISPERK in your inventory now creates CSVARIABLE Container_Upgrade_Product on death End
+Requirement: IsLarger ManaCostOfCube RequirementCube 5
+CubeImage: CubeUpgradeTarget
+LevelRequirement: 15
+End
+
+PERK: Golem_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 1
+ Both GainAbility StrengthX -1
+ Both GainAbility EveryXMeleeY 120 3
+ Both GainAbility ChargeEveryX 180
+ If IsSmaller HpOfCube Target 1
+ GainXExtraHp RoundedDown Division ManaCostOfCube Target 3
+Description: CSVARIABLE THISPERK in your inventory gains -1 strength, but gains melee and charging and has hp End
+Requirement: Not HasAbilityWithName RequirementCube ChargeEveryX
+CubeImage: CubeUpgradeTarget
+End
+
+PERK: Gun_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 2 
+ Both If Not CubeExists APRandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Gun_Upgrade_Product 
+  SetCampaignSVariable StringConstant Gun_Upgrade_Product NameOfCube 
+   APRandomCubeInLibraryWhich And HasAbilityWithName Test ProjectileX IsSmaller ManaCostOfCube Test ManaCostOfCube Target
+ GainAbility StringResolvedAbility SpaceAddition SpaceAddition SpaceAddition SpaceAddition
+  StringConstant EveryXCreateCubeInfront
+  StringConstant TimeConstant
+  StringFromDouble Highest 60 Multiplication 120 RoundedDown Division Multiplication 50 ManaCostOfCube APRandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Gun_Upgrade_Product 
+   ManaCostOfCube Target
+  StringConstant CubeConstant
+  GetCampaignVariable StringConstant Gun_Upgrade_Product 
+Description: CSVARIABLE THISPERK in your inventory periodically creates CSVARIABLE Gun_Upgrade_Product forwards End
+Requirement: And Not HasAbilityWithName RequirementCube DieAfterX IsLarger HpOfCube RequirementCube 0
+CubeImage: CubeUpgradeTarget
+CubeImageXY: 0 5
+LevelRequirement: 15
+End
+
+PERK: Factory_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 2
+ Both If Not CubeExists APRandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Factory_Upgrade_Product 
+  SetCampaignSVariable StringConstant Factory_Upgrade_Product NameOfCube 
+   APRandomCubeInLibraryWhich And And Not IsToken Test HasAbilityWithName Test ChargeEveryX IsSmaller ManaCostOfCube Test ManaCostOfCube Target
+ GainAbility StringResolvedAbility SpaceAddition SpaceAddition SpaceAddition SpaceAddition
+  StringConstant EveryXCreateCubeAbove
+  StringConstant TimeConstant
+  StringFromDouble Highest 60 Multiplication 180 RoundedDown Division Multiplication 50 ManaCostOfCube APRandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Factory_Upgrade_Product
+   ManaCostOfCube Target
+  StringConstant CubeConstant
+  GetCampaignVariable StringConstant Factory_Upgrade_Product
+Description: CSVARIABLE THISPERK in your inventory periodically creates CSVARIABLE Factory_Upgrade_Product above End
+Requirement: And Not HasAbilityWithName RequirementCube DieAfterX IsLarger HpOfCube RequirementCube 0
+CubeImage: CubeUpgradeTarget
+CubeImageXY: 5 10
+LevelRequirement: 15
+End
+
+PERK: Absorbing_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: Both FindTargetUpgradeCube ThisPerksAction ChangeCurrency Minus Multiplication 2 ManaCostOfCube CubeUpgradeTarget
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainAbility Unplaceable
+ GainAbilityText AfterThisCreates If IsALeader Victim TargetCube Victim Exile
+  After this creates a leader exile the creation End
+Ability: AtTheStartOfTheBattle Both RemoveThisAbility GainAllAbilitiesOfCube 
+ ARandomCubeInInventoryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Absorbing_Upgrade
+Description: CSVARIABLE THISPERK in your inventory can't be placed and can't create leaders, lose gold equal to twice its manacost, at the start of each battle your starting leader gains all its abilities End
+Requirement: And And Not HasAbilityWithName RequirementCube DieAfterX Not HasAbilityWithName RequirementCube AfterThisIsCreated 
+ IsLarger AmountOfAbilitiesOfCube RequirementCube 0
+CubeImage: CubeUpgradeTarget
+LevelRequirement: 15
+End
+
+PERK: Terraforming_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 1 Both ChangeManaCost Minus Division ManaCostOfCube Target 10
+ GainAbilityText AfterThisIsCreated If IsPlaced TargetCube ARandomCubeWhich IsNeutral Test Both Exile CreateCubeOnPosition NeutralCopy Caster PositionOfCube Target
+  After this is placed replace a random neutral cube with a neutral copy of this End
+Description: CSVARIABLE THISPERK in your inventory replaces a random neutral with a neutral copy of itself after it is placed, also -10% manacost End
+CubeImage: CubeUpgradeTarget
+CubeImageXY: 5 0
+Value: 10
+End
+
+PERK: Cheaper_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 3 ChangeManaCost Minus Division ManaCostOfCube Target 5
+Description: CSVARIABLE THISPERK in your inventory costs 20% less End
+CubeImage: CubeUpgradeTarget
+End
+
+PERK: Ascension_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 5
+ GainAbilityText AfterThisIsCreated Both GenerateXMana Minus Multiplication 3 ManaCostOfCube Caster 
+   TargetCube TheFirstCubeInHandOfFactionWhich FactionOfThis Not AbilityExists ARandomAbilityOfCubeWhich Test IsSameString NameOfAbility Test NameOfAbility NthAbilityOfCubeWhich 1 Target True
+    GainAbility NthAbilityOfCubeWhich 1 APRandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Ascension_Upgrade True
+  After this is created lose 3 times this cubes manacost in mana, then grant the first ability of this to the first cube in your hand without it (Checks for name of ability) End
+Description: CSVARIABLE THISPERK in your inventory when created gives its first ability to the first cube in your hand without it (checks for name), but also drains 3x mana End
+Requirement: IsLarger AmountOfAbilitiesOfCube RequirementCube 0
+CubeImage: CubeUpgradeTarget
+CubeImageXY: 10 5
+End
+
+PERK: Double_Agent_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 2 Both ChangeManaCost Minus Division ManaCostOfCube Target 2
+ GainAbilityText AfterThisIsCreated Both RemoveThisAbility AddCubeToHandOfFaction Caster FactionOfCube ARandomCubeWhich IsEnemyToCaster Test
+ After this is created lose this ability and add a free copy of this to the opponents hand End
+CubeImage: CubeUpgradeTarget
+Description: CSVARIABLE THISPERK in your inventory costs 50% less, but adds a free copy to opponents hand when created End
+End
+
+COMPOUND: ABILITY
+EveryXAddFreeCubeToHand
+EveryXTicks GenericTime AddCubeToHandOfThis FreeCopy GenericCube
+Text: Every CODE 1 add a free copy of CODE 2 to your hand End
+End
+
+PERK: Dreamer_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 2
+ Both If Not CubeExists APRandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Dreamer_Upgrade_Product
+  SetCampaignSVariable StringConstant Dreamer_Upgrade_Product NameOfCube 
+   APRandomCubeInLibraryWhich And Not IsToken Test IsSmaller ManaCostOfCube Test ManaCostOfCube Target
+ GainAbility StringResolvedAbility SpaceAddition SpaceAddition SpaceAddition
+  StringConstant EveryXAddFreeCubeToHand
+  StringFromDouble Highest 120 Multiplication 300 RoundedDown Division Multiplication 50 ManaCostOfCube APRandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Dreamer_Upgrade_Product
+   ManaCostOfCube Target
+  StringConstant CubeConstant
+  GetCampaignVariable StringConstant Dreamer_Upgrade_Product
+Description: CSVARIABLE THISPERK in your inventory periodically adds a free copy of CSVARIABLE Dreamer_Upgrade_Product to your hand End
+Requirement: And Not HasAbilityWithName RequirementCube DieAfterX IsLarger HpOfCube RequirementCube 0
+CubeImage: CubeUpgradeTarget
+CubeImageXY: 5 10
+LevelRequirement: 15
+End
+
+PERK: Infusion_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: Both FindTargetUpgradeCube ThisPerksAction ChangeCurrency Minus Multiplication 10 ManaCostOfCube CubeUpgradeTarget
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: GainAbility Unplaceable
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsPlaced TargetCube Victim GainAllAbilitiesOfCube 
+ ARandomCubeInInventoryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Infusion_Upgrade
+Description: CSVARIABLE THISPERK in your inventory can't be placed, lose gold equal to 10 times its manacost, placed allies gain all its abilities End
+Requirement: IsLarger AmountOfAbilitiesOfCube RequirementCube 0
+CubeImage: CubeUpgradeTarget
+LevelRequirement: 15
+Value: 50
+End
+
+PERK: Manifold_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 1
+ GainAbilityText AfterThisIsCreated Both RemoveThisAbility EveryAbilityOfCubeWhich Caster X%Chance 15 GainAbility Target
+  After this is created lose this ability and for each other ability 15% chance to gain it again End
+Description: CSVARIABLE THISPERK in your inventory has a chance to gain some of its abilities again when created End
+Requirement: And IsLarger HpOfCube RequirementCube 0 IsLarger AmountOfAbilitiesOfCubeWhich RequirementCube True 2
+CubeImage: CubeUpgradeTarget
+End
+
+PERK: Ressurecting_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 1 Both GainXExtraHp 1
+ GainAbilityText EveryXMinutes 2 If Not HasAbilityWithName Caster ExtraLife GainAbility ExtraLife
+  Every 2 minutes gain Extra_Life, unless this already has Extra_Life End
+Description: CSVARIABLE THISPERK in your inventory after some time can resurrect on death and has 1 extra hp End
+CubeImage: CubeUpgradeTarget
+Value: 10
+End
+
+PERK: Flying_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 2 GainAbility Flying
+Description: CSVARIABLE THISPERK in your inventory gains flying End
+Requirement: And Not HasAbilityWithName RequirementCube Flying And IsLarger HpOfCube RequirementCube 0 And Not HasAbilityWithName RequirementCube Unmovable
+ Not HasAbilityWithName RequirementCube DieAfterX
+CubeImage: CubeUpgradeTarget
+End
+
+
+COMPOUND: ABILITY
+JumpUpgradeCreation
+AfterThisIsCreated GainAbility JumpXY 120 20
+ExtraTrigger: Inheritable
+Text: After this is created jump moving upwards and then downwards in an arc, Inheritable (no forwards or backwards) End
+Visual: Arrow 0 -1 155 238 255 1
+End
+
+PERK: Jump_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 1 Both If IsSmaller HpOfCube Target 1 GainXExtraHp 1 
+  GainAbility JumpUpgradeCreation
+Description: CSVARIABLE THISPERK in your inventory has hp and jumps when created (move upwards for a bit slow down then downwards) End
+Requirement: Not HasAbilityWithName RequirementCube Unmovable
+CubeImage: CubeUpgradeTarget
+CubeImageXY: 5 10
+Value: 0
+End
+
+COMPOUND: ABILITY
+DoublingUpgrade
+AfterThisIsCreated Both RemoveThisAbility CreateCubeOnPosition Caster PositionInDirectionFromPosition North PositionOfThis
+Visual: Square 0 -1 96 96 96
+Text: After this is created lose this ability and replicate upwards End
+End
+
+PERK: Doubling_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 2 Both ChangeManaCost Multiplication 6 Division ManaCostOfCube Target 10
+GainAbility DoublingUpgrade
+Description: CSVARIABLE THISPERK in your inventory replicates upwards when created but costs 60% more End
+Requirement: Not IsLarger Multiplication 16 Division ManaCostOfCube RequirementCube 10 100
+CubeImage: CubeUpgradeTarget
+CubeImageXY: 5 10
+End
+
+
+COMPOUND: ABILITY
+EveryXCreateCube2Above
+EveryTick EveryXTimes GenericDouble CreateCubeOnPosition GenericCube PositionInDirectionFromPosition North PositionInDirectionFromThis North
+Visual: Square 0 -2 96 96 96
+Text: Every CODE 1 create CODE 2 2 spaces above End
+End
+
+PERK: Magician_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 2
+ Both If Not CubeExists APRandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Magician_Upgrade_Product 
+  SetCampaignSVariable StringConstant Magician_Upgrade_Product NameOfCube 
+   APRandomCubeInLibraryWhich And Not IsToken Test And IsEqual HpOfCube Test 0 Not IsLarger ManaCostOfCube Test Multiplication 2 ManaCostOfCube Target 
+ GainAbility StringResolvedAbility SpaceAddition SpaceAddition SpaceAddition SpaceAddition
+  StringConstant EveryXCreateCube2Above
+  StringConstant TimeConstant
+  StringFromDouble Highest 60 Multiplication 240 RoundedDown Division Multiplication 50 ManaCostOfCube APRandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Magician_Upgrade_Product
+   ManaCostOfCube Target
+  StringConstant CubeConstant
+  GetCampaignVariable StringConstant Magician_Upgrade_Product
+Description: CSVARIABLE THISPERK in your inventory periodically creates CSVARIABLE Magician_Upgrade_Product 2 spaces above itself End
+Requirement: And Not HasAbilityWithName RequirementCube DieAfterX IsLarger HpOfCube RequirementCube 0
+CubeImage: CubeUpgradeTarget
+CubeImageXY: 5 10
+LevelRequirement: 15
+End
+
+
+COMPOUND: ABILITY
+DisplacedUpgradeCreation
+AfterThisIsCreated TeleportToPosition ARandomPosition
+ExtraTrigger: Inheritable
+Text: After this is created teleport to a random position, Inheritable End
+End
+
+PERK: Displaced_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 2 Both ChangeManaCost Minus Division ManaCostOfCube Target 5
+GainAbility DisplacedUpgradeCreation
+Description: CSVARIABLE THISPERK in your inventory costs 20% less and teleports to a random position when created End
+CubeImage: CubeUpgradeTarget
+End
+
+PERK: Crumbling_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 2 Both ChangeManaCost Minus Multiplication 3 Division ManaCostOfCube Target 10
+ ChangeHp Minus RoundedDown Division HpOfCube Target 2
+Description: CSVARIABLE THISPERK in your inventory costs 30% less but is missing half its hp (rounded down) End
+Requirement: IsLarger HpOfCube RequirementCube 5
+CubeImage: CubeUpgradeTarget
+End
+
+PERK: Regeneration_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 1 GainAbilityStacking RegenerationX 0 Addition 4 Division ManaCostOfCube Target 10
+Description: CSVARIABLE THISPERK in your inventory gains Regeneration End
+Requirement: IsLarger HpOfCube RequirementCube 9
+CubeImage: CubeUpgradeTarget
+End
+
+PERK: Omnidirectional_Production_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 2 GainAbilityText
+ AfterACubeCreationIsBlocked If IsSameCube Culprit Caster Both Both Both 
+  CreateCubeOnPosition Victim PositionInDirectionFromThis North
+  CreateCubeOnPosition Victim PositionInDirectionFromThis Forwards
+  CreateCubeOnPosition Victim PositionInDirectionFromThis South
+  CreateCubeOnPosition Victim PositionInDirectionFromThis Backwards
+ After this tries to create a cube in a blocked position, try again on all 4 positions touching this End
+Description: CSVARIABLE THISPERK in your inventory now retries on all 4 touching position if it tries to create a cube but its blocked End
+Requirement: RequirementContainsString SpaceAddition StringConstant create StringEmpty
+CubeImage: CubeUpgradeTarget
+BalanceCap: 3
+End
+
+
+COMPOUND: ABILITY
+PhysicsUpgrade
+ AfterACubeCollides If IsSameCube Caster Culprit TargetCube Storage MoveInDirection EventDirection
+ExtraTrigger: Inheritable
+Text: After this moves a cube into cube (collides) move that cube in the same direction, Inheritable End
+End
+
+PERK: Physics_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 1 GainAbility PhysicsUpgrade
+Description: CSVARIABLE THISPERK in your inventory moves other cubes when moving (itself or others) into them End
+Requirement: RequirementContainsString SpaceAddition SpaceAddition StringEmpty StringConstant move StringEmpty
+CubeImage: CubeUpgradeTarget
+CubeImageXY: 5 10
+Value: 10
+BalanceCap: 2
+End
+
+PERK: Contagious_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 4 GainAbilityText
+ BeforeACubeGainsAnAbility If IsSameCube Culprit Caster Cooldown 180
+  EveryCubeTouchingPosition PositionOfThis If Not IsSameCube Victim Target GainAbility AffectedAbility
+ Before this grants an ability to a cube also grant it to all other cubes touching this cube, Cooldown 3 seconds End
+Description: CSVARIABLE THISPERK in your inventory has "before this grants an ability also grant it to all other cubes touching this, cooldown 3 seconds" End
+Requirement: Or Or
+ RequirementContainsString StringConstant give
+ RequirementContainsString StringConstant apply
+ RequirementContainsString StringConstant gains
+CubeImage: CubeUpgradeTarget
+BalanceCap: 3
+End
+
+PERK: Lucky_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 1 GainAbilityText
+ BeforePercentChance If IsSameCube Culprit Caster Silent If X%Chance EventAmount NegateX DoubleConstant -100
+ This cubes X% chances are rolled an additional time, succeeding the total if only one roll succeeds End
+Description: CSVARIABLE THISPERK in your inventory rolls its % chance twice and succeeds if either succeeds End
+Requirement: RequirementContainsString StringConstant chance
+CubeImage: CubeUpgradeTarget
+BalanceCap: 3
+End
+
+PERK: Energized_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 1 
+ GainAbilityStacking EnergyX 0 Division GetStackingOfAbilityOnCube EnergyGenerationX Target 2
+Description: CSVARIABLE THISPERK in your inventory starts with energy End
+Requirement: HasAbilityWithName RequirementCube EnergyGenerationX
+CubeImage: CubeUpgradeTarget
+BalanceCap: 4
+End
+
+COMPOUND: ABILITY
+ZapDamage
+ AfterThisDealsDamage If Not IsAllyToCaster Victim TargetCube Victim GainAbility Zap
+ExtraTrigger: Inheritable
+Text: After this damages a non ally also apply Zap, Inheritable End
+LOCAL
+End
+
+PERK: Zap_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 1 GainAbility ZapDamage
+Description: CSVARIABLE THISPERK in your inventory applies Zap when damaging non allies, causing it to deal 1 damage to another nearby cube of the same faction End
+Requirement: RequirementDamagesCubes
+CubeImage: CubeUpgradeTarget
+BalanceCap: 2
+End
+
+PERK: Self_Copy_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 3 GainAbilityText
+ AfterThisCreates Both TargetCube Victim Exile
+ XTimes ManaCostOfCube Victim EveryXTimes ManaCostOfCube Caster CreateCubeOnPosition Caster PositionOfCube Victim
+ After this creates a cube exile it, then every time the manacost of the exiled cubes add up to the mancost of this create a copy of this in its place End
+Description: CSVARIABLE THISPERK in your inventory now creates copies of itself after some attempts instead of its usual output End
+Requirement: And Or 
+ RequirementContainsString SpaceAddition StringConstant create StringEmpty
+ RequirementContainsString SpaceAddition StringConstant replace StringEmpty
+Or RequirementContainsString SpaceAddition SpaceAddition StringEmpty NameOfCube RequirementCube StringEmpty 
+ RequirementContainsString StringConstant copy
+CubeImage: CubeUpgradeTarget
+LevelRequirement: 15
+BalanceCap: 4
+End
+
+PERK: Offset_Creation_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 1 GainAbilityText
+ AfterThisCreates TargetCube Victim TeleportToPosition PositionXInfrontYBelowPosition 5 0 PositionOfCube Victim
+ After this creates a cube teleport it 5 spaces forwards End
+Description: CSVARIABLE THISPERK in your inventory now teleports its creation 5 spaces forwards after creating End
+Requirement: RequirementContainsString SpaceAddition StringConstant create StringEmpty
+CubeImage: CubeUpgradeTarget
+CubeImageXY: 0 5
+LevelRequirement: 15
+BalanceCap: 3
+Value: 10
+End
+
+
+COMPOUND: ABILITY
+FervorPoisonHealing
+BeforeThisHealsACube
+ IfElse IsAllyToCaster Victim TargetCube Victim GainAbility FervorX 1
+  If IsEnemyToCaster Victim TargetCube Victim GainAbility PoisonX 1
+ExtraTrigger: Inheritable
+Text: Before this heals a cube, if its an ally apply 1 fervor, if its an enemy apply 1 poison, Inheritable End
+LOCAL
+End
+
+PERK: Fervor_Healing_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 2 GainAbility FervorPoisonHealing
+Description: CSVARIABLE THISPERK in your inventory applies fervor before healing an ally or poison when healing enemies (fervor increases next damage dealt by 1) End
+Requirement: Or RequirementContainsString StringConstant Heal
+ RequirementContainsString StringConstant heal
+CubeImage: CubeUpgradeTarget
+BalanceCap: 3
+End
+
+
+COMPOUND: ABILITY
+FervorSplinterGranting
+BeforeACubeGainsAnAbility If IsSameCube Culprit Caster
+ IfElse IsAllyToCaster Victim TargetCube Victim GainAbility FervorX 1
+  If IsEnemyToCaster Victim TargetCube Victim GainAbility SplinterX 1
+ExtraTrigger: Inheritable
+Text: Before this grants an ability, if its an ally apply 1 fervor, if its an enemy apply 1 splinter, Inheritable End
+LOCAL
+End
+
+PERK: Fervor_Granting_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 1 GainAbility FervorSplinterGranting
+Description: CSVARIABLE THISPERK in your inventory applies fervor before giving abilities to allies or splinter before giving to enemies (fervor increases next damage dealt by 1, splinter damage taken) End
+Requirement: Or Or
+ RequirementContainsString StringConstant give
+ RequirementContainsString StringConstant apply
+ RequirementContainsString StringConstant gains
+CubeImage: CubeUpgradeTarget
+BalanceCap: 3
+End
+
+
+COMPOUND: ABILITY
+MovementTrail
+AfterThisMovesACube CreateCubeOnPosition CopyWithAction GenericCube GainAbility DieAfterX 600 OriginalPosition
+Text: After this moves a cube create CODE 1 in the previous position, it dies after 10 seconds End
+End
+
+PERK: Strange_Wormtail_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 4
+ Both If Not CubeExists APRandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Worm_Upgrade_Product 
+  SetCampaignSVariable StringConstant Worm_Upgrade_Product NameOfCube 
+   APRandomCubeInLibraryWhich And IsLarger ManaCostOfCube Test 0 
+   And Not IsLarger ManaCostOfCube Test Division ManaCostOfCube Target 10
+   And Not CubeContainsString Test StringConstant gold
+   Not CubeContainsString Test StringConstant win
+ GainAbility StringResolvedAbility SpaceAddition SpaceAddition
+  StringConstant MovementTrail
+  StringConstant CubeConstant
+  GetCampaignVariable StringConstant Worm_Upgrade_Product
+Description: CSVARIABLE THISPERK in your inventory creates temporary CSVARIABLE Worm_Upgrade_Product in the previous positions of cubes it moves (even itself) End
+Requirement: And IsLarger HpOfCube RequirementCube 0
+ And IsLarger ManaCostOfCube RequirementCube 30
+ RequirementContainsString SpaceAddition SpaceAddition StringEmpty StringConstant move StringEmpty
+CubeImage: CubeUpgradeTarget
+CubeImageXY: 10 5
+LevelRequirement: 15
+BalanceCap: 4
+End
+
+
+COMPOUND: ABILITY
+AccelerateFirstAbility
+EveryTick AccelerateAbilityByX FirstAbilityOfCubeWhich Caster True 1
+Text: Every tick the first ability of this cube accelerates by 1 tick End
+End
+
+PERK: Accelerate_First_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 3 GainAbility AccelerateFirstAbility
+Description: CSVARIABLE THISPERK in your inventory has time happen for its first ability twice as fast End
+Requirement: And Or StringContainsString DescriptionOfAbility FirstAbilityOfCubeWhich RequirementCube True StringConstant second
+ StringContainsString DescriptionOfAbility FirstAbilityOfCubeWhich RequirementCube True StringConstant minute
+ Or IsLarger AmountOfAbilitiesOfCubeWhich RequirementCube StringContainsString DescriptionOfAbility Test StringConstant second 1
+ IsLarger AmountOfAbilitiesOfCubeWhich RequirementCube StringContainsString DescriptionOfAbility Test StringConstant minute 1
+CubeImage: CubeUpgradeTarget
+CubeImageXY: 5 10
+BalanceCap: 3
+End
+
+
+COMPOUND: ABILITY
+RibbonFlowerUpgrade
+EveryXTicks GenericTime Both MoveInDirection North Randomly CreateCubeOnPosition CubeConstant Plant_Stem PositionInDirectionFromThis South
+CreateCubeOnPosition GenericCube PositionInDirectionFromThis South
+Text: Every CODE 1 move upwards and randomly either create Plant_Stem or CODE 2 below End
+End
+
+PERK: Ribbon_Flower_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 3
+ Both If Not CubeExists APRandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Ribbon_Flower_Upgrade_Product 
+  SetCampaignSVariable StringConstant Ribbon_Flower_Upgrade_Product NameOfCube 
+   APRandomCubeInLibraryWhich And And IsSmaller ManaCostOfCube Test ManaCostOfCube Target IsLarger HpOfCube Test 0 Not IsToken Test
+ GainAbility StringResolvedAbility SpaceAddition SpaceAddition SpaceAddition
+  StringConstant RibbonFlowerUpgrade
+  StringFromDouble Highest 60 
+  Multiplication 120 RoundedDown Division Multiplication 50 ManaCostOfCube APRandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Ribbon_Flower_Upgrade_Product 
+   ManaCostOfCube Target
+  StringConstant CubeConstant
+  GetCampaignVariable StringConstant Ribbon_Flower_Upgrade_Product
+Description: CSVARIABLE THISPERK in your inventory periodicly moves upwards and randomly either create a Plant_Stem or CSVARIABLE Ribbon_Flower_Upgrade_Product below End
+Requirement: And And IsLarger ManaCostOfCube RequirementCube 15 IsLarger HpOfCube RequirementCube 0
+Not RequirementContainsString StringConstant move
+CubeImage: CubeUpgradeTarget
+CubeImageXY: 5 0
+LevelRequirement: 15
+End
+
+
+COMPOUND: ABILITY
+ReplicrabUpgradeX
+AfterThisKills If X%Chance GenericConstant CreateCubeOnPosition Caster PositionOfCube Victim
+Text: After this kills an enemy CODE 1 \B % chance to create a copy of this in its place End
+End
+
+PERK: Replicrab_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 2 Both GainXExtraHp 1
+ GainAbility StringResolvedAbility SpaceAddition
+  StringConstant ReplicrabUpgradeX
+  StringFromDouble Highest 2 Division 15 Highest 1 RoundedDown Division ManaCostOfCube Target 20
+Description: CSVARIABLE THISPERK in your inventory has a chance to copy itself when killing enemies, also 1 extra hp End
+Requirement: Or RequirementDamagesCubes
+RequirementContainsString SpaceAddition StringConstant kill StringEmpty
+CubeImage: CubeUpgradeTarget
+BalanceCap: 2
+End
+
+PERK: Geocentric_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 2 GainAbilityText 
+ BeforeThisMoves Both NegateX 1 TargetCube ARandomCubeWhich And Not HasNameOfCube Test Caster And IsAllyToCaster Test 
+   IsPositionEmpty PositionInDirectionFromPosition EventDirection PositionOfCube Test
+  MoveInDirection EventDirection
+Before this moves negate it and instead move a random differently named ally, which has space in that direction End
+Description: CSVARIABLE THISPERK in your inventory can't move and instead moves random differently named cube cube of the same faction which has space in that direction End
+Requirement: RequirementContainsString SpaceAddition SpaceAddition StringEmpty StringConstant move StringEmpty
+CubeImage: CubeUpgradeTarget
+End
+
+
+COMPOUND: ABILITY
+VotikiumUpgrade
+AfterThisDies CreateCubeOnPosition CopyWithAction CubeConstant Votikium_Upgrade_Core
+SetStorage APRandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Votikium_Upgrade 
+ GainXExtraHp Highest 1 RoundedDown Division ManaCostOfCube Storage 5
+PositionInDirectionFromPosition North PositionOfCube ARandomCubeWhich 
+ And IsAllyToCaster Test IsPositionEmpty PositionInDirectionFromPosition North PositionOfCube Test
+Text: After this dies create a Votikium_Upgrade_Core above a random ally which has space, it creates CSVARIABLE Votikium_Upgrade from your inventory after 4 minutes, it has 1 hp per 5 manacost of that cube (min 1) End
+End
+
+PERK: Votikium_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 2 GainAbility VotikiumUpgrade
+Description: CSVARIABLE THISPERK in your inventory creates a votikium core when it dies, this core eventually turns back into that cube after 4 minutes End
+CubeImage: CubeUpgradeTarget
+End
+
+COMPOUND: ABILITY
+SurpriseMechanicUpgrade
+AfterThisIsCreated Both RemoveThisAbility If X%Chance 50
+Both Exile CreateCubeOnPosition GenericCube
+PositionOfThis
+Text: After this is created lose this ability, then 50% chance to replace this with CODE 1 End
+End
+
+PERK: Surprise_Mechanic_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both Both GainRegeneratingUsesX 1 ChangeManaCost Minus Division ManaCostOfCube Target 5
+ Both If Not CubeExists APRandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Surprise_Mechanic_Upgrade_Product
+  SetCampaignSVariable StringConstant Surprise_Mechanic_Upgrade_Product NameOfCube 
+   APRandomCubeInLibraryWhich And IsSmaller ManaCostOfCube Test Multiplication ManaCostOfCube Target 2
+   And IsLarger ManaCostOfCube Test ManaCostOfCube Target
+    Not IsToken Test
+ GainAbility StringResolvedAbility SpaceAddition SpaceAddition
+  StringConstant SurpriseMechanicUpgrade
+  StringConstant CubeConstant
+  GetCampaignVariable StringConstant Surprise_Mechanic_Upgrade_Product
+Description: CSVARIABLE THISPERK in your inventory costs 20% less and now has a 50% chance to replace itself with CSVARIABLE Surprise_Mechanic_Upgrade_Product when created End
+Requirement: And IsLarger HpOfCube RequirementCube 0
+ IsSmaller ManaCostOfCube RequirementCube 100
+CubeImage: CubeUpgradeTarget
+CubeImageXY: 0 5
+LevelRequirement: 15
+Value: 10
+End
+
+COMPOUND: ABILITY
+SoulThiefUpgrade
+ AfterThisDealsDamage If IsEnemyToCaster Victim Both RemoveThisAbility GainRandomAbilityOfCube Victim
+ExtraTrigger: Inheritable
+Text: The first time this damages an enemy lose this ability and copy a random ability of that enemy, Inheritable End
+End
+
+PERK: Soul_Thief_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 2 GainAbility SoulThiefUpgrade
+Description: CSVARIABLE THISPERK in your inventory copies a random ability of the first enemy it damages End
+Requirement: And RequirementDamagesCubes
+IsLarger HpOfCube RequirementCube 0
+CubeImage: CubeUpgradeTarget
+CubeImageXY: 0 5
+BalanceCap: 2
+End
+
+PERK: Recasting_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 3 Both If Not IsLarger HpOfCube Target 0 GainXExtraHp Highest 1 RoundedDown Division ManaCostOfCube Target 10
+ GainAbilityText
+ EveryXMinutes 3 Both Exile CreateCubeOnPosition Caster PositionInDirectionFromPosition North PositionOfThis
+ Every 3 minutes exile this and create a copy of this above  End
+Description: CSVARIABLE THISPERK in your inventory has hp and exiles itself after 3 minutes to create a copy of itself above itself End
+Requirement: RequirementContainsString SpaceAddition SpaceAddition SpaceAddition
+ StringConstant After
+ StringConstant this
+ StringConstant is
+ StringConstant created
+CubeImage: CubeUpgradeTarget
+CubeImageXY: 5 10
+BalanceCap: 2
+End
+
+COMPOUND: ABILITY
+HordeUpgrade
+ AfterThisIsCreated Both RemoveThisAbility 
+ Both CreateCubeOnPosition Caster PositionInDirectionFromPosition North PositionOfThis
+ Both CreateCubeOnPosition Caster PositionInDirectionFromPosition Forwards PositionOfThis
+ Both CreateCubeOnPosition Caster PositionInDirectionFromPosition South PositionOfThis
+  CreateCubeOnPosition Caster PositionInDirectionFromPosition Backwards PositionOfThis
+Visual: Square 0 -1 96 96 96
+Visual: Square 0 1 96 96 96
+Visual: Square 1 0 96 96 96
+Visual: Square -1 0 96 96 96
+Text: After this is created lose this ability and replicate in all 4 directions End
+End
+
+PERK: Horde_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 3 Both ChangeManaCost Multiplication 2 ManaCostOfCube Target
+GainAbility HordeUpgrade
+Description: CSVARIABLE THISPERK in your inventory replicates in all 4 directions when created but costs 200% more End
+Requirement: Not IsLarger Multiplication 3 ManaCostOfCube RequirementCube 100
+CubeImage: CubeUpgradeTarget
+End
+
+COMPOUND: ABILITY
+DiagonalUpgrade
+  AfterThisIsCreated Both RemoveThisAbility 
+ Both CreateCubeOnPosition Caster PositionInDirectionFromPosition Backwards PositionInDirectionFromPosition North PositionOfThis
+  CreateCubeOnPosition Caster PositionInDirectionFromPosition Forwards PositionInDirectionFromPosition South PositionOfThis
+Visual: Square -1 -1 96 96 96
+Visual: Square 1 1 96 96 96
+Text:  After this is created lose this ability and replicate to the position diagonally above and behind and diagonally below and infront (2 copies) End
+End
+
+PERK: Diagonal_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 3 Both ChangeManaCost ManaCostOfCube Target
+GainAbility DiagonalUpgrade
+Description: CSVARIABLE THISPERK in your inventory replicates to the diagonals when created (above and behind, below and infront, 2 copies total) End
+Requirement: Not IsLarger Multiplication 2 ManaCostOfCube RequirementCube 100
+CubeImage: CubeUpgradeTarget
+LevelRequirement: 15
+End
+
+PERK: Fusion_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: AddCubeToInventory CopyWithAction CombinationOf2Cubes CubeUpgradeTarget
+ APRandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Fusion_Upgrade_Product
+  Both ChangeManaCost Minus Division ManaCostOfCube Target 5
+  GainRegeneratingUsesX 1
+LoadAction: AddCubeToInventory CopyWithAction CombinationOf2Cubes CubeUpgradeTarget
+ APRandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Fusion_Upgrade_Product
+  Both ChangeManaCost Minus Division ManaCostOfCube Target 5
+  GainRegeneratingUsesX 1
+SpecialAction: 
+ Both If Not CubeExists APRandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Fusion_Upgrade_Product
+  SetCampaignSVariable StringConstant Fusion_Upgrade_Product NameOfCube 
+   APRandomCubeInLibraryWhich And Not IsLarger Addition ManaCostOfCube Test ManaCostOfCube Target 100
+    Not IsToken Test
+ SetStorage APRandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Fusion_Upgrade_Product
+ Both GainAllAbilitiesOfCube Storage
+ Both GainRegeneratingUsesX 1
+ Both SetName StringConstant Fake_Fusion_Preview
+ Both ChangeManaCost ManaCostOfCube Storage
+ Both ChangeManaCost Minus Division ManaCostOfCube Target 5
+ Both ChangeHp HpOfCube Storage
+ Both ChangeMaxHp MaxHpOfCube Storage
+ SetSpriteToCube CombinationOf2Cubes Storage Target
+Description: Add a combination of CSVARIABLE THISPERK and CSVARIABLE Fusion_Upgrade_Product to your inventory except its 20% cheaper (the original cube is unaffected) End
+Requirement: IsSmaller ManaCostOfCube RequirementCube 80
+CubeImage: CubeUpgradeTarget
+CubeImageXY: 0 5
+LevelRequirement: 15
+Value: 10
+End
+
+PERK: Madness_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: Both FindTargetUpgradeCube ThisPerksAction 
+ Both SetCampaignVariable MADNESSGOLDRETURN Currency
+ Both XTimes 3 TargetPerk ARandomPerkInLibraryAllowingLOCKEDWhich And Not HasPerkOrUpgrade Test PerkIsType Test CubeUpgrade
+  Both SetCampaignSVariable NameOfPerk Target GetCampaignVariable StringConstant Madness_Upgrade
+   ObtainPerk Target
+ If IsSmaller Currency GetCampaignVariable MADNESSGOLDRETURN
+  Silent ChangeCurrency Subtraction GetCampaignVariable MADNESSGOLDRETURN Currency
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX -2 ChangeManaCost Minus Multiplication 3 Division ManaCostOfCube Target 10
+Description: Gain 3 random cube upgrades linked to CSVARIABLE THISPERK those upgrade may not make sense, be usefull or anything, however if gold is smaller than before its reset, also -30% manacost End
+Requirement: And X%Chance 50 IsSmaller ManaCostOfCube RequirementCube 80
+CubeImage: CubeUpgradeTarget
+LevelRequirement: 15
+Value: 0
+End
+
+COMPOUND: ABILITY
+AncientHealing
+BeforeThisHealsACube If X%Chance 20 TargetCube Victim ChangeMaxHp 1
+ExtraTrigger: Inheritable
+Text: Before this heals a cube, 20% chance to increase its max hp by 1, Inheritable End
+LOCAL
+End
+
+PERK: Ancient_Healing_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 1 GainAbility AncientHealing
+Description: CSVARIABLE THISPERK in your inventory has: "Before this heals a cube, 20% chance to increase max hp by 1, Inheritable End
+Requirement: Or RequirementContainsString StringConstant Heal
+ RequirementContainsString StringConstant heal
+CubeImage: CubeUpgradeTarget
+BalanceCap: 3
+End
+
+COMPOUND: ABILITY
+MutatingHealing
+BeforeThisHealsACube If IsAllyToCaster Victim If IsSmaller AmountOfAbilitiesOfCube Victim 5 EveryXTimes GenericDouble TargetCube Victim GainAllAbilitiesOfCube GenericCube
+ExtraTrigger: Inheritable
+Text: Before this heals a cube with less than 5 abilities, every CODE 1 times, grant it all abilities of CODE 2 \B , Inheritable End
+End
+
+PERK: Mutating_Healing_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 2
+ Both If Not CubeExists APRandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Mutating_Healing_Upgrade_Product
+  SetCampaignSVariable StringConstant Mutating_Healing_Upgrade_Product NameOfCube 
+   APRandomCubeInLibraryWhich And IsSmaller ManaCostOfCube Test ManaCostOfCube Target
+    Not IsToken Test
+ GainAbility StringResolvedAbility SpaceAddition SpaceAddition SpaceAddition
+  StringConstant MutatingHealing
+  StringFromDouble RoundedDown Multiplication 2 ManaCostOfCube APRandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringConstant Mutating_Healing_Upgrade_Product
+  StringConstant CubeConstant
+  GetCampaignVariable StringConstant Mutating_Healing_Upgrade_Product
+Description: CSVARIABLE THISPERK in your inventory grants all abilities of CSVARIABLE Mutating_Healing_Upgrade_Product every x times it heals a cube with less than 5 abilities, Inheritable End
+Requirement: And Or RequirementContainsString StringConstant Heal
+ RequirementContainsString StringConstant heal
+ IsLarger HpOfCube RequirementCube 0
+CubeImage: CubeUpgradeTarget
+BalanceCap: 3
+LevelRequirement: 15
+End
+
+PERK: Popup_Upgrade
+BelongsTo: CubeUpgrade
+ObtainAction: FindTargetUpgradeCube ThisPerksAction
+LoadAction: FindTargetUpgradeCube ThisPerksAction
+SpecialAction: Both GainRegeneratingUsesX 2 Both GainAbility Burrowing GainAbilityText
+ AfterACubeCreationIsBlocked If IsSameCube Culprit Caster Both Both MoveInDirection North CreateCubeOnPosition CubeConstant Support_Rod PositionInDirectionFromPosition South PositionOfThis
+  CreateCubeOnPosition Victim PositionInDirectionFromPosition Forwards PositionOfThis
+ After a cube creation of this is blocked, move upwards, create a temporary support rod below and try again in front of this End
+Description: CSVARIABLE THISPERK in your inventory gains Burrowing and after it creates a cube in a blocked position it moves upwards, creates a temporary support rod below and tries to create the cube again End
+Requirement: HasAbilityWithName RequirementCube EveryXCreateCubeInfront
+CubeImage: CubeUpgradeTarget
+CubeImageXY: 5 0
+BalanceCap: 3
+End
+

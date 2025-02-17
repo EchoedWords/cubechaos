@@ -1,0 +1,58 @@
+PERK: Shadow
+BelongsTo: SPECIES
+LevelRequirement: 9
+Description: Your starting leader takes half damage from Solid_Shadow and infects non allies it damages End
+Ability: Shadow
+Ability: BeforeThisTakesDamage If CubeHasName Culprit Solid_Shadow NegateX Division EventAmount DoubleConstant 2
+AbilityText: This negates half the damage this takes damage from solid shadow cubes End
+ObtainAction: AddCubeToInventory CubeConstant Decay_Bolt
+ObtainAction: AddCubeToInventory CubeConstant Shadow_Addon
+ObtainAction: AddCubeToInventory CubeConstant Obsidian
+Disableable: false
+End
+
+PERK: Shadow_Dragon_Egg
+BelongsTo: Shadow
+Description: You start with a free Shadow_Dragon_Egg in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Shadow_Dragon_Egg RemoveThisAbility
+End
+
+PERK: Hardening_Shadow
+BelongsTo: Shadow
+Ability: AfterACubeIsCreated If CubeHasName Victim Solid_Shadow TargetCube Victim GainAbility GrowthX 10
+Description: Solid_Shadow grows for 10 extra hp over each minute End
+End
+
+PERK: Liquid_Shadow
+BelongsTo: Shadow
+Ability: AfterACubeIsCreated If CubeHasName Victim Solid_Shadow TargetCube Victim GainAbility LiquidX 60
+Description: Solid_Shadow acts like a liquid, moving back and forth and letting other cubes fall through it End
+End
+
+PERK: Shadow_Recycling
+BelongsTo: Shadow
+Ability: AfterACubeDies If CubeHasName Victim Solid_Shadow GenerateXMana DoubleConstant 1
+Description: After a Solid_Shadow dies gain 1 \CMANA mana \CN End
+End
+
+PERK: Shadow_Hive
+BelongsTo: Shadow
+Ability: EveryXMinutes DoubleConstant 3 TargetCube ARandomCubeWhich CubeHasName Test Solid_Shadow 
+Both Exile
+CreateCubeOnPosition CubeConstant Solid_Shadow_Hive PositionOfCube Target
+Description: Every 3 minutes a random Solid_Shadow is replaced with an allied Solid_Shadow_Hive by your starting leader End
+End
+
+PERK: Shadow_Resistance
+BelongsTo: Shadow
+Ability: BeforeACubeTakesDamage If And IsAllyToCaster Victim Not IsALeader Victim 
+If CubeHasName Culprit Solid_Shadow 
+TargetCube Victim HealXDamage 1/2
+Description: Before a non leader ally takes damage from a Solid_Shadow cube heal it for 0.5 hp End
+End
+
+PERK: Toxic_Shadow
+BelongsTo: Shadow
+Ability: AfterACubeIsCreated If CubeHasName Victim Solid_Shadow TargetCube Victim GainAbility PoisonousX 1
+Description: Solid_Shadow is poisonous for 1 damage per minute End
+End

@@ -1,0 +1,382 @@
+SCENARIO: Random_Class_And_Species_Reward
+Info: Gain a random class species and their combo End
+End
+PERK_REWARD: 
+RANDOMCLASSSPECIES
+End
+SEnd
+
+SCENARIO: Random_Curse_Reward
+Info: Gain a random curse End
+End
+PERK_REWARD: 
+VALUE: DoubleConstant -50 DoubleConstant -10 
+OPTIONS: DoubleConstant 1
+End
+SEnd
+
+SCENARIO: Random_Consumable_Reward
+Info: Gain a random consumable End
+End
+PERK_REWARD: 
+VALUE: DoubleConstant 0 DoubleConstant 30
+OPTIONS: DoubleConstant 1
+BELONGSTO: StringConstant Consumable
+End
+SEnd
+
+SCENARIO: Consumable_Reward
+Info: Choose a consumable out of 3 to gain End
+End
+PERK_REWARD: 
+VALUE: DoubleConstant 0 DoubleConstant 30
+OPTIONS: Highest 1 Addition 3 GetCampaignVariable PERKREWARDCHOICES
+REROLLS: Addition DoubleConstant 1 GetCampaignVariable ADDITIONALREROLLS
+BELONGSTO: StringConstant Consumable
+End
+SEnd
+
+SCENARIO: Random_Neutral_Perk_Reward
+Info: Gain a random neutral perk End
+End
+PERK_REWARD:  
+OPTIONS: DoubleConstant 1
+BELONGSTO: StringConstant Neutral
+End
+SEnd
+
+SCENARIO: Random_Perk_Reward
+Info: Gain a random perk End
+
+PerkImage: Wrapped_Gift
+End
+PERK_REWARD: 
+VALUE: DoubleConstant 10 DoubleConstant 50 
+OPTIONS: DoubleConstant 1
+End
+SEnd
+
+SCENARIO: Random_Any_Perk_Reward
+Info: Gain a random perk except its completly chosen at random and could be a curse or a consumable or anything End
+End
+PERK_REWARD: 
+VALUE: DoubleConstant -2000 DoubleConstant 2000 
+OPTIONS: DoubleConstant 1
+BELONGSTO: StringConstant All
+End
+SEnd
+
+SCENARIO: Random_Class_Reward
+Info: Gain a random class End
+End
+PERK_REWARD:  
+OPTIONS: DoubleConstant 1
+BELONGSTO: StringConstant CLASS
+End
+SEnd
+
+SCENARIO: Random_Species_Reward
+Info: Gain a random class End
+End
+PERK_REWARD:  
+OPTIONS: DoubleConstant 1
+BELONGSTO: StringConstant SPECIES
+End
+SEnd
+
+SCENARIO: Random_Class_Species_Synergy_Reward
+Info: Gain a random class species synergy (If you can still get any) End
+End
+PERK_REWARD:  
+OPTIONS: DoubleConstant 1
+BELONGSTO: StringConstant CLASSSPECIES
+End
+SEnd
+
+SCENARIO: Class_Reward
+Info: Choose one of 3 classes to get End
+End
+PERK_REWARD:  
+BELONGSTO: StringConstant CLASS
+End
+SEnd
+
+SCENARIO: Species_Reward
+Info: Choose one of 3 species to get End
+End
+PERK_REWARD:  
+BELONGSTO: StringConstant SPECIES
+End
+SEnd
+
+SCENARIO: Big_Cube_Reward
+Info: Choose 1 of 10 cubes to gain End
+PerkImage: Possibility_Index
+End
+CUBE_REWARD:
+DoubleConstant 2
+Addition DoubleConstant 10 GetCampaignVariable CUBEREWARDCHOICES
+Addition DoubleConstant 1 GetCampaignVariable ADDITIONALREROLLS
+SEnd
+
+SCENARIO: The_Vault
+Info: Enter the vault! A small map with treasure End
+End
+NODEMAP:
+
+RESET_NODE_MAP
+
+BACKGROUND_COLOUR: 0 100 0
+
+RANDOMIZED_PATH_SYSTEM:
+
+ MAP_NODE: NULL 45 End
+ MAP_NODE: Heal 45 End
+ MAP_NODE: Perk_Chest 45 End
+ MAP_NODE: Random_Event 45 End
+ MAP_NODE: Painfull_Perk_Chest 45 End
+ MAP_NODE: Map_Portal 45 End
+
+
+ LAYER: 1 1 0
+ LAYER: 3 1 1
+ LAYER: 3 1 1
+ LAYER: 3 1 1
+ LAYER: 1 1 5
+
+ REPLACEINLAYER: 1 4 2 1 1
+ REPLACEINLAYER: 1 4 4 1 2
+ REPLACEINLAYER: 1 3 4 1 3
+ REPLACEINLAYER: 1 4 1 1 4
+ 
+ CLOSESTPATHS
+
+End
+
+STARTING_NODE: 0
+
+End
+SEnd
+
+SCENARIO: Guarded_Vault
+Info: Enter a guarded vault! A very difficult fight leading to a large map with treasure End
+End
+NODEMAP:
+
+RESET_NODE_MAP
+
+BACKGROUND_COLOUR: 0 100 0
+
+RANDOMIZED_PATH_SYSTEM:
+
+ MAP_NODE: NULL 45 End
+ MAP_NODE: Heal 45 End
+ MAP_NODE: Perk_Chest 45 End
+ MAP_NODE: Random_Event 45 End
+ MAP_NODE: Painfull_Perk_Chest 45 End
+ MAP_NODE: Map_Portal 45 End
+ MAP_NODE: Boss_Battle 60 
+ EXTRA_DIFFICULTY: 7
+ End
+
+ LAYER: 1 1 0
+ LAYER: 1 1 6
+ LAYER: 3 1 1
+ LAYER: 3 1 1
+ LAYER: 3 1 1
+ LAYER: 3 1 1
+ LAYER: 3 1 1
+ LAYER: 3 1 1
+ LAYER: 1 1 5
+
+ REPLACEINLAYER: 1 7 4 1 1
+ REPLACEINLAYER: 1 7 8 1 2
+ REPLACEINLAYER: 1 7 2 1 4
+ 
+ CLOSESTPATHS
+
+End
+
+
+STARTING_NODE: 0
+
+End
+SEnd
+
+SCENARIO: Random_Class_Reroll_Reward
+Info: Gain a random class rerollable End
+End
+PERK_REWARD: 
+VALUE: DoubleConstant 100 DoubleConstant 200 
+OPTIONS: DoubleConstant 1
+BELONGSTO: StringConstant CLASS
+REROLLS: Addition DoubleConstant 1 GetCampaignVariable ADDITIONALREROLLS
+End
+SEnd
+
+SCENARIO: Golden_Perk_Reward
+Info: Golden Perk Chest End
+End
+PERK_REWARD: 
+VALUE: DoubleConstant 51 DoubleConstant 1000 
+OPTIONS: Highest 1 Addition 3 GetCampaignVariable PERKREWARDCHOICES
+BELONGSTO: StringConstant Everyone
+REROLLS: Addition DoubleConstant 1 GetCampaignVariable ADDITIONALREROLLS
+HOWMANY: Addition DoubleConstant 1 GetCampaignVariable ADDITIONALPERKSINCHESTS
+End
+SEnd
+
+SCENARIO: Triple_Random_Event
+Info: 3 random events, they could be (nearly) anything End
+PerkImage: Mystery_Machine
+End
+START_ACTION: Both Both Both
+ChangeDifficulty DoubleConstant 1
+ReadARandomEvent
+ReadARandomEvent
+ReadARandomEvent
+SEnd
+
+SCENARIO: Skipable_Random_Neutral_Reward
+Info: Gain a random neutral perk, you may skip End
+End
+PERK_REWARD: 
+OPTIONS: DoubleConstant 1
+BELONGSTO: StringConstant Neutral
+CANSKIP: DoubleConstant 1
+End
+SEnd
+
+SCENARIO: Random_Upgrade_Reward
+Info: Gain a random upgrade End
+End
+PERK_REWARD: 
+OPTIONS: DoubleConstant 1
+BELONGSTO: StringConstant Upgrade
+End
+SEnd
+
+SCENARIO: Terrain_Perk_Reward
+Info: choose one of 3 terrain perks to gain End
+End
+PERK_REWARD: 
+BELONGSTO: StringConstant Terrain
+REROLLS: Addition DoubleConstant 1 GetCampaignVariable ADDITIONALREROLLS
+OPTIONS: Highest 1 Addition Addition 3 GetCampaignVariable PERKREWARDCHOICES GetCampaignVariable TERRAINREWARDCHOICES
+End
+SEnd
+
+SCENARIO: Random_Terrain_Reward
+Info: Gain a random terrain perk End
+End
+PERK_REWARD: 
+BELONGSTO: StringConstant Terrain
+OPTIONS: DoubleConstant 1
+End
+SEnd
+
+SCENARIO: Small_Terrain_Reward
+Info: Choose one of two terrain perks End
+End
+PERK_REWARD: 
+BELONGSTO: StringConstant Terrain
+OPTIONS: DoubleConstant 2
+End
+SEnd
+
+SCENARIO: Ten_Boon_Selection
+Info: Choose 10 boons worth of value End
+CubeImage: Chest
+End
+DOUBLE_SIDED_PERK_SELECTION: 
+ BlightValue: 0
+ BoonValue: 10
+ ShopBoon: False
+ End
+SEnd
+
+SCENARIO: Future_Blight_Selection
+Info: Choose X blight worth of value based on the future blights perk End
+CubeImage: Chest
+End
+DOUBLE_SIDED_PERK_SELECTION: 
+ BlightValue: GetCampaignVariable FUTURE_BLIGHTS
+ BoonValue: 0
+ ShopBoon: False
+ End
+SEnd
+
+SCENARIO: Sell_One_Positive
+Info: Sell up to one positive value perk End
+CubeImage: Shop
+End
+PERK_SELECTION: 
+TYPE: 2
+USES: 1 
+PERKREQ: IsLarger ValueOfPerk Target 0
+COST: Minus ValueOfPerk Target
+BACKOUT: false
+NAME: Sell_One
+INFO: Sell up to one perk End
+VERB: sell
+End
+SEnd
+
+SCENARIO: Sell_Any_Positive
+Info: Sell any number of positive value perk End
+CubeImage: Shop
+End
+PERK_SELECTION: 
+TYPE: 2
+PERKREQ: IsLarger ValueOfPerk Target 0
+COST: Minus ValueOfPerk Target
+NAME: Sell
+INFO: Sell perks End
+VERB: sell
+End
+SEnd
+
+SCENARIO: Trash_One_Curse
+Info: Trash up to one curse End
+CubeImage: Shop
+End
+PERK_SELECTION: 
+TYPE: 2
+USES: 1 
+PERKREQ: IsSmaller ValueOfPerk Target 0
+NAME: Curse_Cleanse
+INFO: Remove up to 1 curse End
+VERB: remove
+End
+SEnd
+
+SCENARIO: Sell_Any_Curses_Expensive
+Info: Sell any number of curses at 2x value End
+CubeImage: Shop
+End
+PERK_SELECTION: 
+TYPE: 2
+COSTMULT: 2
+PERKREQ: IsSmaller ValueOfPerk Target 0
+BACKOUT: true
+COST: Minus ValueOfPerk Target
+NAME: Absolve
+INFO: Remove curses at a high price End
+VERB: remove
+End
+SEnd
+
+SCENARIO: Sell_Any_Curses
+Info: Sell any number of curses End
+CubeImage: Shop
+End
+PERK_SELECTION: 
+TYPE: 2
+PERKREQ: IsSmaller ValueOfPerk Target 0
+BACKOUT: true
+COST: Minus ValueOfPerk Target
+NAME: Absolve
+INFO: Remove curses at a price End
+VERB: remove
+End
+SEnd

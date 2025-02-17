@@ -1,0 +1,702 @@
+CUBE: Water 3 3 3
+TOKEN
+Ability: LiquidX 10
+Ability: Every10Seconds TargetCube TheFirstCubeInDirectionFromPositionWhich South PositionOfThis IsEnemyToCaster Test
+TakeXDamage DoubleConstant 1
+Text: Every 10 seconds deal 1 damage to the first enemy any distance below this End
+Ability: RetaliateX 1
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Steam 2 1 1
+TOKEN
+Ability: Flying
+Ability: EveryXTicks TimeConstant 20 MoveInDirection North
+Text: 3 times per second this moves upwards End
+Visual: Arrow 0 -1 155 238 255 1
+Ability: EveryTick If Not IsPositionEmpty PositionInDirectionFromThis North EveryXTimes DoubleConstant 120 Die
+Text: When there has been a cube above for 2 seconds total this dies End
+Ability: OnDeathCreateCube CubeConstant Water
+AiPlacementRule: AiFrontline
+End
+
+CUBE: Lava 10 6 6
+TOKEN
+Ability: LiquidX 60
+Ability: EveryXAcidicY 10 1
+AiPlacementRule: AiFrontline
+End
+
+CUBE: Ice 8 15 15
+TOKEN
+Ability: AfterThisCollides If Not HasNameOfCube Victim Caster 
+If X%Chance 20 SetCaster Victim TargetCube Victim MoveInDirection Forwards
+Text: After a differently named cube collides with this, 20% chance it moves itself forwards (this includes gravity) End
+Ability: Burrowed
+Animation: Crumble HP 0 EQUAL 4
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Sand 3 3 3
+TOKEN
+Ability: PowderMovement
+Ability: DieAfterX 36000
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Iron 20 10 10
+TOKEN
+Ability: ArmorX 1
+Animation: Crumble HP 0 EQUAL 4
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Solid_Shadow 10 5 5
+TOKEN
+Ability: Shadow
+Ability: EveryXAcidicY 300 1
+Ability: VengeanceX 1
+Animation: Crumble HP 0 EQUAL 4
+AiPlacementRule: AiFrontline
+End
+
+CUBE: Air_Push 3 0 0
+TOKEN
+Ability: AfterThisIsCreated TargetCube CubeInDirectionFromCube Forwards Caster 
+XTimes DoubleConstant 2 MoveInDirection Forwards
+Text: After this is created move the cube in front away from this twice End
+Visual: Arrow 1 0 155 238 255 2
+Visual: Arrow 2 0 155 238 255 2
+End
+
+CUBE: Spark 3 1 1
+TOKEN
+Ability: ChargeEveryX 5
+Ability: ProjectileX 2
+Ability: Flying
+Ability: DieAfterX 300
+AiPlacementRule: And CubeExists TheFirstCubeInDirectionFromPositionWhich Forwards PositionOfThis True 
+Or Not IsAllyToCaster TheFirstCubeInDirectionFromPositionWhich Forwards PositionOfThis True 
+CubeHasName TheFirstCubeInDirectionFromPositionWhich Forwards PositionOfThis True Spark
+End
+
+CUBE: Rough_Gravel 3 5 5
+TOKEN
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Stone 10 20 20
+TYPE Wall
+TOKEN
+AiPlacementRule: And AiStacking AiDefense
+Animation: Crumble HP 0 EQUAL 4
+End
+
+CUBE: Shield 4 1 1
+TOKEN
+Ability: Flying
+Ability: RetaliateX 1
+Animation: Crumble HP 0 EQUAL 4
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Bullet 3 1 1
+TOKEN
+Ability: ChargeEveryX 10
+Ability: ProjectileX 2
+Ability: Flying
+Ability: DieAfterX 600
+AiPlacementRule: And AiStacking AiMissile
+Animation: Fly TIME 0 2 5 5
+End
+
+CUBE: Full_Copy 0 0 0
+TOKEN
+Ability: AfterThisIsCreated TargetCube CubeInDirectionFromCube South Caster
+If Not IsALeader Target CreateCubeOnPosition Target PositionInDirectionFromThis North
+Text: After this is created, create a copy of the cube below above this, if it's not a leader End
+Visual: Square 0 -1 96 96 96
+Visual: Target 0 1 255 255 255
+AiPlacementRule: And AiAllySouth AiEmptyNorth
+End
+
+CUBE: Fake_Coin -1 1 1
+TOKEN
+Ability: PowderMovement
+Ability: AfterThisIsCreated If IsSmaller ManaCostOfCube Caster 0 ChangeManaCost Multiplication -2 ManaCostOfCube Caster
+Text: After this is created set manacost of this to the absolute value End
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Snow 3 3 3
+TOKEN
+Ability: Every2Seconds 
+EveryCubeTouchingPosition PositionOfThis
+If IsEnemyToCaster Target Both TakeXDamage DoubleConstant 1 GainAbility FrozenX 1
+Text: Every 2 seconds deal 1 damage to every touching enemy and freeze them for 1 second End
+Visual: Sword 0 -1 255 0 0 1
+Visual: Sword 1 0 255 0 0 2
+Visual: Sword 0 1 255 0 0 3
+Visual: Sword -1 0 255 0 0 4
+Ability: AfterThisDealsDamage TakeXDamage DoubleConstant 1
+Text: After this deals damage deal 1 damage to this End
+Ability: PowderMovement
+AiPlacementRule: AiEnemySouth
+End
+
+CUBE: Zombie 5 5 5
+TOKEN
+Ability: ChargeEveryX 240
+Ability: EveryXMeleeY 180 3
+Ability: Climbing
+Ability: Undead
+AiPlacementAbility: AiWarrior
+End
+
+CUBE: Phasing_Bullet 5 2 2
+TOKEN
+Ability: ChargeEveryX 10
+Ability: ProjectileX 3
+Ability: Phasing
+Ability: Flying
+Ability: DieAfterX 240
+AiPlacementRule: AiMissile
+End
+
+CUBE: Kamikazi_Robot 5 3 3
+TOKEN
+Ability: ChargeEveryX 20
+Ability: ExplodesX 1
+Ability: ProjectileX 1
+Ability: Buoyant
+AiPlacementAbility: AiWarrior
+End
+
+CUBE: Call_Upon_Debt 30 5 5
+TOKEN
+Ability: BeforeThisIsPlaced NegateX DoubleConstant 10000
+Text: Can't be placed, one Call Upon Debt experiences time even while in hand End
+Ability: EveryMinute If IsSmaller Currency DoubleConstant 0
+TargetCube ARandomCubeInLibraryWhich And HasAbilityWithName Test Debt IsSmaller ManaCostOfCube Test Multiplication Currency DoubleConstant -1
+ Both GainXExtraHp RoundedDown Division AbsoluteAmount Currency GetVariableOnCube DEBTHP Target
+ Both If IsLarger RoundedDown Division AbsoluteAmount Currency GetVariableOnCube DEBTSTRENGTH Target DoubleConstant 0
+  GainAbilityStacking StrengthX 1 RoundedDown Division AbsoluteAmount Currency GetVariableOnCube DEBTSTRENGTH Target
+ Both If IsLarger RoundedDown Division AbsoluteAmount Currency GetVariableOnCube DEBTGROWTH Target DoubleConstant 0 
+  GainAbilityStacking GrowthX 1 RoundedDown Division AbsoluteAmount Currency GetVariableOnCube DEBTGROWTH Target
+ Both ChangeManaCost Minus ManaCostOfCube Target
+ Both GainAbilityText AfterThisIsCreated Both ChangeManaCost Minus Currency RemoveThisAbility
+     After this is created reset manacost to debt amount and remove this ability End
+ Silent AddCubeToHandOfFaction Target DoubleConstant 2
+Text: Every minute, if there is debt, silently add a random free debt cube to the AI's hand, added cubes are more dangerous with more debt End
+Animation: Demand CLOCK 0 EQUAL 9
+AiPlacementRule: AiStacking
+End
+
+CUBE: Dwarven_Debt_Collector 5 3 3
+TOKEN
+Ability: Debt
+DVariable: DEBTHP 10
+DVariable: DEBTSTRENGTH 50
+Ability: ChargeEveryX 180
+Ability: EveryXMeleeY 60 1
+FlavourText: Pay the debt,        please End
+AiPlacementAbility: AiWarrior
+End
+
+CUBE: Plant_Debt_Collector 40 5 5
+TOKEN
+Ability: Debt
+DVariable: DEBTSTRENGTH 50
+DVariable: DEBTGROWTH 20
+Ability: ChargeEveryX 120
+Ability: EveryXMeleeY 120 1
+AiPlacementAbility: AiWarrior
+End
+
+CUBE: Unrequested_Buyout 100 0 0
+TOKEN
+Ability: Debt
+Ability: AfterThisIsCreated TargetCube ARandomCubeInHandOfFactionWhich DoubleConstant 1
+Not IsLarger Addition RoundedDown Division Currency DoubleConstant -100 ManaCostOfCube Test MaxManaOfFaction DoubleConstant 1
+ChangeManaCost RoundedDown Division Currency DoubleConstant -100
+Text: After this is created increase the cost of a random cube in the players hand by 1 for every 100 debt, wont increase above max mana End
+AiPlacementRule: True
+End
+
+CUBE: Debt_Of_Health 400 0 0
+TOKEN
+Ability: Debt
+DVariable: DEBTSTRENGTH 400
+Ability: AfterThisIsCreated EveryCubeInHandOfFactionWhich DoubleConstant 1 
+ IsLarger HpOfCube Test DoubleConstant 1
+ TakeXDamage DoubleConstant 0
+Text: After this is created deal 0 damage to every cube in the players hand End
+AiPlacementRule: True
+End
+
+CUBE: Hired_Assassin 70 5 5
+TOKEN
+Ability: Debt
+DVariable: DEBTHP 20
+DVariable: DEBTSTRENGTH 50
+Ability: EveryMinute EveryCubeWhich And IsEnemyToCaster Test IsALeader Test
+TakeXDamage DoubleConstant 1
+Text: Every minute deal 1 damage to every enemy leader End
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Debt_Generator 100 3 3
+TOKEN
+Ability: Debt
+DVariable: DEBTHP 5
+Ability: EveryXSeconds DoubleConstant 10 GenerateXMana RoundedDown Division Currency DoubleConstant -50
+Text: Every 10 seconds generate 1 \CMANA mana \CN per 50 debt End
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Debt_Of_Time 200 0 0
+TOKEN
+Ability: Debt
+Ability: AfterThisIsCreated EveryCubeWhich And IsAlly Test Not IsALeader Test
+GainAbilityStacking FrozenX 1 RoundedDown Division AbsoluteAmount Currency DoubleConstant 10
+Text: After this is created freeze every non leader cube of the player by 1 second per 10 debt End
+AiPlacementRule: True
+End
+
+CUBE: Life_Taker 1000 10 10
+TOKEN
+Ability: Debt
+DVariable: DEBTHP 5
+DVariable: DEBTSTRENGTH 200
+Ability: EveryXMeleeY 60 5
+Ability: EveryXMinutes DoubleConstant 10 Both Both ChangeCurrency DoubleConstant 20 LoseALife Die
+Text: Every 10 minutes the player loses 1 life (not hp) gains 20 gold and this dies (you only lose the campaign if you lose a battle with no life left) End
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Debt_Of_Existence 250 0 0
+TOKEN
+Ability: Debt
+Ability: AfterThisIsCreated XTimes RoundedDown Division Currency DoubleConstant -100
+TargetCube ARandomCubeWhich And IsEnemyToCaster Test Not IsALeader Test
+Exile
+Text: After this is created exile a random non leader enemy for every 100 debt End
+AiPlacementRule: True
+End
+
+CUBE: Chaotic_Administrator 150 10 10
+TOKEN
+Ability: Debt
+DVariable: DEBTHP 10
+Ability: EveryXMeleeY 60 2
+Ability: AfterACubeIsCreated If And Not IsNeutral Victim
+Not IsAlly Victim
+TargetCube Victim 
+XTimes RoundedDown Division Currency DoubleConstant -150
+GainARandomBonus
+Text: After an AI cube is created give it a random bonus for every 150 debt End
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Debt_Reshuffler 250 30 30
+TOKEN
+Ability: Debt
+DVariable: DEBTHP 10
+Ability: EveryMinute Both ChangeStartingMana DoubleConstant -1 ChangeCurrency DoubleConstant 1
+Text: Every minute the player loses 1 starting mana permanently but gains 1 gold End
+AiPlacementRule: And AiStacking AiBackline
+End
+
+CUBE: Leader_Movement 30 0 0
+TOKEN
+Ability: AfterThisIsCreated Both Exile EveryCubeWhich And IsAllyToCaster Test IsALeader Test
+MoveInDirection DirectionFromPosToPos PositionOfThis PositionOfCube Target
+Text: After this is created exile this and move every allied leader towards here End
+End
+
+CUBE: Goal_Flag 10000 1000 1000
+TOKEN
+Ability: Leader
+Ability: BeforeThisDies NegateX DoubleConstant 10000
+Text: Can't die End
+Ability: EverySecond EveryCubeTouchingPosition PositionOfThis 
+If IsALeader Target If IsEnemyToCaster Target If Not IsSmaller ManaCostOfCube Target DoubleConstant 1000
+ TargetCube Caster Win
+Text: Every second win if this is touching an enemy leader with manacost 1000 or greater End
+End
+
+
+CUBE: Limestone 5 8 8
+TOKEN
+Ability: Burrowed
+Animation: Crumble HP 0 EQUAL 4
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Mirror_Placement 100 100 100
+TOKEN
+Ability: AfterACubeIsCreated CreateCubeOnPosition Victim PositionFromXAndY 
+ Subtraction MaxWorldX XOfPosition PositionOfCube Victim 
+ YOfPosition PositionOfCube Victim
+Text: After a cube is created also create a copy at the opposite side of the map (center mirror line) End
+End
+
+Cube: Rope_Bridge 10 7 7
+TOKEN
+Ability: Burrowed
+Ability: Flying
+Ability: EveryXTicks 30 If Not And
+ CubeExists CubeInDirectionFromCube Forwards Caster 
+ CubeExists CubeInDirectionFromCube Backwards Caster
+  Die
+Visual: Target -1 0 255 255 255
+Visual: Target 1 0 255 255 255
+Text: Every half second there must be a cube in front and behind or this dies End
+AiPlacementRule: And And AiAllyInfront AiAllyBehind AiEmptySouth
+End
+
+Cube: Crate 10 5 5
+TOKEN
+Ability: AfterThisDies TargetCube Culprit If X%Chance 5
+ AddCubeToHandOfFaction CopyWithAction ARandomCubeInLibraryWhich And Not IsToken Test IsEqual AmountOfAbilitiesOfCube Test 1
+ ChangeManaCost DoubleConstant -10 
+ FactionOfCube Culprit
+Text: After this dies 5% chance to add a random cube with 1 ability to the killers hand, except it costs 10 less End
+Animation: Crumble HP 0 EQUAL 2
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Crate_Portal 60 200 200
+TOKEN
+Ability: Flying
+Ability: EveryTick EveryXTimesSteady RandomRoundBetweenXtoY DoubleConstant 120 DoubleConstant 3600 CreateCubeOnPosition Crate PositionInDirectionFromPosition South PositionOfThis
+Text: Every 2 to 60 seconds create a crate below End
+Visual: Square 0 1 96 96 96
+Animation: Charge CLOCK 0 EQUAL 6
+End
+
+CUBE: Player_Placement 100 100 100
+TOKEN
+Ability: AfterACubeIsCreated TargetCube Victim SetFaction 1
+Text: After a cube is created set its faction to 1 End
+End
+
+CUBE: Enemy_Placement 100 100 100
+TOKEN
+Ability: AfterACubeIsCreated TargetCube Victim SetFaction 2
+Text: After a cube is created set its faction to 2 End
+End
+
+Cube: Rusty_Belt 15 10 10
+TOKEN
+Ability: Burrowed
+Ability: Every3Seconds TargetCube CubeInDirectionFromCube North Caster Both MoveInDirection Forwards
+GainAbility TemporaryUnmovable 10
+Text: Every 3 seconds move any cube above forwards, it gains: "can't move for 1/6 of a second" End
+Animation: Rotate TIME 0 4 15 15 15 15
+Visual: Arrow 0 -1 155 238 255 2
+AiPlacementRule: And AiStacking AiDefense
+End
+
+Cube: Beach 5 5 5
+TOKEN
+AiPlacementRule: And AiStacking AiDefense
+Ability: Burrowed
+Animation: Crumble HP 0 EQUAL 4
+End
+
+CUBE: Boat 10 5 5
+TOKEN
+Ability: AfterACubeMoves If Not IsSameCube Caster Victim If IsSameCube Caster CubeOfPosition PositionInDirectionFromPosition South OriginalPosition
+MoveInDirection EventDirection
+Text: After another cube moves, if it was previously above this, also move in the same direction End
+Visual: Target 0 -1 255 255 255
+Ability: AfterACubeDies If IsSameCube CubeInDirectionFromCube South Victim Caster Die
+Text: After the cube above dies this also dies End
+Visual: Target 0 -1 255 255 255
+Ability: Buoyant
+Ability: Burrowed
+Animation: Crumble HP 0 EQUAL 2
+AiPlacementRule: AiLiquidSouth
+End
+
+CUBE: Wharf 70 150 150
+TOKEN
+Ability: EveryXSeconds 10 Both Both
+ CreateCubeOnPosition Boat PositionInDirectionFromPosition Forwards PositionOfThis
+ CreateCubeOnPosition Boat PositionXInfrontYBelowPosition 2 0 PositionOfThis
+ CreateCubeOnPosition Boat PositionXInfrontYBelowPosition 3 0 PositionOfThis
+Text: Every 10 seconds create boats in the 3 spaces infront End
+Visual: Square 1 0 96 96 96
+Visual: Square 2 0 96 96 96
+Visual: Square 3 0 96 96 96
+Ability: AfterThisDies AddCubeToHandOfFaction CubeConstant Wharf FactionOfThis
+Text: After this dies add a Wharf to your hand End
+AiPlacementRule: And AiLiquidSouth AiAllyBehind
+End
+
+CUBE: Compressed_Snow 30 20 20
+TOKEN
+Ability: Burrowed
+Ability: Every10Seconds TargetCube CubeInDirectionFromCube North Caster
+If Not HasNameOfCube Target Caster
+GainAbility FrozenX 2
+Text: Every 10 seconds freeze the cube above for 2 seconds, unless it has the same name End
+Visual: Target 0 -1 255 255 255
+AiPlacementRule: And AiStacking AiDefense
+Animation: Crumble HP 0 EQUAL 4
+End
+
+CUBE: Acid 11 3 3
+TOKEN
+Ability: LiquidX 60
+Ability: EveryXAcidicY 40 2
+AiPlacementRule: And AiStacking AiFrontline
+End
+
+CUBE: Reinforced_Glass 30 50 50
+TOKEN
+Ability: Unmovable
+Ability: AfterThisTakesDamage SetName NameOfCube Culprit
+Text: After this takes damage set this cubes name to the culprits name End
+AiPlacementRule: And AiStacking AiFrontline
+Animation: Crumble HP 0 EQUAL 4
+End
+
+CUBE: Shield_Bridge 8 5 5
+TOKEN
+Ability: Burrowed
+Ability: Flying
+AiPlacementRule: And AiFlying AiFrontline
+Animation: Crumble HP 0 EQUAL 2
+End
+
+CUBE: Shield_Bridge_Emitter 50 60 60
+TOKEN
+Ability: EveryXSeconds 5 
+IfElse IsPositionEmpty PositionInDirectionFromPosition Forwards PositionOfThis
+ CreateCubeOnPosition CubeConstant Shield_Bridge PositionInDirectionFromPosition Forwards PositionOfThis
+ CreateCubeOnPosition CubeConstant Shield_Bridge PositionInDirectionFromPosition Forwards PositionOfCube TheFirstCubeInDirectionFromPositionWhich
+  Forwards PositionOfThis IsPositionEmpty PositionInDirectionFromPosition Forwards PositionOfCube Test
+Text: Every 5 seconds create a Shield_Bridge in the first empty position any distance infront End
+Animation: Emit CLOCK 0 EQUAL 8
+Visual: Square 1 0 96 96 96
+Visual: Square 2 0 96 96 96
+Visual: Square 3 0 96 96 96
+Ability: AfterThisDies AddCubeToHandOfFaction CubeConstant Shield_Bridge_Emitter FactionOfThis
+Text: After this dies add a Shield_Bridge_Emitter to your hand End
+AiPlacementRule: And And AiStacking AiFrontline AiEmptyInfront
+End
+
+CUBE: Orange_Sand_Stone 20 14 14
+TOKEN
+Ability: Burrowed
+Ability: Flying
+Animation: Crumble HP 0 EQUAL 5
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Orange_Sand 6 4 4
+TOKEN
+Ability: Burrowed
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Termite_Den 40 30 30
+TOKEN
+Ability: EveryXCreateCubeAbove TimeConstant 1800 CubeConstant Termite
+Ability: RetaliateX 1
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Termite 4 3 3
+TOKEN
+Ability: ChargeEveryX 180
+Ability: EveryXMeleeY 120 2
+Ability: Climbing
+AiPlacementAbility: AiWarrior
+End
+
+CUBE: Basalt 10 20 20
+TOKEN
+Ability: Burrowed
+Animation: Crumble HP 0 EQUAL 4
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Anchored_Basalt 30 20 20
+TOKEN
+Ability: Burrowed
+Ability: Unmovable
+Animation: Crumble HP 0 EQUAL 4
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Trapped_Evil 20 10 10
+TOKEN
+Ability: AfterThisDies TargetCube ARandomCubeWhich And IsALeader Test
+ Not CubeExists ARandomCubeWhich And IsALeader Test 
+ IsSmaller 
+  DistanceOfPositions PositionOfThis PositionOfCube Test
+  DistanceOfPositions PositionOfThis PositionOfCube Target
+GainAbility PoisonX 1
+Text: After this dies the closest leader gains 1 \C0 255 144 poison \CN End
+Animation: Crumble HP 0 EQUAL 4
+AiPlacementRule: False
+End
+
+CUBE: Porous_Rock 15 8 8
+TOKEN
+Ability: Burrowed
+Ability: Flying
+Animation: Crumble HP 0 EQUAL 5
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Electric_Fence 6 3 3
+TOKEN
+Ability: RetaliateX 10
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Random_Bonus_List 100 0 0
+TOKEN
+Ability: RegenerationX 10
+Ability: GrowthX 5
+Ability: EveryXMeleeY 180 1
+Ability: VengeanceX 10
+Ability: LifeSteal
+Ability: PoisonousX 5
+Ability: RetaliateX 1
+Ability: Crippling
+Ability: StrengthX 1
+Ability: DeadlyX 2
+Ability: EverySecond Both RemoveThisAbility GainXExtraHp DoubleConstant 10
+Text: After 1 second remove this ability and gain 10 extra hp End
+Ability: DoubleTimeX 60
+Ability: Every10Seconds GenerateXMana DoubleConstant 1
+Text: Every 10 seconds generate 1 \CMANA mana \CN End
+Ability: EyeXY TimeConstant 600 DoubleConstant 1
+Ability: Every20Seconds TargetCube ARandomDamagedAlly HealXDamage DoubleConstant 1 
+Text: Every 20 seconds heal a random damaged ally for 1 hp End
+Ability: DevouringX 2
+End
+
+CUBE: Hardened_Limestone 10 16 16
+TOKEN
+Ability: Burrowed
+Ability: Flying
+Animation: Crumble HP 0 EQUAL 4
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Tungsten_Platform 30 50 50
+TOKEN
+Ability: Burrowed
+Ability: BeforeThisMovesNegation Both NegateX 1 EveryXTimes 20 NegateX -1
+Text: Can't move except every 20th time End
+Animation: Crumble HP 0 EQUAL 4
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Loop_Chasm 20 40 40
+TOKEN
+Ability: EverySecond ChangeIncomingAdjacency PositionOfThis
+  South PositionFromXAndY XOfPosition PositionOfThis DoubleConstant 0 
+Text: Every second the space above becomes adjacent to the top space of this column End
+Ability: Quantum
+Ability: Unmovable
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Floating_Tungsten 20 30 30
+TOKEN
+Ability: Burrowed
+Ability: Flying
+Animation: Crumble HP 0 EQUAL 5
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Bronze_Trunk 20 9 9
+TOKEN
+Ability: BeforeThisTakesDamage If Not IsALeader Culprit TargetCube TheFirstCubeInDirectionFromPositionWhich North PositionOfThis Not HasNameOfCube Test CubeConstant Bronze_Trunk
+ SetCaster Culprit Both TakeXDamage EventAmount
+ NegateX EventAmount
+Animation: Crumble HP 0 EQUAL 3
+Text: Before this takes damage from a non leader redirect the damage to the first non Bronze_Trunk any distance above End
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Bronze_Roots 10 15 15
+TOKEN
+Ability: Burrowed
+Animation: Crumble HP 0 EQUAL 4
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Bronze_Leaves 10 6 6
+TOKEN
+Ability: RegenerationX 5
+Ability: DiagonalAnchor
+Animation: Crumble HP 0 EQUAL 2
+AiPlacementRule: And AiStacking AiDefense
+End
+
+CUBE: Stalactite 10 8 8
+TOKEN
+Ability: Hanging
+Ability: AfterThisTakesDamage Both RemoveThisAbility Both RemoveAbilityWithName Hanging
+GainAbility AnyProjectileX 10 
+ExtraTrigger: AfterThisMoves Both RemoveThisAbility Both RemoveAbilityWithName Hanging
+GainAbility AnyProjectileX 10 
+Text: After this takes damage or moves remove this ability, hanging and gain projectile 10 (dealing 10 damage to the first cube this collides with) End
+AiPlacementRule: AiDefense
+End
+
+CUBE: Dripping_Stone 30 18 18
+TOKEN
+Ability: EveryXSeconds 30 CreateCubeOnPosition CubeConstant Stalactite PositionInDirectionFromPosition South PositionOfCube Caster
+Text: Every 30 seconds create a stalactite below End
+Visual: Square 0 1 96 96 96
+Ability: Burrowed
+Ability: Flying
+Animation: Crumble HP 0 EQUAL 4
+AiPlacementRule: AiDefense
+End
+
+CUBE: Stalagmite 10 8 8
+TOKEN
+Ability: AfterThisCollides If Not IsSamePosition OriginalPosition PositionOfCube Caster
+ Both TargetCube Victim TakeXDamage 1  TargetCube Caster TakeXDamage 1
+Text: After a cube moved into this deal 1 damage to it and to this End
+Animation: Crumble HP 0 EQUAL 3
+AiPlacementRule: AiDefense
+End
+
+CUBE: Tiny_Missile 2 1 1
+TOKEN
+Ability: ProjectileX 1
+Ability: HomingX 30
+Ability: EveryXTicks 20 Both MoveInDirection North EveryXTimes 20 RemoveThisAbility
+Text: 3 times per second move upwards, after 20 times lose this ability End
+Visual: Arrow 0 -1 155 238 255 1
+Visual: Arrow 1 0 155 238 255 2
+Ability: Flying
+Ability: DieAfterX 1800
+AiPlacementRule: AiFrontline
+End
+
+CUBE: Metal_Plate 20 25 25
+TOKEN
+Ability: Burrowed
+Ability: BeforeThisMovesNegation If Or 
+CubeExists CubeOfPosition PositionXInfrontYBelowPosition DoubleConstant -1 DoubleConstant 1 PositionOfThis
+CubeExists CubeOfPosition PositionXInfrontYBelowPosition DoubleConstant 1 DoubleConstant 1 PositionOfThis
+If IsSameDirection EventDirection South 
+NegateX DoubleConstant 1
+Text: Can't move downwards if there are cubes diagonally below End
+Visual: Target 1 1 255 255 255
+Visual: Target -1 1 255 255 255
+AiPlacementRule: And AiStacking AiDefense
+Animation: Crumble HP 0 EQUAL 5
+End

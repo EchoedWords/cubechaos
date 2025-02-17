@@ -1,0 +1,765 @@
+PERK: Traitors_Payment
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both Both LoseThisPerk ChangeCurrency DoubleConstant 50 Lose
+Description: Consumable: Immediately lose the battle, but gain 50 gold (Only works in battles) End
+Value: 10
+End
+
+PERK: Bottled_Gold
+BelongsTo: Consumable
+ClickAction: Both LoseThisPerk ChangeCurrency DoubleConstant 20
+Description: Consumable: Gain 20 gold End
+Value: 10
+End
+
+PERK: Bottled_Mana
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk FactionXGainsYMana DoubleConstant 1 DoubleConstant 100
+Description: Consumable: Gain 100 \CMANA mana \CN (Only works in battles) End
+Value: 10
+End
+
+PERK: Shop_Key
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both Both LoseThisPerk ReadAScenario Shop ChangeCurrency DoubleConstant -30
+Description: Consumable: Enter a shop and lose 30 gold (Doesn't work in battles) End
+Value: 10
+End
+
+PERK: Certainty_Destabilizer
+BelongsTo: Consumable
+ClickAction: Both LoseThisPerk ChangeRerollCost DoubleConstant -10
+Description: Consumable: Permanently reduce the cost of rerolling by 10 End
+Value: 15
+End
+
+PERK: Bottled_Bottles
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk XTimes DoubleConstant 2 ReadAScenario Random_Consumable_Reward
+Description: Consumable: Gain 2 random consumables (Doesn't work in battles) End
+Value: 25
+End
+
+PERK: Bottled_Curse
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both Both LoseThisPerk ChangeCurrency DoubleConstant 30 ReadAScenario Basic_Curse_Reward
+Description: Consumable: Gain 30 gold, then choose one of 3 curses to gain (Doesn't work in battles) End
+Value: 5
+End 
+
+PERK: Bottled_Architect
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk EveryCubeInHandOfFactionWhich DoubleConstant 1 True GainXExtraHp DoubleConstant 3
+Description: Consumable: Each cube in your hand gains 3 extra hp (Only works in battles) End
+Value: 10
+End
+
+PERK: Bottled_Healing
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk Both EveryCubeWhich IsAlly Test SetCaster Target HealXDamage MaxHpOfCube Target
+TargetCube WorldCube GainAbilityText AfterACubeIsCreated If IsAlly Victim TargetCube Victim GainAbility RegenerationX 3
+After an ally is created it gains 3 regeneration End
+Description: Consumable: All allies heal themselves for their max hp and future allies gain 3 regeneration (Only works in battles) End
+Value: 5
+End
+
+PERK: Bottled_Ocean
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk
+Both TargetCube Caster SetVariable TEMPX MaxWorldX 
+Until IsSmaller GetVariableOnCube TEMPX Caster DoubleConstant 0
+ Both 
+  Both TargetCube Caster SetVariable TEMPY MaxWorldY 
+   Until IsSmaller GetVariableOnCube TEMPY Caster DoubleConstant 0
+    Both 
+     CreateCubeOnPosition CopyWithAction CubeConstant Water SetFaction DoubleConstant 0 PositionFromXAndY GetVariableOnCube TEMPX Caster GetVariableOnCube TEMPY Caster 
+     ChangeVariable TEMPY DoubleConstant -1
+   Nothing
+ ChangeVariable TEMPX DoubleConstant -1
+Nothing
+Description: Consumable: Fill all empty spaces with neutral water (Only works in battles) End
+Value: 15
+End
+
+PERK: Bottled_Perk
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk ReadAScenario Random_Perk_Reward
+Description: Consumable: Gain a random perk (Doesn't work in battles) End
+Value: 25
+End
+
+PERK: Bottled_Shockwave
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk Both EveryCubeWhich IsEnemy Test TakeXDamage DoubleConstant 2
+TargetCube WorldCube GainAbilityText EveryXMinutes DoubleConstant 3 EveryCubeWhich IsEnemy Test TakeXDamage DoubleConstant 2
+Every 3 minutes deal 2 damage to all enemies End
+Description: Consumable: Deal 2 damage to all enemies, repeat this for the rest of the battle every 3 minutes (Only works in battles) End
+Value: 10
+End
+
+PERK: Bottled_Safety
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk EveryCubeWhich IsEnemy Test 
+If IsEqual PlacabilityOfPosition PositionOfCube Target DoubleConstant 1 Die
+Description: Consumable: All enemies which are in positions you could normally place into die (Only works in battles) End
+Value: 5
+End
+
+PERK: Bottled_Ice
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk EveryCubeWhich IsEnemy Test 
+Both GainAbility FrozenX 40 GainAbility Slowed 20
+Description: Consumable: All enemies are frozen for 40 seconds and slowed by 20% forever (Only works in battles) End
+Value: 10
+End
+
+PERK: Lottery_Ticket
+BelongsTo: Consumable
+ClickAction: Both LoseThisPerk Both Both
+If X%Chance DoubleConstant 100 ChangeCurrency DoubleConstant 5
+If X%Chance DoubleConstant 10 ChangeCurrency DoubleConstant 50
+If X%Chance DoubleConstant 1 ChangeCurrency DoubleConstant 500
+Description: Consumable: 100% Chance to gain 5 gold, 10% chance to gain 50 gold, 1% chance to gain 500 gold End
+Value: 5
+End
+
+PERK: Bottled_Rats
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk
+TargetCube FreeCopy CubeConstant Rat 
+Both GainAbility Returning
+XTimes DoubleConstant 7 AddCubeToHandOfFaction Target DoubleConstant 1
+Description: Consumable: Add 7 free rats to your hand which return to your hand on death (Only works in battles) End
+Value: 5
+End
+
+PERK: Bottled_Strength
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk TargetCube WorldCube GainAbilityText 
+AfterACubeIsCreated If IsAlly Victim TargetCube Victim GainAbility StrengthX 1
+After an ally is created it gains 1 strength End
+Description: Consumable: All future allies gain 1 strength, dealing 1 more damage (only works in battles) End
+Value: 5
+End
+
+PERK: Bottled_Rainbow
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk XTimes DoubleConstant 5 
+AddCubeToHandOfFaction FreeCopy ARandomCubeInLibraryWhich And Not IsToken Test IsNotInHandOfThis Test
+ DoubleConstant 1
+Description: Consumable: Add 5 random cubes to your hand which aren't already in your hand, they are free (Only works in battles) End
+Value: 5
+End
+
+PERK: Bottled_Stream
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk TargetCube ARandomCubeWhich And IsAlly Test IsALeader Test
+GainAbilityText EverySecond GenerateXMana DoubleConstant 1
+Every second this generates 1 \CMANA mana \CN End
+Description: Consumable: A random allied leader generates 1 additional \CMANA mana \CN per second (Only works in battles) End
+Value: 20
+End
+
+PERK: Bottled_Knowledge
+BelongsTo: Consumable
+ClickAction: Both LoseThisPerk AddCubeToInventory APRandomCubeInLibraryWhich And Not IsAlreadyInInventory Test Not IsToken Test
+Description: Consumable: Add a random cube to your inventory End
+Value: 10
+End
+
+PERK: Adventure_Key
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk ReadARandomEvent
+Description: Consumable: Encounter a random event (Doesn't work in battles) End
+Value: 20
+End
+
+PERK: Cursed_Key
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk ReadAScenario Cursed_Trade
+Description: Consumable: Encounter a trade to gain curses and perks in equal measure (Doesn't work in battles) End
+Value: 15
+End
+
+PERK: Bottled_Spiders
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk TargetCube CubeConstant Spider Both SetFaction DoubleConstant 1 
+XTimes Division AbsoluteAmount Currency DoubleConstant 10 CreateCubeOnPosition Target ARandomPosition
+Description: Consumable: For every 10 gold or debt you have summon a spider in a random position (Only works in battles) End
+Value: 10
+End
+
+PERK: Bottled_Oblivion
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk TargetCube ARandomCubeWhich And IsAlly Test IsALeader Test 
+SetCaster Target Both EveryCube TakeXDamage DoubleConstant 2
+EveryCubeInHandOfFactionWhich DoubleConstant 2 True TakeXDamage DoubleConstant 2
+Description: Consumable: A random allied leader deals 2 damage to all cubes and all cubes in the enemy's hand (Only works in battles) End
+Value: 10
+End
+
+PERK: Pocket_Mirror
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk EveryCubeWhich And IsAlly Test Not IsALeader Test 
+SetCaster Target CreateCubeOnPosition Caster PositionInDirectionFromPosition Forwards PositionOfThis
+Description: Consumable: Every non leader ally creates a copy of itself in front of itself (Only works in battles) End
+Value: 20
+End
+
+PERK: Vault_Key
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk ReadAScenario The_Vault
+Description: Consumable: Leave the current map and enter the vault, which is a very treasure rich map (Doesn't work in battles) End
+Value: 150
+End
+
+PERK: Bottled_Resilience
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk Both EveryCubeWhich IsAlly Test GainXExtraHp DoubleConstant 5
+TargetCube WorldCube GainAbilityText AfterACubeIsCreated If IsAlly Victim TargetCube Victim GainXExtraHp DoubleConstant 2
+After an ally is created it gains 2 extra hp End
+Description: Consumable: All allies gain 5 extra hp and future allies gain 2 extra hp (Only works in battles) End
+Value: 10
+End
+
+PERK: Bottled_Time
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk EveryCubeWhich IsAlly Test 
+AccelerateX DoubleConstant 1800
+Description: Consumable: All allies experience 30 seconds of time (Only works in battles) End
+Value: 5
+End
+
+PERK: Trading_License
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk ReadAScenario Sell_One_Positive
+Description: Consumable: Sell up to one non curse perk of your choice for its value in gold (Doesn't work in battles) End
+Value: 15
+End
+
+PERK: Bottled_Curse_Acid
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing 
+ If PerkExists ARandomPerkInInventoryWhich 
+ IsSmaller ValueOfPerk Test DoubleConstant 0
+ Both LoseThisPerk Both SufferXWounds 3 LosePerkWithScreen ARandomPerkInInventoryWhich 
+IsSmaller ValueOfPerk Test DoubleConstant 0
+Description: Consumable: Lose a random curse, suffer 3 wounds (at battle start allies in hand and battlefield deal 3 damage to themselves, then lose 1 wound) (Doesn't work in battles or if you have no curse) End
+Value: 20
+End
+
+PERK: Bottled_Universe
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk EveryPerkInInventoryWhich And Not PerkHasNameOfPerk Test PerkConstant Bottled_Universe Not PerkIsUnique Test ObtainPerk Target
+Description: Consumable: Gain a copy of every non unique perk in your inventory except bottled Universe (Doesn't work in battles) End
+Value: 2000
+End
+
+PERK: Helpful_Box
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk 
+IfElse Not PerkExists ARandomPerkInInventoryWhich PerkIsType Test CLASS ReadAScenario Random_Class_Reward
+IfElse Not PerkExists ARandomPerkInInventoryWhich PerkIsType Test SPECIES ReadAScenario Random_Species_Reward
+IfElse Not PerkExists ARandomPerkInInventoryWhich PerkIsType Test CLASSSPECIES ReadAScenario Random_Class_Species_Synergie_Reward
+IfElse Not IsLarger GetCampaignVariable CUBESININVENTORY DoubleConstant 0 ReadAScenario Rare_Cube_Reward
+IfElse Not PerkExists ARandomPerkInInventoryWhich Or IsEqual ValueOfPerk Test DoubleConstant 40 IsEqual ValueOfPerk Target DoubleConstant 50 ReadAScenario Random_Perk_Reward
+IfElse Not IsLarger GetCampaignVariable STARTINGMAXMANA DoubleConstant 0 ChangeStartingMaxMana DoubleConstant 100
+IfElse Not IsLarger GetCampaignVariable STARTINGMANA DoubleConstant 0 ChangeStartingMana DoubleConstant 50
+IfElse Not IsLarger Currency DoubleConstant 0 ChangeCurrency DoubleConstant 30
+IfElse Not PerkExists ARandomPerkInInventoryWhich PerkIsType Test Consumable ReadAScenario Random_Consumable_Reward
+IfElse Not PerkExists ARandomPerkInInventoryWhich And PerkIsType Test Everyone IsSmaller ValueOfPerk Test DoubleConstant 0 ReadAScenario Random_Curse_Reward
+IfElse Not PerkExists ARandomPerkInInventoryWhich PerkIsType Test Neutral ReadAScenario Random_Neutral_Perk_Reward
+IfElse Not PerkExists ARandomPerkInInventoryWhich PerkIsType Test TriggerFragment ReadAScenario Random_Trigger_Fragment_Reward
+IfElse Not PerkExists ARandomPerkInInventoryWhich PerkIsType Test TargetFragment ReadAScenario Random_Target_Fragment_Reward
+IfElse Not PerkExists ARandomPerkInInventoryWhich PerkIsType Test EffectFragment ReadAScenario Random_Effect_Fragment_Reward
+IfElse Not PerkExists ARandomPerkInInventoryWhich PerkIsType Test ChainFragment ReadAScenario Random_Chain_Fragment_Reward
+ObtainPerk PerkConstant T-Shirt
+Description: Consumable: Gain something you don't have (Doesn't work in battles) End
+Value: 10
+End
+
+PERK: Signal_Jammer
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk
+EveryCubeInHandOfFactionWhich DoubleConstant 2 True Both RemoveCubeFromHandOfFaction Target DoubleConstant 2
+AddCubeToHandOfFactionInfinitly ARandomCubeInLibraryWhich
+And Not IsToken Test Not IsAlreadyInHandOfFaction Test DoubleConstant 2 DoubleConstant 2
+Description: Consumable: Replace all cubes in the enemies hand with completely random cubes with infinite uses (Only works in battles) End
+Value: 20
+End
+
+PERK: Debt_Relief
+BelongsTo: Consumable
+ClickAction: If IsSmaller Currency DoubleConstant 0 Both LoseThisPerk ChangeCurrency DoubleConstant 30
+Description: Consumable: If you are in debt gain 30 gold End
+Value: 10
+End
+
+PERK: Sacrificial_Dagger
+BelongsTo: Consumable
+ClickAction: Both LoseThisPerk Both LoseALife ChangeCurrency DoubleConstant 60
+Description: Consumable: Lose a life, but gain 60 gold End
+Value: 5
+End
+
+PERK: Bottled_Slime
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk
+XTimes DoubleConstant 2 AddCubeToHandOfFaction CopyWithAction FreeCopy CubeConstant Large_Warrior_Slime
+ GainAbility Returning
+ DoubleConstant 1
+Description: Consumable: Add 2 free big slime warriors to your hand, when they die they return back to your hand but are no longer free (Only works in battles) End
+Value: 10
+End
+
+PERK: Reroll_Nullifier
+BelongsTo: Consumable
+ClickAction: Both LoseThisPerk SetCampaignVariable REROLLCOST DoubleConstant 0
+Description: Consumable: Set reroll cost to 0 End
+Value: 40
+End
+
+PERK: Metallic_Key
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk ReadAScenario Forge
+Description: Consumable: Encounter a forge to upgrade your perks and random cubes (Doesn't work in battles) End
+Value: 25
+End
+
+PERK: 10%_Coupon
+BelongsTo: Consumable
+ClickAction: Both LoseThisPerk ChangeCurrency DoubleConstant 20
+CampaignAbility: AfterYouGainOrLoseCurrency If IsSmaller EventAmount DoubleConstant -9
+Both LosePerkWithScreen PerkConstant 10%_Coupon ChangeCurrency Division EventAmount DoubleConstant -10
+Description: Consumable: Gain 5 gold, or automatically lose this when you lose 10 or more gold to regain 10% of the gold lost End
+Value: 5
+End
+
+PERK: Forge_Coupon
+BelongsTo: Consumable
+ClickAction: Both LoseThisPerk ChangeCurrency DoubleConstant 5
+CampaignAbility: AfterYouUpgradeAPerk Both LosePerkWithScreen PerkConstant Forge_Coupon ChangeCurrency DoubleConstant 30
+Description: Consumable: Gain 5 gold, or automatically lose this when you upgrade a perk to gain 30 gold End
+Value: 10
+End
+
+PERK: Bottled_Army
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk
+ AddCubeToHandOfFaction FreeCopy CubeConstant Eight_Armies DoubleConstant 1
+Description: Consumable: Add a free eight armies to your hand, it makes 8 copies of the next cube placed at half price (Only works in battles) End
+Value: 15
+End
+
+PERK: Replibottle
+BelongsTo: Consumable
+ClickAction: Both LoseThisPerk ObtainPerk PerkConstant Active_Replibottle
+Description: Consumable: The next time you lose a non replibottle perk immediately gain a copy of that perk (You have to click this perk first to make this active) End
+Value: 20
+End
+
+PERK: Bottled_Bees
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk 
+TargetCube WorldCube GainAbilityText 
+ EveryXSeconds DoubleConstant 5 CreateCubeOnPosition CopyWithAction CubeConstant Bee SetFaction DoubleConstant 1 ARandomLeftPosition
+ Create a friendly bee every 5 seconds End
+Description: Consumable: Every 5 seconds create a bee in a random left side position for the rest of the battle (Only works in battles) End
+Value: 10
+End
+
+PERK: Erase_From_Reality
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk
+AddCubeToHandOfFaction CubeConstant Erase_From_Reality DoubleConstant 1
+Description: Consumable: Add a cube to your hand which erases a cube from reality (Only works in battles) End
+Value: 20
+End
+
+PERK: Bottled_Victory
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk Both LoseALife ObtainPerk PerkConstant Free_Win
+Description: Consumable: Lose a life, the next time you would lose a battle win it instead (Doesn't work in battles) End
+Value: 25
+End
+
+PERK: Bone_Saw
+BelongsTo: Consumable
+ClickAction: Both LoseThisPerk Both ChangeDeckSize DoubleConstant -1 ChangeCurrency DoubleConstant 70
+Description: Consumable: Lose a deck slot and gain 40 gold End
+Value: 5
+End
+
+PERK: Equal_Exchange
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk ReadAScenario Equal_Exchange
+Description: Consumable: Choose up to 1 perk to exchange for a random same value perk (Doesn't work in battles) End
+Value: 10
+End
+
+SCENARIO: Equal_Exchange
+Info: Exchange 1 perk for another perk with the same value End
+CubeImage: Shop
+End
+PERK_SELECTION: 
+TYPE: 2
+USES: 1 
+NAME: EQUAL_EXCHANGE
+INFO: Exchange for same value End
+VERB: exchange
+ACTION: Both LosePerk Target 
+ ObtainPerk ARandomPerkInLibraryWhich And IsEqual ValueOfPerk Test ValueOfPerk Target 
+  Not IsSameString NameOfPerk Test NameOfPerk Target
+RESULT: Same value perk End
+PERKREQ: True
+End
+SEnd
+
+PERK: Letter_Worm
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk ReadAScenario Letter_Worm
+Description: Consumable: Choose up to 1 perk to exchange for a completely random one with the same number of letters (Doesn't work in battles) End
+Value: 25
+End
+
+SCENARIO: Letter_Worm
+Info: Exchange 1 perk for another perk with equal letter count End
+CubeImage: Shop
+End
+PERK_SELECTION: 
+TYPE: 2
+USES: 1 
+NAME: LETTER_WORM
+INFO: Exchange for equal letter count End
+VERB: exchange
+ACTION: Both LosePerk Target 
+ ObtainPerk ARandomPerkInLibraryWhich And IsEqual LetterCount NameOfPerk Test LetterCount NameOfPerk Target 
+  Not IsSameString NameOfPerk Test NameOfPerk Target
+RESULT: Random equal letter perk End
+PERKREQ: True
+End
+SEnd
+
+PERK: Bottled_Home
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk TeleportToMapNode DoubleConstant 0
+Description: Consumable: Return to the first node of map (Doesn't work in battles) End
+Value: 10
+End
+
+PERK: Bottled_Teleport
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk TeleportToMapNode RandomRoundBetweenXtoY DoubleConstant 1 
+Subtraction MapNodeAmount DoubleConstant 7
+Description: Consumable: Teleport to a random node of the map except for the last 6 (Doesn't work in battles) End
+Value: 5
+End
+
+PERK: Bottled_Finish
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk Both ChangeCampaignVariable ADDITIONALMAPSNEEDED DoubleConstant 1
+ TeleportToMapNode Subtraction MapNodeAmount DoubleConstant 1
+Description: Consumable: Teleport to the last node of the map, you need to finish one more map than usual to win (Doesn't work in battles) End
+Value: 5
+End
+
+PERK: Map_Position_Error
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk TeleportToMapNode Addition DoubleConstant 1 CurrentMapNode 
+Description: Consumable: Teleport one map node downwards or to the top of the next column if there is no map node in the same column (Doesn't work in battles) End
+Value: 50
+End
+
+PERK: Secret_Tunnel
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk UntilSuccess AddPathAB 
+RandomRoundBetweenXtoY DoubleConstant 0 Subtraction MapNodeAmount DoubleConstant 1
+RandomRoundBetweenXtoY DoubleConstant 0 Subtraction MapNodeAmount DoubleConstant 1
+Description: Consumable: Add a path between two random map nodes which don't have a path (this may create backwards paths, useless paths or loops) (Doesn't work in battles) End
+Value: 10
+Requirement: MapLeft
+End
+
+PERK: Bottled_Blood_Chest
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk 
+ SetMapNodeScenario ARandomMapNodeWhich And And IsLarger Test DoubleConstant 0 ExcludeLastXNodes DoubleConstant 6 
+ Not MapNodeIsType Test Chest
+ Painfull_Perk_Chest
+Description: Consumable: Replace a random non chest map node with a blood chest, except for the last 6 nodes (Doesn't work in battles) End
+Requirement: MapLeft
+Value: 20
+End
+
+PERK: Dangerous_Game
+BelongsTo: Consumable
+ClickAction: Both ChangeCurrency DoubleConstant 15
+IfElse X%Chance Multiplication DoubleConstant 5 Division DoubleConstant 100 DoubleConstant 6
+Nothing
+Both LoseThisPerk LoseALife
+Description: Consumable: Gain 15 gold, then 5/6 chance to not lose this perk, otherwise lose this perk and a life End
+Value: 5
+End
+
+PERK: Mine_Key
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk ReadAScenario Event_Old_Mine
+Description: Consumable: Encounter the Old Mine event allowing you to dig for gold (Doesn't work in battles) End
+Value: 20
+End
+
+PERK: Bottled_Drones
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk TargetCube WorldCube GainAbilityText 
+ Every30Seconds CreateCubeOnPosition CopyWithAction CubeConstant Chaotic_Drone SetFaction DoubleConstant 1 ARandomLeftPosition
+ Create a friendly chaotic drone every 30 seconds End
+Description: Consumable: Every 30 seconds create a chaotic drone in a random left side position for the rest of the battle (Only works in battles) End
+Value: 10
+End
+
+PERK: Membership_Card
+BelongsTo: Consumable
+ClickAction: Both LoseThisPerk ChangeCampaignVariable SHOPPRICEADD DoubleConstant -5
+Description: Consumable: All prices in future shops are reduced by 5 End
+Value: 10
+Requirement: MapLeft
+End
+
+PERK: Universal_Tuning_Fork
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk ReadAScenario Skipable_Random_Neutral_Reward
+Description: Consumable: Gain a random neutral perk, you may skip (Doesn't work in battles) End
+Value: 20
+End
+
+PERK: Tiny_Mana_Crystal
+BelongsTo: Consumable
+ClickAction: Both LoseThisPerk ChangeStartingMana DoubleConstant 5
+Description: Consumable: Increase your starting mana by 5 for all future battles End
+Value: 5
+End
+
+PERK: Reinforced_Flask
+BelongsTo: Consumable
+ClickAction: Both LoseThisPerk ChangeStartingMaxMana DoubleConstant 10
+Description: Consumable: Increase your starting max mana by 10 for all future battles End
+Value: 5
+End
+
+PERK: Bottled_Terraformer
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk ReadAScenario Terrain_Exchange_Reward
+Description: Consumable: Lose a random terrain perk and choose 1 of 3 terrain perks to gain (Doesn't work in battles) End
+Value: 10
+End
+
+PERK: Bottled_Landscape
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk ReadAScenario Terrain_Perk_Reward
+Description: Consumable: Choose 1 of 3 terrain perks to gain (Doesn't work in battles) End
+Value: 10
+End
+
+PERK: Bottled_Geologist
+BelongsTo: Consumable
+ClickAction: If BattleOngoing If StringContainsString CurrentScenario StringConstant Battle
+Both LoseThisPerk
+AddCubeToHandOfFaction CubeConstant Geologist DoubleConstant 1
+Description: Consumable: Add a cube to your hand which adds a neutral cube to your inventory, only works in non minigame battles End
+Value: 20
+End
+
+PERK: Bottled_Memory
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing If MapNodeIsType CurrentMapNode Event Both LoseThisPerk 
+ Both TeleportToMapNode CurrentMapNode LoadMapNode CurrentMapNode
+Description: Consumable: If you're on an event map node encounter it again (Doesn't work in battles) End
+Requirement: Not MapNodeIsType CurrentMapNode Event
+Value: 20
+End
+
+PERK: Bottled_Resell
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing If MapNodeIsType CurrentMapNode Shop Both LoseThisPerk 
+ Both TeleportToMapNode CurrentMapNode LoadMapNode CurrentMapNode
+Description: Consumable: If you're on a shop map node and you have any gold left encounter it again, it will sell the same things again (Doesn't work in battles) End
+Requirement: Not MapNodeIsType CurrentMapNode Shop
+Value: 10
+End
+
+PERK: Bottled_Samples
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk EveryCubeInHandOfFactionWhich 1 True
+Both GainAbilityStacking CheaperX 0 ManaCostOfCube Target
+ChangeManaCost Minus ManaCostOfCube Target
+Description: Consumable: Every cube in your hand costs 0 until placed (Only works in battles) End
+Value: 15
+End
+
+PERK: Bottled_Reset
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk EveryCubeWhich And IsAlly Test Not IsALeader Test
+Both Exile
+CreateCubeOnPosition CopyWithAction ARandomCubeInLibraryWhich HasNameOfCube Test Target  SetFaction 1 
+ PositionOfCube Target
+Description: Consumable: Replace all non leader allies with their base versions, exiles if there is no base version (Only works in battles) End
+Value: 5
+End
+
+PERK: Gold_Gem
+BelongsTo: Consumable
+ClickAction: Both LoseThisPerk Both ChangeStartingMana DoubleConstant -10
+ChangeCurrency 40
+Description: Consumable: Lose 10 starting mana for all future battles, but gain 40 gold End
+Value: 10
+End
+
+PERK: Water_Bottle
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk Both EveryCubeWhich And IsAlly Test IsALeader Test HealXDamage 30 
+ObtainPerk PerkConstant Empty_Water_Bottle
+WorldAbility: AfterYouWin If HasPerk PerkConstant Empty_Water_Bottle Both LosePerk PerkConstant Empty_Water_Bottle ObtainPerk PerkConstant Water_Bottle
+Description: Consumable: Every allied leader heals 30 hp and you gain an Empty_Water_Bottle which refills after you win a battle (Only works in battles) End
+Value: 5
+End
+
+PERK: Again
+BelongsTo: Consumable
+ClickAction: Both LoseThisPerk 
+ Both BanishPerk Target
+ Both TeleportToMapNode CurrentMapNode LoadMapNode CurrentMapNode
+Description: Consumable: Erase this perk from reality and encounter whatever map node you are on again (erased perks never appear again) End
+Value: 40
+Unique
+End
+
+PERK: Fake_Identity
+BelongsTo: Consumable
+ClickAction: If BattleOngoing If IsLarger GetCampaignVariable FORGEDALREADY 0 Both LoseThisPerk SetCampaignVariable FORGEDALREADY 0 
+Description: Consumable: If you have used up the first time forge discount, reset it (Only works in battles) End
+Value: 15
+End
+
+PERK: Perk_Eraser
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk Both ChangeCurrency -40 ReadAScenario Erase_Single_Perk
+Description: Consumable: Lose 40 gold and choose up to 1 perk you have exactly 1 of to erase from reality (lose it, it can't appear again) (Doesn't work in battles) End
+Value: 25
+End
+
+SCENARIO: Erase_Single_Perk
+Info: Erase a perk you have exactly 1 of End
+CubeImage: Shop
+End
+PERK_SELECTION: 
+TYPE: 2
+USES: 1
+NAME: ERASE_PERK
+INFO: Erase perk from reality (won't appear again) End
+VERB: erase
+ACTION: BanishPerk Target
+RESULT: erased End
+PERKREQ: IsEqual 1 AmountOfPerksInInventoryWhich PerkHasNameOfPerk Test Target 
+End
+SEnd
+
+PERK: Cube_Recycler
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk
+ EveryCubeInHandOfFactionWhich 1 True EveryCubeInInventoryWhich HasNameOfCube Target Test Both RemoveCubeFromInventory Target ChangeCurrency 20
+Description: Consumable: For every cube in your hand sell every cube in your inventory with the same name for 20 gold (Only works in battles) End
+Value: 10
+End
+
+PERK: Mana_Injector
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk Silent FactionXGainsYMana 1 Lowest 300 Subtraction MaxManaOfFaction 1 ManaOfFaction 1
+Description: Consumable: Set your \CMANA mana \CN to max mana, max +300 mana (Only works in battles) End
+Value: 15
+End
+
+PERK: Wrapping_Paper
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk ReadAScenario Wrap_Positive_Perk
+Description: Consumable: Choose up to one positive value perk to lose and gain a Wrapped_Gift which turns into a new choice of 3 perks and 10 gold at the next map (Doesn't work in battles) End
+Requirement: MapLeft
+Value: 10
+End
+
+SCENARIO: Wrap_Positive_Perk
+Info: Lose a positive value perk and gain a wrapped gift End
+PerkImage: Wrapped_Gift
+End
+PERK_SELECTION: 
+TYPE: 2
+USES: 1
+NAME: WRAP_PERK
+INFO: Lose a positive value perk to gain a wrapped gift End
+VERB: wrap
+ACTION: Both LosePerk Target ObtainPerk PerkConstant Wrapped_Gift
+PERKREQ: IsLarger ValueOfPerk Target 0 
+RESULTPERK: PerkConstant Wrapped_Gift
+End
+SEnd
+
+PERK: Ai_Reroll
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk
+GenerateAiCubeSetup 2
+Description: Consumable: Replace the AI starting cube setup with a new random one (any cubes currently in those slots are exiled) (Only works in battles) End
+Value: 10
+End
+
+PERK: Bottled_Medicine
+BelongsTo: Consumable
+ClickAction: Both LoseThisPerk ObtainPerk PerkConstant Eaten_Medicine
+Description: Consumable: Your starting leader has 1 regeneration in all future battles (this is a perk you gain) End
+Value: 10
+End
+
+PERK: Startup_Fund
+BelongsTo: Consumable
+ClickAction: If Not IsSmaller Currency 0 Both LoseThisPerk ChangeCurrency Subtraction 40 Currency
+Description: Consumable: If you don't have debt gain or lose gold to set your gold to exactly 40 End
+Value: 10
+End
+
+PERK: Taxes
+BelongsTo: Consumable
+ClickAction: Both LoseThisPerk ChangeCurrency Multiplication 2 AmountOfCubesInInventoryWhich True
+Description: Consumable: Gain 2 gold per cube you have (Currently: + \B \D Multiplication 2 AmountOfCubesInInventoryWhich True gold) End
+Value: 10
+End
+
+PERK: Bottled_Bricks
+BelongsTo: Consumable
+ClickAction: If BattleOngoing Both LoseThisPerk Both
+ XTimes 10 AddCubeToHandOfFaction FreeCopy CubeConstant Brick_Wall 1
+ EveryCubeWhich IsAlly Test SetName NameOfCube CubeConstant Brick_Wall
+Description: Consumable: Add 10 free Brick_Wall to your hand and set the name of every ally to Brick_Wall (Only works in battles) End
+Value: 5
+End
+
+PERK: Tin_Key
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk ReadAScenario Cube_Forge
+Description: Consumable: Encounter a forge except it only offers random cube upgrades (Doesn't work in battles) End
+Value: 15
+End
+
+SCENARIO: Cube_Forge
+Info: Cube only Forge: Upgrade random cubes End
+CubeImage: Forge
+End
+PERK_SELECTION: 
+TYPE: 0
+ACTION: SetCampaignVariable FORGEDALREADY 1
+COSTMULT: 1 
+PERKREQ: False
+CUBEUPGRADEAMOUNT: RoundedDown Division AmountOfCubesInInventoryWhich True 2
+CUBECOST: Addition Multiplication 40 GetCampaignVariable FORGEDALREADY
+ Addition Minus 40
+  Multiplication 2 ValueOfPerk Target
+INFO: Spend gold to upgrade random cubes (first each run costs 40 less) End
+End
+SEnd

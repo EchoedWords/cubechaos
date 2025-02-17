@@ -1,0 +1,395 @@
+COMPOUND: ABILITY
+TeleportTarget
+Nothing
+Text: \C255 0 220 Teleportation Target \CN End
+LOCAL
+End
+
+COMPOUND: ABILITY
+EvolveMoil
+AfterThisIsCreated Both Both
+ EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Evolve_Moil GenericAction
+ TargetCube Caster EveryCubeInHandOfFactionWhich FactionOfThis HasAbilityWithName Test EvolveMoil RemoveCubeFromHandOfFaction Target FactionOfThis
+Exile
+Text: After this is created Evolve_Moil in your hand gain: \N CODE 1 \N then remove all mutations from your hand and exile this End
+NORANDOM
+End
+
+COMPOUND: ABILITY
+Catapulted
+ChargeEveryX 20
+ExtraTrigger: AfterThisMoves If Not IsPositionEmpty PositionInDirectionFromPosition GravityDirection PositionOfThis
+Both RemoveAbilityWithName Arcing
+Both SetVariable ARCING DoubleConstant 0
+Both GainAbility DieAfterX 3600
+RemoveThisAbility
+Text: Moves forwards 3 times per second until this hits the ground, when it does this dies after 1 minute End
+LOCAL
+End
+
+COMPOUND: ABILITY
+Summoning_Circle_Combine
+EveryXSeconds DoubleConstant 10 If IsAllyToCaster CubeInDirectionFromCube North Caster If Not IsALeader CubeInDirectionFromCube North Caster
+If IsAllyToCaster CubeInDirectionFromCube Forwards Caster If Not IsALeader CubeInDirectionFromCube Forwards Caster
+If IsAllyToCaster CubeInDirectionFromCube South Caster If Not IsALeader CubeInDirectionFromCube South Caster
+If IsAllyToCaster CubeInDirectionFromCube Backwards Caster If Not IsALeader CubeInDirectionFromCube Backwards Caster
+Both RemoveThisAbility
+SetStorage Caster
+Both EveryCubeTouchingPosition PositionOfThis SetStorage CombinationOf2Cubes Storage Target Exile
+Both TargetCube Caster Exile 
+CreateCubeOnPosition Storage PositionOfThis
+Text: Every 10 seconds, if there are 4 touching non leader allies, lose this ability and exile them and this to create a combination of all of those cubes End
+Visual: Target 0 -1 255 255 255
+Visual: Target 1 0 255 255 255
+Visual: Target 0 1 255 255 255
+Visual: Target -1 0 255 255 255
+NO_DUPLICATES
+End
+
+COMPOUND: ABILITY
+Sticky
+BeforeThisMovesNegation If Or Or Or
+And CubeExists CubeInDirectionFromCube North Caster Not HasAbilityWithName CubeInDirectionFromCube North Caster Sticky
+And CubeExists CubeInDirectionFromCube East Caster Not HasAbilityWithName CubeInDirectionFromCube East Caster Sticky
+And CubeExists CubeInDirectionFromCube South Caster Not HasAbilityWithName CubeInDirectionFromCube South Caster Sticky
+And CubeExists CubeInDirectionFromCube West Caster Not HasAbilityWithName CubeInDirectionFromCube West Caster Sticky
+NegateX DoubleConstant 100
+Text: Sticky: Can't move while touching a not sticky cube End
+LOCAL
+NO_DUPLICATES
+End
+
+COMPOUND: ABILITY
+InvertedMovement
+EveryMinute RemoveThisAbility
+ExtraTrigger: BeforeACubeMoves If IsSameCube Culprit Caster Both NegateX DoubleConstant 1 TargetCube Victim MoveInDirection ReverseDirection EventDirection
+Text: Inverted Movement: Before this moves a cube (even itself) instead move that cube in the opposite direction. Remove this ability after 1 minute End
+LOCAL
+NO_DUPLICATES
+End
+
+COMPOUND: ABILITY
+TheInheritor
+Nothing
+Text: \C255 0 220 Inheritor: \CN Cubes created by this cube won't inherit abilities End
+NO_DUPLICATES
+LOCAL
+End
+
+COMPOUND: ABILITY
+TheParasite
+Nothing
+Text: \C255 0 220 Parasite: \CN Can't benefit from the Parasite perk anymore End
+NO_DUPLICATES
+LOCAL
+End
+
+COMPOUND: ABILITY
+Ensouled
+Nothing
+Text: \C255 0 220 Ensouled: \CN Can't be resurrected by the world soul ability anymore End
+NO_DUPLICATES
+LOCAL
+End
+
+
+COMPOUND: ABILITY
+ShowCERTAINTY
+Nothing
+Text: Stored Certainty: VARIABLE CERTAINTY % End
+NO_DUPLICATES
+NORANDOM
+End
+
+COMPOUND: ABILITY
+MothBound
+EverySecond IfElse IsPositionEmpty PositionInDirectionFromPosition North PositionOfThis MoveInDirection North Die
+ExtraTrigger: BeforeThisMovesNegation If Not IsSameDirection EventDirection North NegateX DoubleConstant 1
+Text: Mothbound: Every second move upwards, when this can't this dies, can't move in any direction but upwads End
+LOCAL
+End
+
+COMPOUND: ACTION
+SufferXWounds
+Both If Not HasPerk PerkConstant Wounded ObtainPerk PerkConstant Wounded ChangeCampaignVariable WOUNDS GenericConstant
+End
+
+COMPOUND: ABILITY
+Recovery
+EveryMinute Both RemoveThisAbility Both HealXDamage 1 ChangeMaxHp 1
+Text: \C0 254 33 Recovery: \CN After 1 minute lose this ability, heal 1 hp and gain 1 max hp End
+LOCAL
+End
+
+COMPOUND: ABILITY
+KillstreakDecay
+Every10Seconds Both RemoveThisAbility SetVariable KILLSTREAK DoubleConstant 0
+Text: \C220 120 120 Killstreak: VARIABLE KILLSTREAK \B : \CN After 10 seconds without killing this loses all Killstreak End
+NO_DUPLICATES
+LOCAL
+End
+
+COMPOUND: ABILITY
+SpatialDuplicationError
+EveryXSeconds DoubleConstant 5 Both RemoveThisAbility CreateCubeOnPosition Caster PositionInDirectionFromPosition South PositionOfCube Caster
+Text: \C100 200 20 Spatial Duplication Error \B : \CN After 5 seconds this loses this ability and creates a copy of this below End
+NO_DUPLICATES
+LOCAL
+End
+
+COMPOUND: ABILITY
+Diceicate
+AfterThisIsCreated Both EveryCubeInHandOfFactionWhich FactionOfThis And HasNameOfCube Test Caster HasAbilityWithName Test Diceicate
+ RemoveCubeFromHandOfFaction Target FactionOfThis
+TargetCube ARandomCubeInLibraryWhich And Not IsToken Test IsNotInHandOfThis Test
+ Both GainAllAbilitiesOfCube CubeConstant Diceicate
+ AddCubeToHandOfFactionInfinitly Target FactionOfThis
+Text: Dicicate: After this is created remove all cubes with this ability and the same name from your hand and add a random cube to your hand which has all abilities of Diceicate End
+LOCAL
+End
+
+COMPOUND: ABILITY
+Rerolling
+AfterThisIsCreated Both EveryCubeInHandOfFactionWhich FactionOfThis And HasNameOfCube Test Caster HasAbilityWithName Test Rerolling
+ RemoveCubeFromHandOfFaction Target FactionOfThis
+TargetCube ARandomCubeInLibraryWhich And Not IsToken Test IsNotInHandOfThis Test
+ Both GainAllAbilitiesOfCube CubeConstant Rerolling_Example
+ AddCubeToHandOfFactionInfinitly Target FactionOfThis
+Text: Rerolling: After this is created replace all cubes, with this ability and the same name, from your hand with a random cube which has this ability End
+LOCAL
+End
+
+COMPOUND: ABILITY
+CheapRerolling
+AfterThisIsCreated Both EveryCubeInHandOfFactionWhich FactionOfThis And HasNameOfCube Test Caster HasAbilityWithName Test CheapRerolling
+ RemoveCubeFromHandOfFaction Target FactionOfThis
+TargetCube ARandomCubeInLibraryWhich And Not IsToken Test IsNotInHandOfThis Test
+ Both GainAllAbilitiesOfCube CubeConstant CheapRerolling_Example
+ Both ChangeManaCost Division ManaCostOfCube Target DoubleConstant -2
+ AddCubeToHandOfFactionInfinitly Target FactionOfThis
+Text: CheapRerolling: After this is created replace all cubes, with this ability and the same name, from your hand with a random half cost cube which has this ability End
+LOCAL
+End
+
+COMPOUND: ABILITY
+JellyGravityX
+ EveryXSeconds DoubleConstant 20 Both RemoveThisAbility XTimes GenericStacking MoveInDirection ReverseDirection DirectionFromDouble GetVariableOnCube GRAVITY WorldCube
+Text: \C155 238 255 Jelly Gravity: \CN After 20 seconds move against gravity \C155 238 255 STACKING 1 \CN times (Usually upwards) and lose this ability End
+LOCAL
+End
+
+COMPOUND: ABILITY
+Chained
+BeforeThisMovesNegation If IsSameDirection South EventDirection
+If HasAbilityWithName CubeInDirectionFromCube North Caster Chained
+If Not IsSameCube Culprit CubeInDirectionFromCube North Caster
+NegateX DoubleConstant 1
+ExtraTrigger: BeforeThisMoves TargetCube CubeOfPosition PositionInDirectionFromPosition South PositionOfThis
+If CubeExists Target If HasAbilityWithName Target Chained 
+If IsLarger EventAmount DoubleConstant 0
+MoveInDirection EventDirection
+Text: CHAINED: Before this moves if the cube below has CHAINED also move it. Can't move downwards if there is a cube with CHAINED above, except by that cube End 
+NO_DUPLICATES
+LOCAL
+End
+
+COMPOUND: ABILITY
+Inverted
+BeforeThisMoves Both NegateX DoubleConstant 100 
+SetCaster Culprit Secret MoveInDirection ReverseDirection EventDirection 
+ExtraTrigger: AfterACubeIsCreated If IsSameCube Caster Culprit TargetCube Victim GainThisAbility
+Text: \C0 254 255 Inverted: \CN Movement is inverted, cubes created by this also gain Inverted, can't be stacked End
+LOCAL
+NO_DUPLICATES
+End
+
+COMPOUND: ABILITY
+Guilty
+Nothing
+Text: \C255 0 0 Guilty: \CN This cube has dealt damage to enemies and has lost hp End
+NO_DUPLICATES
+LOCAL
+End
+
+COMPOUND: ABILITY
+ConstructionWorker
+EveryXSeconds DoubleConstant 10 GainXExtraHp DoubleConstant 1
+ExtraTrigger: AfterThisMoves RemoveThisAbility
+ExtraTrigger: AfterACubeIsCreated If IsPlaced If IsAllyToCaster Victim If IsAllyToCaster Culprit If Not IsSameCube Victim Caster RemoveThisAbility
+Text: \C30 102 0 Under Construction: \CN Every 10 seconds gain 1 extra hp, remove this ability after you place another cube or after this moves End
+LOCAL
+CubeColourShift: 0.2 30 102 0
+End
+
+COMPOUND: ABILITY 
+HarrowingPast
+EveryXSeconds DoubleConstant 20 Both RemoveThisAbility TakeXDamage GenericStacking 
+Text: \C100 50 50 Harrowing Past STACKING 1 \B : \CN After 20 seconds remove this ability and deal \C100 50 50 STACKING 1 damage \CN to this End
+LOCAL
+CubeColourShift: 0.1 0 0 0
+End
+
+COMPOUND: ABILITY
+RepeatingHarrowingPast
+EveryXSeconds DoubleConstant 20 TakeXDamage GenericStacking
+Text: \C100 50 50 Repeating Harrowing Past STACKING 1 \B : \CN Every 20 seconds deal \C100 50 50 STACKING 1 damage \CN to this End
+LOCAL
+CubeColourShift: 0.1 0 0 0
+End
+
+COMPOUND: ABILITY
+FactoryWorker
+EveryXSeconds Multiplication DoubleConstant 3 ManaCostOfCube Caster CreateCubeOnPosition Caster PositionInDirectionFromPosition Forwards PositionOfThis
+ExtraTrigger: AfterACubeIsCreated If IsPlaced If IsAllyToCaster Victim If IsAllyToCaster Culprit If Not IsSameCube Victim Caster RemoveThisAbility
+Text: \C102 102 102 Factorizing: \CN Every X seconds replicate forwards, X is thrice this cubes manacost. Remove this ability after you place another cube End
+Visual: Square 1 0 96 96 96
+LOCAL
+CubeColourShift: 0.3 96 96 96
+End
+
+COMPOUND: ABILITY
+FastFactoryWorker
+EveryXSeconds Multiplication DoubleConstant 2 ManaCostOfCube Caster CreateCubeOnPosition Caster PositionInDirectionFromPosition Forwards PositionOfThis
+ExtraTrigger: AfterACubeIsCreated If IsPlaced If IsAllyToCaster Victim If IsAllyToCaster Culprit If Not IsSameCube Victim Caster RemoveThisAbility
+Text: \C102 102 102 Rapidly Factorizing: \CN Every X seconds replicate forwards, X is twice this cubes manacost. Remove this ability after you place another cube End
+Visual: Square 1 0 96 96 96
+LOCAL
+CubeColourShift: 0.3 96 96 96
+End
+
+COMPOUND: ABILITY
+HospitalWorker
+EveryXSeconds DoubleConstant 4 HealXDamage DoubleConstant 1
+ExtraTrigger: AfterACubeTakesDamage If IsAllyToCaster Victim RemoveThisAbility
+Text: \C0 254 33 Healing: \CN Every 4 seconds heal 1 hp. Remove this ability after an ally takes damage End
+LOCAL
+CubeColourShift: 0.3 0 254 33
+End
+
+COMPOUND: ABILITY
+PrioritisingHospitalWorker
+EveryXSeconds DoubleConstant 4 HealXDamage DoubleConstant 1
+ExtraTrigger: AfterACubeTakesDamage If IsAllyToCaster Victim If Not IsALeader Victim If IsSmaller HpOfCube Victim HpOfCube Caster RemoveThisAbility
+Text: \C0 254 33 Healing: \CN Every 4 seconds heal 1 hp. Remove this ability after a non leader ally takes damage and now has less hp End
+LOCAL
+CubeColourShift: 0.3 0 254 33
+End
+
+COMPOUND: ABILITY
+CantMoveHorizontally
+BeforeThisMovesNegation If Or IsSameDirection East EventDirection IsSameDirection West EventDirection NegateX DoubleConstant 100
+Text: Can't move horizontally End
+NO_DUPLICATES
+LOCAL
+End
+
+COMPOUND: ABILITY
+Prophecy
+AfterThisIsCreated If IsPlaced Both Both Both
+ RefundX Division ManaCostOfCube Caster DoubleConstant 3
+ RemoveThisAbility
+ TargetCube ARandomCubeInHandOfFactionWhich FactionOfCube Culprit HasAbilityWithName Test Prophecy SetStorage Target RemoveAbilityWithName Prophecy
+ TargetCube ARandomCubeInHandOfFactionWhich FactionOfCube Culprit Not IsSameCube Storage Test GainAllAbilitiesOfCube CubeConstant Prophecy
+Text: Prophecy: After this is placed refund a third of the manacost, then this ability moves to another random cube in your hand End
+LOCAL
+CubeColourShift: 0.2 255 255 255
+End
+
+COMPOUND: ABILITY
+RedMark
+BeforeThisDealsDamage If IsSmaller EventAmount GenericStacking NegateX Subtraction EventAmount GetStackingOfAbilityOnCube RedMark Caster
+Text: \C255 0 0 Red_Mark: \CN Before this deals damage raise that damage to \C255 0 0 STACKING 1 \CN End
+NO_DUPLICATES
+LOCAL
+End
+
+COMPOUND: ABILITY
+LoseGolden
+AfterThisIsCreated If IsPlaced TargetCube ARandomCubeInHandOfFactionWhich FactionOfThis HasNameOfCube Test Caster Both RemoveAbilityWithName Golden
+ RemoveAbilityWithName LoseGolden
+Text: After this is placed a random cube in your hand with the same name loses \C255 238 0 Golden \CN and this ability End
+NO_DUPLICATES
+LOCAL
+End
+
+COMPOUND: ABILITY
+Shield_Snake_Head
+AfterThisCreates If HasAbilityWithName Victim Shield_Snake_Head RemoveThisAbility
+Text: Shield_Snake_Head End
+NO_DUPLICATES
+LOCAL
+CubeColourShift: 0.6 250 100 100
+End
+
+COMPOUND: ABILITY
+BloodX 
+Counter GenericStacking
+Text: \C215 0 0 Blood: STACKING 1 End
+LOCAL
+End
+
+COMPOUND: ABILITY
+Starcurse
+EveryTick EveryXTimesSteady RandomRoundBetweenXtoY DoubleConstant 60 DoubleConstant 120 
+CreateCubeOnPosition CopyWithAction CubeConstant Falling_Star SetFaction EnemyFaction TopPositionAboveCube Target
+Text: \C0 0 150 Starcurse \CN Every 1 to 2 seconds create a 0.1 damage enemy projectile at the top of the map above this, flying towards this End
+CubeColourShift: 0.6 0 0 50
+End
+
+COMPOUND: ABILITY 
+DelayedDamageX
+EveryXSeconds DoubleConstant 20 Both TakeXDamage GenericDouble RemoveThisAbility
+Text: \C100 50 50 DelayedDamage CODE 1 \B : \CN After 20 seconds deal \C100 50 50 CODE 1 \CN damage to this and remove this ability End
+LOCAL
+CubeColourShift: 0.1 0 0 0
+End
+
+COMPOUND: ABILITY
+Doomed
+EverySecond Both 1Shot Die XDelay DoubleConstant 2 Exile
+Text: \C100 50 50 Doomed: \CN After 1 second this dies, after 2 this is exiled (if its still around) End
+LOCAL
+CubeColourShift: 0.5 0 0 0
+End
+
+COMPOUND: ABILITY
+SlowDoomed
+EveryXSeconds DoubleConstant 3 Both 1Shot Die XDelay DoubleConstant 3 Exile
+Text: \C100 50 50 SlowDoomed: \CN After 3 second this dies, after 6 this is exiled (if its still around) End
+LOCAL
+CubeColourShift: 0.3 0 0 0
+End
+
+COMPOUND: ABILITY
+Unstable_Blast
+EveryMinute TargetCube ARandomEnemy TakeXDamage Division ManaCostOfCube Caster 2
+ExtraTrigger: AfterThisDealsDamage RemoveThisAbility
+Text: Every minute deal half this cubes manacost to a random enemy, remove this ability if this deals damage in any way End
+LOCAL
+End
+
+COMPOUND: ABILITY
+Undefeated
+BeforeThisDies IfElse IsType Doomed RemoveThisAbility NegateX 1
+ExtraTrigger: AfterThisTakesDamage RemoveThisAbility
+Text: Undefeated: Can't die until damaged or killed directly End
+LOCAL
+End
+
+COMPOUND: ABILITY
+TwiceUndefeated
+BeforeThisDies Both NegateX 1 
+ If IsType Doomed
+  EveryXTimes 2 Both RemoveThisAbility NegateX -1
+ExtraTrigger: AfterThisTakesDamage EveryXTimes 2 RemoveThisAbility
+Text: Twice Undefeated: Can't die until damaged twice or killed directly twice End
+LOCAL
+End
+
+COMPOUND: ABILITY
+SpikyFactory
+EveryXCreateCubeAbove TimeConstant 1980 CubeConstant Spike_Ball_Projectile
+Text: SpikyFactory: Every 33 seconds create a Spike_Ball_Projectile above End
+CubeColourShift: 0.4 70 70 70
+LOCAL
+End

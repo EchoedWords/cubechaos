@@ -1,0 +1,1198 @@
+Screenshot Scenarios
+
+SCENARIO: Marketing
+Info: Scenario used to create screenshots and the trailer End
+STARTINGPOINT
+End
+
+CAMPAIGN:
+
+STARTING_LIVES: 3
+
+PERK: Reroll_Cost_Increase
+PERK: Terrain_Depth_Generation
+PERK: Debt_Effects
+PERK: Gravity
+PERK: Spell_Ghosts
+PERK: Screenshot_Timing
+
+End
+
+PERK_SELECTION: 
+TYPE: 1 
+End
+
+START_ACTION: Both ReadAScenario Screenshot_Selection ReadAScenario Class_Species_Selection
+
+SEnd
+
+SCENARIO: Screenshot_Selection
+End
+CHOICE: 
+Screenshots time End
+Select screenshot scenario End
+CubeImage: The_Vortex
+Choice: Screenshot 1 End ReadAScenario Screenshot_C
+Choice: Screenshot 2 End Both ObtainPerk PerkConstant AI_Scrambler ReadAScenario Screenshot_D
+Choice: Screenshot 3 End ReadAScenario Screenshot_B
+Choice: Screenshot 7 End ReadAScenario Screenshot_A
+Choice: Trailer 1 End ReadAScenario Trailer_A
+Choice: Trailer 2 End ReadAScenario Trailer_B
+Choice: Trailer 3 End ReadAScenario Trailer_C
+Choice: Trailer 4 End ReadAScenario Campaign
+Choice: Trailer 5 End Both Both Both ObtainPerk PerkConstant Curse_Of_Resilience ObtainPerk PerkConstant Tiny_Mana_Battery ObtainPerk PerkConstant Crow_Lord ReadAScenario Trailer_E
+Choice: Trailer 6 End
+Both ObtainPerk PerkConstant The_Bees 
+Both XTimes DoubleConstant 3 ObtainPerk PerkConstant Dagger_Rain 
+Both ObtainPerk PerkConstant Curse_Of_Wounds
+Both ObtainPerk PerkConstant Kinetic_Negator
+ ReadAScenario Trailer_F
+Choice: Trailer 7 End Both ObtainPerk PerkConstant Manifold_String
+Both ObtainPerk PerkConstant Laser_Cross
+Both ObtainPerk PerkConstant Bag_Of_Gold
+Both ObtainPerk PerkConstant Bottled_Slime
+Both ObtainPerk PerkConstant Bottled_Home
+ReadAScenario Trailer_G
+Choice: Trailer 8 End Both ObtainPerk PerkConstant The_Inverted
+Both ObtainPerk PerkConstant Time_Box
+Both ObtainPerk PerkConstant Tiny_Mana_Dampener
+Both ObtainPerk PerkConstant Chaos_Key
+Both ObtainPerk PerkConstant Curse_Of_Curses
+Both ObtainPerk PerkConstant Tiny_Mana_Dampener
+Both ObtainPerk PerkConstant Asphyxiate
+Both ObtainPerk PerkConstant Curse_Of_Rerolls
+Both ObtainPerk PerkConstant Pocket_Mirror
+Both ObtainPerk PerkConstant Pocket_Mirror
+Both ObtainPerk PerkConstant Pocket_Mirror
+Both ObtainPerk PerkConstant Pocket_Mirror
+ReadAScenario Trailer_H
+Choice: Store Gif A End ReadAScenario Gif_A
+Choice: Sky_Background End ReadAScenario Sky_Background
+SEnd
+
+
+SCENARIO: Screenshot_A
+Info: Chronomancer-No_Species.
+ End
+End
+
+MAP: 52 28
+
+CUBE: 1 Difficulty_Leader 
+CUBE: 2 Earth
+CUBE: 3 Rock
+CUBE: 4 Grave_Runed_Wall
+CUBE: 5 Diagonal_Field_Generator
+CUBE: 6 Armored_Eye
+CUBE: 7 Acceleration_Pedestal
+CUBE: 8 Death_Incarnation
+
+// Two additional Eyes //
+
+DATARECT: 7 1  2 21  3 1 
+DATARECT: 6 1  2 20  2 1 
+
+// Eye Pyramid Cone //
+
+DATARECT: 4 1  6 21  7 3
+
+DATARECT: 7 1  9 21  1 2 
+DATARECT: 6 1  9 20  1 1 
+
+DATA: 5  10 22  1
+DATA: 5  8 22  1
+
+DATARECT: 4 1  6 20  2 1
+DATA: 5  8 20  1
+DATA: 5  10 20  1
+DATARECT: 4 1  11 20  2 1
+
+DATA: 4  6 19  1
+DATA: 5  7 19  1
+DATA: 5  11 19  1
+DATA: 4  12 19  1
+
+DATA: 5  6 18  1
+DATA: 5  12 18  1
+
+// 5 Deaths //
+
+DATARECT: 8 1  15 23  5 1
+
+// Enemy //
+
+// Terrain //
+
+DATARECT: 3 0  0 27  52 1
+
+DATARECT: 2 0  5 26  42 1
+DATARECT: 3 0  47 26  5 1
+DATARECT: 3 0  0 26  5 1
+
+DATARECT: 2 0  0 25  52 1
+DATARECT: 2 0  0 24  52 1
+
+DATARECT: 2 0  40 23  12 1
+DATARECT: 2 0  45 22  7 1
+
+DATARECT: 2 0  0 23  12 1
+DATARECT: 2 0  0 22  7 1
+
+// Players //
+
+CAMPAIGNSETUP: 1 21
+DATA: 1 51 21 2
+
+PLACERECT: 0 0 26 28 1
+PLACERECT: 26 0 26 28 2
+
+AI: 2 True
+SECONDARYREVEALEDHAND: 2
+
+// Hands //
+
+HAND: 1 1 -1 Grave_Runed_Wall
+HAND: 1 2 -1 Diagonal_Field_Generator
+HAND: 1 3 -1 Armored_Eye
+HAND: 1 4 -1 Acceleration_Pedestal
+HAND: 1 5 -1 Death_Incarnation
+HAND: 1 6 -1 Frozen_Breaths
+HAND: 1 7 -1 Time_Warp
+
+HAND: 2 1 -1 Shield_Congealer
+HAND: 2 2 -1 Liquid_Damage
+HAND: 2 3 -1 Replicrab
+HAND: 2 4 -1 Spiker_Wall
+
+STARTINGMAXMANA: 2 1000
+STARTINGMANA: 2 1000
+
+WORLDABILITY: NormalWinLoss
+WORLDABILITY: AfterYouLose EndCampaign
+WORLDABILITY: AfterYouWin EndCampaign
+
+FALSELEVEL: 20
+
+EndMapData
+
+START_ACTION: Both Both Both
+SetCampaignVariable DIFFICULTY DoubleConstant 3 
+SetCampaignVariable NIGHTMARES DoubleConstant 1 
+ChangeWorldTime TimeConstant 76422
+LoseALife
+
+SEnd
+
+SCENARIO: Screenshot_B
+Info: Priest-Plant.
+ End
+End
+
+MAP: 52 28
+
+CUBE: 1 Boss 
+CUBE: 2 Earth
+CUBE: 3 Rock
+CUBE: 4 Sky_Platform
+CUBE: 5 Song_Of_Rats
+CUBE: 6 Healing_Container
+CUBE: 7 Shrine_To_Recovery
+CUBE: 8 Plant_Warrior
+CUBE: 9 Thorn_Hedge 
+CUBE: 10 Thorn_Leaves
+
+// Ground Forces //
+
+DATA: 7  0 21  1 
+
+DATARECT: 9 1  3 21  3 1
+DATARECT: 10 1  3 20  3 1
+
+DATARECT: 9 1  8 22  3 1
+DATARECT: 10 1  8 21  3 1
+
+DATA: 8  12 23  1
+
+DATARECT: 9 1  14 23  3 1
+DATARECT: 10 1  14 22  3 1
+
+DATA: 8  18 23  1
+
+// Sky Platform //
+
+DATARECT: 4 1  5 15  9 1
+
+DATARECT: 6 1  5 14  5 1
+DATARECT: 6 1  6 13  2 1
+
+DATARECT: 9 1  10 14  3 1
+DATARECT: 10 1  10 13  1 1
+
+// Missiles //
+
+CUBE: 11 Scrappy_Missile
+
+DATA: 11  29 23  2
+
+DATA: 11  25 14  2
+
+// Terrain //
+
+DATARECT: 3 0  0 27  52 1
+
+DATARECT: 2 0  5 26  42 1
+DATARECT: 3 0  47 26  5 1
+DATARECT: 3 0  0 26  5 1
+
+DATARECT: 2 0  0 25  52 1
+DATARECT: 2 0  0 24  52 1
+
+DATARECT: 2 0  40 23  12 1
+DATARECT: 2 0  45 22  7 1
+
+DATARECT: 2 0  0 23  12 1
+DATARECT: 2 0  0 22  7 1
+
+// Players //
+
+CAMPAIGNSETUP: 1 21
+DATA: 1 51 21 2
+
+PLACERECT: 0 0 26 28 1
+PLACERECT: 26 0 26 28 2
+
+AI: 2 True
+SECONDARYREVEALEDHAND: 2
+
+// Hands //
+
+HAND: 1 1 -1 Sky_Platform
+HAND: 1 2 -1 Song_Of_Rats
+HAND: 1 3 -1 Healing_Container
+HAND: 1 4 -1 Shrine_To_Recovery
+HAND: 1 5 -1 Plant_Warrior
+HAND: 1 6 -1 Thorn_Hedge 
+
+HAND: 2 1 -1 Crystal_Wall
+HAND: 2 2 -1 Charging_Gun
+HAND: 2 3 -1 Armored_Giant_Fly
+
+STARTINGMAXMANA: 2 2000
+STARTINGMANA: 2 2000
+
+STARTINGMANA: 1 70
+
+WORLDABILITY: NormalWinLoss
+WORLDABILITY: AfterYouLose EndCampaign
+WORLDABILITY: AfterYouWin EndCampaign
+WORLDABILITY: AtTheStartOfTheBattle EveryCubeWhich CubeHasName Test Scrappy_Missile GainAbility FrozenX 3
+
+FALSELEVEL: 1
+
+EndMapData
+
+START_ACTION: Both
+SetCampaignVariable DIFFICULTY DoubleConstant 3 
+ChangeWorldTime TimeConstant 12422
+
+SEnd
+
+SCENARIO: Screenshot_C
+Info: Pyromaniac-Dwarf.
+ End
+End
+
+MAP: 52 28
+
+CUBE: 1 Boss 
+CUBE: 2 Earth
+CUBE: 3 Rock
+CUBE: 4 Sabotage_Agent
+CUBE: 5 Dwarven_Warrior
+CUBE: 6 Down_Laser
+CUBE: 7 Spikes
+CUBE: 8 Medium_Warrior_Slime
+CUBE: 9 Bullet
+CUBE: 10 Stone
+
+// Sabotage Agents //
+
+DATARECT: 4 1  3 21  3 1
+
+// Wall //
+
+DATARECT: 10 1  11 17  3 4 
+DATARECT: 10 1  10 20  4 4 
+
+DATARECT: 6 1  13 18  1 3
+
+DATARECT: 7 1  14 23  3 1
+
+// Warriors //
+
+DATA: 5  8 22  1
+DATA: 5  11 16  1
+DATA: 5  13 16  1
+
+// Attackers //
+
+DATA: 8  18 23  2
+DATA: 8  22 23  2
+DATA: 8  24 23  2
+
+// Terrain //
+
+DATARECT: 3 0  0 27  52 1
+
+DATARECT: 2 0  5 26  42 1
+DATARECT: 3 0  47 26  5 1
+DATARECT: 3 0  0 26  5 1
+
+DATARECT: 2 0  0 25  52 1
+DATARECT: 2 0  0 24  52 1
+
+DATARECT: 2 0  40 23  12 1
+DATARECT: 2 0  45 22  7 1
+
+DATARECT: 2 0  0 23  12 1
+DATARECT: 2 0  0 22  7 1
+
+// Players //
+
+CAMPAIGNSETUP: 1 21
+DATA: 1  51 21  2
+
+PLACERECT: 0 0 26 28 1
+PLACERECT: 26 0 26 28 2
+
+AI: 2 True
+SECONDARYREVEALEDHAND: 2
+
+// Hands //
+HAND: 1 1 -1 Diagonal_Down_Laser_Beam
+HAND: 1 2 -1 Bullet
+HAND: 1 3 -1 Gift
+
+HAND: 2 1 -1 Medium_Warrior_Slime
+
+FALSELEVEL: 1
+
+WORLDABILITY: NormalWinLoss
+WORLDABILITY: AfterYouLose EndCampaign
+WORLDABILITY: AfterYouWin EndCampaign
+WORLDABILITY: AtTheStartOfTheBattle Both EveryCubeWhich IsEqual FactionOfCube Test DoubleConstant 0 Secret GainAbility ArmorX 1
+XTimes DoubleConstant 3 LoseALife
+EndMapData
+
+SEnd
+
+
+SCENARIO: Screenshot_D
+Info: Warrior-Devourer.
+ End
+End
+
+MAP: 52 28
+
+CUBE: 1 Difficulty_Leader 
+CUBE: 2 Earth
+CUBE: 3 Rock
+CUBE: 4 Toothy_Barrier
+CUBE: 5 Brick_Wall
+CUBE: 6 Tiny_Castle
+CUBE: 7 Castle_Knight
+
+// Heart //
+
+DATA: 4  0 20  1
+DATA: 4  1 20  1
+DATA: 4  1 19  1
+
+// Castle //
+
+DATARECT: 4 1  7 22  7 1
+DATARECT: 4 1  12 21  2 3
+DATARECT: 5 1  14 21  1 3
+
+DATARECT: 6 1  8 21  5 1
+
+
+// Enemy //
+
+// Terrain //
+
+DATARECT: 3 0  0 27  52 1
+
+DATARECT: 2 0  5 26  42 1
+DATARECT: 3 0  47 26  5 1
+DATARECT: 3 0  0 26  5 1
+
+DATARECT: 2 0  0 25  52 1
+DATARECT: 2 0  0 24  52 1
+
+DATARECT: 2 0  40 23  12 1
+DATARECT: 2 0  45 22  7 1
+
+DATARECT: 2 0  0 23  12 1
+DATARECT: 2 0  0 22  7 1
+
+// Players //
+
+CAMPAIGNSETUP: 1 21
+DATA: 1  51 21  2
+
+PLACERECT: 0 0 26 28 1
+PLACERECT: 26 0 26 28 2
+
+AI: 2 True
+SECONDARYREVEALEDHAND: 2
+
+// Hands //
+
+HAND: 1 1 -1 Tiny_Castle
+HAND: 1 2 -1 Toothy_Barrier
+HAND: 1 3 -1 Strange_Crawler
+HAND: 1 4 -1 Leaders_Retreat
+
+HAND: 2 1 -1 Laser
+HAND: 2 2 -1 Bush
+HAND: 2 3 -1 Slime_Transport_Belt
+HAND: 2 4 -1 Wall_Shield_Congealer
+
+STARTINGMAXMANA: 2 500
+STARTINGMANA: 2 500
+
+FALSELEVEL: 1
+
+WORLDABILITY: NormalWinLoss
+WORLDABILITY: AfterYouLose EndCampaign
+WORLDABILITY: AfterYouWin EndCampaign
+WORLDABILITY: AtTheStartOfTheBattle Both EveryCubeWhich IsEqual FactionOfCube Test DoubleConstant 0 Secret GainAbility ArmorX 1
+XTimes DoubleConstant 3 LoseALife
+EndMapData
+
+SEnd
+
+
+TRAILER
+TRAILER
+TRAILER
+
+SCENARIO: Trailer_A
+Info: Priest_Dwarf.
+ End
+End
+
+MAP: 52 28
+
+CUBE: 1 Difficulty_Leader 
+CUBE: 2 Earth
+CUBE: 3 Rock
+CUBE: 4 Dwarven_Warrior
+CUBE: 5 Popup_Turret
+CUBE: 6 Growth_Container
+CUBE: 7 Earth
+CUBE: 8 Stone
+CUBE: 9 Blast_Mortar
+
+CUBE: 10 Medium_Warrior_Slime
+CUBE: 11 Brick_Wall
+CUBE: 12 Radioactive_Laser
+
+// Terrain //
+
+DATARECT: 3 0  0 27  52 1
+
+DATARECT: 2 0  5 26  42 1
+DATARECT: 3 0  47 26  5 1
+DATARECT: 3 0  0 26  5 1
+
+DATARECT: 2 0  0 25  52 1
+DATARECT: 2 0  0 24  52 1
+
+DATARECT: 2 0  40 23  12 1
+DATARECT: 2 0  45 22  7 1
+
+DATARECT: 2 0  0 23  12 1
+DATARECT: 2 0  0 22  7 1
+
+// Healers //
+
+DATA: 6 0 21 1
+DATA: 6 0 20 1
+DATA: 6 1 20 1
+DATA: 6 2 21 1
+DATA: 6 2 20 1
+
+// Mortars //
+
+DATA: 8 3 21 1
+DATA: 8 3 20 1
+DATA: 8 3 19 1
+DATA: 8 2 19 1
+DATA: 8 1 19 1
+DATA: 8 0 19 1
+DATA: 8 4 21 1
+DATA: 8 4 20 1
+DATA: 8 4 19 1
+DATA: 8 5 21 1
+DATA: 8 5 20 1
+DATA: 8 5 19 1
+DATA: 8 6 21 1
+DATA: 8 6 20 1
+DATA: 8 6 19 1
+
+DATA: 9 0 18 1
+DATA: 9 1 18 1
+DATA: 9 2 18 1
+DATA: 9 3 18 1
+DATA: 9 4 18 1
+DATA: 9 5 18 1
+
+DATA: 8 6 18 1
+
+// Turrets //
+
+DATA: 5 7 22 1
+DATA: 5 9 22 1
+DATA: 5 12 23 1
+DATA: 5 14 23 1
+DATA: 5 16 23 1
+
+// Warrior //
+
+DATA: 4 20 23 1
+
+// Enemy Warrior Front //
+
+DATA: 10 28 23 2
+
+// Enemy Wall //
+
+DATA: 12 37 23 2
+DATA: 12 37 22 2
+DATA: 12 37 21 2
+DATA: 12 37 20 2
+
+DATA: 11 37 19 2
+DATA: 11 38 23 2
+DATA: 11 38 22 2
+DATA: 11 38 21 2
+DATA: 11 38 20 2
+DATA: 11 38 19 2
+DATA: 11 50 21 2
+DATA: 11 50 20 2
+DATA: 11 51 20 2
+DATA: 11 39 20 2
+DATA: 11 39 19 2
+DATA: 11 40 19 2
+DATA: 11 39 21 2
+DATA: 11 39 23 2
+DATA: 11 39 22 2
+DATA: 11 40 22 2
+DATA: 11 40 21 2
+DATA: 11 40 20 2
+
+// Backline Goons //
+
+DATA: 10 37 18 2
+DATA: 10 39 18 2
+DATA: 10 47 21 2
+DATA: 10 42 22 2
+
+// Players //
+
+CAMPAIGNSETUP: 1 21
+DATA: 1 51 21 2
+
+PLACERECT: 0 0 26 28 1
+PLACERECT: 26 0 26 28 2
+
+AI: 2 True
+
+// Hands //
+
+HAND: 1 1 -1 Dwarven_Warrior
+HAND: 1 2 -1 Popup_Turret
+HAND: 1 3 -1 Growth_Container
+HAND: 1 4 -1 Stone
+HAND: 1 5 -1 Blast_Mortar
+
+HAND: 2 1 -1 Medium_Warrior_Slime
+HAND: 2 2 -1 Brick_Wall
+HAND: 2 3 -1 Strange_Crawler
+HAND: 2 4 -1 Laser
+
+STARTINGMAXMANA: 2 0
+STARTINGMANA: 2 0
+
+WORLDABILITY: AtTheStartOfTheBattle 
+Both EveryCubeWhich HasNameOfCube Test CubeConstant Blast_Mortar AccelerateX DoubleConstant 2900
+Both EveryCubeWhich And HasNameOfCube Test CubeConstant Stone IsPositionEmpty PositionInDirectionFromPosition East PositionOfCube Test Secret 
+ TakeXDamage RandomRoundBetweenXtoY DoubleConstant 3 DoubleConstant 19
+Both TargetCube ARandomCubeWhich And IsALeader Test IsEnemy Test Secret TakeXDamage DoubleConstant 40
+EveryCubeWhich And Not IsNeutral Test Not HasNameOfCube Test CubeConstant Dwarven_Warrior Secret GainAbility FrozenX 10
+
+WORLDABILITY: AfterACubeIsCreated If HasNameOfCube Victim CubeConstant Blast_Mortar_Projectile Secret TargetCube Victim GainAbility ChargeEveryX 25
+
+FALSELEVEL: 1
+
+EndMapData
+
+SEnd
+
+SCENARIO: Trailer_B
+Info: Cube Choice
+ End
+End
+
+CUBE_REWARD:
+DoubleConstant 2
+DoubleConstant 3
+DoubleConstant 1
+SEnd
+
+
+SCENARIO: Trailer_C
+Info: Perk Choice
+ End
+End
+
+PERK_REWARD: 
+SPECIFIC: False_Mirror
+SPECIFIC: Crow_Lord
+SPECIFIC: Bee_Hive
+End
+
+SEnd
+
+SCENARIO: Trailer_D
+Info: Crow Lord Strat, Wizard Undead, Picking Paths.
+ End
+End
+
+SEnd
+
+SCENARIO: Trailer_E
+Info: Crow Lord Strat, Wizard Undead.
+ End
+End
+
+MAP: 52 28
+
+CUBE: 1 Beach 
+CUBE: 2 Deep_Rock 
+CUBE: 3 Water 
+CUBE: 4 Wharf 
+CUBE: 5 Boat 
+CUBE: 6 Beach 
+CUBE: 7 Difficulty_Leader 
+CUBE: 8 Healer 
+CUBE: 9 Eternal_Wall 
+CUBE: 10 Mana_Cube 
+CUBE: 11 Reusable_Bear_Trap 
+CUBE: 12 Ananoran 
+CUBE: 13 Drill 
+CUBE: 14 Mana_Dampener 
+CUBE: 15 Hearts_Of_Sanctuary 
+DATARECT: 10 1 0 16 3 1 
+DATA: 10 0 17 1 
+DATARECT: 1 0 0 18 3 9 
+DATARECT: 2 0 0 27 52 1 
+DATA: 10 2 17 1 
+DATARECT: 1 0 3 19 7 3 
+DATARECT: 1 0 3 22 6 1 
+DATARECT: 1 0 3 23 5 1 
+DATARECT: 1 0 3 24 4 1 
+DATARECT: 1 0 3 25 3 2 
+DATARECT: 8 1 5 16 1 3 
+DATARECT: 9 1 6 16 1 3 
+DATA: 2 6 25 0 
+DATARECT: 3 0 6 26 40 1 
+DATARECT: 11 1 7 18 3 1 
+DATA: 2 7 24 0 
+DATARECT: 3 0 7 25 38 1 
+DATA: 2 8 23 0 
+DATARECT: 3 0 8 24 36 1 
+DATA: 2 9 22 0 
+DATARECT: 3 0 9 23 34 1 
+DATA: 4 10 19 1 
+DATA: 1 10 20 0 
+DATA: 2 10 21 0 
+DATARECT: 3 0 10 22 32 1 
+DATA: 5 11 19 1 
+DATARECT: 3 0 11 20 30 2 
+DATA: 12 25 18 2 
+DATA: 5 25 19 2 
+DATA: 12 30 18 2 
+DATA: 5 30 19 2 
+DATA: 12 36 18 2 
+DATA: 5 36 19 2 
+DATA: 5 40 19 2 
+DATA: 4 41 19 2 
+DATARECT: 1 0 41 20 11 1 
+DATA: 2 41 21 0 
+DATARECT: 1 0 42 19 10 1 
+DATARECT: 1 0 42 21 10 1 
+DATA: 2 42 22 0 
+DATARECT: 1 0 43 22 9 1 
+DATA: 2 43 23 0 
+DATARECT: 13 2 44 14 1 5 
+DATARECT: 1 0 44 23 8 1 
+DATA: 2 44 24 0 
+DATARECT: 14 2 45 16 2 3 
+DATARECT: 1 0 45 24 7 1 
+DATA: 2 45 25 0 
+DATARECT: 1 0 46 25 6 2 
+DATA: 15 49 17 2 
+DATARECT: 1 0 49 18 3 1 
+DATA: 7 51 17 2 
+
+// Players //
+CAMPAIGNSETUP: 1 17
+
+PLACERECT: 0 0 26 28 1
+PLACERECT: 26 0 26 28 2
+
+AI: 2 True
+
+// Hands //
+
+HAND: 1 1 -1 Mana_Cube
+HAND: 1 2 -1 Eternal_Wall
+HAND: 1 3 -1 Reusable_Bear_Trap
+HAND: 1 4 -1 Healer
+HAND: 1 5 -1 Assassination
+
+HAND: 2 1 -1 Ananoran
+HAND: 2 2 -1 Mana_Dampener
+HAND: 2 3 -1 Drill
+HAND: 2 4 -1 Hearts_Of_Sanctuary
+HAND: 2 5 -1 Fireball
+
+STARTINGMANA: 1 30
+
+WORLDABILITY: AtTheStartOfTheBattle 
+Both EveryCubeWhich And HasNameOfCube Test CubeConstant Eternal_Wall IsPositionEmpty PositionInDirectionFromPosition East PositionOfCube Test Secret 
+ TakeXDamage RandomRoundBetweenXtoY DoubleConstant 10 DoubleConstant 180
+Secret EveryCubeWhich HasNameOfCube Test CubeConstant Ananoran GainXExtraHp DoubleConstant 11
+
+
+FALSELEVEL: 1
+
+AI: 2 True
+SECONDARYREVEALEDHAND: 2
+
+EndMapData
+
+SEnd
+
+
+SCENARIO: Trailer_F
+Info: Bee Dagger Rain strat, Pyromaniac-Crystal
+ End
+End
+
+MAP: 52 28
+
+CUBE: 1 Basalt 
+CUBE: 2 Anchored_Basalt 
+CUBE: 3 Trapped_Evil 
+CUBE: 4 Leader 
+CUBE: 5 Difficulty_Leader 
+CUBE: 6 Bird_Ascension 
+CUBE: 7 Bush 
+CUBE: 8 Bee_Caller 
+CUBE: 9 Blood_Gear 
+CUBE: 10 Magic_Missile 
+CUBE: 11 Mana_Leech 
+CUBE: 12 Warp_Shield
+CUBE: 13 Eye_Of_Souls 
+
+DATARECT: 7 1 0 16 5 1 
+DATARECT: 1 0 0 22 52 6 
+DATA: 6 1 17 1 
+DATARECT: 9 1 3 20 1 2 
+DATARECT: 1 0 5 2 3 1 
+DATARECT: 1 0 5 3 1 14 
+DATARECT: 2 0 5 17 3 2 
+DATARECT: 8 1 5 19 5 1 
+DATARECT: 1 0 5 20 42 2 
+DATARECT: 3 0 6 3 1 13 
+DATARECT: 1 0 6 16 2 1 
+DATARECT: 1 0 7 3 1 13 
+DATARECT: 7 1 8 16 3 1 
+DATARECT: 8 1 8 17 2 2 
+DATARECT: 7 1 10 17 1 3 
+DATA: 10 26 5 2 
+DATA: 10 26 13 2 
+DATA: 11 28 19 2 
+DATA: 10 29 18 2 
+DATA: 10 30 5 2 
+DATA: 10 31 11 2 
+DATA: 11 32 19 2 
+DATA: 10 33 16 2 
+DATA: 11 34 19 2 
+DATA: 10 35 8 2 
+DATA: 10 38 18 2 
+DATARECT: 12 2 41 19 4 1 
+DATARECT: 12 2 42 18 2 1 
+DATA: 12 43 17 2 
+DATARECT: 1 0 44 2 3 1 
+DATARECT: 1 0 44 3 1 14 
+DATARECT: 2 0 44 17 3 2 
+DATARECT: 3 0 45 3 1 13 
+DATARECT: 1 0 45 16 2 1 
+DATARECT: 1 0 46 3 1 13 
+DATARECT: 13 2 47 21 3 1 
+DATA: 5 51 21 2 
+
+// Players //
+
+CAMPAIGNSETUP: 1 21
+DATA: 1 51 21 2
+
+PLACERECT: 0 0 26 28 1
+PLACERECT: 26 0 26 28 2
+
+AI: 2 True
+
+// Hands //
+
+HAND: 1 1 -1 Bush
+HAND: 1 2 -1 Bee_Caller
+HAND: 1 3 -1 Blood_Gear
+HAND: 1 4 -1 Bird_Ascension
+HAND: 1 5 -1 Disintegrate
+
+HAND: 2 1 -1 Warp_Shield
+HAND: 2 2 -1 Mana_Leech
+HAND: 2 3 -1 Eye_Of_Souls
+HAND: 2 4 -1 Magic_Missile
+
+
+WORLDABILITY: AtTheStartOfTheBattle 
+Both EveryCubeWhich HasNameOfCube Test CubeConstant Bush Secret GainAbility Flying
+EveryCubeWhich HasNameOfCube Test CubeConstant Bush Secret TakeXDamage RandomRoundBetweenXtoY DoubleConstant 1 DoubleConstant 3
+
+
+FALSELEVEL: 1
+
+AI: 2 True
+SECONDARYREVEALEDHAND: 2
+
+EndMapData
+
+START_ACTION: Both
+SetCampaignVariable DIFFICULTY DoubleConstant 5
+ChangeWorldTime TimeConstant 7423
+
+SEnd
+
+
+SCENARIO: Trailer_G
+Info: Sky Laser Strat, Crystal Engineer (CANNot BE PLANT ENGINEER)
+ End
+End
+
+MAP: 52 28
+CUBE: 1 Compressed_Snow 
+CUBE: 2 Rock 
+CUBE: 3 Ice 
+CUBE: 4 Snow 
+CUBE: 5 Leader 
+CUBE: 6 Scaffolding 
+CUBE: 7 Yellow_Moss 
+CUBE: 8 Earthen_Wave 
+CUBE: 9 Down_Laser 
+CUBE: 10 Eldritch_Arms 
+CUBE: 11 Summoning_Pedestal 
+CUBE: 12 Misery_Carrier 
+CUBE: 13 Logistics_System 
+
+DATA: 9 0 8 1 
+DATARECT: 6 1 0 9 2 1 
+DATA: 6 0 10 1 
+DATA: 7 0 16 1 
+DATA: 6 0 17 1 
+DATARECT: 1 0 0 22 8 1 
+DATARECT: 1 0 0 23 4 1 
+DATARECT: 1 0 0 24 3 1 
+DATARECT: 1 0 0 25 2 1 
+DATARECT: 2 0 0 26 1 2 
+DATA: 7 1 15 1 
+DATA: 6 1 16 1 
+DATA: 1 1 26 0 
+DATARECT: 2 0 1 27 51 1 
+DATA: 9 2 6 1 
+DATARECT: 6 1 2 7 2 1 
+DATA: 6 2 8 1 
+DATA: 7 2 14 1 
+DATA: 6 2 15 1 
+DATA: 7 2 21 1 
+DATARECT: 3 0 2 25 48 1 
+DATARECT: 3 0 2 26 4 1 
+DATARECT: 7 1 3 20 5 1 
+DATARECT: 4 0 3 21 5 1 
+DATARECT: 3 0 3 24 46 1 
+DATA: 9 4 4 1 
+DATARECT: 6 1 4 5 2 1 
+DATA: 6 4 6 1 
+DATARECT: 3 0 4 23 44 1 
+DATA: 9 6 2 1 
+DATARECT: 6 1 6 3 2 1 
+DATA: 6 6 4 1 
+DATA: 2 6 26 0 
+DATARECT: 3 0 7 26 5 1 
+DATA: 9 8 0 1 
+DATARECT: 6 1 8 1 2 1 
+DATA: 6 8 2 1 
+DATARECT: 7 1 8 21 9 1 
+DATA: 3 8 22 0 
+DATARECT: 1 0 9 22 2 1 
+DATA: 6 10 0 1 
+DATARECT: 3 0 11 22 6 1 
+DATA: 2 12 26 0 
+DATARECT: 3 0 13 26 3 1 
+DATA: 2 16 26 0 
+DATA: 6 17 21 1 
+DATA: 1 17 22 0 
+DATARECT: 3 0 17 26 7 1 
+DATARECT: 3 0 18 22 6 1 
+DATA: 8 19 21 1 
+DATA: 8 21 21 1 
+DATARECT: 1 0 24 22 4 1 
+DATA: 2 24 26 0 
+DATARECT: 3 0 25 26 2 1 
+DATA: 12 27 21 2 
+DATA: 2 27 26 0 
+DATARECT: 3 0 28 22 6 1 
+DATARECT: 3 0 28 26 7 1 
+DATA: 12 30 21 2 
+DATA: 12 32 21 2 
+DATA: 1 34 22 0 
+DATARECT: 10 2 35 21 6 1 
+DATARECT: 3 0 35 22 6 1 
+DATA: 2 35 26 0 
+DATARECT: 3 0 36 26 3 1 
+DATA: 2 39 26 0 
+DATARECT: 3 0 40 26 5 1 
+DATARECT: 12 2 41 20 2 1 
+DATARECT: 11 2 41 21 2 1 
+DATARECT: 1 0 41 22 2 1 
+DATA: 3 43 22 0 
+DATARECT: 4 0 44 21 5 1 
+DATARECT: 1 0 44 22 8 1 
+DATA: 2 45 26 0 
+DATARECT: 3 0 46 26 4 1 
+DATARECT: 13 2 48 17 1 4 
+DATARECT: 1 0 48 23 4 1 
+DATARECT: 1 0 49 24 3 1 
+DATARECT: 13 2 50 15 1 7 
+DATARECT: 1 0 50 25 2 1 
+DATA: 1 50 26 0 
+DATA: 2 51 26 0 
+
+CAMPAIGNSETUP: 1 21
+DATA: 1 51 21 2
+
+PLACERECT: 0 0 26 28 1
+PLACERECT: 26 0 26 28 2
+
+AI: 2 True
+
+// Hands //
+
+HAND: 1 1 -1 Yellow_Moss
+HAND: 1 2 -1 Down_Laser
+HAND: 1 3 -1 Long_Range_Shield_Congealer 
+HAND: 1 4 -1 Earthen_Wave
+HAND: 1 5 -1 Scaffolding
+
+HAND: 2 1 -1 Misery_Carrier
+HAND: 2 2 -1 Summoning_Pedestal
+HAND: 2 3 -1 Eldritch_Arms
+HAND: 2 4 -1 Logistics_System
+
+AI: 2 True
+SECONDARYREVEALEDHAND: 2
+
+EndMapData
+
+START_ACTION: Both
+SetCampaignVariable DIFFICULTY DoubleConstant 7
+ChangeWorldTime TimeConstant 2423
+
+SEnd
+
+SCENARIO: Trailer_H
+Info: Water drowning, Inverted World, No_Class - Chaos ???
+ End
+End
+
+MAP: 52 28
+
+CUBE: 1 Difficulty_Leader 
+CUBE: 2 Earth
+CUBE: 3 Rock
+
+CUBE: 4 Water_Portal
+CUBE: 5 Crystal_Wall
+CUBE: 6 Tree_Of_Life
+CUBE: 7 Evaporate
+
+CUBE: 8 Shield_Transposer
+CUBE: 9 Frozen_Monstrosity
+CUBE: 10 Reconvirbilator
+CUBE: 11 Death_Laser
+
+// Terrain //
+
+DATARECT: 3 0  0 27  52 1
+
+DATARECT: 2 0  5 26  42 1
+DATARECT: 3 0  47 26  5 1
+DATARECT: 3 0  0 26  5 1
+
+DATARECT: 2 0  0 25  52 1
+DATARECT: 2 0  0 24  52 1
+
+DATARECT: 2 0  40 23  12 1
+DATARECT: 2 0  45 22  7 1
+
+DATARECT: 2 0  0 23  12 1
+DATARECT: 2 0  0 22  7 1
+
+// Player Defense //
+
+DATA: 5 0 21 1
+DATA: 5 0 20 1
+DATA: 5 1 20 1
+DATA: 5 6 21 1
+DATA: 5 6 20 1
+
+DATA: 6 7 22 1
+DATA: 6 7 21 1
+DATA: 6 8 22 1
+DATA: 6 8 21 1
+DATA: 5 9 22 1
+DATA: 5 9 21 1
+DATA: 5 9 20 1
+DATA: 5 8 20 1
+DATA: 5 7 20 1
+
+// Player Water Portal //
+
+DATA: 4 11 14 1
+DATA: 4 15 16 1
+DATA: 4 19 11 1
+DATA: 4 22 13 1
+DATA: 4 6 14 1
+
+// Players //
+
+CAMPAIGNSETUP: 1 21
+DATA: 1 51 21 2
+
+PLACERECT: 0 0 26 28 1
+PLACERECT: 26 0 26 28 2
+
+AI: 2 True
+
+// Hands //
+
+HAND: 1 1 -1 Water_Portal
+HAND: 1 2 -1 Crystal_Wall
+HAND: 1 3 -1 Tree_Of_Life
+HAND: 1 4 -1 Evaporate
+
+HAND: 2 1 -1 Shield_Transposer
+HAND: 2 2 -1 Frozen_Monstrosity
+HAND: 2 3 -1 Reconvirbilator
+HAND: 2 4 -1 Death_Laser
+
+AI: 2 True
+SECONDARYREVEALEDHAND: 2
+
+EndMapData
+
+START_ACTION: Both
+SetCampaignVariable DIFFICULTY DoubleConstant 12
+ChangeWorldTime TimeConstant 28423
+
+SEnd
+
+
+
+SCENARIO: Gif_A
+Info: Placing 3 cubes giff
+ End
+End
+
+MAP: 52 28
+
+CUBE: 1 Difficulty_Leader 
+CUBE: 2 Earth
+CUBE: 3 Rock
+
+// Terrain //
+
+DATARECT: 3 0  0 27  52 1
+
+DATARECT: 2 0  5 26  42 1
+DATARECT: 3 0  47 26  5 1
+DATARECT: 3 0  0 26  5 1
+
+DATARECT: 2 0  0 25  52 1
+DATARECT: 2 0  0 24  52 1
+
+DATARECT: 2 0  40 23  12 1
+DATARECT: 2 0  45 22  7 1
+
+DATARECT: 2 0  0 23  12 1
+DATARECT: 2 0  0 22  7 1
+
+// Players //
+
+CAMPAIGNSETUP: 1 21
+DATA: 1 51 21 2
+
+PLACERECT: 0 0 26 28 1
+PLACERECT: 26 0 26 28 2
+
+// Hands //
+
+HAND: 1 1 -1 Treasonous_Shrine
+HAND: 1 2 -1 Triple_Wall
+HAND: 1 3 -1 Area_Blast
+
+SECONDARYREVEALEDHAND: 2
+
+WORLDABILITY: BeforeACubeTakesDamage If IsAlly Culprit NegateX Minus DoubleConstant 4 
+
+STARTINGMAXMANA: 1 1000
+STARTINGMANA: 1 600
+
+EndMapData
+
+START_ACTION: Both
+SetCampaignVariable DIFFICULTY DoubleConstant 8
+ChangeWorldTime TimeConstant 12423
+
+SEnd
+
+
+
+SCENARIO: Sky_Background
+Info: Just empty.
+ End
+End
+
+MAP: 52 28
+
+STARTINGMAXMANA: 2 1000
+STARTINGMANA: 2 1000
+
+EndMapData
+
+SEnd

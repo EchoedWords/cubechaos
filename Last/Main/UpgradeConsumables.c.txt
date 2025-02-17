@@ -1,0 +1,601 @@
+PERK: Traitors_Contract
+WorldAbility: AfterYouLose ChangeCurrency DoubleConstant 100
+Description: After you lose a battle gain 100 gold End
+IsUpgradeFrom: Traitors_Payment 20
+End
+
+PERK: Repeating_Bottled_Gold
+CampaignAbility: BeforeYouTakeAStep ChangeCurrency DoubleConstant 20
+Description: Before you take a step on the map also gain 20 gold End
+IsUpgradeFrom: Bottled_Gold 100
+End
+
+PERK: Permanent_Mana
+Description: Increase your starting mana by 90 \CMANA mana \CN End
+ObtainAction: ChangeStartingMana DoubleConstant 90
+RemoveAction: ChangeStartingMana DoubleConstant -90
+IsUpgradeFrom: Bottled_Mana 60
+End
+
+PERK: Reusable_Shop_Key
+ClickAction: If Not BattleOngoing If Not IsSmaller Currency DoubleConstant 0 Both Both
+ChangeCurrency Minus GetCampaignVariable SHOP_KEY
+ChangeCampaignVariable SHOP_KEY DoubleConstant 50
+ReadAScenario Shop
+Description: Click on this perk outside of battles to enter a shop and lose CVARIABLE SHOP_KEY gold, costs 50 more each time, cannot be used while in debt End
+IsUpgradeFrom: Shop_Key 20
+Unique
+End
+
+PERK: Repeating_Certainty_Destabilizer
+CampaignAbility: BeforeYouTakeAStep If Not IsSmaller GetCampaignVariable REROLLCOST DoubleConstant 10 ChangeRerollCost DoubleConstant -10
+Description: Before you take a step on the map also reduce the cost of rerolling by 10, won't reduce if already below 10 End
+IsUpgradeFrom: Certainty_Destabilizer 80
+End
+
+PERK: Reusable_Bottled_Curse
+ClickAction: If Not BattleOngoing If IsSmaller AmountOfPerksInInventoryWhich IsSmaller ValueOfPerk Test DoubleConstant 0 DoubleConstant 10
+Both ChangeCurrency DoubleConstant 30 ReadAScenario Basic_Curse_Reward
+Description: Click on this perk outside of battles to gain 30 gold, then choose one of 3 curses to gain, cannot use if you already have 10 curses End
+IsUpgradeFrom: Bottled_Curse 0
+Unique
+End 
+
+PERK: Hired_Architect
+Ability: AtTheStartOfTheBattle EveryCubeInHandOfFactionWhich DoubleConstant 1 True GainXExtraHp DoubleConstant 3
+Description: At the start of each battle each cube in your hand gains 3 extra hp End
+IsUpgradeFrom: Bottled_Architect 80
+End
+
+PERK: Repeating_Bottled_Healing
+Ability: EveryXMinutes DoubleConstant 5 EveryCubeWhich IsAlly Test SetCaster Target Both HealXDamage MaxHpOfCube Target GainAbility RegenerationX 3
+Description: Every 5 minutes all allies heal themselves for their max hp and gain 3 regeneration End
+IsUpgradeFrom: Bottled_Healing 60
+End
+
+PERK: Arriving_Ocean
+Ability: EveryXMinutes DoubleConstant 10 1Shot Both RemoveThisAbility
+Both TargetCube Caster SetVariable TEMPX MaxWorldX 
+Until IsSmaller GetVariableOnCube TEMPX Caster DoubleConstant 0
+ Both 
+  Both TargetCube Caster SetVariable TEMPY MaxWorldY 
+   Until IsSmaller GetVariableOnCube TEMPY Caster DoubleConstant 0
+    Both 
+     CreateCubeOnPosition CopyWithAction CubeConstant Water SetFaction DoubleConstant 0 PositionFromXAndY GetVariableOnCube TEMPX Caster GetVariableOnCube TEMPY Caster 
+     ChangeVariable TEMPY DoubleConstant -1
+   Nothing
+ ChangeVariable TEMPX DoubleConstant -1
+Nothing
+Description: 10 minutes into each battle fill all empty spaces with neutral water End
+IsUpgradeFrom: Bottled_Ocean 200
+End
+
+PERK: Repeating_Bottled_Perk
+WorldAbility: AfterEndOfTheBattle ReadAScenario Random_Perk_Reward
+Description: After each battle gain a random perk End
+IsUpgradeFrom: Bottled_Perk 100
+End
+
+PERK: Repeating_Bottled_Shockwave
+Ability: EveryXMinutes DoubleConstant 2 EveryCubeWhich IsEnemy Test TakeXDamage DoubleConstant 2
+Description: Every 3 minutes deal 2 damage to all enemies End
+IsUpgradeFrom: Bottled_Shockwave 80
+End
+
+PERK: Reusable_Bottled_Safety
+BelongsTo: Consumable
+ClickAction: If IsLarger GetCampaignVariable REUSABLE_BOTTLED_SAFETY DoubleConstant 0
+Both ChangeCampaignVariable REUSABLE_BOTTLED_SAFETY DoubleConstant -1
+EveryCubeWhich IsEnemy Test If IsEqual PlacabilityOfPosition PositionOfCube Target DoubleConstant 1 Die
+Description: Click to have all enemies which are in positions you could normally place into die, once per battle \N 
+Uses left: CVARIABLE REUSABLE_BOTTLED_SAFETY End
+Ability: AtTheStartOfTheBattle Both RemoveThisAbility ChangeCampaignVariable REUSABLE_BOTTLED_SAFETY DoubleConstant 1
+WorldAbility: AfterEndOfTheBattle SetCampaignVariable REUSABLE_BOTTLED_SAFETY DoubleConstant 0
+AbilityText: At the end of the battle set remaining bottled safety uses to 0 End
+IsUpgradeFrom: Bottled_Safety 60
+End
+
+PERK: Eternal_Ice
+Ability: AfterACubeIsCreated If IsEnemyToCaster Victim TargetCube Victim GainAbility Slowed 20
+Description: After an enemy is created its slowed by 20% forever End
+IsUpgradeFrom: Bottled_Ice 120
+End
+
+PERK: Extreme_Lottery_Ticket
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk Both Both
+If X%Chance DoubleConstant 100 ReadAScenario Random_Perk_Reward
+If X%Chance DoubleConstant 10 XTimes DoubleConstant 10 ReadAScenario Random_Perk_Reward
+If X%Chance DoubleConstant 1 XTimes DoubleConstant 100 ReadAScenario Random_Perk_Reward
+Description: Click on this outside of battles to lose this and: 100% Chance to gain a random perk, 10% chance to gain 10 perks, 1% chance to gain 100 random perks End
+IsUpgradeFrom: Lottery_Ticket 60
+End
+
+PERK: Rat_Farm
+Ability: Every5Seconds
+If IsSmaller AmountOfCubesWhich And IsAllyToCaster Test CubeHasName Test Rat DoubleConstant 7
+CreateCubeOnPosition CubeConstant Rat PositionInDirectionFromPosition North PositionOfCube 
+ARandomCubeWhich And IsAllyToCaster Test Not CubeHasName Test Rat
+Description: Every 5 seconds create a rat above a random non rat ally until there are 7 allied rats End
+IsUpgradeFrom: Bottled_Rats 80
+End
+
+PERK: Strength
+Ability: AfterACubeIsCreated If IsAlly Victim TargetCube Victim GainAbility StrengthX 1
+Description: After an ally is created it gains 1 strength End
+IsUpgradeFrom: Bottled_Strength 60
+End
+
+PERK: Repeating_Rainbow
+Ability: EveryXMinutes DoubleConstant 10 XTimes DoubleConstant 5 
+AddCubeToHandOfFaction FreeCopy ARandomCubeInLibraryWhich And Not IsToken Test IsNotInHandOfThis Test
+ DoubleConstant 1
+Description: Every 10 minutes add 5 random cubes to your hand which aren't already in your hand, they are free End
+IsUpgradeFrom: Bottled_Rainbow 60
+End
+
+PERK: Mana_Flow
+Ability: EverySecond GenerateXMana DoubleConstant 1
+Description: Every second gain 1 \CMANA mana \CN End
+IsUpgradeFrom: Bottled_Stream 300
+End
+
+PERK: Repeating_Bottled_Knowledge
+WorldAbility: AfterEndOfTheBattle AddCubeToInventory APRandomCubeInLibraryWhich And Not IsAlreadyInInventory Test Not IsToken Test
+Description: After each battle add a random cube to your inventory End
+IsUpgradeFrom: Bottled_Knowledge 60
+End
+
+PERK: Repeating_Adventure
+WorldAbility: AfterEndOfTheBattle ReadARandomEvent
+Description: After each battle encounter a random event End
+IsUpgradeFrom: Adventure_Key 120
+End
+
+PERK: Extreme_Trades
+ObtainAction: Both ChangeCampaignVariable CURSEDTRADEDOUBLECHANCE Division DoubleConstant 3 DoubleConstant 10 If Not BattleOngoing ReadAScenario Cursed_Trade
+RemoveAction: ChangeCampaignVariable CURSEDTRADEDOUBLECHANCE Division DoubleConstant -3 DoubleConstant 10
+Description: If not in battle encounter a cursed trade right now, cursed trades have +30% chance to double both sides of the offer (this repeats until it fails, base is 30%, won't double past 1000) End
+IsUpgradeFrom: Cursed_Key 60
+Unique
+End
+
+PERK: Initiating_Oblivion
+Ability: AtTheStartOfTheBattle TargetCube ARandomCubeWhich And IsAlly Test IsALeader Test 
+SetCaster Target Both EveryCube TakeXDamage DoubleConstant 2
+EveryCubeInHandOfFactionWhich DoubleConstant 2 True TakeXDamage DoubleConstant 2
+Description: At the start of each battle a random allied leader deals 2 damage to all cubes and all cubes in the enemy's hand End
+IsUpgradeFrom: Bottled_Oblivion 80
+End
+
+PERK: Repeating_Pocket_Mirror
+Ability: EveryXMinutes DoubleConstant 10 1Shot EveryCubeWhich And IsAlly Test Not IsALeader Test 
+SetCaster Target CreateCubeOnPosition Caster PositionInDirectionFromPosition Forwards PositionOfThis
+Description: 10 minutes into each battle every non leader ally creates a copy of itself in front of itself End
+IsUpgradeFrom: Pocket_Mirror 80
+End
+
+PERK: Guarded_Vault_Key
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk ReadAScenario Guarded_Vault
+Description: Click on this outside of battles to lose this and leave the current map and enter a guarded vault (a very treasure rich large map with an extremely difficult battle first) End
+IsUpgradeFrom: Vault_Key 100
+End
+
+PERK: Reusable_Bottled_Time
+ClickAction: If IsLarger GetCampaignVariable REUSABLE_BOTTLED_TIME DoubleConstant 0
+Both ChangeCampaignVariable REUSABLE_BOTTLED_TIME DoubleConstant -1 EveryCubeWhich IsAlly Test 
+AccelerateX DoubleConstant 1800
+Description: Click to have all allies experience 30 seconds of time, once per battle \N 
+Uses left: CVARIABLE REUSABLE_BOTTLED_TIME End
+Ability: AtTheStartOfTheBattle Both RemoveThisAbility ChangeCampaignVariable REUSABLE_BOTTLED_TIME DoubleConstant 1
+WorldAbility: AfterEndOfTheBattle SetCampaignVariable REUSABLE_BOTTLED_TIME DoubleConstant 0
+AbilityText: At the end of the battle set remaining bottled time uses to 0 End
+IsUpgradeFrom: Bottled_Time 80
+End
+
+PERK: Reusable_Trading_License
+ClickAction: If Not BattleOngoing ReadAScenario Sell_Any_Positive
+Description: Click outside of battle to sell any number of non curse perks of your choice for their value in gold End
+IsUpgradeFrom: Trading_License 40
+Unique
+End
+
+PERK: Reusable_Curse_Acid
+ClickAction: If Not BattleOngoing If PerkExists ARandomPerkInInventoryWhich 
+ IsSmaller ValueOfPerk Test DoubleConstant 0
+ Both SufferXWounds 3 LosePerkWithScreen ARandomPerkInInventoryWhich 
+IsSmaller ValueOfPerk Test DoubleConstant 0
+Description: Click outside of battles, if you have a curse lose a random curse and suffer 3 wounds (at battle start allies in hand and battlefield deal 3 damage to themselves, then lose 1 wound) End
+IsUpgradeFrom: Bottled_Curse_Acid 80
+Unique
+End
+
+PERK: Repeating_Bottled_Universe
+WorldAbility: AfterYouWin If MapNodeIsType CurrentMapNode Boss If MapNodeIsType CurrentMapNode Battle
+EveryPerkInInventoryWhich Not PerkHasNameOfPerk Test PerkConstant Repeating_Bottled_Universe ObtainPerk Target
+Description: After you win a boss battle gain a copy of every perk in your inventory except repeating bottled universe End
+IsUpgradeFrom: Bottled_Universe 200000
+End
+
+PERK: Returning_Helpful_Box
+WorldAbility: AfterEndOfTheBattle If Not PerkExists ARandomPerkInInventoryWhich PerkHasNameOfPerk Test PerkConstant Helpful_Box
+ObtainPerk PerkConstant Helpful_Box
+Description: After each battle if you have no helpful box gain a helpful box End
+IsUpgradeFrom: Helpful_Box 60
+Unique
+End
+
+PERK: Permanent_Signal_Jammer
+Ability: AtTheStartOfTheBattle
+EveryCubeInHandOfFactionWhich DoubleConstant 2 True Both RemoveCubeFromHandOfFaction Target DoubleConstant 2
+AddCubeToHandOfFactionInfinitly ARandomCubeInLibraryWhich
+And Not IsToken Test Not IsAlreadyInHandOfFaction Test DoubleConstant 2 DoubleConstant 2
+Description: At the start of each battle replace all cubes in the enemies hand with completely random cubes with infinite uses End
+IsUpgradeFrom: Signal_Jammer 280
+End
+
+PERK: Repeating_Debt_Relief
+WorldAbility: AfterEndOfTheBattle If IsSmaller Currency DoubleConstant 0 ChangeCurrency DoubleConstant 30
+Description: After each battle if you are in debt gain 30 gold End
+IsUpgradeFrom: Debt_Relief 60
+End
+
+PERK: Infinite_Sacrificial_Dagger
+ClickAction: If IsLarger GetCampaignVariable LIVES DoubleConstant 0 Both LoseALife ChangeCurrency DoubleConstant 60
+Description: Click to lose 1 life, but gain 60 gold, only works if above 0 lives End
+IsUpgradeFrom: Sacrificial_Dagger 10
+Unique
+End
+
+PERK: Loyal_Slime
+Ability: EveryMinute
+If IsSmaller AmountOfCubesWhich And IsAllyToCaster Test CubeHasName Test Large_Warrior_Slime DoubleConstant 2
+CreateCubeOnPosition CubeConstant Large_Warrior_Slime PositionInDirectionFromPosition North PositionOfCube 
+ARandomCubeWhich And IsAllyToCaster Test Not CubeHasName Test Large_Warrior_Slime
+Description: Every minute create a Large_Warrior_Slime above a random non Large_Warrior_Slime ally until there are 2 End
+IsUpgradeFrom: Bottled_Slime 80
+End
+
+PERK: Repeating_Reroll_Nullifier
+WorldAbility: AfterEndOfTheBattle SetCampaignVariable REROLLCOST DoubleConstant 0
+Description: After each battle set reroll cost to 0 End
+IsUpgradeFrom: Reroll_Nullifier 80
+Unique
+End
+
+PERK: 20%_Discount
+CampaignAbility: AfterYouGainOrLoseCurrency If IsSmaller EventAmount DoubleConstant 0 ChangeCurrency Division EventAmount DoubleConstant -5
+Description: After you lose gold regain 20% of the gold lost, rounded down End
+IsUpgradeFrom: 10%_Coupon 60
+End
+
+PERK: Forge_Discount
+CampaignAbility: AfterYouUpgradeAPerk ChangeCurrency DoubleConstant 30
+Description: After you upgrade a perk gain 30 gold End
+IsUpgradeFrom: Forge_Coupon 60
+End
+
+PERK: Replicated_Replibottle
+WorldAbility: AfterEndOfTheBattle If Not PerkExists ARandomPerkInInventoryWhich PerkHasNameOfPerk Test PerkConstant Replibottle
+If X%Chance 50 ObtainPerk PerkConstant Replibottle
+Description: After each battle 50% chance to gain a Replibottle, if you have no Replibottle End
+IsUpgradeFrom: Replibottle 100
+Unique
+End
+
+PERK: Infinite_Bees
+Ability: EveryXSeconds DoubleConstant 5 CreateCubeOnPosition CopyWithAction CubeConstant Bee SetFaction DoubleConstant 1 ARandomLeftPosition
+Description: Every 5 seconds create a bee in a random left side position End
+IsUpgradeFrom: Bottled_Bees 100
+End
+
+PERK: Beepocalypse
+WorldAbility: AfterEndOfTheBattle ObtainPerk PerkConstant Infinite_Bees
+Description: After each battle gain another copy of Infinite_Bees End
+IsUpgradeFrom: Infinite_Bees 400
+End
+
+PERK: False_Victory
+WorldAbility: BeforeYouLose Both Win Both LoseALife If IsSmaller RemainingLives DoubleConstant 1 EndCampaign 
+Description: If you would lose a battle win it instead, however you still lose 1 life and if you have none left you still lose the run End
+IsUpgradeFrom: Bottled_Victory 40
+Unique
+End
+
+PERK: Reusable_Bone_Saw
+ClickAction: If IsLarger GetCampaignVariable DECKSIZE DoubleConstant 0 Both ChangeDeckSize DoubleConstant -1 ChangeCurrency DoubleConstant 70
+Description: Click to lose a deck slot and gain 40 gold, must have at least 1 deckslot left End
+IsUpgradeFrom: Bone_Saw 20
+Unique
+End
+
+PERK: Radical_Exchange
+WorldAbility: AfterEndOfTheBattle Both ChangeCurrency DoubleConstant 200 EveryPerkInInventoryWhich Not PerkHasNameOfPerk Test PerkConstant Radical_Exchange
+Both ObtainPerk ARandomPerkInLibraryWhich And IsEqual ValueOfPerk Test ValueOfPerk Target Not IsSameString NameOfPerk Test NameOfPerk Target
+LosePerkWithScreen Target 
+Description: After every battle exchange every other perk for a random one of equal value and gain 200 gold End
+IsUpgradeFrom: Equal_Exchange -10
+End
+
+PERK: Growing_Letter_Worm
+WorldAbility: AfterYouWin If Not HasPerk Letter_Worm ObtainPerk PerkConstant Letter_Worm
+Description: After you win a battle gain a Letter_Worm unless you already have one End
+IsUpgradeFrom: Letter_Worm 300
+Unique
+End
+
+PERK: Always_Home
+WorldAbility: AfterEndOfTheBattle TeleportToMapNode DoubleConstant 0
+Description: After each battle return to the first node of map End
+IsUpgradeFrom: Bottled_Home 60
+Unique
+End
+
+PERK: Teleport_Bottling_Machine
+CampaignAbility: AfterAMapIsGenerated XTimes DoubleConstant 3 ObtainPerk PerkConstant Bottled_Teleport
+Description: At the start of a new map gain 3 bottled teleport consumables End
+IsUpgradeFrom: Bottled_Teleport 40
+End
+
+PERK: Infinite_Race
+ClickAction: If Not BattleOngoing If IsLarger Currency DoubleConstant 0 Both ChangeCurrency DoubleConstant -10 Both TeleportToMapNode Subtraction MapNodeAmount DoubleConstant 1
+ChangeCampaignVariable ADDITIONALMAPSNEEDED DoubleConstant 1
+Description: Click outside of battles to teleport to the last node of the map, you need to finish one more map than usual to win, costs 10 gold, must have more than 0 gold End
+IsUpgradeFrom: Bottled_Finish 80
+Unique
+End
+
+PERK: Full_Clear_Move
+ClickAction: If Not BattleOngoing TeleportToMapNode Addition DoubleConstant 1 CurrentMapNode 
+Description: Click outside of battles to teleport one map node downwards or to the top of the next column if there is no map node in the same column End
+IsUpgradeFrom: Map_Position_Error 100
+Unique
+End
+
+PERK: Many_Secret_Tunnels
+ObtainAction: XTimes DoubleConstant 5 UntilSuccess AddPathAB 
+RandomRoundBetweenXtoY DoubleConstant 0 Subtraction MapNodeAmount DoubleConstant 1
+RandomRoundBetweenXtoY DoubleConstant 0 Subtraction MapNodeAmount DoubleConstant 1
+CampaignAbility: AfterAMapIsGenerated XTimes DoubleConstant 5 UntilSuccess AddPathAB 
+RandomRoundBetweenXtoY DoubleConstant 0 Subtraction MapNodeAmount DoubleConstant 1
+RandomRoundBetweenXtoY DoubleConstant 0 Subtraction MapNodeAmount DoubleConstant 1
+Description: Right now and at the start of each map add 5 paths between random map nodes which don't have a path (this may create backwards paths, useless paths or loops) End
+IsUpgradeFrom: Secret_Tunnel 60
+End
+
+PERK: Imprisoning_Blood_Chest
+BelongsTo: Consumable
+ClickAction: If Not BattleOngoing Both LoseThisPerk EveryMapNodeWhich True
+ SetMapNodeScenario Test
+ Painfull_Perk_Chest
+Description: Click on this outside of battles to lose this and replace all map nodes with blood chest nodes including the exit End
+IsUpgradeFrom: Bottled_Blood_Chest -20
+End
+
+PERK: Very_Dangerous_Game
+BelongsTo: Consumable
+ClickAction: Both LoseThisPerk Both ChangeCurrency DoubleConstant 50
+IfElse X%Chance Multiplication DoubleConstant 5 Division DoubleConstant 100 DoubleConstant 6
+ObtainPerk PerkConstant Very_Dangerous_Game
+Both LoseALife If IsSmaller RemainingLives DoubleConstant 1 EndCampaign 
+Description: Click on this outside of battles to lose this and gain 50 gold, then 5/6 chance to gain a copy of this perk, otherwise lose a life, then if you have no lives left lose the run End
+IsUpgradeFrom: Dangerous_Game 40
+End
+
+PERK: Private_Mine
+CampaignAbility: BeforeYouTakeAStep SetCampaignVariable PRIVATE_MINE DoubleConstant 1
+WorldAbility: AfterEndOfTheBattle If IsLarger GetCampaignVariable PRIVATE_MINE DoubleConstant 0 
+Both ReadAScenario Event_Old_Mine SetCampaignVariable PRIVATE_MINE DoubleConstant 0
+Description: After each battle encounter the Old Mine event allowing you to dig for gold, recharges after you take a step on the map End
+IsUpgradeFrom: Mine_Key 100
+Unique
+End
+
+PERK: Drone_Hive
+Ability: Every30Seconds CreateCubeOnPosition CopyWithAction CubeConstant Chaotic_Drone SetFaction DoubleConstant 1 ARandomLeftPosition
+Description: Every 30 seconds create a chaotic drone in a random left side position End
+IsUpgradeFrom: Bottled_Drones 60
+End
+
+PERK: Grand_Membership_Card
+WorldAbility: AfterEndOfTheBattle ChangeCampaignVariable SHOPPRICEADD DoubleConstant -5
+Description: After each battle all prices in future shops are reduced by 5 End
+IsUpgradeFrom: Membership_Card 120
+End
+
+SCENARIO: Final_Hour_Reward
+Info: Gain final hour End
+CubeImage: Chest
+End
+PERK_REWARD: 
+SPECIFIC: Final_Hour
+End
+SEnd
+
+PERK: Last_Hours
+CampaignAbility: BeforeACubeIsAddedToInventory Both NegateX DoubleConstant 1
+Both ChangeCampaignVariable LAST_HOURS_COUNTER DoubleConstant 1
+If IsLarger GetCampaignVariable LAST_HOURS_COUNTER DoubleConstant 12
+ Both LosePerkWithScreen PerkConstant Last_Hours ReadAScenario Final_Hour_Reward
+Description: If you would add a new cube to your inventory instead the final hour approaches End
+IsUpgradeFrom: Erase_From_Reality 300
+End
+
+PERK: Menacing_Mana_Crystal
+CampaignAbility: AfterYouGainAPerk ChangeStartingMana DoubleConstant 5
+Description: After you gain a perk (including this one) increase your starting mana by 5 for all future battles End
+IsUpgradeFrom: Tiny_Mana_Crystal 40
+End
+
+PERK: Bottle_Recycling
+CampaignAbility: AfterYouLoseAPerk ChangeStartingMaxMana DoubleConstant 10
+Description: After you lose a perk increase your starting max mana by 10 for all future battles End
+IsUpgradeFrom: Reinforced_Flask 40
+End
+
+PERK: World_Melt
+ClickAction: If Not BattleOngoing ReadAScenario Random_Terrain_Reward
+Description: Click this outside of battles to gain a random terrain perk as long as you don't have all of them already End
+IsUpgradeFrom: Bottled_Landscape 60
+Unique
+End
+
+PERK: Hired_Geologist
+Ability: AtTheStartOfTheBattle Both If StringContainsString CurrentScenario StringConstant Battle
+ AddCubeToHandOfFaction CubeConstant Geologist DoubleConstant 1
+ RemoveThisAbility
+Description: At the start of each non minigame battle, add a cube to your hand which adds a neutral cube to your inventory End
+IsUpgradeFrom: Bottled_Geologist 80
+Unique
+End
+
+PERK: Twice_Shop
+CampaignAbility: BeforeYouTakeAStep 
+If MapNodeIsType CurrentMapNode Shop
+Both TeleportToMapNode CurrentMapNode
+LoadMapNode CurrentMapNode
+Description: After you take a step on the map moving you from a shop, encounter that shop again End
+IsUpgradeFrom: Bottled_Resell 40
+End
+
+PERK: Free_Samples
+Ability: AtTheStartOfTheBattle EveryCubeInHandOfFactionWhich 1 True
+Both GainAbilityStacking CheaperX 0 ManaCostOfCube Target
+ChangeManaCost Minus ManaCostOfCube Target
+Description: At the start of each battle every cube in your hand costs 0 until placed End
+IsUpgradeFrom: Bottled_Samples 300
+Unique
+End
+
+PERK: Reset_Button
+ClickAction: If IsLarger GetCampaignVariable RESET_BUTTON DoubleConstant 0
+Both ChangeCampaignVariable RESET_BUTTON DoubleConstant -1
+ EveryCubeWhich And IsAlly Test Not IsALeader Test
+Both Exile
+CreateCubeOnPosition CopyWithAction ARandomCubeInLibraryWhich HasNameOfCube Test Target  SetFaction 1 
+ PositionOfCube Target
+Ability: AtTheStartOfTheBattle Both RemoveThisAbility ChangeCampaignVariable RESET_BUTTON DoubleConstant 1
+WorldAbility: AfterEndOfTheBattle SetCampaignVariable RESET_BUTTON DoubleConstant 0
+AbilityText: At the end of the battle set remaining reset_button uses to 0 End
+Description: Click on this perk to replace all non leader allies with their base versions, exiles if there is no base version, 1 use per battle,
+\N Uses left: CVARIABLE RESET_BUTTON End
+IsUpgradeFrom: Bottled_Reset 80
+End
+
+PERK: Growing_Gold_Gem
+Ability: AtTheStartOfTheBattle Both ChangeStartingMana DoubleConstant -10
+ChangeCurrency 40
+Description: At the start of each battle lose 10 starting mana for all future battles, but gain 40 gold End
+IsUpgradeFrom: Gold_Gem 10
+Disableable: false
+End
+
+PERK: Bad_Water_Pump
+CampaignAbility: AfterYouLoseAPerk TargetCube ARandomCubeWhich And Not IsALeader Test IsEnemy Test GainAbility PoisonX 5
+WorldAbility: AfterYouWin ObtainPerk PerkConstant Water_Bottle
+Description: After you win gain a Water_Bottle, after you lose any perk a random non leader enemy gains 5 poison End
+IsUpgradeFrom: Water_Bottle 40
+End
+
+PERK: Broken_Again
+ClickAction: Both LoseThisPerk 
+ Both TeleportToMapNode CurrentMapNode LoadMapNode CurrentMapNode
+Description: Click this perk to lose this perk and encounter whatever map node you are on again End
+IsUpgradeFrom: Again 200
+Unique
+End
+
+PERK: Reusable_Fake_Identity
+WorldAbility: AfterYouWin SetCampaignVariable FORGEDALREADY 0 
+Description: After you win a battle, if you have used up the first time forge discount, reset it End
+IsUpgradeFrom: Fake_Identity 15
+Unique
+End
+
+PERK: Perk_Void
+CampaignAbility: AfterYouLoseAPerk BanishPerk Target
+Description: After you lose a perk erase it from reality (lose all copies of it, it can't appear again) End
+IsUpgradeFrom: Perk_Eraser 10
+End
+
+PERK: Automatic_Cube_Recycler
+WorldAbility: AfterYouWin Both
+ EveryCubeInHandOfFactionWhich 1 True EveryCubeInInventoryWhich HasNameOfCube Target Test Both RemoveCubeFromInventory Target ChangeCurrency 20
+ XTimes 3 AddCubeToInventory APRandomCubeInLibraryWhich And Not IsAlreadyInInventory Test Not IsToken Test
+Description: After you win a battle for every cube in your hand sell every cube in your inventory with the same name for 20 gold, then add 3 random cubes to your inventory End
+IsUpgradeFrom: Cube_Recycler -20
+End
+
+PERK: Advanced_Mana_Injector
+ClickAction: If Not BattleOngoing SetCampaignVariable STARTINGMANA Lowest 1000 GetCampaignVariable STARTINGMAXMANA
+Description: Click on this perk to set starting mana to starting max mana, max 1000 (Doesn't work in battles) End
+IsUpgradeFrom: Mana_Injector 60
+Unique
+End
+
+PERK: More_Wrapping_Paper
+ObtainAction: Both BanishPerk PerkConstant More_Wrapping_Paper
+XTimes 3 ObtainPerk PerkConstant Wrapping_Paper
+Description: Immediatly erase this perk from reality and gain 3 wrapping paper consumables End
+IsUpgradeFrom: Wrapping_Paper 20
+Unique
+End
+
+PERK: Ai_Madness
+Ability: AfterACubeIsCreated If IsPlaced If IsAllyToCaster Culprit EveryXTimes 20
+ GenerateAiCubeSetup FactionOfCube ARandomCubeWhich IsEnemyToCaster Test
+Description: Every 20 cubes you place replace the enemy starting cube setup with a new random one (any cubes currently in those slots are exiled) (Only works in battles) End
+IsUpgradeFrom: Ai_Reroll 100
+End
+
+PERK: Hidden_Medicine
+CampaignAbility: AfterYouLoseAPerk If PerkIsType Target Consumable ObtainPerk PerkConstant Eaten_Medicine
+Description: After you lose a consumable your starting leader gains +1 regeneration in all future battles End
+IsUpgradeFrom: Bottled_Medicine 20
+End
+
+PERK: Reusable_Startup_Fund
+CampaignAbility: AfterYouGainOrLoseCurrency If And IsLarger Currency 0 IsSmaller Currency 40 ChangeCurrency Subtraction 40 Currency
+Description: After you gain or lose gold, if you now have between 0 and 40 gain gold up to 40 End
+IsUpgradeFrom: Startup_Fund 100
+Unique
+End
+
+PERK: Ruthless_Taxes
+WorldAbility: AfterYouWin ChangeCurrency Multiplication 2 AmountOfCubesInInventoryWhich True
+Description: After you win a battle gain 2 gold per cube you have (Currently: + \B \D Multiplication 2 AmountOfCubesInInventoryWhich True gold) End
+IsUpgradeFrom: Taxes 60
+End
+
+PERK: All_Bricks
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim SetName NameOfCube CubeConstant Brick_Wall
+ObtainAction: AddCubeToInventory CubeConstant Brick_Wall
+Description: Add Brick_Wall to your inventory, After an ally is created set its name to Brick_Wall End
+IsUpgradeFrom: Bottled_Bricks 20
+Unique
+End
+
+PERK: Bloody_Tin_Key
+ClickAction: If Not BattleOngoing If IsLarger GetCampaignVariable LIVES 0 Both LoseALife ReadAScenario Cheap_Cube_Forge
+Description: Click on this perk to lose a live and open a forge which only offers half priced cube upgrades, must have lives still remaining, doesnt work in battles End
+IsUpgradeFrom: Tin_Key 10
+Unique
+End
+
+SCENARIO: Cheap_Cube_Forge
+Info: Cube only Forge: Upgrade random cubes, also half priced End
+CubeImage: Forge
+End
+PERK_SELECTION: 
+TYPE: 0
+ACTION: SetCampaignVariable FORGEDALREADY 1
+COSTMULT: 1 
+PERKREQ: False
+CUBEUPGRADEAMOUNT: RoundedDown Division AmountOfCubesInInventoryWhich True 2
+CUBECOST: Addition Multiplication 40 GetCampaignVariable FORGEDALREADY
+ Addition Minus 40
+  Multiplication 1 ValueOfPerk Target
+INFO: Spend gold to upgrade random cubes at half price! (first each run still costs flat 40 less) End
+End
+SEnd

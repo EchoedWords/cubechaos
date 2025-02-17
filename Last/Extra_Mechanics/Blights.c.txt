@@ -1,0 +1,257 @@
+PERK: Less_Lives
+BelongsTo: Blight
+Description: -1 Starting lives End
+ObtainAction: LoseALife
+RemoveUponObtaining
+Invisible
+Value: -75
+BalanceCap: 1
+End
+
+PERK: Enemy_Diversity
+BelongsTo: Blight
+ObtainAction: ChangeCampaignVariable ENEMYCUBEAMOUNT DoubleConstant 1
+RemoveAction: ChangeCampaignVariable ENEMYCUBEAMOUNT DoubleConstant -1
+Description: Enemies start with 1 more cube in hand End
+Value: -50
+BalanceCap: 3
+End
+
+PERK: Debt
+BelongsTo: Blight
+ObtainAction: ChangeCurrency -30
+Description: Lose 30 gold End
+RemoveUponObtaining
+Invisible
+Value: -25
+BalanceCap: 10
+End
+
+PERK: Leaky_Bottles
+BelongsTo: Blight
+CampaignAbility: BeforeYouTakeAStep EveryPerkInInventoryWhich PerkIsType Test Consumable ChangeCurrency DoubleConstant -1
+Description: After each map step lose 1 gold for every consumable you have End
+Value: -25
+BalanceCap: 5
+End
+
+PERK: Hollow_Safety
+BelongsTo: Blight
+WorldAbility: BeforeManaIsGenerated If IsEnemy Culprit XTimes Subtraction GetCampaignVariable LIVES DoubleConstant 1
+NegateX Minus Division EventAmount DoubleConstant 5
+Description: Enemies generate 20% more mana for every life you have above 1 End
+Value: -25
+BalanceCap: 3
+End
+
+PERK: Early_Resistance
+BelongsTo: Blight
+WorldAbility: AtTheStartOfTheBattle EveryCubeWhich And IsALeader Test IsEnemy Test 
+GainXExtraHp DoubleConstant 50
+Description: Enemy leaders start with 50 extra hp End
+Value: -25
+BalanceCap: 3
+End
+
+PERK: Cursed_Battles
+BelongsTo: Blight
+CampaignAbility: BeforeYouTakeAStep Both
+ If MapNodeIsType CurrentMapNode Cursed_Battle ChangeDifficulty DoubleConstant -1
+ If MapNodeIsType EventAmount Cursed_Battle ChangeDifficulty DoubleConstant 1
+Description: Cursed battles have +1 difficulty End
+Value: -25
+BalanceCap: 5
+End
+
+PERK: Cheap_Difficulty
+BelongsTo: Blight
+ObtainAction: ChangeCampaignVariable DIFFICULTY DoubleConstant 1
+RemoveAction: ChangeCampaignVariable DIFFICULTY DoubleConstant -1
+Description: Increase starting difficulty by 1 End
+RemoveUponObtaining
+Invisible
+Value: -50
+BalanceCap: 5
+End
+
+PERK: Greedy_Shop
+BelongsTo: Blight
+ObtainAction: ChangeCampaignVariable SHOPPRICEMULT Division DoubleConstant 1 DoubleConstant 5
+RemoveAction: ChangeCampaignVariable SHOPPRICEMULT Minus Division DoubleConstant 1 DoubleConstant 5
+Description: Shops cost 20% more gold End
+Value: -50
+BalanceCap: 3
+End
+
+PERK: Scaling_Start
+BelongsTo: Blight
+WorldAbility: AtTheStartOfTheBattle XTimes Difficulty
+Both ChangeMaxManaOfFaction 10 2 FactionXGainsYMana 2 5
+Description: Enemy start with 10 max mana and 5 starting mana per difficulty End
+Value: -100
+BalanceCap: 20
+End
+
+PERK: Scary_Forge
+BelongsTo: Blight
+CampaignAbility: AfterYouUpgradeAPerk ChangeDifficulty 1
+Description: After you upgrade a perk increase difficulty by 1 End
+Value: -50
+BalanceCap: 5
+End
+
+PERK: Boss_Battles
+BelongsTo: Blight
+CampaignAbility: BeforeYouTakeAStep Both
+ If MapNodeIsType CurrentMapNode Boss ChangeDifficulty DoubleConstant -1
+ If MapNodeIsType EventAmount Boss ChangeDifficulty DoubleConstant 1
+Description: Bosses have +1 difficulty End
+Value: -25
+BalanceCap: 20
+End
+
+PERK: Expensive_First_Slot
+BelongsTo: Blight
+WorldAbility: AtTheStartOfTheBattle TargetCube TheFirstCubeInHandOfFactionWhich 1 True
+Both GainAbility CheaperX -40 ChangeManaCost 40 
+Description: +40 initial cost of the first cube in your hand, removed after you place it End
+Value: -25
+Unique
+End
+
+PERK: Always_Shields
+BelongsTo: Blight
+WorldAbility: AtTheStartOfTheBattle IfElse PerkExists ARandomPerkInInventoryWhich PerkIsType Test Terrain
+ TriggerWorldSomething Battle_Boss_Generation
+ ReadAPartialScenario Battle_Normal_Boss
+Description: At the start of battle apply boss terrain (adding boss shields) End
+Value: -75
+Unique
+End
+
+PERK: Persistent_Curses
+BelongsTo: Blight
+CampaignAbility: AfterYouGainAPerk If IsSmaller ValueOfPerk Target 0
+LockPerk Target
+Description: After you gain a perk with negative value lock it (locked perks can't be removed, interacted with and don't count for perk amounts) End
+Value: -75
+Unique
+End
+
+PERK: Regular_Taxes
+BelongsTo: Blight
+WorldAbility: AfterEndOfTheBattle ChangeCurrency -5
+Description: After each battle lose 5 gold End
+Value: -75
+BalanceCap: 20
+End
+
+PERK: Continual_Reinforcement
+BelongsTo: Blight
+WorldAbility: AfterACubeIsCreated If IsEnemy Victim If IsPlaced
+ TargetCube ARandomCubeWhich And IsALeader Test IsEnemy Test GainXExtraHp DoubleConstant 1
+Description: After an enemy is placed a random enemy leader gains 1 extra hp End
+Value: -25
+BalanceCap: 5
+End
+
+PERK: Idea_Degradation
+BelongsTo: Blight
+WorldAbility: AfterACubeDies If IsAlly Victim EveryCubeInHandOfFactionWhich 1 HasNameOfCube Test Victim
+If IsLarger HpOfCube Target 4 Silent TakeXDamage 1
+Description: After an ally dies cubes in your hand with the same name lose 1 hp, to a minimum of 4 End
+Value: -250
+Unique
+End
+
+PERK: Enemy_Perks
+BelongsTo: Blight
+WorldAbility: AtTheStartOfTheBattle
+TargetPerk ARandomPerkInLibraryWhich And IsTestPerkCubable Not IsLarger ValueOfPerk Test 50
+AddCubeToHandOfFaction CopyWithAction FreeCopy CubeConstant Glitch
+ Both GainAllAbilitiesOfPerk Target
+ Both SetSpriteToPerk Target
+ SetSpriteToCube CombinationOf2Cubes Target CubeConstant Glitch
+2
+Description: Enemies start with a free glitch cube in hand which has the ability of a random applicable perk (max value 50) End
+Value: -100
+BalanceCap: 5
+End
+
+PERK: Enemy_Addons
+BelongsTo: Blight
+WorldAbility: AtTheStartOfTheBattle AddCubeToHandOfFactionInfinitly
+ CopyWithAction FreeCopy ARandomCubeInLibraryWhich HasAbilityWithName Test Addon
+ ChangeManaCost 1
+2
+Description: Enemy starts with a random addon with infinite uses, except it only costs 1 mana End
+BalanceCap: 3
+Value: -75
+End
+
+PERK: Slow_Movement
+BelongsTo: Blight
+WorldAbility: BeforeACubeMovesNegation If IsAlly Victim If X%Chance 50 NegateX 1
+Description: Before an ally moves 50% chance it doesn't End
+Value: -50
+BalanceCap: 3
+End
+
+PERK: Heart_Puncture
+BelongsTo: Blight
+CampaignAbility: AfterAMapIsGenerated SetMapNodeScenario ARandomMapNodeWhich And IsLarger Test DoubleConstant 0
+ MapNodeIsType Test Heal
+ Battle
+Description: At the start of each map replace a life gain node with a normal battle node End
+Requirement: FirstMap
+Value: -100
+Unique
+End
+
+PERK: Rising_Awareness
+BelongsTo: Blight
+CampaignAbility: AfterAMapIsGenerated ChangeCampaignVariable DIFFICULTY DoubleConstant 1
+Description: At the start of each map increase difficulty by 1 (you are already on a map right now, it wont count for this) End
+Value: -50
+BalanceCap: 30
+Requirement: FirstMap
+End
+
+PERK: Future_Blights
+BelongsTo: Blight
+ObtainAction: Both ChangeCampaignVariable FUTURE_BLIGHTS 8 If Not HasPerk PerkConstant Future_Blights_Startup ObtainPerk PerkConstant Future_Blights_Startup
+Description: At the start of each map do a blight selection with 8 blight value (you are already on a map right now, it wont count for this, stacks in blight value) End
+Value: -300
+BalanceCap: 30
+Requirement: FirstMap
+End
+
+PERK: Sharp_Gold
+BelongsTo: Blight
+CampaignAbility: AfterYouGainOrLoseCurrency Both ChangeCampaignVariable SHARP_GOLD_COUNTER DoubleConstant 1
+ If IsLarger GetCampaignVariable SHARP_GOLD_COUNTER DoubleConstant 9 Both ChangeCampaignVariable DIFFICULTY DoubleConstant 1
+ ChangeCampaignVariable SHARP_GOLD_COUNTER DoubleConstant -10
+Description: After you gain or lose gold 10 times gain 1 difficulty: \N
+Counter: CVARIABLE SHARP_GOLD_COUNTER End
+BalanceCap: 10
+Value: -75
+Requirement: FirstMap
+End
+
+PERK: Generic_Chests
+BelongsTo: Blight
+ObtainAction: ChangeCampaignVariable CHESTMAXVALUEADD DoubleConstant -10
+RemoveAction: ChangeCampaignVariable CHESTMAXVALUEADD DoubleConstant 10
+Description: Maximum value of perks in chests reduced by 10, effectively removing class and species specific perks from chests End
+Unique
+Value: -25
+Requirement: FirstMap
+End
+
+PERK: Future_Blights_Startup
+BelongsTo: NULL
+CampaignAbility: AfterAMapIsGenerated ReadAScenario Future_Blight_Selection
+Description: Activates the future blights and combines them into one big selection instead of a bunch of small ones End
+Unique
+Invisible
+End

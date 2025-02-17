@@ -1,0 +1,115 @@
+SCENARIO: The_Rich
+Info: The Rich: Enemy gains 4 times as much positive \CMANA mana \CN End
+CubeImage: Coin_Of_Accuracy
+End
+MAP: 52 28
+
+STARTINGMANA: 2 50
+
+AI: 2 True
+SECONDARYREVEALEDHAND: 2
+
+WORLDABILITY: NormalWinLoss
+WORLDABILITY: AfterYouLose ReadAScenario End_Of_Everything_NO_CHALLENGE
+WORLDABILITY: AfterYouWin ReadAScenario End_Of_Everything_NO_CHALLENGE
+WORLDABILITY: BeforeManaIsGenerated If IsEnemy Culprit
+If IsLarger EventAmount DoubleConstant 0
+NegateX Multiplication DoubleConstant -3 EventAmount
+
+HAND: 2 1 -1 Drill
+HAND: 2 2 -1 Dwarven_Warrior
+HAND: 2 4 -1 Disease
+HAND: 2 5 -1 Fractal_Expansion
+HAND: 2 6 -1 Summer_Winds
+HAND: 2 3 -1 POWERINFLUX
+
+APPLYTERRAINPERKS
+
+EndMapData
+
+START_ACTION: IfElse PerkExists ARandomPerkInInventoryWhich PerkIsType Test Terrain
+  Both TriggerWorldSomething Battle_Terrain_Generation
+  Both TriggerWorldSomething Battle_Player_Generation
+  TriggerWorldSomething Battle_Enemy_Generation
+ Both ReadAPartialScenario Earth_Terrain
+ Both ReadAPartialScenario Battle_Normal_Player
+ ReadAPartialScenario Battle_Normal_Enemy
+
+CUBE_SELECTION
+SEnd
+
+
+
+SCENARIO: The_Dream
+Info: The Dream: If an enemy would die it does not instead End
+CubeImage: Descent_Into_Madness
+End
+MAP: 52 28
+
+STARTINGMANA: 2 50
+
+AI: 2 True
+SECONDARYREVEALEDHAND: 2
+
+WORLDABILITY: NormalWinLoss
+WORLDABILITY: AfterYouLose ReadAScenario End_Of_Everything_NO_CHALLENGE
+WORLDABILITY: AfterYouWin ReadAScenario End_Of_Everything_NO_CHALLENGE
+WORLDABILITY: BeforeACubeDies If IsEnemy Victim NegateX DoubleConstant 1
+
+HAND: 2 1 -1 Blue_Moss
+HAND: 2 2 -1 Basalt_Mine
+HAND: 2 3 -1 Knight
+HAND: 2 4 -1 Disease
+HAND: 2 5 -1 Academic_Espionage
+APPLYTERRAINPERKS
+
+EndMapData
+
+START_ACTION: IfElse PerkExists ARandomPerkInInventoryWhich PerkIsType Test Terrain
+  Both TriggerWorldSomething Battle_Terrain_Generation
+  Both TriggerWorldSomething Battle_Player_Generation
+  TriggerWorldSomething Battle_Enemy_Generation
+ Both ReadAPartialScenario Earth_Terrain
+ Both ReadAPartialScenario Battle_Normal_Player
+ ReadAPartialScenario Battle_Normal_Enemy
+
+CUBE_SELECTION
+SEnd
+
+
+
+SCENARIO: The_Eternal
+Info: The Eternal: Every 10 seconds every enemy leader's hp is set to 1000 End
+CubeImage: Eternal_Wall
+End
+MAP: 52 28
+
+STARTINGMANA: 2 50
+
+AI: 2 True
+SECONDARYREVEALEDHAND: 2
+
+WORLDABILITY: NormalWinLoss
+WORLDABILITY: AfterYouLose ReadAScenario End_Of_Everything_NO_CHALLENGE
+WORLDABILITY: AfterYouWin ReadAScenario End_Of_Everything_NO_CHALLENGE
+WORLDABILITY: EveryXSeconds DoubleConstant 10 EveryCubeWhich And IsEnemy Test IsALeader Test ChangeHp Subtraction DoubleConstant 1000 HpOfCube Target
+
+HAND: 2 1 -1 Eternal_Wall
+HAND: 2 2 -1 Pain_Goo
+HAND: 2 3 -1 Disease
+HAND: 2 4 -1 Northern_Sun
+
+APPLYTERRAINPERKS
+
+EndMapData
+
+START_ACTION: IfElse PerkExists ARandomPerkInInventoryWhich PerkIsType Test Terrain
+  Both TriggerWorldSomething Battle_Terrain_Generation
+  Both TriggerWorldSomething Battle_Player_Generation
+  TriggerWorldSomething Battle_Enemy_Generation
+ Both ReadAPartialScenario Earth_Terrain
+ Both ReadAPartialScenario Battle_Normal_Player
+ ReadAPartialScenario Battle_Normal_Enemy
+
+CUBE_SELECTION
+SEnd

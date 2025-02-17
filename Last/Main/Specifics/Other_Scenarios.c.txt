@@ -1,0 +1,634 @@
+SCENARIO: Map_Setup
+STARTINGPOINT
+CubeImage: Fighting_Symbol
+Info: Fully empty map, Infinite mana, all cubes unlocked, can't win or lose, keybind to save the map for modding can be found in the controls menu, CTRL+S+L opens the log folder where they are saved, check out GameData/Extra_Mechanics/Battle_Maps.c.txt and TerrainPerks.c.txt for their use and application if you do modding.
+ End
+MaxScore: 1
+End
+CAMPAIGN: 
+
+PERK: Terrain_Depth_Generation
+PERK: Spell_Ghosts
+PERK: The_Oracle
+
+CUBES_PER_DECK: 15
+STARTING_DECK: 0 Disintegrate
+STARTING_DECK: 1 Earth
+STARTING_DECK: 2 Rock
+STARTING_DECK: 3 Deep_Rock
+STARTING_DECK: 4 Concrete
+STARTING_DECK: 5 Limestone
+STARTING_DECK: 6 Mirror_Placement
+STARTING_DECK: 7 Player_Placement
+STARTING_DECK: 8 Enemy_Placement
+STARTING_DECK: 9 Mana_Crystal
+STARTING_DECK: 10 Reverse_Engineer
+STARTING_DECK: 11 Null
+STARTING_DECK: 12 Null
+STARTING_DECK: 13 Null
+STARTING_DECK: 14 Null
+
+UNLOCK_ALL_CUBES True
+
+End
+
+MAP: 52 28
+
+PLACERECT: 0 0 52 28 1
+
+ALLOWREPLACE
+
+STARTINGMANA: 1 50
+
+WORLDABILITY: AfterACubeIsCreated If And IsPlaced IsAlly Culprit
+Both Silent TargetCube Victim SetFaction DoubleConstant 0
+Silent FactionXGainsYMana DoubleConstant 1 Subtraction MaxManaOfFaction DoubleConstant 1 ManaOfFaction DoubleConstant 1
+
+APPLYTERRAINPERKS
+
+EndMapData
+ 
+START_ACTION: Both IfElse PerkExists ARandomPerkInInventoryWhich PerkIsType Test Terrain
+  Both TriggerWorldSomething Battle_Terrain_Generation
+  Both TriggerWorldSomething Battle_Player_Generation
+  TriggerWorldSomething Battle_Enemy_Generation
+ Both ReadAPartialScenario Battle_Normal_Player
+ ReadAPartialScenario Battle_Normal_Enemy
+ReadAPartialScenario Place_Everywhere
+
+CUBE_SELECTION
+
+SEnd
+
+SCENARIO: Place_Everywhere
+Info: allow placing everywhere End
+End
+
+ADDITIONALMAP:
+// 52 28 //
+
+PLACERECT: 0 0 52 28 1
+
+EndMapData
+SEnd
+
+
+SCENARIO: Brain_Melter
+STARTINGPOINT
+Info: All cubes you gain are randomly generated and may be unexplainable or hard to understand or freeze the game. Only suggested for true experts. You can't save during this.
+ Win to complete the challenge.
+ End
+MaxScore: 0
+End
+CAMPAIGN: 
+
+PERK: Only_Gain_Generated_Cubes
+
+End
+
+START_ACTION: ReadAScenario Campaign
+
+SEnd
+
+
+SCENARIO: Daily_Campaign
+STARTINGPOINT
+Info: A normal campaign except the class, species and a random perk are predetermined based on the current day,
+ this campaign is the same for all players as long as they play on the same day with the same version of the game
+ End
+End
+
+UNLOCK_ALL
+
+CAMPAIGN:
+
+DAILYSEED
+
+End
+
+START_ACTION: ReadAScenario Random_Daily_Campaign
+
+SEnd
+
+
+
+SCENARIO: Random_Daily_Campaign
+STARTINGPOINT
+Info: Like the daily campaign, but with a random seed not specified by the day.
+ End
+End
+
+UNLOCK_ALL
+CAMPAIGN:
+
+YOU_IMAGE_PERK: NoClass-NoSpecies
+STARTING_LIVES: 3
+
+PERK: Reroll_Cost_Increase
+PERK: Terrain_Depth_Generation
+PERK: Debt_Effects
+PERK: Gravity
+PERK: Spell_Ghosts
+PERK: Pandoras_Box
+PERK: Overflow_Deal
+
+End
+
+NODEMAP:
+
+RESET_NODE_MAP
+
+BACKGROUND_COLOUR: 0 100 0
+
+RANDOMIZED_PATH_SYSTEM:
+
+ MAP_NODE: NULL 45 End
+ MAP_NODE: Random_Perk_Reward 50 End
+ MAP_NODE: First_Map 45 End
+
+ LAYER: 1 1 0
+ LAYER: 1 1 1
+ LAYER: 1 1 2
+
+ CLOSESTPATHS
+
+End
+
+STARTING_NODE: 0
+End
+
+START_ACTION: Both If SeededX%Chance DoubleConstant 50 ReadAScenario Random_Nightmare
+Both If SeededX%Chance DoubleConstant 50 ReadAScenario Random_Neutral_Perk_Reward
+ReadAScenario Random_Class_And_Species_Reward
+
+SEnd
+
+SCENARIO: Random_Nightmare
+ Info: Gain a random amount of nightmares End
+ End
+ 
+PERK_SELECTION: 
+ TYPE: 1 
+ SELECTRANDOM
+ End
+
+SEnd
+
+
+SCENARIO: Mirror_Breaker
+STARTINGPOINT
+CubeImage: Fighting_Symbol
+Info: After you place a cube the enemy also places an enemy copy of that cube on the opposite side of the map, infinite mana, all cubes unlocked.
+ End
+MaxScore: 1
+End
+CAMPAIGN: 
+
+PERK: Terrain_Depth_Generation
+PERK: Spell_Ghosts
+PERK: Gravity
+
+UNLOCK_ALL_CUBES false
+
+End
+
+MAP: 52 28
+
+CUBE: 1 Enemy_Tutorial_Leader
+CUBE: 2 Earth
+CUBE: 3 Rock
+
+DATARECT: 3 0  0 27  52 1
+
+DATARECT: 2 0  5 26  42 1
+DATARECT: 3 0  47 26  5 1
+DATARECT: 3 0  0 26  5 1
+
+DATARECT: 2 0  0 25  52 1
+DATARECT: 2 0  0 24  52 1
+
+DATARECT: 2 0  40 23  12 1
+DATARECT: 2 0  45 22  7 1
+
+DATARECT: 2 0  0 23  12 1
+DATARECT: 2 0  0 22  7 1
+
+DATA: 1 1 21 1
+DATA: 1 50 21 2
+
+PLACERECT: 0 0 26 28 1
+PLACERECT: 26 0 26 28 2
+
+WORLDCAMPAIGNEFFECTS
+
+STARTINGMANA: 1 100
+
+WORLDABILITY: NormalWinLoss
+WORLDABILITY: AfterYouLose EndCampaign
+WORLDABILITY: AfterYouWin Both SetScore DoubleConstant 1 Both WinCampaign EndCampaign
+WORLDABILITY: AfterACubeIsCreated If And IsPlaced IsAlly Culprit
+Both FactionPlacesCubeOnPosition DoubleConstant 2 CopyWithAction Victim SetFaction DoubleConstant 2
+ PositionFromXAndY Subtraction MaxWorldX XOfPosition PositionOfCube Victim YOfPosition PositionOfCube Victim
+FactionXGainsYMana DoubleConstant 1 Subtraction MaxManaOfFaction DoubleConstant 1 ManaOfFaction DoubleConstant 1
+
+EndMapData
+
+CUBE_SELECTION
+SEnd
+
+
+
+SCENARIO: Mysterious_Journey
+STARTINGPOINT
+Info: Embrace chaos by starting each battle with only mysterious journey and little other cubes, additionally you gain more mana
+ Win to complete the challenge.
+ End
+MaxScore: 1
+End
+CAMPAIGN: 
+
+PERK: Only_Mysterious_Journey
+
+End
+
+START_ACTION: ReadAScenario Campaign
+
+SEnd
+
+
+SCENARIO: Dicicate
+STARTINGPOINT
+Info: The cubes which start in your hand randomize to new ones every time they are placed, but have 20 seconds of double time, harder than the normal game.
+ End
+MaxScore: 1
+End
+CAMPAIGN: 
+
+PERK: Maximum_Diceicate
+
+End
+
+START_ACTION: Both LockPerk Maximum_Diceicate ReadAScenario Campaign
+
+SEnd
+
+
+SCENARIO: Goblin_Ball
+Info: Play a round of goblin ball. End
+CubeImage: Goblin_Ball
+End
+
+MAP: 40 55
+
+CUBE: 1 Difficulty_Leader
+CUBE: 2 Void
+CUBE: 3 Peg
+CUBE: 4 Sky_Platform
+
+DATARECT: 2 0  0 54  40 1
+
+CAMPAIGNSETUP: 20 1
+DATA: 4 20 2 1
+
+PLACERECT: 0 0 32 3 1
+
+PLACERECT: 0 0 40 3 1
+PLACERECT: 0 3 40 52 2
+
+HAND: 1 1 -1 Goblin_Ball
+HAND: 1 2 -1 Win
+
+WORLDABILITY: BeforeManaIsGenerated NegateX EventAmount
+WORLDABILITY: AfterACubeDies If CubeHasName Victim Goblin_Ball
+ If Not CubeExists ARandomCubeWhich CubeHasName Test Goblin_Ball
+ If IsSmaller ManaOfFaction DoubleConstant 1 ManaCostOfCube CubeConstant Goblin_Ball
+ Win
+WORLDABILITY: EveryXMinutes DoubleConstant 10 Win
+
+EndMapData
+
+START_ACTION: Both TargetCube CopyOfCube CubeConstant Peg SetFaction DoubleConstant 2
+SetStorage Target TargetCube Caster
+Both SetVariable TEMPX MaxWorldX 
+Until IsSmaller GetVariableOnCube TEMPX Caster DoubleConstant 1
+ Both ChangeVariable TEMPX DoubleConstant -1
+ Both SetVariable TEMPY Subtraction MaxWorldY DoubleConstant 3
+ Until IsSmaller GetVariableOnCube TEMPY Caster DoubleConstant 4
+  Both ChangeVariable TEMPY DoubleConstant -1
+   If X%Chance Subtraction DoubleConstant 17 AbsoluteAmount Subtraction DoubleConstant 25 GetVariableOnCube TEMPY Caster
+   CreateCubeOnPosition Storage PositionFromXAndY GetVariableOnCube TEMPX Caster GetVariableOnCube TEMPY Caster
+Nothing Nothing
+
+START_ACTION: XTimes DoubleConstant 3 TargetCube ARandomCubeWhich CubeHasName Test Peg
+ Both Exile CreateCubeOnPosition CopyWithAction CubeConstant Golden_Peg SetFaction DoubleConstant 2
+  PositionOfCube Target
+
+SEnd
+
+
+SCENARIO: Old_Mine
+Info: 4 minutes to dig out as much as you can End
+End
+MAP: 52 28
+
+CUBE: 1 Rock 
+CUBE: 2 Earth
+CUBE: 3 Deep_Rock
+
+// Ground Rock //
+DATARECT: 1 0  0 26  52 2
+
+// Mine //
+DATARECT: 2 0  19 25  33 1
+DATARECT: 2 0  20 23  32 2
+DATARECT: 2 0  21 22  31 1
+DATARECT: 2 0  21 21  31 1
+DATARECT: 2 0  22 20  30 1
+DATARECT: 2 0  22 19  30 1
+DATARECT: 2 0  23 17  29 2
+DATARECT: 2 0  24 14  28 3
+
+// Ceiling //
+DATARECT: 3 0  24 11  28 3
+DATARECT: 3 0  23 9  29 2
+DATARECT: 3 0  22 8  30 1
+DATARECT: 3 0  21 7  31 1
+DATARECT: 3 0  19 6  33 1
+DATARECT: 3 0  17 5  35 1
+DATARECT: 3 0  14 4  38 1
+DATARECT: 3 0  10 3  42 1
+DATARECT: 3 0  5 2  47 1
+DATARECT: 3 0  0 0  52 2
+
+
+
+CAMPAIGNSETUP: 7 25
+
+PLACERECT: 0 0 52 28 1
+
+WORLDABILITY: EveryXMinutes DoubleConstant 4 Win
+WORLDABILITY: EveryTick If And Not CubeExists ARandomCubeWhich CubeHasName Test Gold_Ore
+Not CubeExists ARandomCubeWhich CubeHasName Test Buried_Gold
+Win
+
+// Stalaktite //
+WORLDABILITY: AtTheStartOftheBattle EveryCubeWhich CubeHasName Test Deep_Rock 
+If IsPositionEmpty PositionInDirectionFromPosition South PositionOfCube Target 
+ If X%Chance DoubleConstant 20
+ Both CreateCubeOnPosition CubeConstant Deep_Rock PositionInDirectionFromPosition South PositionOfCube Target
+ CreateCubeOnPosition CubeConstant Deep_Rock PositionInDirectionFromPosition South PositionInDirectionFromPosition South PositionOfCube Target
+
+// Replace Earth With Rocks //
+WORLDABILITY: AtTheStartOftheBattle EveryCubeWhich CubeHasName Test Earth 
+ IfElse X%Chance DoubleConstant 70 Nothing
+ IfElse X%Chance DoubleConstant 80 Both Exile CreateCubeOnPosition CubeConstant Deep_Rock PositionOfCube Target
+ Both Exile CreateCubeOnPosition CopyWithAction CubeConstant TNT SetFaction DoubleConstant 2 PositionOfCube Target
+ 
+// Replace Earth With Ore //
+
+WORLDABILITY: AtTheStartOftheBattle EveryCubeWhich CubeHasName Test Earth 
+ IfElse X%Chance Subtraction DoubleConstant 110 XOfPosition PositionOfCube Target Nothing
+ Both Exile CreateCubeOnPosition CubeConstant Gold_Ore PositionOfCube Target
+
+// Rare Ore //
+
+WORLDABILITY: AtTheStartOfTheBattle 
+XTimes DoubleConstant 3 TargetCube ARandomCubeWhich CubeHasName Test Gold_Ore
+ Both Exile CreateCubeOnPosition CubeConstant Buried_Gold PositionOfCube Target
+
+EndMapData
+
+CUBE_SELECTION
+
+SEnd
+
+
+SCENARIO: Forced_Loss_Battle
+Info: Forced Loss Battle (It is near impossible to win) End
+PerkImage: Curse_Of_Slogroth
+End
+MAP: 13 17
+
+CUBE: 1 Eldritch_Flesh
+CUBE: 2 Eldritch_Arms
+CUBE: 3 Eldritch_Eye
+CUBE: 4 Poisoners_Kit
+
+CAMPAIGNSETUP: 6 3 
+
+// Maws //
+
+DATA: 2  0 3  2
+DATA: 2  1 4  2
+DATARECT: 2 2  2 5  9 1
+DATA: 2  12 3  2
+DATA: 2  11 4  2
+
+// Flesh //
+
+
+
+DATA: 1  1 5  2
+DATA: 1  0 5  2
+DATA: 1  0 4  2
+DATARECT: 1 2  0 6  13 11
+DATA: 1  11 5  2
+DATA: 1  12 5  2
+DATA: 1  12 4  2
+
+
+STARTINGMAXMANA: 2 20000
+
+PLACERECT: 0 0 13 17 1
+
+
+// May be eyes //
+WORLDABILITY: AtTheStartOftheBattle EveryCubeWhich CubeHasName Test Eldritch_Flesh
+ If X%Chance DoubleConstant 20
+ If IsLarger YOfPosition PositionOfCube Target DoubleConstant 7
+ Both Exile CreateCubeOnPosition CopyWithAction CubeConstant Eldritch_Eye SetFaction DoubleConstant 2 PositionOfCube Target
+
+// Increased stats //
+WORLDABILITY: AtTheStartOfTheBattle 
+EveryCubeWhich IsEnemy Test
+Silent Both GainAbility LEADER 
+Both GainXExtraHp Addition DoubleConstant 2 Difficulty
+GainAbilityStacking StrengthX 0 Difficulty
+
+
+WORLDABILITY: NormalWinLoss
+WORLDABILITY: AfterYouLose Both LoseALife If IsSmaller RemainingLives DoubleConstant 1 EndCampaign
+WORLDABILITY: BeforeYouWin 1Shot GrantXP Multiplication 2 DifficultyXP
+WORLDABILITY: AfterYouWin Both Both Both Both
+ ChangeCurrency DoubleConstant 100
+ LosePerkWithScreen PerkConstant Curse_Of_Slogroth
+ ReadAScenario Basic_Cube_Reward
+ ChangeDifficulty DoubleConstant 1 
+ TriggerCampaignSomething Cursed_Battle_Win
+
+EndMapData
+
+CUBE_SELECTION
+SEnd
+
+
+
+SCENARIO: Foot_Race
+Info: get your leader to the goal as fast as you can End
+End
+MAP: 52 28
+
+CUBE: 1 Earth
+CUBE: 2 Deep_Rock
+CUBE: 3 Goal_Flag
+CUBE: 4 Tar_Pit
+CUBE: 5 Teleporter_Pad
+CUBE: 6 Healing_Pillar
+CUBE: 7 Slime_Transport_Belt
+CUBE: 8 Brick_Wall
+CUBE: 9 Sunflower
+CUBE: 10 Buried_Gold
+
+// Ground Rock //
+DATARECT: 2 0  0 25  52 3
+
+DATA: 2  0 24  0
+DATA: 2  0 23  0
+DATA: 2  0 22  0
+
+CAMPAIGNSETUP: 2 24
+
+// First Hurdle //
+
+DATA: 4  4 25  0
+DATA: 4  5 25  0
+DATA: 6  6 25  0
+DATA: 4  7 25  0
+
+// Boost //
+DATA: 7  10 24  1
+DATA: 7  12 24  1
+
+// Wall Hurdle //
+
+DATA: 8  15 24  2
+
+DATA: 8  20 24  2
+DATA: 8  20 23  2
+
+// Teleport Shortcut // 
+
+DATA: 2  22 23  0
+DATA: 2  22 22  0
+DATA: 5  22 21  1
+
+DATA: 5  25 24  1
+
+// Pit // 
+DATA: 2  30 24  0
+DATA: 2  31 24  0
+DATA: 2  31 23  0
+DATA: 2  32 24  0
+DATA: 2  32 23  0
+DATA: 2  32 22  0
+
+DATA: 4  33 24  2 
+DATA: 4  34 24  2 
+DATA: 4  35 24  2 
+
+DATARECT: 2 0  36 22  16 3
+
+// Bad Belts //
+
+DATA: 7  40 21 2
+
+// Sunflower //
+
+DATA: 9  43 22  2
+
+DATA: 9  45 22  2
+
+DATA: 9  47 22  2
+
+// Gold //
+
+DATA: 10 40 25  0
+
+// Goal //
+DATA: 3  50 21  2
+DATA: 3  51 21  2
+
+// Everywhere //
+PLACERECT: 0 0 52 28 1 
+
+WORLDABILITY: AtTheStartOfTheBattle AddCubeToHandOfFactionInfinitly CubeConstant Leader_Movement DoubleConstant 1
+
+WORLDABILITY: AtTheStartOfTheBattle TargetCube ARandomCubeWhich And IsAlly Test IsALeader Test XTimes DoubleConstant 9 
+GainAbility BaseManaGen
+
+WORLDABILITY: EveryXMinutes DoubleConstant 5 Win
+WORLDABILITY: AfterYouWin ChangeCurrency RoundedDown Division Subtraction Multiplication DoubleConstant 5 DoubleConstant 3600 
+WorldTime DoubleConstant 300
+
+STARTINGTIMESPEED: 0
+
+EndMapData
+
+CUBE_SELECTION
+
+SEnd
+
+SCENARIO: Autobattler
+STARTINGPOINT
+Info: Normal campaign, except cube placement is automated (via The_AI perk counterbalanced with Curse_Of_Power) and +2 decksize End
+End
+
+CAMPAIGN: 
+
+PERK: The_AI
+PERK: Curse_Of_Power
+
+End
+
+START_ACTION: Both Both ChangeDeckSize DoubleConstant 2 LockPerk PerkConstant The_AI ReadAScenario Campaign
+
+SEnd
+
+
+SCENARIO: Automated
+STARTINGPOINT
+Info: Normal campaign, except its fully automatic and there is little choice (Shops, Cursed Trades, Events and Smiths will still require you to take action, programmer not recommended) End
+End
+
+CAMPAIGN: 
+
+PERK: Curse_Of_Missing_Options
+STACKPERK: Curse_Of_Missing_Options
+PERK: Curse_Of_Missing_Perks
+STACKPERK: Curse_Of_Missing_Perks
+PERK: Curse_Of_Rerolls
+PERK: Curse_Of_No_Map
+PERK: Curse_Of_Clicking
+STACKPERK: Curse_Of_Clicking
+PERK: No_Deck
+PERK: No_Perk_Clicking
+
+PERK: The_AI
+
+End
+
+START_ACTION: 
+ Both LockPerk PerkConstant The_AI 
+ Both LockPerk PerkConstant Curse_Of_Missing_Options
+ Both LockPerk PerkConstant Curse_Of_Missing_Perks
+ Both LockPerk PerkConstant Curse_Of_Rerolls
+ Both LockPerk PerkConstant Curse_Of_No_Map
+ Both LockPerk PerkConstant Curse_Of_Clicking
+ Both BanishPerk PerkConstant Skip
+ Both BanishPerk PerkConstant Eventful_Skip
+ Both BanishPerk PerkConstant Gambling_Addiction
+ Both BanishPerk PerkConstant Refreshed_Gambling_Addiction
+ Both BanishPerk PerkConstant Overflow_Deal
+ ReadAScenario Campaign
+
+SEnd

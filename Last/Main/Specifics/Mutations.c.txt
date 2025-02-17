@@ -1,0 +1,202 @@
+CUBE: Mutation_Screach 80 0 0
+TOKEN
+Ability: EvolveMoil GainAbilityText AfterThisIsCreated EveryCubeWhich IsEnemyToCaster Test TakeXDamage DoubleConstant 1
+After this is created deal 1 damage to every enemy End
+Text:  After this is created Evolve_Moil in your hand gain: \N After this is created deal 1 damage to every enemy \N
+then remove all mutations from your hand and exile this End
+End
+
+CUBE: Mutation_Eternal 50 0 0
+TOKEN
+Ability: EvolveMoil GainAbility Eternal
+End
+
+CUBE: Mutation_Temporal 40 0 0
+TOKEN
+Ability: EvolveMoil GainAbility DoubleTimeX 20
+End
+
+CUBE: Mutation_Brood 70 0 0
+TOKEN
+Ability: EvolveMoil GainAbilityText EveryXMinutes DoubleConstant 2 
+CreateCubeOnPosition CopyWithAction Caster
+ Both Silent ChangeMaxHp DoubleConstant -5
+ Silent TakeXDamage DoubleConstant 9
+ PositionInDirectionFromThis North
+Every 2 minutes replicate upwards, except the copy has 5 less max hp and 9 less hp End
+End
+
+CUBE: Mutation_Mind_Meld 20 0 0
+TOKEN
+Ability: EvolveMoil GainAbility LEADER
+End
+
+CUBE: Mutation_Wings 20 0 0
+TOKEN
+Ability: EvolveMoil GainAbility Flying
+End
+
+CUBE: Mutation_Cheap 90 0 0
+TOKEN
+Ability: EvolveMoil GainAbilityText AfterThisIsCreated If Not HasNameOfCube Culprit Caster RefundX Division ManaCostOfCube Caster DoubleConstant 2
+After this is created by a cube with a different name refund half of this cubes cost End
+End
+
+CUBE: Mutation_Teleport_Hunt 30 0 0
+TOKEN
+Ability: EvolveMoil GainAbilityText 
+Every30Seconds TeleportToPosition PositionInDirectionFromPosition Backwards PositionOfCube 
+ARandomCubeWhich And And Not IsALeader Test IsEnemyToCaster Test IsPositionEmpty PositionInDirectionFromPosition Backwards PositionOfCube Test
+Every 30 seconds teleport in front of a random non leader enemy, which has space in front of it End
+End
+
+CUBE: Mutation_Internal_Chambers 50 0 0
+TOKEN
+Ability: EvolveMoil GainAbility CascadeX 10
+End
+
+CUBE: Mutation_Blue_Heart 20 0 0
+TOKEN
+Ability: EvolveMoil GainAbilityText AfterThisIsCreated ChangeMaxManaOfFaction DoubleConstant 10 FactionOfThis
+After this is created increase max mana by 10 End
+End
+
+CUBE: Mutation_Temporal_Spontaniousness 20 0 0
+TOKEN
+Ability: EvolveMoil GainAbilityText AfterThisIsCreated AccelerateX TimeConstant 600
+After this is created 10 seconds instantly happen for this End
+End
+
+CUBE: Mutation_Explosive_Blood 40 0 0
+TOKEN
+Ability: EvolveMoil GainAbility ExplodesX 4
+End
+
+CUBE: Mutation_Misery_Curse 100 0 0
+TOKEN
+Ability: EvolveMoil GainAbility MiseryX 1
+End
+
+CUBE: Mutation_Vengeful_Limbs 20 0 0
+TOKEN
+Ability: EvolveMoil GainAbility VengeanceX 7
+End
+
+CUBE: Mutation_Devouring_Mouths 50 0 0
+TOKEN
+Ability: EvolveMoil GainAbility DevouringX 2
+End
+
+CUBE: Mutation_Vampirism 100 0 0
+TOKEN
+Ability: EvolveMoil GainAbility LifeSteal
+End
+
+CUBE: Mutation_Doubleing 100 0 0
+TOKEN
+Ability: EvolveMoil GainAbilityText AfterThisIsCreated If Not HasNameOfCube Culprit Caster CreateCubeOnPosition Caster
+PositionInDirectionFromThis North
+After this is created by a cube with a different name create a copy of this above this End
+End
+
+CUBE: Mutation_Eyes 40 0 0
+TOKEN
+Ability: EvolveMoil GainAbility EyeXY TimeConstant 600 DoubleConstant 1
+End
+
+CUBE: Mutation_Regeneration 70 0 0
+TOKEN
+Ability: EvolveMoil GainAbility RegenerationX 5
+End
+
+CUBE: Mutation_Deadly_Bile 60 0 0
+TOKEN
+Ability: EvolveMoil GainAbility DeadlyX 2
+End
+
+CUBE: Mutation_Warping_Fear 20 0 0
+TOKEN
+Ability: EvolveMoil GainAbilityText AfterThisTakesDamage TeleportToPosition 
+PositionXInfrontYBelowPosition DoubleConstant -4 DoubleConstant 0 PositionOfCube Target
+After this takes damage teleport 4 spaces backwards End
+Text:  After this is created Evolve_Moil in your hand gain: \N 
+After this takes damage teleport 4 spaces backwards \N
+then remove all mutations from your hand and exile this End
+End
+
+CUBE: Mutation_Time_Scale_Scales 30 0 0
+TOKEN
+Ability: EvolveMoil GainAbilityText AfterThisIsCreated XTimes Division WorldTime TimeConstant 3600 
+GainXExtraHp DoubleConstant 1
+After this is created gain 1 extra hp per minute of elapsed time End
+End
+
+CUBE: Mutation_Fearful_Mind 20 0 0
+TOKEN
+Ability: EvolveMoil Both GainAbilityText BeforeThisMovesNegation If IsLarger MaxHpOfCube Caster HpOfCube Caster
+NegateX DoubleConstant 100
+Unmovable while damaged End
+GainXExtraHp DoubleConstant 5
+Text:  After this is created Evolve_Moil in your hand gain: \N 
+Unmovable while damaged and 5 extra hp \N
+then remove all mutations from your hand and exile this End
+End
+
+CUBE: Mutation_Creative_Thought 30 0 0
+TOKEN
+Ability: EvolveMoil GainAbilityText EveryMinute Both RemoveThisAbility
+ GainARandomBonus
+After 1 minute gain a random bonus and lose this ability End
+End
+
+CUBE: Mutation_Lions_Courage 30 0 0
+TOKEN
+Ability: EvolveMoil GainAbilityText BeforeThisDealsDamage If Not IsSmaller HpOfCube Caster MaxHpOfCube Caster
+NegateX DoubleConstant -2
+Before this deals damage, if this is undamaged, that damage is increase by 2 End
+End
+
+CUBE: Mutation_Death_Stare 60 0 0
+TOKEN
+Ability: EvolveMoil GainAbilityText AfterThisIsCreated TargetCube ARandomCubeWhich And IsEnemyToCaster Test IsSmaller HpOfCube Test HpOfCube Caster Die
+After this is created kill a random enemy with lower hp End
+End
+
+CUBE: Mutation_Aerodynamic_Form 40 0 0
+TOKEN
+Ability: EvolveMoil GainAbilityText AfterThisMoves MoveInDirection EventDirection 
+After this moves, move again in the same direction End
+End
+
+CUBE: Mutation_Mutating 100 0 0
+TOKEN
+Ability: EvolveMoil GainAbilityText AfterThisIsCreated AddCubeToHandOfThis ARandomCubeInLibraryWhich
+And HasAbilityWithName Test EvolveMoil IsNotInHandOfThis Test
+After this is created add a random mutation to your hand End
+End
+
+CUBE: Mutation_Yellow_Blood 20 0 0
+TOKEN
+Ability: EvolveMoil GainAbilityText AfterThisIsCreated TargetCube ARandomCubeWhich And And IsAllyToCaster Test IsALeader Test IsDamaged 
+HealXDamage DoubleConstant 10
+After this is created heal a random damaged leader for 10 hp End
+End
+
+CUBE: Mutation_Floating 10 0 0
+TOKEN
+Ability: EvolveMoil GainAbility Hovering
+End
+
+CUBE: Mutation_Ressucitation_Organ 100 0 0
+TOKEN
+Ability: EvolveMoil GainAbility ExtraLife
+End
+
+CUBE: Mutation_Errupting 60 0 0
+TOKEN
+Ability: EvolveMoil GainAbilityText EveryXCreateCubeAbove TimeConstant 600 CubeConstant Mortar_Projectile
+Every 10 seconds create an arcing Mortar_Projectile above this End
+End
+
+
+

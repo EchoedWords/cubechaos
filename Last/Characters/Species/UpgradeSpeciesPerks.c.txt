@@ -1,0 +1,632 @@
+PERK: Baby_Chaos_Dragon
+Description: You start with a free Baby_Chaos_Dragon in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Baby_Chaos_Dragon RemoveThisAbility
+IsUpgradeFrom: Chaos_Dragon_Egg 60
+End
+
+PERK: Recursive_Chaotic_Boosts
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If X%Chance DoubleConstant 20 TargetCube Victim GainARandomBonus
+ExtraTrigger: BeforeACubeGainsAnAbility If IsAllyToCaster Victim If X%Chance DoubleConstant 20 TargetCube Victim GainARandomBonus
+Description: After an ally is created or before it gains an ability 20% chance it gains a random bonus End
+IsUpgradeFrom: Chaotic_Boosts 80
+End
+
+PERK: Stable_Intrusions_To_Reality
+Ability: BeforeACubeIsAddedToYourHand If X%Chance DoubleConstant 90 
+CreateCubeOnPosition Victim PositionInDirectionFromPosition North PositionOfCube ARandomCubeWhich And And IsAllyToCaster Test Not IsALeader Test
+IsPositionEmpty PositionInDirectionFromPosition North PositionOfCube Test
+Description: Before a cube is added to your hand 90% chance to create a copy of it above a random non leader ally which has space above it End
+IsUpgradeFrom: Intrusions_To_Reality 80
+End
+
+PERK: Mindbreaking_Chaotic_Additions
+Ability: BeforeACubeIsAddedToYourHand TargetCube Victim Both GainARandomBonus
+GainAllAbilitiesOfCube ARandomCubeInLibraryWhich Not IsToken Test
+Description: Before a cube is added to your hand it gains a random bonus and all abilities of a random cube from the library End
+IsUpgradeFrom: Chaotic_Additions 40
+End
+
+PERK: Familiar_Abominations
+Ability: EveryMinute
+TargetCube ARandomCubeWhich And Not IsALeader Test Not IsNeutral Test
+ Both XTimes DoubleConstant 3 TargetCube CombinationOf2Cubes Target ARandomCubeWhich And Not IsALeader Test Not IsNeutral Test Nothing
+ Both GainAbility WorthXMore 100 
+ Both NoManaCost
+ Both If IsEnemyToCaster Target SetFaction FactionOfThis
+AddCubeToHandOfThis Target
+Description: Every minute add a free combination of 4 random non leader non neutral cubes to your hand, becomes allied if not neutral End
+IsUpgradeFrom: Familiar_Monsters 60
+End
+
+PERK: Thieving_Chaotic_Negation
+Ability: BeforeACubeIsAddedToAHand If Not IsEqual FactionOfThis EventFaction If X%Chance DoubleConstant 50 
+Both NegateX DoubleConstant 10
+AddCubeToHandOfThis CopyWithAction Victim 
+ Both GainAbility WorthXMore 100 Both NoManaCost SetFaction FactionOfThis
+Description: Before a cube is added to an opponents hand there is a 50% chance it will be added to your hand instead and it becomes free and your faction End
+IsUpgradeFrom: Chaotic_Negation 40
+End
+
+PERK: Quintupled_Chaotic_Equality
+Ability: Every30Seconds SetStorage FreeCopy ARandomCubeInLibraryWhich Not IsToken Test
+XTimes DoubleConstant 5 Both AddCubeToHandOfThis Storage
+AddCubeToHandOfFaction Storage EnemyFaction
+Description: Every 30 seconds a random free cube is added both to your and your opponent's hand 5 times End
+IsUpgradeFrom: Chaotic_Equality 120
+End
+
+
+PERK: Baby_Crystal_Dragon
+Description: You start with a free Baby_Crystal_Dragon in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Baby_Crystal_Dragon RemoveThisAbility
+IsUpgradeFrom: Crystal_Dragon_Egg 60
+End
+
+PERK: Actually_Growing_Together
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim 
+Both Both Both Both Both
+SetVariable TEMP DoubleConstant 0
+If IsAllyToCaster CubeInDirectionFromCube North Victim ChangeVariable TEMP DoubleConstant 1
+If IsAllyToCaster CubeInDirectionFromCube East Victim ChangeVariable TEMP DoubleConstant 1
+If IsAllyToCaster CubeInDirectionFromCube South Victim ChangeVariable TEMP DoubleConstant 1
+If IsAllyToCaster CubeInDirectionFromCube West Victim ChangeVariable TEMP DoubleConstant 1
+If IsLarger GetVariableOnCube TEMP Target DoubleConstant 2
+Both GainAbility RegenerationX 10
+GainAbility GrowthX 5
+Description: Allies created touching 3 or more allies gain \C76 255 0 regeneration 10  \CN and growth 5 (healing 10 damage and gaining 5 extra hp over each minute) End
+IsUpgradeFrom: Growing_Together 60
+End
+
+PERK: Observant_Crystal_Magnet
+Ability: AfterACubeDies If IsAllyToCaster Victim
+GainXExtraHp Division MaxHpOfCube Victim DoubleConstant 2
+Description: After an ally dies your starting leader gains half of its max hp in extra hp End
+IsUpgradeFrom: Crystal_Magnet 120
+End
+
+PERK: Absolute_Holding_Together
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsPlaced Both 
+ TargetCube Victim ChangeHp Minus HpOfCube Victim
+ EveryCubeTouchingPosition PositionOfCube Victim
+ If IsAllyToCaster Target TargetCube Victim
+ GainXExtraHp HpOfCube ARandomCubeInLibraryWhich HasNameOfCube Test Target
+Description: After an ally is placed set its hp to 0 then for every touching non leader ally it gains extra hp equal to how much hp it would usually have with its name End
+IsUpgradeFrom: Holding_Together 160
+End
+
+PERK: Armored_Distance_Shielding
+Ability: BeforeThisTakesDamage Both NegateX DoubleConstant 2
+EveryCubeTouchingPosition PositionOfThis
+If IsEnemyToCaster Target NegateX DoubleConstant -1
+Description: Your starting leader takes 2 less damage from everything, but 1 more for every enemy touching it End
+IsUpgradeFrom: Distance_Shielding 160
+End
+
+PERK: Extremely_Hardened_Earth
+Ability: AtTheStartOfTheBattle Both EveryCubeWhich IsNeutral Test Both GainAbility ArmorX 1 GainXExtraHp DoubleConstant 20 RemoveThisAbility
+Description: At the start of each battle neutrals gain 1 armor and 20 extra hp End
+IsUpgradeFrom: Hardened_Earth 40
+End
+
+PERK: Piercing_Imperfections
+Ability: EveryMinute EveryCubeWhich IsDamaged TakeXDamage DoubleConstant 1
+ExtraTrigger: BeforeACubeTakesDamage If IsSmaller HpOfCube Victim MaxHpOfCube Victim
+NegateX Minus EventAmount
+Description: Every minute your starting leader deals 1 damage to every damaged cube, damaged cubes take double damage End
+IsUpgradeFrom: Imperfections 60
+End
+
+
+
+PERK: Baby_Stone_Dragon
+Description: You start with a free Baby_Stone_Dragon in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Baby_Stone_Dragon RemoveThisAbility
+IsUpgradeFrom: Stone_Dragon_Egg 60
+End
+
+PERK: Crystal_Stone_Fortifications
+Description: Your stone heals all touching allies for 1 hp every 10 seconds End
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Stone
+GainAbilityText Every10Seconds EveryCubeTouchingPosition PositionOfThis If IsAllyToCaster Target HealXDamage DoubleConstant 1
+Every 10 seconds heal all touching allies for 1 hp End
+RemoveThisAbility
+IsUpgradeFrom: Stone_Fortifications 80
+End
+
+PERK: Regular_Stone_Mines
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Stone
+ChangeManaCost Division ManaCostOfCube Target DoubleConstant -4
+RemoveThisAbility
+Ability: EveryMinute AddCubeToHandOfThis FreeCopy ARandomCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Stone
+Description: Your stone cost 1/4 less. Add a free copy of your stone to your hand every minute End
+IsUpgradeFrom: Stone_Mines 60
+End
+
+PERK: Repeatedly_Crumbling_Stone
+Description: After your stone dies add a free neutral rough gravel cube to your hand and there is a 50% chance it creates a half hp copy in its place End
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Stone
+GainAbilityText AfterThisDies Both AddCubeToHandOfThis NeutralCopy FreeCopy CubeConstant Rough_Gravel
+If X%Chance DoubleConstant 50  CreateCubeOnPosition CopyWithAction Caster
+ Both ChangeMaxHp Division MaxHpOfCube Target DoubleConstant -2
+ HealXDamage Subtraction MaxHpOfCube Target HpOfCube Target
+ PositionOfCube Victim
+After this dies add a neutral Rough_Gravel cube to your hand and 50% to create a half hp copy of this here End
+RemoveThisAbility
+IsUpgradeFrom: Crumbling_Stone 60
+ReferenceCube: Rough_Gravel
+End
+
+PERK: Multiplicative_Hardening_Stone
+Ability: EveryXMinutes DoubleConstant 2 EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Stone
+GainXExtraHp Addition DoubleConstant 1 Division HpOfCube Target DoubleConstant 20
+Description: Every 2 minutes stone in your hand gains 1 and +5% extra hp End
+IsUpgradeFrom: Hardening_Stone 60
+End
+
+PERK: Deep_Valuable_Earth
+Ability: AfterACubeDies If IsNeutral Victim FactionXGainsYMana FactionOfCube Culprit Addition 5 Division MaxHpOfCube Victim DoubleConstant 2
+Description: Neutral cubes grant 5 mana + half their max hp to whatever faction kills them End
+IsUpgradeFrom: Valuable_Earth 60
+End
+
+PERK: Thrumming_Reactive_Stone
+Description: Every 3 times your stone takes damage it gains charging and a melee attack End
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Stone
+GainAbilityText AfterThisTakesDamage EveryXTimes DoubleConstant 3 Both
+ GainAbility EveryXMeleeY 240 2
+ GainAbility ChargeEveryX 180
+ Every 3 Times this takes damage this gains the following: \N
+  \A EveryXMeleeY 240 2 \N
+  \A ChargeEveryX 180 End
+RemoveThisAbility
+IsUpgradeFrom: Reactive_Stone 80
+End
+
+
+PERK: Baby_Elemental_Dragon
+Description: You start with a free Baby_Elemental_Dragon in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Baby_Elemental_Dragon RemoveThisAbility
+IsUpgradeFrom: Elemental_Dragon_Egg 60
+End
+
+PERK: Cheap_Terrain_Restoration
+Ability: AfterACubeDies If IsNeutral Victim If X%Chance DoubleConstant 20 
+AddCubeToHandOfThis CopyWithAction FreeCopy Victim 
+ Secret HealXDamage Subtraction MaxHpOfCube Target HpOfCube Target
+Description: After a neutral cube dies there is a 20% chance to add a free copy of that cube to your hand which is still neutral but fully healed End
+IsUpgradeFrom: Terrain_Restoration 60
+End
+
+PERK: Growing_Elemental_Resistance
+Ability: AfterACubeIsCreated TargetCube Victim If IsNeutral Target
+Both GainXExtraHp DoubleConstant 2 GainAbility GrowthX 1
+Description: After a neutral cube is created it gains 2 extra hp and 1 growth End
+IsUpgradeFrom: Elemental_Resistance 80
+End
+
+PERK: Retaliating_Elemental_Vengeance
+Ability: AfterACubeIsCreated TargetCube Victim If IsNeutral Target Both
+GainAbility VengeanceX 1 GainAbility RetaliateX 1
+Description: After a neutral cube is created it gains 1 vengeance and 1 retaliate, dealing 1 damage to whatever kills or damages them End
+IsUpgradeFrom: Elemental_Vengeance 120
+End
+
+PERK: Individual_Elemental_Charge
+Ability: AfterACubeIsCreated If IsNeutral Victim TargetCube Victim
+GainAbilityText Every10Seconds MoveInDirection East Every 10 seconds this moves east End
+Description: After a neutral cube is created and every neutral at the start of each battle gains: Every 10 seconds this moves east End
+Ability: AtTheStartOfTheBattle Both EveryCubeWhich IsNeutral Test
+GainAbilityText Every10Seconds MoveInDirection East Every 10 seconds this moves east End RemoveThisAbility 
+IsUpgradeFrom: Elemental_Charge 60
+End
+
+PERK: Absorbed_Allied_Earth
+Ability: BeforeACubeTakesDamage If IsAllyToCaster Victim If IsNeutral Culprit
+If IsLarger EventAmount DoubleConstant 0 
+Cooldown DoubleConstant 60 Both NegateX EventAmount TargetCube Victim ChangeMaxHp DoubleConstant 1
+Description: Before an ally takes damage from a neutral cube negate that damage and give the ally 1 max hp, cooldown 1 second End
+IsUpgradeFrom: Allied_Earth 60
+End
+
+PERK: Grand_Return_To_The_World
+Ability: AfterACubeIsCreated If IsNeutral Test Both HealXDamage DoubleConstant 1
+TargetCube ARandomDamagedAlly HealXDamage DoubleConstant 1
+Description: After a neutral cube is created your starting leader and a random damaged ally heals for 1 hp End
+IsUpgradeFrom: Return_To_The_World 120
+End
+
+
+PERK: Baby_Plant_Dragon
+Description: You start with a free Baby_Plant_Dragon in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Baby_Plant_Dragon RemoveThisAbility
+IsUpgradeFrom: Plant_Dragon_Egg 60
+End
+
+PERK: Double_Faster_Growing
+Ability: GrowthX 5
+Ability: EveryMinute GainAbility GrowthX 1
+Description: Your starting leader gains 5 extra hp every minute and 1 extra hp per minute per minute End
+IsUpgradeFrom: Faster_Growing 60
+End
+
+PERK: Minute_Plant_Reclamation
+Ability: AfterACubeDies TargetCube Victim If IsAllyToCaster Target GenerateXMana DoubleConstant 1
+Description: After an ally dies gain 1 \CMANA mana \CN End
+IsUpgradeFrom: Plant_Reclamation 80
+End
+
+PERK: Splitting_Crushing_Mass
+Ability: Every30Seconds XTimes RoundedDown Division HpOfCube Caster DoubleConstant 20 TargetCube ARandomEnemy TakeXDamage DoubleConstant 2
+Description: Every 30 seconds for every 20 hp your starting leader has it deals 2 damage to a random enemy End
+IsUpgradeFrom: Crushing_Mass 60
+End
+
+PERK: Grand_Plant_Ascension
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis True GainAbility GrowthX 1
+RemoveThisAbility
+Ability: EveryXMinutes DoubleConstant 5 EveryCubeInHandOfFactionWhich FactionOfThis True GainAbility GrowthX 1
+AbilityText: Every 5 minutes every cube in your hand with infinite uses gains 1 growth End
+Description: At the start of each battle and every 5 minutes add growth 1 to every cube in your hand End
+IsUpgradeFrom: Plant_Ascension 120
+End
+
+PERK: Overgrowing_Wild_Thorn_Hedges
+Ability: EveryMinute AddCubeToHandOfThis CopyWithAction FreeCopy CubeConstant Thorn_Leaves
+ GainAbilityText EveryMinute CreateCubeOnPosition Caster PositionInDirectionFromPosition RandomDirection PositionOfThis
+ Every minute this creates a copy of this in a random direction (if there is space in that direction) End
+Description: Every minute add a free Thorn_Leaves to your hand which creates copies of itself in random direction every minute End
+IsUpgradeFrom: Wild_Thorn_Hedges 120
+End
+
+PERK: Overgrowing_Tiny_Growth_Container
+Ability: Every30Seconds IfElse CubeExists ARandomCubeWhich And IsAllyToCaster Test Not HasAbilityWithName Test GrowthX 
+TargetCube ARandomCubeWhich And IsAllyToCaster Test Not HasAbilityWithName Test GrowthX GainAbility GrowthX 3
+TargetCube ARandomCubeWhich IsAllyToCaster Test GainAbility GrowthX 1
+Description: Every 30 seconds a random ally which doesn't have growth gains growth 3, if there is no such ally a random ally gains 1 more growth End
+IsUpgradeFrom: Tiny_Growth_Container 60
+End
+
+
+PERK: Baby_Shadow_Dragon
+Description: You start with a free Baby_Shadow_Dragon in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Baby_Shadow_Dragon RemoveThisAbility
+IsUpgradeFrom: Shadow_Dragon_Egg 60
+End
+
+PERK: Initiating_Hardening_Shadow
+Ability: AfterACubeIsCreated If CubeHasName Victim Solid_Shadow TargetCube Victim
+Both GainAbility GrowthX 10 GainXExtraHp DoubleConstant 5
+Description: Solid_Shadow grows for 10 extra hp over each minute and start with 5 more hp End
+IsUpgradeFrom: Hardening_Shadow 60
+End
+
+PERK: Quicksilver_Liquid_Shadow
+Ability: AfterACubeIsCreated If CubeHasName Victim Solid_Shadow TargetCube Victim GainAbility LiquidX 10
+Description: Solid_Shadow acts like a very rapidly moving liquid, moving back and forth and letting other cubes fall through it End
+IsUpgradeFrom: Liquid_Shadow 20
+End
+
+PERK: Murderous_Shadow_Recycling
+Ability: AfterACubeDies If Or CubeHasName Victim Solid_Shadow
+CubeHasName Culprit Solid_Shadow GenerateXMana DoubleConstant 1
+Description: After a Solid_Shadow dies or kills a cube gain 1 \CMANA mana \CN End
+IsUpgradeFrom: Shadow_Recycling 80
+End
+
+PERK: Neutral_Shadow_Hive
+Ability: EveryMinute TargetCube ARandomCubeWhich CubeHasName Test Solid_Shadow 
+Both Exile
+CreateCubeOnPosition NeutralCopy CubeConstant Solid_Shadow_Hive PositionOfCube Target
+Description: Every minute a random Solid_Shadow is replaced with a neutral Solid_Shadow_Hive by your starting leader End
+IsUpgradeFrom: Shadow_Hive 40
+End
+
+PERK: Partial_Shadow_Immunity
+Ability: BeforeACubeTakesDamage If IsAllyToCaster Victim
+If CubeHasName Culprit Solid_Shadow 
+TargetCube Victim HealXDamage 1/2
+Description: Before an ally takes damage from a Solid_Shadow cube heal it for 0.5 hp End
+IsUpgradeFrom: Shadow_Resistance 80
+End
+
+PERK: Mission_Of_The_Gods
+Ability: AfterACubeTakesDamage TargetCube Victim 
+If Not CubeHasName Target Solid_Shadow
+Both GainAbility PoisonX 1 GainAbility DarkReturn
+Description: After a cube takes damage it gains 1 poison and if they aren't already a Solid_Shadow they turn into one on death End
+IsUpgradeFrom: Toxic_Shadow 80
+End
+
+
+
+PERK: Baby_Undead_Dragon
+Description: You start with a free Baby_Undead_Dragon in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Baby_Undead_Dragon RemoveThisAbility
+IsUpgradeFrom: Undead_Dragon_Egg 60
+End
+
+PERK: Very_Advanced_Restoration
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If HasAbilityWithName Victim Undead TargetCube Victim Both
+If X%Chance DoubleConstant 20 RemoveAbilityWithName Undead
+HealXDamage DoubleConstant 5
+Description: After an ally with undead is created your starting leader has a 20% chance to remove undead from it then heals it for 5 hp End
+IsUpgradeFrom: Advanced_Restoration 60
+End
+
+PERK: Armored_Sturdy_Undead
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If HasAbilityWithName Victim Undead TargetCube Victim
+Both Both GainAbility ArmorX 1 GainXExtraHp DoubleConstant 2 GainAbility PoisonX 2
+Description: After an ally with undead is created it gains 2 extra hp and 1 armor, but is also poisoned losing 2 hp per minute End
+IsUpgradeFrom: Sturdy_Undead 80
+End
+
+PERK: Very_Chosen_Life
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim
+If X%Chance DoubleConstant 5 TargetCube Victim XTimes DoubleConstant 2 GainAbility ExtraLife
+Description: After an ally is created 5% chance for it to gain 2 extra lives End
+IsUpgradeFrom: Chosen_Life 80
+End
+
+PERK: Many_Earthen_Dead
+Ability: AfterACubeDies If IsNeutral Victim If X%Chance DoubleConstant 30
+XTimes DoubleConstant 2 CreateCubeOnPosition CubeConstant Zombie PositionOfCube Victim
+Description: After a neutral cube dies 30% chance to create an allied zombie in its place then create an allied zombie in its place End
+IsUpgradeFrom: Earthen_Dead 80
+End
+
+PERK: Risen_Dead
+Ability: AfterACubeDies If IsEnemyToCaster Victim
+If X%Chance DoubleConstant 20 CreateCubeOnPosition CubeConstant Zombie PositionOfCube Victim
+Description: After an enemy dies there is a 20% chance for your leader to create an allied zombie on its position End
+IsUpgradeFrom: Risen_Enemies 60
+End
+
+PERK: Very_Vengeful_Undead
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If HasAbilityWithName Victim Undead TargetCube Victim Both
+GainAbility VengeanceX 2 GainAbility MiseryX 1
+Description: After an ally with undead is created it gains vengeance 2 and misery 1, dealing 2 damage to whatever kills them next and dealing 1 damage to all enemies with the same name when they deal damage End
+IsUpgradeFrom: Vengeful_Undead 120
+End
+
+
+
+PERK: Devouring_Baby_Dragon
+Description: You start with a free Baby_Devouring_Dragon in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Baby_Devouring_Dragon RemoveThisAbility
+IsUpgradeFrom: Devouring_Dragon_Egg 60
+End
+
+PERK: Very_Variable_Evolution
+Ability: AfterACubeIsCreated If IsPlaced If CubeHasName Victim Join_The_Swarm
+TargetCube Victim RefundX Division ManaCostOfCube Victim DoubleConstant 2
+Description: After you place a Join_The_Swarm refund half its cost, your starting hand size is increased by 5 End
+ObtainAction: ChangeStartingHandSize DoubleConstant 5
+RemoveAction: ChangeStartingHandSize DoubleConstant -5
+IsUpgradeFrom: Variable_Evolution 60
+Disableable: false
+End
+
+PERK: Simplified_Manifold_Evolution
+Ability: AfterACubeIsCreated If HasAbilityWithName Victim Swarm 
+SetStorage ARandomCubeInHandOfFactionWhich DoubleConstant 1 And
+ HasAbilityWithName Test Swarm
+ Not IsLarger Addition ManaCostOfCube Test DoubleConstant 10 ManaCostOfCube Victim
+TargetCube Victim 
+ GainAllAbilitiesOfCube Storage
+Description: After a cube with swarm is created it gains all abilities of a random cube in your hand which costs at least 10 less and also has swarm End
+IsUpgradeFrom: Manifold_Evolution 80
+End
+
+PERK: Clean_Feeding_Time
+Ability: AfterACubeDies TargetCube Culprit GainAbilityStacking InfestedX 0 GetStackingOfAbilityOnCube InfestedX Victim
+Description: After an infested cube is killed its killer gains that much infested End
+IsUpgradeFrom: Feeding_Time 60
+End
+
+PERK: Replicating_Hive_Child
+Ability: AfterACubeIsCreated If IsAllyToCaster Culprit 
+If Not IsALeader Culprit TargetCube Victim GainAbilityStacking InfestedX 0 Division GetStackingOfAbilityOnCube InfestedX Culprit DoubleConstant 2
+Description: After an infested non leader ally creates a cube it gains half that much infested End
+IsUpgradeFrom: Hive_Child 100
+End
+
+PERK: Sated_Blood_Hunger
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If HasAbilityWithName Victim Swarm 
+If Not HasAbilityWithName Victim LifeSteal If X%Chance DoubleConstant 50 
+Both TargetCube Victim GainAbility LifeSteal GainXExtraHp DoubleConstant 5
+Description: After an ally with swarm is created, if it doesn't have lifesteal, 50% chance to give it lifesteal and give it 5 extra hp End
+IsUpgradeFrom: Blood_Hunger 60
+End
+
+PERK: Infested_Worm_Bread
+Ability: AfterACubeTakesDamage If IsEnemyToCaster Victim TargetCube Victim SetCaster Victim Both Both GainXExtraHp DoubleConstant 2 GainAbility PoisonX 4 GainAbility InfestedX 2
+Description: After an enemy takes damage it gives itself 2 extra hp but also 4 poison and 2 infested End
+IsUpgradeFrom: Worm_Bread 60
+End
+
+
+
+PERK: Baby_Moil_Dragon
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Baby_Moil_Dragon RemoveThisAbility
+Description: You start with a free Baby_Moil_Dragon in your hand End
+IsUpgradeFrom: Moil_Dragon_Egg 60
+End
+
+PERK: Very_Murderous_Perks
+Ability: AfterACubeIsCreated If CubeHasName Victim Perk_Moil TargetCube Victim
+Both GainAbility EveryXMeleeY 60 2 GainAbility StrengthX 1
+Description: After a Perk_Moil is created it gains melee, and 1 strength End
+IsUpgradeFrom: Murderous_Perks 80
+End
+
+PERK: Scaling_Continual_Discounts
+Ability: Every10Seconds EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Perk_Moil
+Both GainAbilityStacking WorthXMore 0 Division ManaCostOfCube Target DoubleConstant 20
+ChangeManaCost Minus Division ManaCostOfCube Target DoubleConstant 20
+Description: Every 10 seconds reduce the cost of every perk moil in your hand by 1/20 until placed End
+IsUpgradeFrom: Continual_Discounts 80
+End
+
+PERK: Faster_Re-Engineer
+Ability: EveryMinute EveryCubeTouchingPosition PositionOfThis If IsAllyToCaster Target AddCubeToHandOfThis Target
+AbilityText: Every minute add a copy of every ally touching this to your hand ("starting leader" is converted to "this") End
+Description: Every minute add a copy of every ally touching your starting leader to your hand End
+IsUpgradeFrom: Re-Engineer 80
+End
+
+PERK: Triple_Species_Copy
+ObtainAction: Both XTimes DoubleConstant 3 ObtainPerk ARandomPerkInInventoryWhich PerkIsType Test SPECIES LosePerk PerkConstant Species_Copy 
+Description: Gain copies of a random species perk you have 3 times, then lose this perk End
+IsUpgradeFrom: Species_Copy 40
+End
+
+PERK: Much_More_Perk_Moils
+ObtainAction: ChangeCampaignVariable MOIL_AMOUNT DoubleConstant 4
+RemoveAction: ChangeCampaignVariable MOIL_AMOUNT DoubleConstant -4
+ObtainAction: ChangeStartingHandSize DoubleConstant 2
+RemoveAction: ChangeStartingHandSize DoubleConstant -2
+Description: The Moil Species perk now affects 4 more perks in your inventory, increase your starting handsize by 2 End
+IsUpgradeFrom: More_Perk_Moils 40
+End
+
+PERK: Chaining_Perk_Addon
+BelongsTo: Moil
+Ability: AfterACubeIsCreated If CubeHasName Victim Perk_Moil If IsAllyToCaster CubeInDirectionFromCube South Victim
+TargetCube Victim GainAbility Addon
+Description: After a Perk_Moil is created above an ally give the Perk_Moil \C178 0 255 Addon \CN End
+IsUpgradeFrom: Perk_Addon 60
+End
+
+
+
+PERK: Baby_Fungus_Dragon
+BelongsTo: Fungus
+Description: You start with a free Baby_Fungus_Dragon in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Baby_Fungus_Dragon RemoveThisAbility
+IsUpgradeFrom: Fungus_Dragon_Egg 60
+End
+
+PERK: Hostile_Mycelium_Infection
+BelongsTo: Fungus
+Ability: AfterACubeIsCreated If Not CubeHasName Victim Mycelium If X%Chance ManaCostOfCube Victim TargetCube Victim Secret
+ GainAbility MyceliumGrowth
+Description: After a non Mycelium cube is created X% chance it gains 1 mycelium_growth where X is its manacost End
+IsUpgradeFrom: Mycelium_Infection 100
+End
+
+PERK: Growing_Languid_Mycelium
+BelongsTo: Fungus
+Ability: AfterACubeIsCreated If CubeHasName Victim Mycelium TargetCube Victim Secret
+ Both GainXExtraHp 7
+ Both GainAbility StrengthX -1
+ GainAbility GrowthX 2
+Description: Created Mycelium gains 7 extra hp, -1 strength and 2 growth End
+IsUpgradeFrom: Languid_Mycelium 60
+End
+
+PERK: Wild_Floating_Mycelium
+BelongsTo: Fungus
+Ability: AfterACubeIsCreated If CubeHasName Victim Mycelium TargetCube Victim Secret
+ Both RemoveAbilityWithName DiagonalAnchor 
+ GainAbility Flying
+ExtraTrigger: EveryMinute EveryCubeWhich StringContainsString NameOfCube Test StringConstant Mycelium SetCaster Target Both Both MoveInDirection South MoveInDirection RandomDirection MoveInDirection RandomDirection
+Description: Created Mycelium gain flying and loses the diagonal anchoring, every minute every cube with mycelium in its name moves downwards then moves in a random direction twice End
+IsUpgradeFrom: Floating_Mycelium 20
+End
+
+PERK: Mutual_Mycelium_Source
+BelongsTo: Fungus
+Ability: Every30Seconds EveryCubeWhich IsALeader Test GainAbility MyceliumGrowth
+Description: Every 30 seconds each leader gains mycelium_growth End
+IsUpgradeFrom: Mycelium_Source 100
+End
+
+PERK: Advanced_Mycelium_Tunneling
+BelongsTo: Fungus
+Ability: AfterACubeCollides If IsAllyToCaster Culprit If IsAllyToCaster Victim  If CubeHasName Storage Mycelium Cooldown 180
+ TargetCube Victim TeleportToPosition PositionXInfrontYBelowPosition 15 0 PositionOfCube Victim
+Description: After an ally moves an ally into mycelium it teleports to 15 spaces forwards if there is space, cooldown 3 seconds End
+IsUpgradeFrom: Mycelium_Tunneling 60
+End
+
+PERK: Universal_Composting
+BelongsTo: Fungus
+Ability: AfterACubeDies XTimes ManacostOfCube Victim
+  EveryXTimes 80 TargetCube Culprit GainAbility MyceliumGrowth
+Description: Every 80 mana worth of cubes killed by cubes the last killer gains mycelium_growth End
+IsUpgradeFrom: Composting 60
+End
+
+
+
+PERK: Baby_Ancient_Dragon
+BelongsTo: Remnant
+Description: You start with a free Baby_Ancient_Dragon in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Baby_Ancient_Dragon RemoveThisAbility
+IsUpgradeFrom: Ancient_Dragon_Egg 60
+End
+
+PERK: Chained_Movement
+BelongsTo: Remnant
+Ability: BeforeACubeMovesNegation If Or IsSameDirection EventDirection Backwards IsSameDirection EventDirection Forwards If Not Or Or Or
+ IsEqual FactionOfCube Victim FactionOfCube CubeInDirectionFromCube North Victim
+ IsEqual FactionOfCube Victim FactionOfCube  CubeInDirectionFromCube East Victim
+ IsEqual FactionOfCube Victim FactionOfCube  CubeInDirectionFromCube South Victim
+ IsEqual FactionOfCube Victim FactionOfCube  CubeInDirectionFromCube West Victim
+NegateX 1
+Description: Cubes can't move sideways unless they are touching a cube of the same faction End
+IsUpgradeFrom: Jointed_Movement 80
+Unique
+End
+
+PERK: Repeating_Bullwark_Leader
+BelongsTo: Remnant
+Ability: AfterACubeIsCreated If And IsPlaced IsAllyToCaster Culprit Both
+ TeleportToPosition PositionInDirectionFromPosition Forwards PositionOfCube Victim
+ GainXExtraHp 3
+Description: After you place a cube teleport your starting leader in front of it and grant the leader 3 extra hp End
+IsUpgradeFrom: Ancient_Leader 80
+End
+
+PERK: Moving_Leader_Overclocker
+BelongsTo: Remnant
+Ability: AfterACubeIsCreated If And IsAllyToCaster Culprit Not IsALeader Culprit Both 
+TargetCube Victim AccelerateX 120
+TargetCube Culprit GainAbilityStacking BankedTimeX 0 Multiplication 30 ManaCostOfCube Victim
+Description: After an ally creates a cube accelerate the creation by 2 seconds and the ally by 1/2 of a second per manacost of the creation End
+IsUpgradeFrom: Tiny_Overclocker 60
+End
+
+PERK: Scaling_Rust_Poison
+BelongsTo: Remnant
+Ability: AfterACubeTakesDamage If IsAllyToCaster Culprit If IsEnemyToCaster Victim XTimes Division Subtraction MaxHpOfCube Culprit HpOfCube Culprit 7 TargetCube Victim GainAbility PoisonX 1
+Description: After an ally damages an enemy, also apply 1 poison for every 7 hp the ally is missing End
+IsUpgradeFrom: Rust_Poison 60
+End
+
+PERK: Lasting_Separated_Start
+BelongsTo: Remnant
+Ability: BeforeACubeMovesNegation Both
+ If IsSameDirection East EventDirection If And
+  IsSmaller XOfPosition PositionOfCube Victim Division MaxWorldX 2
+  Not IsSmaller Addition 1 XOfPosition PositionOfCube Victim Division MaxWorldX 2
+ NegateX 1
+ If IsSameDirection West EventDirection If And
+  IsLarger XOfPosition PositionOfCube Victim Division MaxWorldX 2
+  Not IsLarger Subtraction XOfPosition PositionOfCube Victim 1 Division MaxWorldX 2
+ NegateX 1
+ExtraTrigger: EveryXMinutes 6 RemoveThisAbility 
+Description: Cubes can't move past the center, lose this ability 6 minutes into each battle End
+IsUpgradeFrom: Separated_Start 80
+Unique
+End
+
+PERK: Very_Resilient_Creations
+BelongsTo: Remnant
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim 
+IfElse IsALeader Culprit 
+ TargetCube Victim GainXExtraHp Division MaxHpOfCube Culprit 10
+ TargetCube Victim GainXExtraHp Division MaxHpOfCube Culprit 2
+Description: Allies created gain 10% of the maxhp of their creator as extra hp, 50% for non leader creators End
+IsUpgradeFrom: Resilient_Creations 200
+End

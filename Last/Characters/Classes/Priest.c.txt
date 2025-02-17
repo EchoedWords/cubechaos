@@ -1,0 +1,66 @@
+PERK: Priest
+BelongsTo: CLASS
+Ability: Every10Seconds TargetCube ARandomDamagedAlly
+HealXDamage DoubleConstant 3
+Description: Every 10 seconds heal a random damaged ally for 3 hp End
+ObtainAction: AddCubeToInventory CubeConstant Healing_Container
+ObtainAction: AddCubeToInventory CubeConstant Shrine_To_Recovery
+End
+
+PERK: Injured_Veterans
+BelongsTo: Priest
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim Both TakeXDamage DoubleConstant 1 GainXExtraHp DoubleConstant 1
+Description: After an ally is created your starting leader deals 1 damage to it and grants it +1 extra hp (+1 maxhp and hp) End
+End
+
+PERK: Ancient_Blessing
+BelongsTo: Priest
+Ability: BeforeACubeHeals If IsAllyToCaster Victim If X%Chance DoubleConstant 20 TargetCube Victim ChangeMaxHp EventAmount
+Description: Before an ally is healed 20% chance it gains that much max hp End
+End
+
+PERK: Continuous_Worship
+BelongsTo: Priest
+Ability: AfterACubeHeals If IsAllyToCaster Culprit EveryXTimes DoubleConstant 100 
+AddCubeToHandOfThis FreeCopy CubeConstant Miracle_Of_Fire
+Description: Every 100 times an ally heals a cube add a free Miracle_Of_Fire to your hand End
+End
+
+PERK: Holy_Dragon_Egg
+BelongsTo: Priest
+Description: You start with a free Holy_Dragon_Egg in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Holy_Dragon_Egg RemoveThisAbility
+End
+
+PERK: Holy_Spirit
+BelongsTo: Priest
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsPlaced ChangeMaxHp DoubleConstant 2
+Description: After an ally is placed your starting leader gains 2 max hp End
+End
+
+PERK: Healer_Training
+BelongsTo: Priest
+Ability: EverySecond TargetCube CubeInDirectionFromCube Forwards Caster If IsAllyToCaster Target HealXDamage DoubleConstant 1
+Description: Every second any ally directly in front of your starting leader is healed for 1 damage End
+End
+
+PERK: Residue_Healing
+BelongsTo: Priest
+Ability: AfterACubeHeals If IsAllyToCaster Victim If IsALeader Culprit If Not IsALeader Victim TargetCube Victim GainAbility RegenerationX 1
+Description: After a leader heals a non leader ally that ally gains 1 regeneration (healing 1 hp over each minute) End
+End
+
+PERK: Holy_Nova
+BelongsTo: Priest
+Ability: AfterACubeHeals If And IsAllyToCaster Victim IsALeader Victim 
+SetCaster Victim EveryCubeTouchingPosition PositionOfThis If IsEnemyToCaster Target TakeXDamage DoubleConstant 1
+Description: After an allied leader is healed it also deals 1 damage to all touching enemies End
+End
+
+PERK: Hallowed_Earth
+BelongsTo: Priest
+Ability: EveryXSeconds DoubleConstant 10 EveryCubeWhich IsNeutral Test SetCaster Target
+ TargetCube CubeInDirectionFromCube North Caster 
+ If IsEnemyToCaster Target TakeXDamage DoubleConstant 1
+Description: Every 10 seconds each neutral cube deals 1 damage to the cube above it unless its also neutral End
+End

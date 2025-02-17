@@ -1,0 +1,529 @@
+PERK: Damage_Swap
+BelongsTo: Neutral
+Ability: AfterACubeTakesDamage TargetCube Victim SwapWithPosition PositionOfCube Culprit
+Description: After a cube takes damage it swaps positions with the cube which dealt damage to it End
+Value: 20
+Unique
+End
+
+PERK: Inflation
+BelongsTo: Neutral
+CampaignAbility: AfterYouGainOrLoseCurrency
+ChangeCurrency Multiplication DoubleConstant 9 EventAmount
+ObtainAction: ChangeCurrency -20
+Description: After you gain or lose money gain or lose 9 times that amount again, lose 20 gold right now (before the effect comes into play) End
+Value: 0
+BalanceCap: 3
+End
+
+PERK: Double_Mana
+BelongsTo: Neutral
+WorldAbility: BeforeManaIsGenerated If IsALeader Culprit NegateX Minus EventAmount
+Description: Before a leader generates \CMANA mana \CN double the amount End
+Value: 10
+BalanceCap: 10
+End
+
+PERK: Small_Space
+BelongsTo: Neutral
+WorldAbility: AtTheStartOfTheBattle XTimes DoubleConstant 10 RemoveColumn Division MaxWorldX DoubleConstant 2
+Description: At the start of each battle erase the middle 10 columns and normalize all adjacency End
+Value: 5
+BalanceCap: 4
+End
+
+PERK: Double_Speed
+BelongsTo: Neutral
+WorldAbility: AfterACubeMoves TargetCube Victim SetCaster Victim MoveInDirection EventDirection
+Description: After a cube moves it moves itself again in the same direction End
+Value: 10
+BalanceCap: 3
+End
+
+PERK: Tiny_Temporal_Distortion
+BelongsTo: Neutral
+WorldAbility: EveryXSeconds DoubleConstant 20 EveryCube Secret Both GainAbility TemporaryDoubleTime 1200 GainAbility FrozenX 20
+Description: Every 20 seconds every cube becomes frozen for 20 seconds but also experiences time twice as fast for 20 seconds End
+Value: 0
+Unique
+End
+
+PERK: Big_Cubes
+BelongsTo: Neutral
+WorldAbility: AfterACubeIsCreated SetCaster Victim Both Both
+CreateCubeOnPosition Victim PositionXInfrontYBelowPosition DoubleConstant -1 DoubleConstant 0 PositionOfCube Caster
+CreateCubeOnPosition Victim PositionXInfrontYBelowPosition DoubleConstant 0 DoubleConstant -1 PositionOfCube Caster
+CreateCubeOnPosition Victim PositionXInfrontYBelowPosition DoubleConstant -1 DoubleConstant -1 PositionOfCube Caster
+Description: After a cube is created it creates copies of itself to form a 2x2 above and behind itself End
+Value: 100
+BalanceCap: 2
+End
+
+PERK: Low_Gravity
+BelongsTo: Neutral
+ObtainAction: LosePerk PerkConstant Gravity
+WorldAbility: AtTheStartOfTheBattle Both Silent SetVariable GRAVITY DoubleConstant 3 RemoveThisAbility
+WorldAbility: EverySecond Secret EveryCube MoveInDirection DirectionFromDouble GetVariableOnCube GRAVITY Caster
+Description: Remove normal gravity. Every second move cubes downwards End
+Value: 20
+BalanceCap: 1
+Disableable: false
+End
+
+PERK: Split_Gravity
+BelongsTo: Neutral
+ObtainAction: LosePerk PerkConstant Gravity
+WorldAbility: AtTheStartOfTheBattle Both Silent SetVariable GRAVITY DoubleConstant 2 RemoveThisAbility
+WorldAbility: EveryXSeconds DoubleConstant 5 Secret EveryCube Both
+If IsLarger XOfPosition PositionOfCube Test Division MaxWorldX DoubleConstant 2 MoveInDirection DirectionFromDouble GetVariableOnCube GRAVITY Caster
+If IsSmaller XOfPosition PositionOfCube Test Division MaxWorldX DoubleConstant 2 MoveInDirection ReverseDirection DirectionFromDouble GetVariableOnCube GRAVITY Caster
+Description: Remove normal gravity. Every 5 seconds move cubes away from the center vertical line towards the east or the west End
+Value: 10
+BalanceCap: 10
+Disableable: false
+End
+
+PERK: Infinite_Movement
+BelongsTo: Neutral
+WorldAbility: AfterACubeMoves SetCaster Victim TargetCube Victim TeleportToPosition PositionInDirectionFromPosition 
+ReverseDirection EventDirection PositionOfCube TheFirstCubeInDirectionFromPositionWhich EventDirection PositionOfThis True
+Description: After a cube moves it teleports against the first cube in that direction End
+Value: 50
+Unique
+End
+
+PERK: World_Changing_Events
+BelongsTo: Neutral
+ObtainAction: XTimes DoubleConstant 3 ReadAPartialScenario Random_Neutral_Perk_Reward
+Description: Gain 3 random neutral perks (they have a generally neutral effect, no rerolling you must take them, they may be negative) End
+Value: 0
+UpgradeFrom: Universal_Tuning_Fork
+BalanceCap: 20
+End
+
+PERK: Unlucky_Health
+BelongsTo: Neutral
+WorldAbility: AtTheStartOfTheBattle Both
+ EveryCubeInHandOfFactionWhich DoubleConstant 1 True Both
+  Both SetVariable TEMP AbsoluteAmount Subtraction MaxHpOfCube Target DoubleConstant 13
+  ChangeMaxHp Subtraction GetVariableOnCube TEMP Target MaxHpOfCube Target
+  Both SetVariable TEMP AbsoluteAmount Subtraction HpOfCube Target DoubleConstant 13
+  ChangeHp Subtraction GetVariableOnCube TEMP Target HpOfCube Target
+ EveryCubeInHandOfFactionWhich DoubleConstant 2 True Both
+  Both SetVariable TEMP AbsoluteAmount Subtraction MaxHpOfCube Target DoubleConstant 13
+  ChangeMaxHp Subtraction GetVariableOnCube TEMP Target MaxHpOfCube Target
+  Both SetVariable TEMP AbsoluteAmount Subtraction HpOfCube Target DoubleConstant 13
+  ChangeHp Subtraction GetVariableOnCube TEMP Target HpOfCube Target
+Description: At the start of each battle the hp and max hp of cubes in each players hand becomes its distance to 13 (3 becomes 10, 100 becomes 87) End
+Value: 70
+Unique
+End
+
+PERK: Tripled_Health
+BelongsTo: Neutral
+WorldAbility: AfterACubeIsCreated TargetCube Victim Secret Both ChangeHp Multiplication DoubleConstant 2 HpOfCube Victim
+Both ChangeMaxHp Multiplication DoubleConstant 2 MaxHpOfCube Victim
+If IsLarger HpOfCube Target DoubleConstant 100 ChangeHp Subtraction DoubleConstant 100 HpOfCube Victim
+Description: After a cube is created triple its hp and max hp, if its now above 100 hp reduce it to 100 hp End
+Value: 30
+BalanceCap: 5
+End
+
+PERK: Bizarre_Possibilities
+BelongsTo: Neutral
+WorldAbility: BeforePercentChance NegateX Subtraction Multiplication DoubleConstant 2 EventAmount DoubleConstant 100
+Description: X% Chances have their odds inverted during battles (15% becomes 85%) End
+Value: 400
+Unique
+End
+
+PERK: Spatial_Apocalypse
+BelongsTo: Neutral
+WorldAbility: EveryMinute RemoveColumn Division MaxWorldX DoubleConstant 2
+Description: Every minute remove the middle column (rounded down) End
+Value: 50
+BalanceCap: 50
+End
+
+PERK: Short_Memory
+BelongsTo: Neutral
+Ability: Every20Seconds AddCubeToHandOfFaction ARandomCubeInLibraryWhich And Not IsToken Test IsNotInHandOfThis Test FactionOfThis
+ObtainAction: ChangeDeckSize DoubleConstant -6
+RemoveAction: ChangeDeckSize DoubleConstant 6
+Description: Reduce your decksize by 6, every 20 seconds add a random cube to your hand which isn't already in your hand End
+Value: -100
+BalanceCap: 2
+End
+
+PERK: Exchange
+BelongsTo: Neutral
+ObtainAction: Both ReadAPartialScenario Basic_Curse_Reward ReadAPartialScenario Basic_Perk_Reward
+Description: Gain a curse and a perk (choose from 3 each time, as if you had opened a chest) End
+Value: 10
+BalanceCap: 20
+End
+
+PERK: Paper_Coin
+BelongsTo: Neutral
+ObtainAction: Both ChangeCurrency DoubleConstant 1 ChangeCurrency DoubleConstant -1
+Description: Gain 1 gold then lose 1 gold and this perk End
+Value: 0
+RemoveUponObtaining
+BalanceCap: 0
+End
+
+PERK: Nothing_Happens
+BelongsTo: Neutral
+WorldAbility: BeforeACubeMovesNegation If X%Chance DoubleConstant 10 NegateX DoubleConstant 1
+AbilityText: Before a cube moves 10% to negate the movement End
+WorldAbility: BeforeACubeTakesDamage If X%Chance DoubleConstant 10 NegateX EventAmount
+Description: Before movement or damage there is a 10% chance to negate it End
+Value: 10
+BalanceCap: 30
+End
+
+PERK: Knockback
+BelongsTo: Neutral
+WorldAbility: AfterACubeTakesDamage If Not IsSameCube Culprit Victim 
+SetCaster Culprit TargetCube Victim MoveInDirection ReverseDirection DirectionFromPosToPos PositionOfCube Caster PositionOfCube Target
+Description: After a cube damages another cube it also moves the damaged cube away from itself End
+Value: 40
+BalanceCap: 3
+End
+
+PERK: Spider_Queens_Goal
+BelongsTo: Neutral
+WorldAbility: AfterYouWin IfElse IsSmaller Currency DoubleConstant 0 
+ChangeCurrency DoubleConstant 20
+ChangeCurrency DoubleConstant -20
+Description: After you win a battle gain 20 gold if you have less than 0 otherwise lose 20 gold End
+Value: 30
+BalanceCap: 10
+Disableable: false
+End
+
+PERK: Spatial_Indirectionality
+BelongsTo: Neutral
+WorldAbility: Every20Seconds CreateCubeOnPosition CubeConstant Spatial_Whirl ARandomPosition
+Description: Every 20 seconds a neutral spatial swirl is created in a random position End
+Value: 10
+NoBalanceCap
+End
+
+PERK: Inventory_Scramble
+BelongsTo: Neutral
+ObtainAction: Both XTimes GetCampaignVariable CUBESININVENTORY AddCubeToInventory APRandomCubeInLibraryWhich And Not IsAlreadyInInventory Test Not IsToken Test
+XTimes Division GetCampaignVariable CUBESININVENTORY DoubleConstant 2 RemoveCubeFromInventoryWithScreen ARandomCubeInInventoryWhich True
+Description: Add cubes to your inventory equal to the amount of cubes in your inventory, then lose half the cubes in your inventory chosen at random and this perk End
+Value: -50
+RemoveUponObtaining
+BalanceCap: 2
+End
+
+PERK: Harsh_World
+BelongsTo: Neutral
+ObtainAction: Both ChangeCurrency DoubleConstant 100 ChangeDifficulty DoubleConstant 3
+RemoveAction: ChangeDifficulty DoubleConstant -3
+Description: Increase the difficulty by 3 and gain 100 gold End
+Value: -50
+BalanceCap: 4
+End
+
+PERK: Soul_Mulligan
+BelongsTo: Neutral
+ObtainAction: Both LoseThisPerk Both EveryPerkInInventoryWhich True
+Both LosePerk Target ChangeCurrency Multiplication DoubleConstant 2 ValueOfPerk Target
+ReadAPartialScenario Shop
+Description: Immediately lose this perk then lose all other perks and gain gold equal to twice their value, then enter a shop End
+Value: 10
+Unique
+End
+
+PERK: Slowed_Time
+BelongsTo: Neutral
+WorldAbility: AtTheStartOfTheBattle EveryCubeWhich IsALeader Test GainAbility Slowed 30
+Description: At the start of each battle all leaders are slowed by 30% forever End
+Value: 10
+BalanceCap: 3
+End
+
+PERK: Strange_Circumstances
+BelongsTo: Neutral
+ObtainAction: XTimes DoubleConstant 5 ReadAPartialScenario Random_Any_Perk_Reward
+Description: Gain 5 random perks, these are chosen completely at random and may be curses or consumables or anything End
+Value: 150
+BalanceCap: 10
+End
+
+PERK: Jelly_Gravity
+BelongsTo: Neutral
+WorldAbility: AfterACubeMoves If IsAlly Victim If IsSameDirection DirectionFromDouble GetVariableOnCube GRAVITY WorldCube EventDirection
+SetCaster Victim TargetCube Victim GainAbility JellyGravityX 1
+Description: After an ally moves in gravity direction it moves itself in the opposite direction after 20 seconds, stacks combine together to move multiple times at once End
+Value: 10
+BalanceCap: 2
+End
+
+PERK: Stolen_Gold
+BelongsTo: Neutral
+ObtainAction: ChangeCurrency DoubleConstant 200
+CampaignAbility: BeforeYouTakeAStep If IsLarger Currency DoubleConstant 0 ChangeDifficulty DoubleConstant 1
+Description: Gain 200 gold, but after each map step increase difficulty by 1 if you have any gold End
+Value: -10
+BalanceCap: 10
+End
+
+PERK: Utter_Nightmare
+BelongsTo: Neutral
+ObtainAction: XTimes DoubleConstant 5 ReadAPartialScenario Random_Curse_Reward
+WorldAbility: AfterYouWin LosePerkWithScreen ARandomPerkInInventoryWhich 
+And IsSmaller ValueOfPerk Test DoubleConstant 0 Not PerkHasNameOfPerk Test PerkConstant Utter_Nightmare
+Description: Gain 5 random curses, after you win a battle lose a random curse, except for Utter_Nightmare End
+Value: -50
+BalanceCap: 2
+End
+
+PERK: Chasm
+BelongsTo: Neutral
+WorldAbility: AtTheStartOfTheBattle 
+EveryCubeWhich Or IsEqual XOfPosition PositionOfCube Test RoundedDown Division MaxWorldX DoubleConstant 2
+IsEqual XOfPosition PositionOfCube Test RoundedDown Addition Subtraction DoubleConstant 1 Division DoubleConstant 1 DoubleConstant 100 
+ Division MaxWorldX DoubleConstant 2
+Die
+Description: At the start of each battle all cubes in the centermost columns die End
+Value: 50
+Unique
+End
+
+PERK: Checkerboard
+BelongsTo: Neutral
+WorldAbility: BeforeACubeMovesNegation If IsAlly Victim EveryCubeTouchingPosition PositionInDirectionFromPosition EventDirection PositionOfCube Victim
+If And IsAlly Target Not IsSameCube Target Victim NegateX DoubleConstant 1
+Description: Allies can't move to positions adjacent to other allies End
+Value: 20
+Unique
+End
+
+PERK: Voids_Price
+BelongsTo: Neutral
+Ability: BeforeACubeDies If X%Chance DoubleConstant 90 If IsLarger AmountOfAbilitiesOfCube Victim DoubleConstant 0 Both NegateX DoubleConstant 1
+TargetCube Victim Both RemoveRandomAbility HealXDamage DoubleConstant 1
+Description: If a cube would die 90% chance they lose a random ability to heal 1 hp and prevent the death End
+Value: 80
+LevelRequirement: 15
+Unique
+End
+
+PERK: Infinite_Falling
+BelongsTo: Neutral
+WorldAbility: AfterACubeCollides TargetCube Victim If X%Chance 1/2
+TeleportToPosition PositionFromXAndY XOfPosition PositionOfCube Victim DoubleConstant 1
+Description: After a cube collides with a cube 0.5% chance the moved cube teleports to the top of the battlefield (if empty, also this can trigger on gravity) End
+Value: 20
+UpgradeFrom: Surprising_Fall
+BalanceCap: 200
+End
+
+PERK: Reciprocity
+BelongsTo: Neutral
+WorldAbility: BeforeACubeGainsAnAbility If IsEqual FactionOfCube Culprit FactionOfCube Victim If Not IsSameCube Culprit Victim
+SetCaster Victim TargetCube Culprit Both GainAffectedAbility If IsEqual HpOfCube Target DoubleConstant 0 GainXExtraHp DoubleConstant 1
+ExtraTrigger: BeforeACubeHeals If IsEqual FactionOfCube Culprit FactionOfCube Victim If Not IsSameCube Culprit Victim
+SetCaster Victim TargetCube Culprit Both HealXDamage EventAmount If IsEqual HpOfCube Target DoubleConstant 0 GainXExtraHp DoubleConstant 1
+Description: Before a cube heals or grants an ability to another ally of it, it also does it back and even gives 1 extra hp if at 0 hp End
+Value: 50
+BalanceCap: 3
+End
+
+PERK: Boss_Rush
+BelongsTo: Neutral
+CampaignAbility: AfterAMapIsGenerated EveryMapNodeWhich MapNodeIsType Test Battle
+ Both SetMapNodeScenario Test Boss_Battle
+  SetMapNodeExtraModifier Test PerkConstant Boss_Scaling
+Description: At the start of each new map replace all battles with boss battles, cursed battles keep their curses End
+Requirement: MapLeft
+Value: -40
+Unique
+End
+
+PERK: Cheap_Upgrade
+BelongsTo: Neutral
+ObtainAction: ReadAPartialScenario Random_Upgrade_Reward
+Description: Gain a random upgrade perk (no rerolling or skipping) End
+Value: 50
+NoBalanceCap
+End
+
+PERK: Maximum_Diceicate
+BelongsTo: NULL
+Ability: AtTheStartOfTheBattle EveryCubeInHandOfFactionWhich FactionOfThis True GainAbility Diceicate
+Description: At the start of each battle add Dicicate to each cube in your hand randomizing it every time it's placed, except the new cube has 20 seconds of double time End
+Value: -50
+Unique
+End
+
+PERK: Vengeful_Terraformer
+BelongsTo: Neutral
+WorldAbility: AfterYouWin Both ReadAScenario Random_Terrain_Reward 
+LosePerkWithScreen ARandomPerkInInventoryWhich PerkIsType Test Terrain
+Description: After you win, lose a random terrain perk then gain a random terrain perk which changes the battles terrain End
+Value: -50
+UpgradeFrom: Bottled_Terraformer
+BalanceCap: 3
+End
+
+PERK: Map_Compression
+BelongsTo: Neutral
+WorldAbility: AtTheStartOfTheBattle Both
+ Both SetVariable TEMPX MaxWorldX
+ Both SetVariable TEMP_HALFX Division Addition 1 MaxWorldX 2
+  Until IsSmaller GetVariableOnCube TEMPX Caster 0 Both
+    IfElse IsLarger GetVariableOnCube TEMPX Caster GetVariableOnCube TEMP_HALFX Caster
+     If IsEqual 0 % Subtraction GetVariableOnCube TEMPX Caster RoundedDown GetVariableOnCube TEMP_HALFX Caster 4
+      Both EveryCubeWhich And IsALeader Test IsEqual XOfPosition PositionOfCube Test GetVariableOnCube TEMPX Caster
+       SwapWithPosition PositionInDirectionFromPosition West PositionOfCube Target
+      RemoveColumn GetVariableOnCube TEMPX Caster
+     If IsEqual 0 % Subtraction GetVariableOnCube TEMPX Caster RoundedDown Subtraction GetVariableOnCube TEMP_HALFX Caster 1/2 4
+      Both EveryCubeWhich And IsALeader Test IsEqual XOfPosition PositionOfCube Test GetVariableOnCube TEMPX Caster
+       SwapWithPosition PositionInDirectionFromPosition East PositionOfCube Target
+      RemoveColumn GetVariableOnCube TEMPX Caster
+   ChangeVariable TEMPX -1
+  Nothing
+ Both SetVariable TEMPY Addition 1 MaxWorldY
+  Until IsSmaller GetVariableOnCube TEMPY Caster 0
+   Both 
+    Both EveryCubeWhich And IsALeader Test IsEqual YOfPosition PositionOfCube Test GetVariableOnCube TEMPY Caster
+     SwapWithPosition PositionInDirectionFromPosition South PositionOfCube Target
+    RemoveRow GetVariableOnCube TEMPY Caster
+   ChangeVariable TEMPY -4
+  Nothing
+Description: At the start of each battle remove every 4th column and every 4th row starting from the center. Leaders swap forwards/upwards to avoid this erasure End
+Value: 50
+BalanceCap: 5
+End
+
+PERK: Terrain_Scramble
+BelongsTo: Neutral
+WorldAbility: AtTheStartOfTheBattle
+ EveryCubeWhich And IsNeutral Test Not HasAbilityWithName Test Unmovable
+  Both Exile
+   CreateCubeOnPosition ARandomCubeWhich And IsNeutral Test Not HasAbilityWithName Test Unmovable
+    PositionOfCube Target
+Description: At the start of each battle replace each neutral cube with a random neutral cube (in the current world), skips unmovable cubes End
+Value: 0
+BalanceCap: 10
+End
+
+PERK: Time_Slip
+BelongsTo: Neutral
+WorldAbility: EveryXSeconds 5 Secret EveryCube AccelerateX 180
+Description: Every 5 seconds every cube accelerates by 3 seconds (does not accelerate time slip) End
+Value: 20
+BalanceCap: 3
+End
+
+PERK: Synchronization
+BelongsTo: Neutral
+WorldAbility: AfterACubeIsCreated TargetCube Victim GainAbility Synchronized
+Description: After a cube is created it doesn't experience time until the next full world time second End
+Value: 0
+Unique
+End
+
+PERK: Programmed_Perk
+BelongsTo: Neutral
+ObtainAction: Both Both ReadAPartialScenario Random_Effect_Fragment_Reward ReadAPartialScenario Random_Target_Fragment_Reward ReadAPartialScenario Random_Trigger_Fragment_Reward
+Description: After you gain this perk gain a random trigger, target and an effect fragment which form a perk together (Resulting perk may be useless) End
+Value: 25
+LevelRequirement: 15
+Requirement: Not HasPerkOrUpgrade PerkConstant Programmer
+BalanceCap: 2
+End
+
+PERK: Spiky_Terrain
+BelongsTo: Neutral
+WorldAbility: AtTheStartOfTheBattle EveryCubeWhich IsNeutral Test Silent GainAbility RetaliateX 1
+Description: All starting neutral cubes start with retaliate 1, dealing 1 damage back when damaged End
+Value: 75
+BalanceCap: 10
+End
+
+PERK: Wild_Terrain
+BelongsTo: Neutral
+WorldAbility: AtTheStartOfTheBattle
+ EveryCubeWhich And IsNeutral Test And HasAbilityWithName Test Burrowed IsEqual AmountOfAbilitiesOfCube Test 1
+  Both Exile
+   CreateCubeOnPosition ARandomCubeInLibraryWhich And IsToken Test And HasAbilityWithName Test Burrowed IsEqual AmountOfAbilitiesOfCube Test 1
+    PositionOfCube Target
+Description: At the start of each battle replace each neutral cube which has exactly only burrowed with a random unobtainable cube which has exactly only burrowed End
+Unique
+Value: 0
+End
+
+PERK: Madness_Terrain
+BelongsTo: Neutral
+WorldAbility: AtTheStartOfTheBattle Both EveryCubeWhich IsALeader Test GainXExtraHp Multiplication 4 HpOfCube Target
+ EveryCubeWhich IsNeutral Test
+  If IsSameCube Target CubeOfPosition PositionOfCube Target
+   SetStorage ARandomCubeInLibraryWhich And Not IsToken Test IsLarger HpOfCube Test 0
+   EveryCubeWhich And IsNeutral Test HasNameOfCube Test Target
+    Both Exile 
+     CreateCubeOnPosition Storage PositionOfCube Target
+Description: At the start of each battle quintuple all leaders hp, then for each group of neutrals
+ with a shared manacost replace all cubes of that group with the same randomly selected cube End
+Unique
+Value: 10
+LevelRequirement: 15
+End
+
+PERK: Mold_Exchange
+BelongsTo: Neutral
+ObtainAction: Both NegateX EventAmount Both NegateX Minus AmountOfPerksInInventoryWhich IsSameString NameOfPerk Test StringConstant Mold_Exchange
+ Both 
+  IfElse And X%Chance 50 IsLarger AmountOfCubesInInventoryWhich TRUE 0
+    SetCampaignSVariable StringAddition StringConstant MOLD_FROM_ StringFromDouble EventAmount NameOfCube ARandomCubeInInventoryWhich True
+   IfElse X%Chance 98
+    SetCampaignSVariable StringAddition StringConstant MOLD_FROM_ StringFromDouble EventAmount NameOfCube APRandomCubeInLibraryWhich Not IsToken Test
+    SetCampaignSVariable StringAddition StringConstant MOLD_FROM_ StringFromDouble EventAmount NameOfCube APRandomCubeInLibraryWhich IsToken Test
+  IfElse X%Chance 98
+   SetCampaignSVariable StringAddition StringConstant MOLD_TO_ StringFromDouble EventAmount NameOfCube APRandomCubeInLibraryWhich Not IsToken Test
+   SetCampaignSVariable StringAddition StringConstant MOLD_TO_ StringFromDouble EventAmount NameOfCube APRandomCubeInLibraryWhich IsToken Test
+WorldAbility: AfterACubeIsCreated Both RemoveThisAbility ChangeVariable MOLD_COUNT 1
+AbilityText: Hidden mold ability End
+WorldAbility: AfterACubeIsCreated SetStorage AnchoredCube 
+   ARandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringAddition StringConstant MOLD_TO_ StringFromDouble GetVariableOnCube MOLD_COUNT Caster
+ If HasNameOfCube Victim AnchoredCube 
+   ARandomCubeInLibraryWhich IsSameString NameOfCube Test GetCampaignVariable StringAddition StringConstant MOLD_FROM_ StringFromDouble GetVariableOnCube MOLD_COUNT Caster
+SetCaster Victim TargetCube Victim Both Exile CreateCubeOnPosition Storage PositionOfCube Caster
+Description: Randomize 2 cubes from (50% inventory, 49% library, 1% ANYTHING), \N
+After a cube is created, if it has the first name, it replaces itself with the second named cube ( \B CSNVARIABLE MOLD_FROM_ -> CSNVARIABLE MOLD_TO_ \B ) End
+Value: 10
+LevelRequirement: 15
+Disableable: false
+End
+
+PERK: Recreation
+BelongsTo: Neutral
+WorldAbility: AtTheStartOfTheBattle Secret EveryCubeWhich Not IsALeader Test Both Die GainAbility ExtraLife
+Description: At the start of each battle every non leader cube gains an extra_life and dies End
+Value: 5
+LevelRequirement: 15
+End
+
+PERK: Terrain_Invasion
+BelongsTo: Neutral
+WorldAbility: EveryXMinutes 5 Both RemoveThisAbility
+ If Not IsSmaller MaxWorldX 51
+ If Not IsSmaller MaxWorldY 27
+ Both ChangeCurrency 30
+ Both EveryAbilityOfCubeWhich Caster AbilityHasName Test MapGenerationTPEB RemoveAbility Target
+ Both TargetPerk ARandomPerkInLibraryWhich PerkIsType Test Terrain
+   GainAllWorldAbilitiesOfPerk Target
+  Both TriggerWorldSomething Battle_Terrain_Generation
+  Both TriggerWorldSomething Battle_Player_Generation
+  TriggerWorldSomething Battle_Enemy_Generation
+Description: 5 minutes into each battle, if the battlefield has at least base combat field size, gain 30 gold and load an additional random terrain, new cubes replace old cubes, new leaders are created if there are no surviving End
+Value: -10
+LevelRequirement: 15
+End
+

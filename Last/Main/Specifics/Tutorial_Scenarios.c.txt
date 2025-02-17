@@ -1,0 +1,290 @@
+SCENARIO: Tutorial
+Info: The games tutorial, in case you need a refresher \N
+ The tutorial continues into a normal campaign End
+MaxScore: 1
+STARTINGPOINT
+End
+CAMPAIGN:
+
+STARTING_LIVES: 0
+YOU_IMAGE_PERK: Priest-Dwarf
+PERK: Gravity
+PERK: Terrain_Depth_Generation
+PERK: Spell_Ghosts
+PERK: Overflow_Deal
+End
+
+NODEMAP:
+
+RESET_NODE_MAP
+
+BACKGROUND_COLOUR: 0 100 0
+
+RANDOMIZED_PATH_SYSTEM:
+
+MAP_NODE: NULL 45 End
+MAP_NODE: Tutorial_1 45 End
+MAP_NODE: Tutorial_2 45 End
+MAP_NODE: Dwarf_Reward 45 End
+MAP_NODE: Tutorial_3 45 End
+MAP_NODE: Priest_Reward 45 End
+MAP_NODE: Priest-Dwarf_Reward 45 End
+
+MAP_NODE: Tutorial_End 45 End
+
+LAYER: 1 1 0
+LAYER: 1 1 1
+LAYER: 1 1 2
+LAYER: 1 1 3
+LAYER: 1 1 4
+LAYER: 1 1 5
+LAYER: 1 1 6
+LAYER: 1 1 7
+
+CLOSESTPATHS
+
+End
+
+STARTING_NODE: 0
+
+End
+SEnd
+
+
+
+
+SCENARIO: Tutorial_1 
+Info: First tutorial battle, click it! End
+CubeImage: Fighting_Symbol
+End
+MAP: 40 20
+
+CUBE: 1 Tutorial_Leader
+CUBE: 2 Tiny_Castle
+CUBE: 3 Earth
+CUBE: 4 Enemy_Tutorial_Leader
+CUBE: 5 Dwarven_Warrior
+
+DATA: 1 0 17 1
+WORLDCAMPAIGNEFFECTS
+DATA: 4 39 17 2
+
+DATA: 5 1 17 1
+DATA: 2 38 17 2
+
+DATARECT: 3 0  0 19  40 1
+
+DATA: 3 0 18 0
+DATA: 3 1 18 0
+DATA: 3 2 18 0
+
+DATA: 3 18 18 0
+DATA: 3 18 17 0
+DATA: 3 19 18 0
+DATA: 3 19 17 0
+DATA: 3 20 18 0
+DATA: 3 20 17 0
+DATA: 3 21 18 0
+DATA: 3 21 17 0
+
+DATA: 3 37 18 0
+DATA: 3 38 18 0
+DATA: 3 39 18 0
+
+STARTINGMANA: 1 50
+STARTINGMANA: 2 0
+
+PLACERECT: 0 0 20 20 1
+PLACERECT: 20 0 20 20 2
+
+HAND: 1 1 -1 Dwarven_Warrior
+
+WORLDABILITY: NormalWinLoss
+
+EndMapData
+SEnd
+
+
+
+SCENARIO: Tutorial_2
+CubeImage: Fighting_Symbol
+Info: Second tutorial battle End
+End
+MAP: 40 21
+
+CUBE: 1 Tutorial_Leader
+CUBE: 2 Tiny_Castle
+CUBE: 3 Earth
+CUBE: 4 Enemy_Tutorial_Leader
+CUBE: 5 Spikes
+CUBE: 6 Healing_Container
+CUBE: 7 Dwarven_Warrior
+
+DATA: 1  1 17 1
+WORLDCAMPAIGNEFFECTS
+DATA: 4  38 17 2
+
+DATARECT: 3 0  0 19  40 2
+
+DATA: 3 0 18 0
+DATA: 3 1 18 0
+DATA: 3 2 18 0
+DATA: 3 3 18 0
+
+DATA: 6 0 17 1
+DATA: 3 3 17 1
+
+DATA: 3 37 18 0
+DATA: 3 38 18 0
+DATA: 3 39 18 0
+
+DATA: 5 32 18 2
+DATA: 5 33 18 2
+DATA: 5 34 18 2
+DATA: 5 35 18 2
+
+DATA: 3 36 18 2
+DATA: 3 36 17 2
+DATA: 2 36 16 2
+
+DATA: 7 5 18 1
+DATA: 7 5 17 1
+
+STARTINGMANA: 1 90
+STARTINGMANA: 2 0
+
+PLACERECT: 0 0 20 21 1
+PLACERECT: 20 0 20 21 2
+
+HAND: 1 1 -1 Dwarven_Warrior
+HAND: 1 2 -1 Healing_Container
+HAND: 1 3 -1 Excavate
+
+WORLDABILITY: NormalWinLoss
+
+STARTINGTIMESPEED: 0
+
+EndMapData
+
+START_ACTION: Both TargetCube TheFirstCubeInHandOfFactionWhich 1 HasNameOfCube Test CubeConstant Healing_Container
+ TargetAbility FirstAbilityOfCubeWhich Target True SetAbilityText Target StringTextConstant 
+  Every 10 seconds heal a random damaged ally for 1 hp \N (No range or area specified means it can affect cubes at any distance) End
+ EveryCubeWhich HasNameOfCube Test CubeConstant Healing_Container
+  TargetAbility FirstAbilityOfCubeWhich Target True SetAbilityText Target StringTextConstant 
+   Every 10 seconds heal a random damaged ally for 1 hp \N (No range or area specified means it can affect cubes at any distance) End
+SEnd
+
+
+
+SCENARIO: Tutorial_3
+CubeImage: Fighting_Symbol
+Info: Third tutorial battle End
+End
+MAP: 40 21
+
+CUBE: 1 Tutorial_Leader
+CUBE: 2 Tiny_Castle
+CUBE: 3 Earth
+CUBE: 4 Competent_Leader
+CUBE: 5 Spikes
+CUBE: 6 Healing_Container
+CUBE: 7 Stone
+
+DATA: 1  1 17 1
+WORLDCAMPAIGNEFFECTS
+DATA: 4  38 17 2
+
+// Terrain //
+DATARECT: 3 0  0 19  40 2
+
+DATARECT: 3 0  0 18  4 1
+DATARECT: 3 0  37 18  3 1
+
+// Enemy Defenses //
+DATA: 5 32 18 2
+DATA: 5 33 18 2
+DATA: 5 34 18 2
+DATA: 5 35 18 2
+
+DATA: 7 36 18 2
+DATA: 7 36 17 2
+
+STARTINGMANA: 1 50
+STARTINGMANA: 2 0
+
+PLACERECT: 0 0 20 21 1
+PLACERECT: 20 0 20 21 2
+
+
+HAND: 1 1 -1 Healing_Container
+HAND: 1 2 -1 Shrine_To_Recovery
+HAND: 1 3 -1 Dwarven_Warrior
+HAND: 1 4 -1 Excavate
+HAND: 1 8 -1 Stone
+
+HAND: 2 1 -1 Dwarven_Warrior
+HAND: 2 2 -1 Stone
+HAND: 2 3 -1 Laser
+
+AI: 2 True
+SECONDARYREVEALEDHAND: 2
+
+WORLDABILITY: NormalWinLoss
+
+WORLDABILITY: AfterYouWin Both
+SetScore DoubleConstant 1
+SetScoringScenario Campaign
+
+WORLDABILITY: AfterYouLose Both LoseALife Both
+SetScore DoubleConstant 1
+SetScoringScenario Campaign
+
+WORLDABILITY: AtTheStartOfTheBattle XTimes DoubleConstant 3 GainALife
+
+EndMapData
+
+START_ACTION: Both TargetCube TheFirstCubeInHandOfFactionWhich 1 HasNameOfCube Test CubeConstant Healing_Container
+ TargetAbility FirstAbilityOfCubeWhich Target True SetAbilityText Target StringTextConstant 
+  Every 10 seconds heal a random damaged ally for 1 hp \N (No range or area specified means it can affect cubes at any distance) End
+ EveryCubeWhich HasNameOfCube Test CubeConstant Healing_Container
+  TargetAbility FirstAbilityOfCubeWhich Target True SetAbilityText Target StringTextConstant 
+   Every 10 seconds heal a random damaged ally for 1 hp \N (No range or area specified means it can affect cubes at any distance) End
+   
+SEnd
+
+
+SCENARIO: Dwarf_Reward
+Info: Gain your species specific perk End
+CubeImage: Chest
+End
+PERK_REWARD: 
+SPECIFIC: Dwarf
+End
+SEnd
+
+SCENARIO: Priest_Reward
+Info: Gain your class specific perk End
+CubeImage: Chest
+End
+PERK_REWARD: 
+SPECIFIC: Priest
+End
+SEnd
+
+SCENARIO: Priest-Dwarf_Reward
+Info: Gain your class-species specific combo perk End
+CubeImage: Chest
+End
+PERK_REWARD: 
+SPECIFIC: Priest-Dwarf
+End
+SEnd
+
+SCENARIO: Tutorial_End
+Info: Exit the tutorial, a normal run starts from here, good luck End
+CubeImage: The_Vortex
+End
+
+START_ACTION: ReadAScenario Campaign
+
+SEnd

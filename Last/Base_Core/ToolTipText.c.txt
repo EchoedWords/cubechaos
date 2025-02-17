@@ -1,0 +1,116 @@
+// Currently all tooltips are in one file for simplicity it would make sense to change this //
+
+// Actions //
+
+TEXTTOOLTIP: EXILE The cube immediately ceases to exist, this does not count as a death End
+TEXTTOOLTIP: EXILED The cube immediately ceases to exist, this does not count as a death End
+TEXTTOOLTIP: EXILES The cube immediately ceases to exist, this does not count as a death End
+
+TEXTTOOLTIP: REFUND Gain mana and reduce the cubes manacost by that much End
+TEXTTOOLTIP: REFUNDS Gain mana and reduce the cubes manacost by that much End
+
+TEXTTOOLTIP: REDIRECT reduce the damage to 0 and the culprit does that much damage to the new target End
+
+TEXTTOOLTIP: SILENTLY Do something without triggering ANY ability End
+TEXTTOOLTIP: NEGATE Prevent or reduce something, negated damage is reduced to 0 damage which still counts as damage End
+
+TEXTTOOLTIP: REPLICATE Create a copy, copies are the same as the original in EVERY aspect, except for current timers End
+TEXTTOOLTIP: REPLICATES Create a copy, copies are the same as the original in EVERY aspect, except for current timers End
+
+TEXTTOOLTIP: COMBINE Multiple cubes added together, it will have the combined stats, abilities, etc End
+TEXTTOOLTIP: COMBINES Multiple cubes added together, it will have the combined stats, abilities, etc End
+TEXTTOOLTIP: COMBINATION Multiple cubes added together, it will have the combined stats, abilities, etc End
+
+TEXTTOOLTIP: REPLACE Replacing a cube with another exiles the original and creates the new cube End
+TEXTTOOLTIP: REPLACES Replacing a cube with another exiles the original and creates the new cube End
+
+TEXTTOOLTIP: KILL Killing a cube causes it to die, similar to having no hp left, this isn't instantaneous as death is checked for once per game tick End
+
+// Time //
+
+TEXTTOOLTIP: TICKS Each second has 60 ticks End
+TEXTTOOLTIP: TICK Each second has 60 ticks End
+
+TEXTTOOLTIP: WHEN This is checked every tick (Frozen will still stop it) End
+TEXTTOOLTIP: COOLDOWN Needs that much time even before first activation and between each activation End
+
+// Descriptions //
+
+TEXTTOOLTIP: UNIQUE You can only have one of a unique perk End
+TEXTTOOLTIP: CREATED Manually placed cubes are also created End
+TEXTTOOLTIP: PLACED Placed cubes are also created End
+TEXTTOOLTIP: NEUTRAL The faction which the terrain starts as, neither enemy nor ally End
+TEXTTOOLTIP: FREE Cost is 0, manacost resets to normal after being created End
+TEXTTOOLTIP: COPY Copies are the same as the original in EVERY aspect, except for the current timer of abilities End
+TEXTTOOLTIP: TOUCHING _ X _ \N X \B C_ \B \B X \N _ X _ End
+TEXTTOOLTIP: NEARBY N N N \N N C N \N N N N End
+TEXTTOOLTIP: LIBRARY The library is the list of all cubes in the entire game, does not include cubes only created by other cubes (tokens) End
+TEXTTOOLTIP: EXTRA Extra hp also increase max hp End
+TEXTTOOLTIP: HAND The hand is where players place their cubes from, in the sidebar during battles End
+TEXTTOOLTIP: SHIELD-AREA X X S \N C X S \N X X S End
+TEXTTOOLTIP: VICTIM The cube which the action was done to, if the action only has a cube interacting with itself that cube is still the victim End
+TEXTTOOLTIP: CULPRIT The cube which caused the action to happened to some other cube or itself End
+TEXTTOOLTIP: BASE the base version of a cube is the cube in the games library with that name, ususally the same cube without any modifiers or effects or combined or anything End
+TEXTTOOLTIP: ABILITY each effect on a cube is a seperate ability, 4x are also 4 abilities, combining abilities like regeneration are just 1 ability End
+TEXTTOOLTIP: ABILITIES each effect on a cube is a seperate ability, 4x are also 4 abilities, combining abilities like regeneration are just 1 ability End
+
+// Abilities //
+
+TEXTTOOLTIP: REGENERATION Regeneration is an ability which heals 1 hp X times per minute End
+TEXTTOOLTIP: FERVOR Fervor is an ability which increases next damage dealt by that cube by X, then the ability is removed End
+TEXTTOOLTIP: SPLINTER Splinter is an ability which increases next damage taken by that cube by X, then the ability is removed End
+TEXTTOOLTIP: POISONED Poison is an ability which removes 1 hp X times per minute End
+TEXTTOOLTIP: POISON Poison is an ability which removes 1 hp X times per minute End
+TEXTTOOLTIP: FRAGILE Fragile is an ability which kills it on any collision or when it blocks another cube being created End
+TEXTTOOLTIP: STRENGTH Strength is an ability which increases all damage dealt by that cube by X End
+TEXTTOOLTIP: GOLDEN Golden is an ability which does nothing but looks pretty End
+TEXTTOOLTIP: BURROWED Burrowed is an ability which prevents melee attacks from above End
+TEXTTOOLTIP: UNDEAD Undead is an ability which reduces healing received by 1, mostly a marker End
+TEXTTOOLTIP: FROZEN Frozen is an ability which stops time for other abilities until some amount of time has passed End
+TEXTTOOLTIP: FREEZE Frozen is an ability which stops time for other abilities until some amount of time has passed End 
+TEXTTOOLTIP: FREEZES Frozen is an ability which stops time for other abilities until some amount of time has passed End 
+TEXTTOOLTIP: INFESTED Infested is an ability which on death creates the first ally with swarm from your hand with cost X or less End
+TEXTTOOLTIP: INHERITABLE Cube created/added to a players hand by this also gain this ability End
+TEXTTOOLTIP: ARCING Cube moves against gravity and then falls down again in an arc (Exact math is complicated) End
+TEXTTOOLTIP: JUMP Cube moves against gravity, slows down and then accelerates to falling down, (Exact math is complicated) End
+TEXTTOOLTIP: FLYING Can't be moved by the world (Gravity and Curses) End
+TEXTTOOLTIP: UPGRADE Upgrades must be placed above an ally or neutral to combine, drains additional mana equal to the cost of the cube below End
+TEXTTOOLTIP: FREEPLACEMENT Can be places anywhere, regardless of usual restrictions End
+TEXTTOOLTIP: UNPLACEABLE Can't be placed End
+TEXTTOOLTIP: INSPATIAL Inspatial is an ability which makes the space behind the cube adjacent to the one infront of it, effectivly allowing other cubes to attack or travel past the inspatial cube End
+TEXTTOOLTIP: ADDON Addon cubes add all their other abilities to the next non addon cube you place End
+TEXTTOOLTIP: EXTRA_LIFE An extra life is an ability which recreates a full hp copy when the owner dies, except the copy loses that extra life End
+TEXTTOOLTIP: RETALIATE Retaliate N causes the cube to deal N damage back when it takes damage from a non ally End
+TEXTTOOLTIP: VENGEANCE Vengeance N is an ability which causes the cube to deal N damage to its killer before it dies, the killer is the last cube which dealt damage or directly inflicted death to it End
+TEXTTOOLTIP: MYCELIUM_GROWTH Mycelium_Growth is a useless ability which is used by the fungus species perk to create more mycelium End
+TEXTTOOLTIP: ROBOTPART Robotpart is an ability which causes the cube to die if not closely connected to a robot core via robotpart allies (robotparts) they only move via the robot core's ability End
+TEXTTOOLTIP: SWARM Swarm is an ability which designates this cube (if in your hand) to be created by infested cubes on death End
+TEXTTOOLTIP: TEMPORARY Temporary is an ability which kills the cube after X time, the timer restarts if the death is prevented End
+TEXTTOOLTIP: ARMOR Armor is an ability which reduces damage taken by x, negative damage does NOT heal, reduced damage still counts as damage End
+TEXTTOOLTIP: FORMLESS Formless is an ability which makes the cube combine the next time it would block a cubes creation, as long as it has a different name End
+TEXTTOOLTIP: LIMITED: Limited cubes have some restriction on their placement and you can't chose to start with multiple of the same limited cube in hand End
+
+// Map and Economy //
+TEXTTOOLTIP: EVENT The ? nodes on the map are events, events vary greatly but are generally helpful End
+TEXTTOOLTIP: CONSUMABLE Consumables are perks with some kind of click activated effect End
+TEXTTOOLTIP: CONSUMABLES Consumables are perks with some kind of click activated effect End
+TEXTTOOLTIP: CONSUMABLE: Consumables are perks with some kind of click activated effect End
+TEXTTOOLTIP: CURSE Curses are perks with negative value and (generally) detrimental effect End
+TEXTTOOLTIP: CURSES Curses are perks with negative value and (generally) detrimental effect End
+TEXTTOOLTIP: TERRAIN Terrain perks are perks which set the terrain of the battle map End
+TEXTTOOLTIP: FRAGMENT Fragments are perk pieces which are ordered together in inventory to create combined effects End
+TEXTTOOLTIP: FRAGMENTS Fragments are perk pieces which are ordered together in inventory to create combined effects End
+
+
+TEXTTOOLTIP: WOUND Wounds are a perk which deals X damage to allies in field and hand at the start of the battle, lose 1 wound after each battle End
+TEXTTOOLTIP: WOUNDS Wounds are a perk which deals X damage to allies in field and hand at the start of the battle, lose 1 wound after each battle End
+
+TEXTTOOLTIP: REROLL Payed option in many places which allows exchanging all things on offer with new ones different from the previous End
+TEXTTOOLTIP: REROLLED Payed option in many places which allows exchanging all things on offer with new ones different from the previous End
+TEXTTOOLTIP: REROLLING Payed option in many places which allows exchanging all things on offer with new ones different from the previous End
+
+TEXTTOOLTIP: GOLD Currency, number which decreases when you buy stuff End
+TEXTTOOLTIP: DEBT Negative gold, amount of gold below 0 End
+TEXTTOOLTIP: DECK List of cubes your bring to the battle End
+TEXTTOOLTIP: DECKSIZE Amount of cubes your bring to the battle End
+TEXTTOOLTIP: HANDSIZE Amount of slots in your hand during the battle, not the amount of cubes you bring to the battle End

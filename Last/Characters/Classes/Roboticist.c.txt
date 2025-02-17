@@ -1,0 +1,91 @@
+PERK: Roboticist
+BelongsTo: CLASS
+LevelRequirement: 33
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsPlaced
+ EveryCubeTouchingPosition PositionOfCube Victim If HasAbilityWithName Target RobotPartX
+  TargetAbility ARandomAbilityOfCubeWhich Target IsSameString NameOfAbility Test StringConstant RobotPartX
+  Both TargetCube Victim GainAbility RobotPartX 0
+   If IsLarger StackingOfAbility Target StackingOfAbility 
+     FirstAbilityOfCubeWhich Victim AbilityHasName Test RobotPartX 
+    SetAbilityStacking 
+     FirstAbilityOfCubeWhich Victim AbilityHasName Test RobotPartX
+      Subtraction StackingOfAbility Target 1
+Description: +1 Decksize/Handsize. After an ally is placed next to a cube with robotpart it gains robotpart (robotparts need to be connected through robotparts to a Robot_Core) End
+ObtainAction: Both ChangeStartingHandSize DoubleConstant 1 ChangeDeckSize DoubleConstant 1
+RemoveAction: Both ChangeStartingHandSize DoubleConstant -1 ChangeDeckSize DoubleConstant -1
+ObtainAction: AddCubeToInventory CubeConstant Maintenance_Expert
+ObtainAction: AddCubeToInventory CubeConstant Piston_Leg
+ObtainAction: AddCubeToDeck CubeConstant Robot_Core
+Unique
+End
+
+PERK: Larger_Robot
+BelongsTo: Roboticist
+Ability: AfterACubeIsCreated If CubeHasName Victim Robot_Core
+ TargetCube Victim Both GainAbility RobotHeartX 1 RefundX Division ManaCostOfCube Victim 2
+Description: Created Robot_Core gain +1 robotheart (max robotpart distance) and refund 50% of their cost End
+Requirement: CubeExists ARandomCubeInInventoryWhich CubeHasName Test Robot_Core
+End
+
+PERK: Flying_Robot
+BelongsTo: Roboticist
+Ability: AfterACubeIsCreated If CubeHasName Victim Robot_Core
+ TargetCube Victim GainAbility TemporaryFlying 18000
+Description: Created Robot_Core gain 5 minutes of flying End
+Requirement: CubeExists ARandomCubeInInventoryWhich CubeHasName Test Robot_Core
+Unique
+End
+
+PERK: Remote_Control
+BelongsTo: Roboticist
+Description: Gain the robot remote cube which moves the robot core forwards or backwards End
+ObtainAction: AddCubeToInventory Robot_Remote
+Requirement: Not CubeExists ARandomCubeInInventoryWhich CubeHasName Test Robot_Remote
+Unique
+End
+
+PERK: Subcomponents
+BelongsTo: Roboticist
+Ability: AfterACubeIsCreated Both If HasAbilityWithName Culprit RobotPartX TargetCube Victim GainAbility RobotPartX 1
+ If CubeHasName Victim Robot_Core
+  TargetCube Victim GainAbility RobotHeartX 1
+Description: Created Robot_Core gain +1 robotheart (max robotpart distance), cubes created by a robotpart also gain robotpart 1 End
+Unique
+End
+
+PERK: Part_Factory
+BelongsTo: Roboticist
+Ability: EveryMinute AddCubeToHandOfFaction FreeCopy CopyWithAction 
+ ARandomCubeWhich And And IsAllyToCaster Test  Not IsALeader Test Not IsSmaller ManaCostOfCube Test 10
+ GainAbility RobotPartX 1
+ FactionOfThis
+Description: Every minute add a free robotpart copy of a random non leader ally with manacost 10 or greater to your hand End
+End
+
+PERK: Stolen_Parts
+BelongsTo: Roboticist
+Ability: AfterACubeDies If IsEnemyToCaster Victim If X%Chance Division 200 ManaCostOfCube Victim 
+AddCubeToHandOfFaction FreeCopy CopyWithAction Victim Both Both SetFaction FactionOfThis GainAbility RobotPartX 1 ChangeHp Subtraction MaxHpOfCube Target HpOfCube Target
+ FactionOfThis
+Description: After an enemy dies X% chance to add a free full hp allied robotpart copy to your hand, where X is 200/manacost of that enemy End
+End
+
+PERK: Robot_Mass
+BelongsTo: Roboticist
+Ability: EveryMinute If IsLarger AmountOfCubesWhich HasAbilityWithName Test RobotPartX 9
+ EveryCubeWhich HasAbilityWithName Test RobotPartX Both GainXExtraHp 1 GainAbility StrengthX 1
+Description: Every minute if there are 10 or more robotpart cubes give them all 1 extra hp and 1 strength End
+End
+
+PERK: Crushing_Advance
+BelongsTo: Roboticist
+Ability: EveryXSeconds 10 EveryCubeWhich HasAbilityWithName Test RobotPartX 
+ SetCaster Target TargetCube CubeInDirectionFromCube Forwards Caster If IsEnemyToCaster Target TakeXDamage 3
+Description: Every 10 seconds every robotpart with an enemy directly infront deals 3 damage to that enemy End
+End
+
+PERK: Robot_Dragon_Egg
+BelongsTo: Roboticist
+Description: You start with a free Robot_Dragon_Egg in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Robot_Dragon_Egg RemoveThisAbility
+End

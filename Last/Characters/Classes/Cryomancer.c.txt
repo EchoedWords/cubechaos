@@ -1,0 +1,68 @@
+PERK: Cryomancer
+BelongsTo: CLASS
+LevelRequirement: 17
+Ability: Every30Seconds AddCubeToHandOfThis CubeConstant Snap_Freeze
+Description: Every 30 seconds add a snap_freeze to your hand End
+ObtainAction: AddCubeToInventory CubeConstant Freezing_Pain
+ObtainAction: AddCubeToInventory CubeConstant Icy_Mirror
+End
+
+PERK: Frost_Blight
+BelongsTo: Cryomancer
+Ability: EveryXSeconds DoubleConstant 5 EveryCubeWhich And IsEnemyToCaster Test HasAbilityWithName Test FrozenX GainAbility PoisonX 1
+Description: Every 5 seconds apply 1 poison to all frozen enemies (losing 1 hp per minute) End
+End
+
+PERK: Ice_Shield
+BelongsTo: Cryomancer
+Ability: BeforeACubeTakesDamage If IsAllyToCaster Victim If X%Chance DoubleConstant 50 Both NegateX DoubleConstant 1 TargetCube Victim GainAbility FrozenX 2
+Description: Before an ally takes damage 50% chance to reduce that damage by 1 and the ally is frozen for 2 seconds End
+End
+
+PERK: Unfrozen_Hope
+BelongsTo: Cryomancer
+Ability: AfterACubeLosesAnAbility If IsAllyToCaster Victim TargetCube Victim SetCaster Victim HealXDamage DoubleConstant 2
+Description: After an ally loses an ability (like frozen) it heals itself 2 hp End
+End
+
+PERK: Frozen_Chains
+BelongsTo: Cryomancer
+Ability: AfterACubeIsCreated If CubeHasName Victim Snap_Freeze
+TargetCube CubeInDirectionFromCube South Victim If IsAllyToCaster Target
+GainAbility Unmovable
+Description: After a Snap_Freeze is created if the cube below is an ally it gains: Can't move End
+Unique
+End
+
+PERK: Cold_Copy
+BelongsTo: Cryomancer
+Ability: BeforeACubeGainsAnAbility If IsAllyToCaster Victim If Not IsLarger ManaCostOfCube Victim DoubleConstant 30 If X%Chance DoubleConstant 20
+SetCaster Victim CreateCubeOnPosition Caster PositionInDirectionFromPosition Forwards PositionOfThis
+Description: Before an ally with manacost 30 or less gains an ability 20% chance it replicates forwards End
+End
+
+PERK: Cold_Storage
+BelongsTo: Cryomancer
+Ability: EveryMinute EveryCubeInHandOfFactionWhich FactionOfThis True Both GainXExtraHp DoubleConstant 2 GainAbility FrozenX 5
+Description: Every minute every cube in your hand gains 2 extra hp and 5 seconds of frozen End
+End
+
+PERK: Hateful_Mimicry
+BelongsTo: Cryomancer
+Ability: AfterACubeIsCreated If Not IsPlaced If IsAllyToCaster Victim If Not IsSmaller ManaCostOfCube Victim DoubleConstant 10 TargetCube Victim GainAbility
+EveryXMeleeY 240 4
+Description: After an ally with manacost 10 or greater is created but not placed it gains a 4 damage every 4 seconds melee attack End
+End
+
+PERK: Frozen_Statues
+BelongsTo: Cryomancer
+Ability: AfterACubeDies If IsAllyToCaster Victim If Not IsALeader Victim If Not HasAbilityWithName Victim FrozenX If X%Chance MaxHpOfCube Victim AddCubeToHandOfThis FreeCopy CopyWithAction Victim
+Both GainAbility FrozenX 30 ChangeHp Subtraction MaxHpOfCube Target HpOfCube Target
+Description: After a non leader non frozen ally dies X% chance to add a free full hp but 30 seconds frozen copy of it to your hand, X is the cube's max hp End
+End
+
+PERK: Icy_Dragon_Egg
+BelongsTo: Cryomancer
+Description: You start with a free Icy_Dragon_Egg in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Icy_Dragon_Egg RemoveThisAbility
+End

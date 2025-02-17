@@ -1,0 +1,72 @@
+PERK: Dwarf
+BelongsTo: SPECIES
+Description: Always start with sturdy stone in your hand End
+ObtainAction: AddCubeToDeck CubeConstant Stone
+RemoveAction: RemoveCubeFromDeck CubeConstant Stone
+ObtainAction: AddCubeToInventory CubeConstant Dwarven_Warrior
+ObtainAction: AddCubeToInventory CubeConstant Excavate
+Unique
+End
+
+PERK: Stone_Dragon_Egg
+BelongsTo: Dwarf
+Description: You start with a free Stone_Dragon_Egg in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Stone_Dragon_Egg RemoveThisAbility
+End
+
+PERK: Stone_Fortifications
+BelongsTo: Dwarf
+Description: Your stone heals allies below them for 1 hp every 10 seconds End
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Stone
+GainAbilityText Every10Seconds TargetCube CubeInDirectionFromCube South Caster If IsAllyToCaster Target HealXDamage DoubleConstant 1
+Every 10 seconds, if there is an ally below, this heal it for 1 hp End
+RemoveThisAbility
+End
+
+PERK: Stone_Mines
+BelongsTo: Dwarf
+Description: Your stone cost 1/4 less End
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Stone
+ChangeManaCost Division ManaCostOfCube Target DoubleConstant -4
+RemoveThisAbility
+End
+
+PERK: Crumbling_Stone
+BelongsTo: Dwarf
+Description: After your stone dies add a free Rough_Gravel cube to your hand End
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Stone
+GainAbilityText AfterThisDies AddCubeToHandOfThis NeutralCopy FreeCopy CubeConstant Rough_Gravel
+After this dies add a neutral rough gravel cube to your hand End
+RemoveThisAbility
+ReferenceCube: Rough_Gravel
+End
+
+PERK: Hardening_Stone
+BelongsTo: Dwarf
+Ability: EveryXMinutes DoubleConstant 2 EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Stone
+GainXExtraHp DoubleConstant 1
+Description: Every 2 minutes stone in your hand gains 1 extra hp End
+End
+
+PERK: Valuable_Earth
+BelongsTo: Dwarf
+Description: At the start of each battle neutrals gain: After this dies the killer generates 5 \CMANA mana \CN End
+Ability: AtTheStartOfTheBattle Secret Both EveryCubeWhich IsNeutral Test GainAbilityText
+ AfterThisDies FactionXGainsYMana FactionOfCube Culprit DoubleConstant 5
+After this dies the killers faction gains 5 \CMANA mana \CN End
+RemoveThisAbility
+End
+
+PERK: Reactive_Stone
+BelongsTo: Dwarf
+Description: After your stone takes damage 3 times it gains charging and a melee attack End
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Stone
+GainAbilityText AfterThisTakesDamage EveryXTimes DoubleConstant 3 Both Both
+ GainAbility EveryXMeleeY 240 2
+ GainAbility ChargeEveryX 180
+ RemoveThisAbility
+ After this takes damage 3 Times remove this ability and this gains the following: \N
+  \A EveryXMeleeY 240 2 \N
+  \A ChargeEveryX 180 End
+RemoveThisAbility
+End

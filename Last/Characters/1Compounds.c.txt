@@ -1,0 +1,129 @@
+COMPOUND: ABILITY
+Dragon_Egg
+EveryXMinutes DoubleConstant 4 Both AddCubeToHandOfThis GenericCube Die
+Text: After 4 minutes kill this and add CODE 1 to your hand End
+End
+
+COMPOUND: ABILITY
+GrowingUp
+EveryTick If IsLarger MaxHpOfCube Caster GenericConstant Both Exile CreateCubeOnPosition GenericCube PositionOfThis
+Text: When this has more than CODE 1 max hp, replace this with CODE 2 End
+End
+
+COMPOUND: CUBE
+ARandomDragonEgg
+ARandomCubeInLibraryWhich And HasAbilityWithName Test Dragon_Egg Not HasNameOfCube Test HiddenCubeConstant Chaos_Dragon_Egg
+End
+
+COMPOUND: ABILITY
+Upgrade
+AfterThisIsCreated TargetCube CubeInDirectionFromCube South Caster
+If And CubeExists Target Not IsEnemyToCaster Target
+Both FactionXGainsYMana FactionOfThis Minus ManaCostOfCube Target
+Both RemoveThisAbility
+Both Exile
+Both CreateCubeOnPosition CombinationOf2Cubes Caster Target PositionOfCube Target
+TargetCube Caster Exile
+ExtraTrigger: BeforeThisIsPlaced 
+If Or Not CubeExists CubeInDirectionFromCube South Caster 
+IsEnemyToCaster CubeInDirectionFromCube South Caster 
+NegateX DoubleConstant 20
+NO_DUPLICATES
+Text: \C128 128 128 Upgrade: \CN Must be placed above an ally or neutral cube. After this is created 
+lose \CMANA mana \CN equal to that cubes cost, then
+exile that cube and this cube and create a combination below except the combination doesn't have this ability End
+End
+
+COMPOUND: ABILITY
+FreeUpgrade
+AfterThisIsCreated TargetCube CubeInDirectionFromCube South Caster
+If And CubeExists Target And Not IsALeader Target IsAllyToCaster Target
+Both RemoveThisAbility
+Both Exile
+Both CreateCubeOnPosition CombinationOf2Cubes Caster Target PositionOfCube Target
+TargetCube Caster Exile
+ExtraTrigger: BeforeThisIsPlaced 
+If Or Not IsAllyToCaster CubeInDirectionFromCube South Caster 
+ IsALeader CubeInDirectionFromCube South Caster 
+NegateX DoubleConstant 20
+NO_DUPLICATES
+Text: \C128 128 128 FreeUpgrade: \CN Must be placed above a non leader ally. After this is created 
+exile that ally and this cube and create a combination below except the combination doesn't have this ability End
+End
+
+COMPOUND: ABILITY
+Swarm
+Nothing
+Text: \C255 0 220 Swarm: \CN Can be created by infested cubes End
+CubeColourShift: 0.6 127 0 127
+NO_DUPLICATES
+NORANDOM
+End
+
+COMPOUND: ABILITY
+InfestedX
+AfterThisDies TargetCube TheFirstCubeInHandOfFactionWhich DoubleConstant 1 And And
+ HasAbilityWithName Test Swarm 
+ Not HasNameOfCube Test Caster
+ Not IsLarger ManaCostOfCube Test GenericStacking
+CreateCubeOnPosition Target PositionOfCube Caster
+Text: \C76 255 0 Infested STACKING 1 \B : \CN After this dies create the first \C255 0 220 swarm \CN cube from the players hand with cost \C76 255 0 STACKING 1 \CN or less (won't choose cube with same name) End
+CubeColourShift: 0.2 76 255 0
+End
+
+COMPOUND: ABILITY
+AreaBlast
+BeforeThisDies Both EveryCubeInRadiusXAroundTarget DoubleConstant 2 TakeXDamage DoubleConstant 1
+ CreateAoEParticlesColourRadiusPosition DoubleConstant 16738816 DoubleConstant 2 PositionOfThis
+Text: AreaBlast: Before this dies this deals 1 damage to every cube up to 2 spaces away End
+End
+
+COMPOUND: ABILITY
+Flickering
+EveryXSeconds 10 RemoveThisAbility
+Text: \C200 200 200 Flickering: \CN loses this ability after 10 seconds End
+NO_DUPLICATES
+LOCAL
+End
+
+COMPOUND: ABILITY
+MyceliumGrowth
+Nothing
+Text: \C128 228 194 Mycelium_Growth \CN End
+LOCAL
+CubeColourShift: 0.4 128 228 194
+End
+
+COMPOUND: ABILITY
+RobotPartX
+BeforeThisMovesNegation If Not Or CubeHasName Culprit Robot_Core CubeHasName Victim Robot_Core NegateX 1
+ExtraTrigger: EverySecond Both
+ Silent Both SetAbilityStacking ThisAbility Subtraction StackingOfAbility ThisAbility 1
+ EveryCubeTouchingPosition PositionOfThis If HasAbilityWithName Target RobotPartX
+  TargetAbility ARandomAbilityOfCubeWhich Target IsSameString NameOfAbility Test StringConstant RobotPartX
+   If IsLarger StackingOfAbility Target GenericStacking 
+    SetAbilityStacking ThisAbility Subtraction StackingOfAbility Target 1
+ If IsSmaller StackingOfAbility ThisAbility 1 TargetCube Caster Die
+Text: RobotPart STACKING 1 \B : Can't move except via robot_core. 
+ Every second set this to 1 less than highest robotpart among touching cubes and this, dies if at 0 End
+CubeColourShift: 0.7 190 89 145
+End
+
+COMPOUND: ABILITY
+RobotHeartX
+EverySecond Secret SetAbilityStacking ARandomAbilityOfCubeWhich Target IsSameString NameOfAbility Test StringConstant RobotPartX GenericStacking
+Text: RobotHeart STACKING 1 \B : Every second set robotpart to STACKING 1 End
+End
+
+COMPOUND: ABILITY
+RobotMovement
+BeforeThisMoves If IsLarger EventAmount 0 Both NegateX 1
+ If Not CubeExists ARandomCubeWhich And HasAbilityWithName Test RobotPartX 
+  And Not IsPositionEmpty PositionInDirectionFromPosition EventDirection PositionOfCube Test
+  Not HasAbilityWithName CubeInDirectionFromCube EventDirection Test RobotPartX
+ Both EveryCubeWhichInDirectionalOrder HasAbilityWithName Test RobotPartX EventDirection
+  Secret MoveInDirection EventDirection
+ Secret EveryCubeWhich HasAbilityWithName Test RobotPartX GainAbility DoubleTimeX 1
+Text:  \C109 209 228 RobotMovement: \CN Before this moves in a direction, checks if every robotpart has space or another robotpart in that direction, if so move all robot parts in that direction instead and give all robot parts 1 second of double_time End
+NO_DUPLICATES
+End

@@ -1,0 +1,75 @@
+COMPOUND: ABILITY
+Elemental_Attuned
+Nothing
+Text: \C255 0 220 Attuned: \CN Won't combine via the elemental perk again End
+NO_DUPLICATES
+LOCAL
+End
+
+PERK: Elemental
+BelongsTo: SPECIES
+LevelRequirement: 41
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim
+If Not HasAbilityWithName Victim Elemental_Attuned
+TargetCube CubeOfPosition PositionInDirectionFromPosition South PositionInDirectionFromPosition South PositionOfCube Victim
+If IsNeutral Target
+If Not HasAbilityWithName Target Elemental_Attuned
+Both Exile
+TargetCube CombinationOf2Cubes Target Victim
+Both GainAbility Elemental_Attuned
+CreateCubeOnPosition Target PositionInDirectionFromPosition South PositionInDirectionFromPosition South PositionOfCube Victim
+Description: (NEEDS REWORK!!) After an ally is created 1 space above a neutral cube that neutral cube is replaced by a combination of it and the ally, which can't combine like this again End
+ObtainAction: AddCubeToInventory CubeConstant Evaporate
+ObtainAction: AddCubeToInventory CubeConstant Awaken
+ObtainAction: AddCubeToInventory CubeConstant Sand_Portal
+Unique
+End
+
+PERK: Elemental_Dragon_Egg
+BelongsTo: Elemental
+Description: You start with a free Elemental_Dragon_Egg in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Elemental_Dragon_Egg RemoveThisAbility
+End
+
+PERK: Terrain_Restoration
+BelongsTo: Elemental
+Ability: AfterACubeDies If IsNeutral Victim If X%Chance DoubleConstant 10 
+TargetCube Victim 
+Both Secret HealXDamage Subtraction MaxHpOfCube Target HpOfCube Target
+AddCubeToHandOfThis Victim
+Description: After a neutral cube dies there is a 10% chance to add a copy of that cube to your hand which is still neutral but fully healed End
+End
+
+PERK: Elemental_Resistance
+BelongsTo: Elemental
+Ability: AfterACubeIsCreated TargetCube Victim If IsNeutral Target
+GainXExtraHp DoubleConstant 1
+Description: After a neutral cube is created it gains 1 extra hp End
+End
+
+PERK: Elemental_Vengeance
+BelongsTo: Elemental
+Ability: AfterACubeIsCreated TargetCube Victim If IsNeutral Target
+GainAbility VengeanceX 1
+Description: After a neutral cube is created it gains 1 vengeance, dealing 1 damage to whatever kills them End
+End
+
+PERK: Elemental_Charge
+BelongsTo: Elemental
+Ability: Every20Seconds EveryCubeWhich IsNeutral Test MoveInDirection Forwards
+Description: Every 20 seconds your starting leader moves every neutral cube forward (Your forward not the neutral cubes forward) End
+End
+
+PERK: Allied_Earth
+BelongsTo: Elemental
+Ability: BeforeACubeTakesDamage If IsAllyToCaster Victim If IsNeutral Culprit
+If IsLarger EventAmount DoubleConstant 0 
+Cooldown DoubleConstant 120 NegateX EventAmount
+Description: Before an ally takes damage from a neutral cube negate that damage, cooldown 2 seconds End
+End
+
+PERK: Return_To_The_World
+BelongsTo: Elemental
+Ability: AfterACubeIsCreated If IsNeutral Test HealXDamage DoubleConstant 1
+Description: After a neutral cube is created your starting leader heals for 1 hp End
+End

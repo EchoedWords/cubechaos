@@ -1,0 +1,131 @@
+PERK: Reroll_Cost_Increase
+BelongsTo: NULL
+CampaignAbility: AfterYouReroll ChangeRerollCost DoubleConstant 10
+Description: After you reroll rerolling costs 10 more End
+Invisible
+Unique
+End
+
+PERK: Terrain_Depth_Generation
+BelongsTo: NULL
+WorldAbility: AfterACubeDies If IsEqual YOfPosition PositionOfCube Victim MaxWorldY
+Both AddRow MaxWorldY
+AddDepthRow NeutralCopy CubeConstant Deep_Rock
+Description: After a cube on the lowest row dies a new row is created below with terrain End
+Invisible
+Unique
+End
+
+PERK: Debt_Effects
+BelongsTo: NULL
+WorldAbility: AtTheStartOfTheBattle If IsSmaller Currency DoubleConstant 0 
+Both TargetCube ARandomCubeWhich And IsALeader Test IsEnemy Test GainXExtraHp Minus Currency
+Silent AddCubeToHandOfFactionInfinitly CopyWithAction CubeConstant Call_Upon_Debt 
+XTimes Lowest DoubleConstant 2 Minus Division Currency DoubleConstant 1000 GainAbilityText EverySecond AccelerateX TimeConstant 60 Every second accelerate this by 1 second End
+DoubleConstant 2
+WorldAbility: EveryTick TargetCube ARandomCubeInHandOfFactionWhich DoubleConstant 2 CubeHasName Test Call_Upon_Debt
+Secret AccelerateX DoubleConstant 1
+Description: At the start of each battle if the player has debt increase the hp of the enemy leader and add an infinite uses copy Call_Upon_Debt to the enemies hand, it experiences time in the hand End
+Invisible
+Unique
+End
+
+COMPOUND: ABILITY
+Gravity
+EveryXTicks DoubleConstant 4 Secret EveryCube MoveInDirection GravityDirection
+Text: Move all cubes in gravity direction every 4 ticks End
+NORANDOM
+End
+
+PERK: Gravity
+BelongsTo: NULL
+WorldAbility: AtTheStartOfTheBattle Both Silent SetVariable GRAVITY DoubleConstant 3 RemoveThisAbility
+WorldAbility: Gravity
+Description: Move all cubes in gravity direction (starts downwards) 15 times per second End
+Invisible
+Unique
+End
+
+PERK: Bottled_Debug
+BelongsTo: NULL
+ClickAction: ObtainPerk PerkConstant Strength_Upgrade
+Description: Click to do a specific debug thing End
+Unique
+DefaultLocked
+End
+
+PERK: Pandoras_Box
+BelongsTo: NULL
+WorldAbility: EveryXMinutes 5 XDelay 2 AddCubeToHandOfFaction CubeConstant Pandoras_Box DoubleConstant 1
+Description: After 10 minutes and every 5 minutes there after add a pandoras box to the players hand End
+Unique
+Invisible
+End
+
+PERK: Spell_Ghosts
+BelongsTo: NULL
+WorldAbility: AfterACubeIsCreated If IsPlaced If IsEqual FactionOfCube Culprit DoubleConstant 2 If Not IsLarger HpOfCube Victim DoubleConstant 0
+TargetCube Victim Secret GainAbility GhostDeath
+Description: After player 2 places a 0 hp cubes it gains ghost death, leaving a visual ghost behind when it dies End
+Unique
+Invisible
+End
+
+PERK: Boss_Scaling
+BelongsTo: NULL
+WorldAbility: EveryMinute Both Both FactionXGainsYMana DoubleConstant 2 Multiplication DoubleConstant 3 RoundedDown Division WorldTime DoubleConstant 3600
+ChangeMaxManaOfFaction Multiplication DoubleConstant 3 RoundedDown Division WorldTime DoubleConstant 3600 DoubleConstant 2
+If Not IsSmaller Division WorldTime DoubleConstant 3600 DoubleConstant 20
+AddCubeToHandOfFaction ARandomRarityBasedCubeInLibraryWhich DoubleConstant 2 Not IsToken Test DoubleConstant 2
+Description: Every minute the enemy generate 3 \CMANA mana \CN and 3 max mana for every minute already elapsed this battle, then if 20 minutes have already elapsed add a random cube to their hand End
+Value: -100
+End
+
+PERK: Dead_Brain_Mass
+BelongsTo: NULL
+ObtainAction: Both ChangeStartingMaxMana DoubleConstant 300 ChangeCampaignVariable DECKSIZE 1
+RemoveAction: Both ChangeStartingMaxMana DoubleConstant -300 ChangeCampaignVariable DECKSIZE -1
+Description: Increase decksize by 1, Increase starting max mana by 300 End
+Value: 200
+End
+
+PERK: Overflow_Deal
+BelongsTo: NULL
+WorldAbility: BeforeACubeIsAddedToAHand If IsEqual EventFaction 1 If IsEqual AmountOfCubesInHandOfFactionWhich 1 TRUE HandSizeOfFaction 1
+Both RemoveThisAbility SetCampaignVariable OVERFLOWED 1
+AbilityText: On cube overflow set campaign variable to 1 End
+WorldAbility: AfterEndOfTheBattle If IsEqual GetCampaignVariable OVERFLOWED 1
+Both LosePerk PerkConstant Overflow_Deal
+ReadAScenario Overflow_Deal_Choice
+Description: Before a cube is added to hand if the amount of cubes in hand is your handsize, get ready for end of battle and remove this perk, then add an event which allows paying 50 gold to get an overflow protection perk End
+Invisible
+End
+
+SCENARIO: Overflow_Deal_Choice
+ End
+CHOICE: 
+Hand Overflow End
+It noticed that your hand has been a bit full, it offers a deal, this once End
+PerkImage: Trash_Hand_Cube
+Choice: Buy: \C255 0 0 -50 gold, \C66 180 0 Gain the Remove_Hand_Cube perk End Both ChangeCurrency DoubleConstant -50 ObtainPerk PerkConstant Trash_Hand_Cube
+ReferencePerk: Remove_Hand_Cube
+Choice: Do not buy (this event can only happen once each run) End
+SEnd
+
+PERK: Trash_Hand_Cube
+BelongsTo: NULL
+ClickAction: Both EveryCubeInHandOfFactionWhich 1 TRUE SetStorage Target Nothing
+If CubeExists Storage TargetCube Storage
+ Both RemoveCubeFromHandOfFaction Target 1
+ FactionXGainsYMana 1 -3
+Description: Click this perk to remove the highest slot cube from your hand and lose 3 mana End
+Value: 25
+Unique
+End
+
+PERK: Banished_Perk
+BelongsTo: NULL
+Ability: Nothing
+Description: Nothing here End
+Value: 0
+End

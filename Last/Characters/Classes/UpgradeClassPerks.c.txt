@@ -1,0 +1,727 @@
+
+
+PERK: Baby_Temporal_Dragon
+Description: You start with a free Baby_Temporal_Dragon in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Baby_Temporal_Dragon RemoveThisAbility
+IsUpgradeFrom: Temporal_Dragon_Egg 60
+End
+
+PERK: Extra_Permanent_Injuries
+Ability: AfterACubeTakesDamage If IsEnemyToCaster Victim Both If X%Chance DoubleConstant 15 TargetCube Victim Randomly 
+ GainAbility PoisonX 1
+ GainAbility StrengthX -1
+If X%Chance DoubleConstant 1 SetCaster Culprit EveryCubeInHandOfFactionWhich FactionOfCube Victim HasNameOfCube Victim Test TakeXDamage DoubleConstant 1
+Description: After an enemy takes damage there is a 15% chance that enemy randomly either loses 1 strength or gains 1 poison 
+and a 1% chance the culprit also deals 1 damage to every cube with that name in the enemies hand End
+IsUpgradeFrom: Permanent_Injuries 100
+End
+
+PERK: Twicefold_Mana_Acceleration
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsLarger HpOfCube Victim DoubleConstant 0 TargetCube Victim Both 
+ AccelerateX Multiplication DoubleConstant 60 RoundedDown Division ManaCostOfCube Target DoubleConstant 5
+ AccelerateX Multiplication DoubleConstant 60 RoundedDown Division ManaOfFaction FactionOfCube Target DoubleConstant 10
+Description: After an ally with more than 0 hp is created accelerate it for 1 second for every 5 mana it costs and every 10 \CMANA mana \CN you have remaining End
+IsUpgradeFrom: Mana_Acceleration 80
+End
+
+PERK: Decaying_Reaction_Time
+Ability: AfterACubeTakesDamage If Not IsALeader Victim If IsAllyToCaster Victim TargetCube Victim 
+Both AccelerateX DoubleConstant 60
+GainAbility DoubleTimeX 2
+Description: After a non leader ally takes damage accelerate the ally by 1 second and give it 2 seconds of double time End
+IsUpgradeFrom: Reaction_Time 80
+End
+
+PERK: Explosive_Perk_Accelerator
+BelongsTo: Chronomancer
+NextPerkConnection: PerkExists Test 097 104 012
+Ability: Every10Seconds Secret Both EveryAbilityOfCubeWhich Caster IsEqual PerkConnectionOfAbility Test Addition 1 PerkConnectionOfAbility ThisAbility
+ AccelerateAbilityByX Target 1800
+  EveryAbilityOfCubeWhich WorldCube IsEqual PerkConnectionOfAbility Test Addition 1 PerkConnectionOfAbility ThisAbility
+ AccelerateAbilityByX Target 1800
+Description: Every 10 seconds accelerate the next perk in your inventory by 30 second End
+IsUpgradeFrom: Perk_Accelerator 80
+End
+
+PERK: Universal_Degraded_Ideas
+Ability: EveryXMinutes DoubleConstant 5 EveryCubeInHandOfFactionWhich EnemyFaction
+ And Not HasLimitedUses Test IsLarger HpOfCube Test DoubleConstant 0 TakeXDamage DoubleConstant 1
+Description: Every 5 minutes deal 1 damage to every cube in the enemies hand, which have more than 0 hp and infinite uses End
+IsUpgradeFrom: Degraded_Ideas 120
+End
+
+PERK: Individual_Thought_Time
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim 
+If Not HasAbilityWithName Victim TimeShift TargetCube Victim GainAbilityText
+EveryXSeconds DoubleConstant 30 EveryCubeInHandOfFactionWhich FactionOfCube Target HasNameOfCube Test Target AccelerateX DoubleConstant 180
+Every 30 Seconds accelerate every cube in your hand with the same name by 3 second End
+Description: After an ally is created if it doesn't have TimeShift it gains: Every 30 seconds accelerate every cube in your hand with the same name by 3 seconds End
+IsUpgradeFrom: Thought_Time 60
+End
+
+PERK: Additional_Additional_Time
+Ability: EveryMinute EveryAlliedLeader SetCaster Target TargetCube CubeInDirectionFromCube Backwards Caster 
+Both AccelerateX TimeConstant 1800 GainAbility DoubleTimeX 180
+Description: Every minute every allied leader accelerates the cube behind it for 30 seconds and gives it 3 minutes of double time End
+IsUpgradeFrom: Additional_Time 80
+End
+
+PERK: Rapid_Tooth_Of_Time
+Ability: EveryXSeconds DoubleConstant 30 XTimes Division WorldTime TimeConstant 1800
+TargetCube ARandomCubeWhich And IsLarger HpOfCube Test DoubleConstant 0 IsEnemyToCaster Test Silent TakeXDamage DoubleConstant 1
+Description: Every 30 seconds for every 30 seconds already elapsed this battle a random enemy which still has hp silently loses 1 hp End
+IsUpgradeFrom: Tooth_Of_Time 60
+End
+
+
+
+PERK: Baby_Iron_Dragon
+Description: You start with a free Baby_Iron_Dragon in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Baby_Iron_Dragon RemoveThisAbility
+IsUpgradeFrom: Iron_Dragon_Egg 60
+End
+
+PERK: Rapid_Copy_Mirror
+Ability: EveryXMinutes DoubleConstant 5 AddCubeToHandOfThis CubeConstant Full_Copy
+Description: Every 5 minutes add a free Full_Copy cube to your hand which completely copies a non leader cube End
+IsUpgradeFrom: Copy_Mirror 60
+End
+
+PERK: Universal_Remote_Charger
+Ability: Every5Seconds EveryCubeWhich And IsAllyToCaster Test HasAbilityWithName Test EnergyX
+GainAbility EnergyX 1
+Description: Every 5 seconds add 1 energy to every ally which has energy End
+IsUpgradeFrom: Remote_Charger 100
+End
+
+PERK: Cheap_Distant_Inspiration
+Ability: AfterACubeIsCreated If CubeHasName Victim Tinkering TargetCube CubeInDirectionFromCube South Victim 
+If IsEnemyToCaster Target ChangeManaCost Division ManaCostOfCube Target DoubleConstant -2
+Description: Your Tinkering can be placed anywhere. After you place Tinkering if the cube below is an enemy halve its manacost End
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Tinkering
+GainAbility FreePlacement RemoveThisAbility
+Unique
+IsUpgradeFrom: Distant_Inspiration 100
+End
+
+PERK: Growing_Tinker_Armor_Plates
+Ability: AfterACubeIsCreated If CubeHasName Victim Tinkering TargetCube CubeInDirectionFromCube South Victim 
+Both GainXExtraHp DoubleConstant 2 GainAbility GrowthX 1
+Description: Tinkering adds 2 extra hp and 1 growth to the cube below End
+IsUpgradeFrom: Tinker_Armor_Plates 60
+End
+
+PERK: Uneven_Conductivity
+Ability: EverySecond EveryCubeWhich And IsAllyToCaster Test HasAbilityWithName Test EnergyX
+SetCaster Target EveryCubeTouchingPosition PositionOfCube Target
+If And IsAllyToCaster Target HasAbilityWithName Target EnergyX
+If IsLarger GetEnergy GetStackingOfAbilityOnCube EnergyX Target
+Both Both 
+ ChangeAbilityStacking EnergyX DoubleConstant 1
+ If X%Chance DoubleConstant 10 ChangeAbilityStacking EnergyX DoubleConstant 1
+TargetCube Caster ChangeAbilityStacking EnergyX DoubleConstant -1
+Description: Touching allies which have energy exchange energy at a rate of 1 per second trying to equalize, each exchange has a 10% chance to give an extra energy End
+IsUpgradeFrom: Conductivity 60
+End
+
+PERK: Strange_Capacitors
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsPlaced If Not CubeHasName Victim Capacitor
+AddCubeToHandOfThis CopyWithAction CubeConstant Capacitor GainARandomBonus
+Description: After you place a non capacitor ally also add a capacitor upgrade to your hand which adds energygeneration and 10 energy, they also have a random bonus End
+IsUpgradeFrom: Capacitors 60
+End
+
+PERK: Cleansing_And_Repairing 
+Ability: AfterACubeIsCreated If CubeHasName Victim Tinkering TargetCube CubeInDirectionFromCube South Victim 
+Both HealXDamage DoubleConstant 5
+Both If HasAbilityWithName Target PoisonX RemoveAbilityWithName PoisonX
+If HasAbilityWithName Target StrengthX If IsSmaller GetStackingOfAbilityOnCube StrengthX Target DoubleConstant 0 RemoveAbilityWithName StrengthX
+Description: Tinkering also heals the cube below for 5 Hp and removes any poison or negative strength End
+IsUpgradeFrom: Repairing 40
+End
+
+PERK: Rapid_Mechanical_Helper
+BelongsTo: Engineer
+Ability: AfterAnotherAllyIsCreated If IsPlaced Cooldown DoubleConstant 1200 If HasAbilityWithName Victim Upgrade
+GenerateXMana DoubleConstant 50
+Description: After you place an upgrade gain 50 mana, cooldown 20 seconds End
+IsUpgradeFrom: Mechanical_Helper 120
+End
+
+PERK: Enduring_Injured_Veterans
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim Both TakeXDamage DoubleConstant 1 ChangeMaxHp DoubleConstant 1
+ExtraTrigger: AfterACubeTakesDamage If And IsAllyToCaster Victim IsAllyToCaster Culprit If Not IsSameCube Culprit Victim TargetCube Victim 
+GainXExtraHp Addition DoubleConstant 1 EventAmount
+Description: After an ally is created your starting leader deals 1 damage to it. After an ally takes damage from another ally the victim also gains (that much + 1) extra hp End
+IsUpgradeFrom: Injured_Veterans 60
+End
+
+PERK: Very_Ancient_Blessing
+BelongsTo: Priest
+Ability: BeforeACubeHeals If IsAllyToCaster Victim Both If X%Chance DoubleConstant 20 TargetCube Victim ChangeMaxHp EventAmount
+If X%Chance DoubleConstant 100 EveryCubeInHandOfFactionWhich FactionOfThis HasNameOfCube Test Victim ChangeMaxHp EventAmount
+Description: Before an ally is healed 20% chance it gains that much max hp, 1% chance to grant allies in your hand with same name that much max hp End
+IsUpgradeFrom: Ancient_Blessing 80
+End
+
+PERK: Black_Sun_Worship
+Ability: AfterACubeHeals If IsAllyToCaster Culprit Both 
+EveryXTimes DoubleConstant 100 
+ AddCubeToHandOfThis FreeCopy CubeConstant Miracle_Of_Fire
+EveryXTimes DoubleConstant 1000
+ EveryCubeWhich And Not IsALeader Test IsEnemyToCaster Test Die
+Description: Every 100 times an ally heals a cube add a free Miracle_Of_Fire cube to your hand. Every 1000 times kill all non leader enemies End
+IsUpgradeFrom: Continuous_Worship 80
+End
+
+PERK: Baby_Holy_Dragon
+Description: You start with a free Baby_Holy_Dragon in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Baby_Holy_Dragon RemoveThisAbility
+IsUpgradeFrom: Holy_Dragon_Egg 60
+End
+
+PERK: Resplendant_Holy_Spirit
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim ChangeMaxHp MaxHpOfCube Victim
+Description: After an ally is created your starting leader gains max hp equal to its max hp End
+IsUpgradeFrom: Holy_Spirit 100
+End
+
+PERK: Global_Healer_Training
+Ability: EverySecond 
+EveryCubeWhich And And IsEqual YOfPosition PositionOfThis YOfPosition PositionOfCube Test IsAllyToCaster Test Not IsSameCube Caster Test
+HealXDamage DoubleConstant 1
+Description: Every second your starting leader heals every other ally in the same row for 1 damage End
+IsUpgradeFrom: Healer_Training 80
+End
+
+PERK: Generalized_Residue_Healing
+Ability: AfterACubeHeals If IsAllyToCaster Victim If Not IsALeader Victim If Not IsSameCube Victim Culprit TargetCube Victim GainAbility RegenerationX 1
+Description: After an ally heals another non leader ally the healed one gains 1 regeneration (healing 1 hp over each minute) End
+IsUpgradeFrom: Residue_Healing 120
+End
+
+PERK: Universal_Holy_Nova
+Ability: AfterACubeHeals If IsAllyToCaster Victim
+SetCaster Victim EveryCubeTouchingPosition PositionOfThis If IsEnemyToCaster Target TakeXDamage DoubleConstant 1
+Description: After an ally is healed it also deals 1 damage to all touching enemies End
+IsUpgradeFrom: Holy_Nova 100
+End
+
+PERK: Cleansing_Apocalypse
+Ability: EveryXSeconds DoubleConstant 10 EveryCubeWhich IsNeutral Test SetCaster Target
+ TargetCube CubeInDirectionFromCube North Caster 
+ If IsEnemyToCaster Target TakeXDamage DoubleConstant 1
+ExtraTrigger: AfterACubeTakesDamage If IsNeutral Culprit TargetCube Culprit GainAbility StrengthX 1
+Description: Neutral cubes deal 1 damage to cubes of different factions above them every 10 seconds, After a neutral cube deals damage it gains 1 strength End
+IsUpgradeFrom: Hallowed_Earth 0
+End
+
+
+
+PERK: Baby_Explosive_Dragon
+Description: You start with a free Baby_Explosive_Dragon in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Baby_Explosive_Dragon RemoveThisAbility
+IsUpgradeFrom: Explosive_Dragon_Egg 60
+End
+
+PERK: Maddening_Matchstick
+Ability: AfterACubeTakesDamage 
+If IsLarger EventAmount DoubleConstant 0
+If Not IsSameCube Victim Culprit
+If X%Chance DoubleConstant 50
+TargetCube Victim GainAbility Burning
+Description: After a cube takes more than 0 damage from another cube 50% chance to set it on fire, causing it to deal 1 damage to touching cubes and itself 5 seconds later End
+IsUpgradeFrom: Matchstick 60
+End
+
+PERK: Retaliatory_Safety_Procedures
+Ability: BeforeThisTakesDamage If Not IsEnemyToCaster Culprit Both TargetCube ARandomCubeWhich IsEnemyToCaster Test TakeXDamage EventAmount
+NegateX EventAmount
+Description: Before your starting leader takes damage from allies or neutral cubes it deals that much damage to a random enemy and all the damage is negated End
+IsUpgradeFrom: Safety_Procedures 160
+End
+
+PERK: Larger_Stronger_Blasts
+Ability: BeforeACubeDies TargetCube Victim Both GainAbility StrengthX 2
+GainAbilityText AfterThisDealsDamage EveryCubeTouchingPosition PositionOfCube Victim TakeXDamage DoubleConstant 1
+After this deals damage to a cube this also deals 1 damage to every cube touching that cube End
+Description: Before a cube dies it gains 2 strength increasing its damage by 2  and it gains: After this deals damage to a cube this also deals 1 damage to every cube touching that cube End
+IsUpgradeFrom: Stronger_Blasts 60
+End
+
+PERK: Cheap_Fiery_Vengeance
+Ability: AfterACubeDies If IsAllyToCaster Victim TargetCube ARandomEnemy TakeXDamage DoubleConstant 1
+Description: After an ally dies your starting leader deals 1 damage to a random enemy End
+IsUpgradeFrom: Fiery_Vengeance 40
+End
+
+PERK: Larger_Spreading_Explosion
+Ability: AfterACubeDies EveryCubeTouchingPosition PositionOfCube Victim 
+If Not HasAbilityWithName Target AreaBlast GainAbility AreaBlast
+Description: After a cube dies touching cubes gain, if they don't have it yet: Deal 1 damage to all cubes within distance 2 before dying End
+IsUpgradeFrom: Spreading_Explosion 60
+Unique
+End
+
+PERK: Repeating_Last_Betrayal
+Ability: AfterACubeDies If IsEnemyToCaster Victim If Not IsSameCube Victim Culprit If IsEnemyToCaster Culprit
+SetCaster Victim
+EveryCubeTouchingPosition PositionOfCube Victim TakeXDamage DoubleConstant 5
+Description: After an enemy gets killed by another enemy the victim deals 5 damage to all cubes touching the victim End
+IsUpgradeFrom: Last_Betrayal 60
+End
+
+PERK: Humming_Chain_Reaction
+Ability: AfterACubeTakesDamage If X%Chance DoubleConstant 20 TargetCube Victim Both Both TakeXDamage DoubleConstant 1
+TakeXDamage DoubleConstant 0 TakeXDamage DoubleConstant 0
+Description: After a cube takes damage there is a 20% chance for your starting leader to deal 1 damage to that cube, then 0 damage, then 0 damage again End
+IsUpgradeFrom: Chain_Reaction 60
+End
+
+PERK: Nuclear_Explosive_Decay
+Ability: AfterACubeDies If IsEnemyToCaster Victim 
+If Not IsEqual PlacabilityOfPosition PositionOfCube Victim FactionOfCube Caster
+If X%Chance DoubleConstant 20 CreateCubeOnPosition CubeConstant Tiny_Nuclear_Bomb PositionOfCube Victim
+Description: After an enemy dies on the enemy side of the battlefield there is a 20% chance for your starting leader to create a Tiny_Nuclear_Bomb in its place End
+IsUpgradeFrom: Explosive_Decay 160
+End
+
+
+
+PERK: Baby_Invasive_Dragon
+Description: You start with a free Baby_Invasive_Dragon in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Baby_Invasive_Dragon RemoveThisAbility
+IsUpgradeFrom: Invasive_Dragon_Egg 60
+End
+
+PERK: Very_Convincing_Incursion
+BelongsTo: Rogue
+Ability: AfterACubeIsCreated If CubeHasName Victim Incursion 
+TargetCube CubeInDirectionFromCube Forwards Victim If IsEnemyToCaster Target
+Both GainAbility BetrayalX 5 GainAbility EveryXMeleeY 120 2
+Description: After an Incursion is created, if there is an enemy in front apply 5 Betrayal and Melee for 2 damage every 2 seconds End
+IsUpgradeFrom: Convincing_Incursion 60
+End
+
+PERK: Bountiful_Head_Hunt
+Ability: AfterACubeDies If IsEnemyToCaster Victim GenerateXMana Division ManaCostOfCube Victim DoubleConstant 10
+Description: After an enemy dies gain 10% of its manacost in \CMANA mana \CN End
+IsUpgradeFrom: Head_Hunt 100
+End
+
+PERK: Free_Stolen_Tools
+Ability: AfterACubeIsCreated If CubeHasName Victim Incursion 
+TargetCube CubeInDirectionFromCube Forwards Victim If IsEnemyToCaster Target
+AddCubeToHandOfThis CopyWithAction FreeCopy Target
+ Both SetFaction FactionOfThis
+ Secret HealXDamage Addition HpOfCube Target MaxHpOfCube Target
+Description: After an Incursion is created, if there is an enemy in front, add an allied full hp free copy of it into your hand End
+IsUpgradeFrom: Stolen_Tools 100
+End
+
+PERK: Terror_Campaign
+BelongsTo: Rogue
+Ability: AfterACubeTakesDamage If IsEnemyToCaster Victim TargetCube Victim If X%Chance DoubleConstant 10 Both
+GainAbility BetrayalX 2 GainAbility MiseryX 1
+Description: After an enemy takes damage 10% chance it gains 2 Betrayal and if it has no Misery, 1 Misery (deals 1 damage to every enemy with the same name after dealing damage) End
+IsUpgradeFrom: Fear_Campaign 100
+End
+
+PERK: Big_Smugglers_Incursion
+BelongsTo: Rogue
+Ability: AfterACubeDies If CubeHasName Victim Incursion 
+ CreateCubeOnPosition ARandomCubeInHandOfFactionWhich FactionOfThis And Not CubeHasName Test Incursion Not IsLarger ManaCostOfCube Test DoubleConstant 30
+ PositionOfCube Victim
+Description: After an Incursion dies create another random cube from your hand with manacost 30 or less in its place End
+Unique
+IsUpgradeFrom: Smugglers_Incursion 80
+End
+
+PERK: Universal_Aggressive_Incursion
+Ability: AfterACubeIsCreated If CubeHasName Victim Incursion 
+EveryCubeWhich And IsEnemyToCaster Test IsAllyToCaster CubeInDirectionFromCube Backwards Test
+TakeXDamage DoubleConstant 5
+Description: After an Incursion is created your starting leader deals 5 damage to every enemy in front of any ally End
+IsUpgradeFrom: Aggressive_Incursion 60
+End
+
+PERK: Repeating_Tiny_Poisoners_Kit
+Ability: AfterACubeTakesDamage If IsEnemyToCaster Victim TargetCube Victim GainAbilityText 
+ EveryMinute GainAbility PoisonX 1
+ Every minute gain 1 Poison End
+Description: After an enemy takes damage apply an ability which applies 1 poison per minute losing 1 hp per minute per minute End
+IsUpgradeFrom: Tiny_Poisoners_Kit 60
+End
+
+PERK: Allied_Controlling_Earth
+Ability: EveryMinute EveryCubeWhich And IsAllyToCaster Test And CubeExists CubeInDirectionFromCube South Test 
+IsEqual DoubleConstant 0 FactionOfCube CubeInDirectionFromCube South Test
+SetCaster Target GenerateXMana DoubleConstant 1
+Description: Every minute every ally above a neutral cube generates 1 \CMANA mana \CN End
+IsUpgradeFrom: Controlling_Earth 60
+End
+
+
+
+PERK: Universal_Carrying
+Ability: BeforeACubeMoves If IsAllyToCaster Culprit TargetCube CubeOfPosition PositionInDirectionFromPosition North PositionOfCube Victim MoveInDirection EventDirection
+Description: Before an ally moves a cube (like itself) the cube above is also moved in the same direction End
+IsUpgradeFrom: Carrying 60
+End
+
+PERK: Long_Spear_Charge
+Ability: AfterACubeMoves If IsAllyToCaster Victim If IsSameDirection EventDirection Forwards SetCaster Victim
+Both TargetCube CubeInDirectionFromCube Forwards Victim If IsEnemyToCaster Target TakeXDamage DoubleConstant 1
+TargetCube CubeOfPosition PositionInDirectionFromPosition Forwards PositionInDirectionFromPosition Forwards PositionOfCube Victim
+If IsEnemyToCaster Target TakeXDamage DoubleConstant 1
+Description: After an ally moves forwards, if there is now an enemy in that direction and or 1 space apart, it deals 1 damage to any of those enemies End
+IsUpgradeFrom: Spear_Charge 60
+End
+
+PERK: Many_Spare_Knives
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim GainAbility EveryXMeleeY 180 2
+Description: After an ally is created it gets: \A EveryXMeleeY 180 2 End
+IsUpgradeFrom: Spare_Knives 60
+End
+
+PERK: Equivalent_Culling_Order
+Ability: AfterACubeTakesDamage If IsEnemyToCaster Victim If IsAllyToCaster Culprit 
+If HasAbilityWithName Culprit EveryXMeleeY GenerateXMana EventAmount
+Description: After an enemy takes damage by an ally with melee gain that much \CMANA mana \CN End
+IsUpgradeFrom: Culling_Order 260
+End
+
+PERK: Baby_Anger_Dragon
+Description: You start with a free Baby_Anger_Dragon in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Baby_Anger_Dragon RemoveThisAbility
+IsUpgradeFrom: Anger_Dragon_Egg 60
+End
+
+PERK: Lasting_Healing_Retreat
+Ability: AfterACubeIsCreated If CubeHasName Victim Leaders_Retreat
+EveryAlliedLeader Both HealXDamage DoubleConstant 5 GainAbility RegenerationX 1
+Description: After the Leaders_Retreat is created every allied leader is healed for 5 hp by your starting leader, they also gain 1 regeneration End
+IsUpgradeFrom: Healing_Retreat 100
+End
+
+PERK: Trained_Combat_Experience
+Ability: AfterACubeTakesDamage If IsPositionTouchingPosition PositionOfCube Culprit PositionOfCube Victim
+If And IsAllyToCaster Culprit IsEnemyToCaster Victim TargetCube Culprit ChangeMaxHp DoubleConstant 2
+Description: After an ally deals damage to a touching enemy it gains 2 max hp End
+IsUpgradeFrom: Combat_Experience 60
+End
+
+PERK: Growing_Hardy_Heart
+Ability: AfterACubeIsCreated If CubeHasName Victim Warriors_Heart TargetCube Victim
+Both GainXExtraHp MaxHpOfCube Caster GainAbility GrowthX 10
+Description: After your heart is created it gains extra hp equal to your starting leader's hp then give it 10 growth, gaining 10 extra hp per minute End
+IsUpgradeFrom: Hardy_Heart 60
+End
+
+PERK: Intense_Ground_Combat
+Ability: BeforeACubeTakesDamage If IsNeutral CubeInDirectionFromCube South Culprit 
+If HasAbilityWithName Culprit EveryXMeleeY
+ Both NegateX -1 NegateX Minus EventAmount
+Description: Before a cube with melee deals damage, if there is a neutral cube below, increase it by 1 and then double that damage (This includes enemies) End
+IsUpgradeFrom: Ground_Combat 100
+End
+
+
+
+PERK: Baby_Magic_Dragon
+Description: You start with a free Baby_Magic_Dragon in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis CopyOfCube CubeConstant Baby_Magic_Dragon RemoveThisAbility
+IsUpgradeFrom: Magic_Dragon_Egg 60
+End
+
+PERK: Recursive_Apprentice
+Description: At the start of each battle add a free Wizard_Apprentice to your hand, the apprentice copies every 10th cube you place, but the copy doesn't last.
+After it is created it adds a copy of itself to your hand which costs 10 mana more End
+Ability: AtTheStartOfTheBattle Both
+AddCubeToHandOfThis CopyWithAction FreeCopy CubeConstant Wizard_Apprentice
+ GainAbilityText AfterThisIsCreated Both ChangeManaCost DoubleConstant 10 AddCubeToHandOfFaction Caster FactionOfThis
+ After This Is created increase the manacost of this by 10 and add a copy of this to your hand End
+RemoveThisAbility
+IsUpgradeFrom: Apprentice 60
+End
+
+PERK: Managed_Overstress
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Concentrate
+Both ChangeManaCost Division ManaCostOfCube Target DoubleConstant -2
+GainAbilityText AfterThisIsCreated TargetCube ARandomAlliedLeader TakeXDamage DoubleConstant -1
+After this is created this deals -1 damage to a random allied leader End
+RemoveThisAbility
+Description: Concentrate costs half as much but also deals -1 damage to a random allied leader End
+IsUpgradeFrom: Overstress 40
+End
+
+PERK: Harmonized_Mana_Shielding
+Ability: AfterACubeTakesDamage If IsAllyToCaster Victim If IsLarger ManaOfFaction FactionOfThis DoubleConstant 100 
+If IsSmaller HpOfCube Victim MaxHpOfCube Victim
+Both GenerateXMana DoubleConstant -1
+TargetCube Victim HealXDamage DoubleConstant 2
+Description: After an ally takes damage if it's now damaged and you have more than 100 \CMANA mana \CN heal it for 2 hp and lose 1 mana \CN End
+IsUpgradeFrom: Mana_Shielding 60
+End
+
+PERK: Replicating_Mana_Flower
+Ability: EveryMinute Both AddCubeToHandOfThis CubeConstant Mana_Flower
+EveryCubeWhich CubeHasName Test Mana_Flower SetCaster Target CreateCubeOnPosition Target PositionInDirectionFromPosition Backwards PositionOfThis
+Description: Every minute add a cheap mana generating Flower to your hand and each Mana_Flower creates a copy of itself behind itself End
+IsUpgradeFrom: Mana_Flower 40
+End
+
+PERK: Sturdy_Air_Storage
+Ability: EveryXSeconds DoubleConstant 40 AddCubeToHandOfThis CopyWithAction CubeConstant Air_Mana_Storage GainXExtraHp DoubleConstant 20
+Description: Every 40 Seconds add a free flying Air_Mana_Storage cube to your hand which has 20 extra hp End
+IsUpgradeFrom: Air_Storage 60
+End
+
+PERK: Unresonable_Manifest_Thought
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Concentrate
+GainAbilityText AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim 
+Both GainXExtraHp DoubleConstant 3 GainXExtraHp Division HpOfCube Victim DoubleConstant 4
+After an ally is created it gains 3 extra hp and then 25% extra hp End
+RemoveThisAbility
+Description: Concentrate also increases the hp of created cubes by 3 and 25% End
+IsUpgradeFrom: Manifest_Thought 80
+End
+
+PERK: Adjusting_Desperate_Mana
+Ability: EveryMinute 
+Both GenerateXMana Division MaxManaOfFaction FactionOfThis DoubleConstant 2 ChangeMaxManaOfFaction Division MaxManaOfFaction FactionOfThis DoubleConstant -20 FactionOfThis
+Description: Every minute turn 5% of your max mana into ten times that much \CMANA mana \CN End
+IsUpgradeFrom: Desperate_Mana 60
+End
+
+PERK: Flickering_Spatial_Earth
+Description: Starting neutral cubes grant 5 max mana to the faction which kills them, then they have an 99% chance to create a copy of themselves (the new creation is not healed) End
+Ability: AtTheStartOfTheBattle Secret Both EveryCubeWhich IsNeutral Test GainAbilityText 
+AfterThisDies Both ChangeMaxManaOfFaction DoubleConstant 5 FactionOfCube Culprit
+If X%Chance DoubleConstant 99 CreateCubeOnPosition Caster PositionOfThis
+After this dies the killer gains 5 max mana and 99% chance to create a copy of this here (the copy does not get healed) End
+RemoveThisAbility
+IsUpgradeFrom: Spatial_Earth 20
+End
+
+
+
+PERK: Frost_Burn
+BelongsTo: Cryomancer
+Ability: EveryXSeconds DoubleConstant 5 EveryCubeWhich And IsEnemyToCaster Test HasAbilityWithName Test FrozenX Both GainAbility PoisonX 1 GainAbility Burning
+Description: Every 5 seconds apply 1 poison and 1 burning to all frozen enemies (Burning deals 1 damage to it and touching cubes after 5 seconds) End
+IsUpgradeFrom: Frost_Blight 60
+End
+
+PERK: Ice_Tomb
+BelongsTo: Cryomancer
+Ability: BeforeACubeTakesDamage If IsAllyToCaster Victim If X%Chance DoubleConstant 50 Both NegateX EventAmount Both 
+TargetCube Victim GainAbility FrozenX 2   TargetCube Culprit GainAbility FrozenX 2
+Description: Before an ally takes damage 50% chance to negate that damage and the ally and culprit are frozen for 2 seconds End
+IsUpgradeFrom: Ice_Shield 60
+End
+
+PERK: Changing_Hope
+BelongsTo: Cryomancer
+Ability: AfterACubeLosesAnAbility If IsAllyToCaster Victim TargetCube Victim SetCaster Victim HealXDamage DoubleConstant 2
+ExtraTrigger: BeforeACubeGainsAnAbility If IsAllyToCaster Victim TargetCube Victim Silent GainAbility RegenerationX 1
+Description: After an ally loses an ability it heals itself 2 hp. After an ally gains an ability it silently also gains 1 regeneration End
+IsUpgradeFrom: Unfrozen_Hope 40
+End
+
+PERK: Frozen_Position
+BelongsTo: Cryomancer
+Ability: AfterACubeIsCreated If CubeHasName Victim Snap_Freeze
+TargetCube CubeInDirectionFromCube South Victim
+Both GainAbility Unmovable GainInspatial
+Description: After a snap_freeze is created the cube below has the space behind it become adjacent to the one infront of it and gains: Can't move End
+IsUpgradeFrom: Frozen_Chains 40
+Unique
+End
+
+PERK: Bigger_Cold_Copy
+BelongsTo: Cryomancer
+Ability: BeforeACubeGainsAnAbility If IsAllyToCaster Victim If Not IsLarger ManaCostOfCube Victim DoubleConstant 60 If X%Chance DoubleConstant 25
+SetCaster Victim CreateCubeOnPosition CopyWithAction Caster GainXExtraHp DoubleConstant 3 PositionInDirectionFromPosition Forwards PositionOfThis
+Description: Before an ally with manacost 60 or less gains an ability 25% chance it replicates forwards, except the copy has 3 extra hp End
+IsUpgradeFrom: Cold_Copy 40
+End
+
+PERK: Seed_Cold_Storage
+BelongsTo: Cryomancer
+Ability: EveryMinute EveryCubeInHandOfFactionWhich FactionOfThis True Both GainAbility GrowthX 3 GainAbility FrozenX 10
+Description: Every minute every cube in your hand gains 3 growth and 10 seconds of frozen (Growth 3 gives 3 extra hp per minute) End
+IsUpgradeFrom: Cold_Storage 40
+End
+
+PERK: Cheaper_Hateful_Mimicry
+BelongsTo: Cryomancer
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If Not IsPlaced If Not IsSmaller ManaCostOfCube Victim DoubleConstant 10 TargetCube Victim Both GainAbility EveryXMeleeY 240 4 
+EveryCubeWhich And HasNameOfCube Test Target Not IsSmaller ManaCostOfCube Test DoubleConstant 11 ChangeManaCost DoubleConstant -1
+Description: After an ally with manacost 10 or greater is created but not placed it gains a 4 damage every 4 seconds melee attack and all cubes with that name lose 1 manacost (min 10) End
+IsUpgradeFrom: Hateful_Mimicry 60
+End
+
+PERK: Universal_Frozen_Statues
+BelongsTo: Cryomancer
+Ability: AfterACubeDies If Not IsALeader Victim If Not HasAbilityWithName Victim FrozenX If X%Chance MaxHpOfCube Victim AddCubeToHandOfThis FreeCopy CopyWithAction Victim
+Both Both GainAbility FrozenX 30 ChangeHp Subtraction MaxHpOfCube Target HpOfCube Target SetFaction FactionOfThis
+Description: After a non leader non frozen cube dies X% chance to add a free full hp, allied but 30 seconds frozen copy of it to your hand, X is the cube's max hp End
+IsUpgradeFrom: Frozen_Statues 60
+End
+
+PERK: Baby_Icy_Dragon
+Description: You start with a free Baby_Icy_Dragon in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis CopyOfCube CubeConstant Baby_Icy_Dragon RemoveThisAbility
+IsUpgradeFrom: Icy_Dragon_Egg 60
+End
+
+
+
+PERK: Accelerated_Programmer_Manufactory
+CampaignAbility: AfterAMapIsGenerated GetLeastFragment
+ObtainAction: GetLeastFragment
+Description: At the beginning of each map choose from 3 perk fragments of the type you have least of, also do this once right now End
+IsUpgradeFrom: Programmer_Manufactory 40
+End
+
+PERK: Big_Chain_Box
+ObtainAction: XTimes 5 ReadAScenario Chain_Fragment_Reward
+Description: Choose one of 3 chain fragments to gain repeat this 5 times and lose this perk End
+RemoveUponObtaining
+IsUpgradeFrom: Chain_Box 60
+End
+
+PERK: Many_Jumble_Fragments
+ObtainAction: XTimes 5 RandomlyX 4
+ ReadAScenario Random_Trigger_Fragment_Reward
+ ReadAScenario Random_Target_Fragment_Reward
+ ReadAScenario Random_Effect_Fragment_Reward
+ ReadAScenario Random_Chain_Fragment_Reward
+Description: Gain 5 random perk fragments (no rerolling) and lose this perk End
+RemoveUponObtaining
+IsUpgradeFrom: Jumble_Fragments 60
+End
+
+PERK: Many_Expensive_Fragments
+ObtainAction: Both 
+ XTimes 10 RandomlyX 4
+ ReadAScenario Random_Trigger_Fragment_Reward
+ ReadAScenario Random_Target_Fragment_Reward
+ ReadAScenario Random_Effect_Fragment_Reward
+ ReadAScenario Random_Chain_Fragment_Reward
+ ChangeCurrency -100
+Description: Gain 10 random perk fragments (no rerolling), lose 100 gold and lose this perk End
+RemoveUponObtaining
+IsUpgradeFrom: Expensive_Fragments 60
+End
+
+PERK: Fragment_Trader
+BelongsTo: Programmer
+CampaignAbility: AfterYouGainOrLoseCurrency If Not BattleOngoing
+Both ChangeCampaignVariable FRAGMENT_MERCHANT Lowest AbsoluteAmount EventAmount 70
+If Not IsSmaller GetCampaignVariable FRAGMENT_MERCHANT 70
+ Both ChangeCampaignVariable FRAGMENT_MERCHANT -70
+ RandomlyX 4
+ ReadAScenario Random_Trigger_Fragment_Reward
+ ReadAScenario Random_Target_Fragment_Reward
+ ReadAScenario Random_Effect_Fragment_Reward
+ ReadAScenario Random_Chain_Fragment_Reward
+Description: Every 70 gold you lose or gain also get a random perk fragment, doesn't work in battles, max 70 per loss \N 
+Current Counter: CVARIABLE FRAGMENT_MERCHANT End
+IsUpgradeFrom: Fragment_Merchant 60
+End
+
+PERK: Tripple_Needed_Fragments
+ObtainAction: XTimes 3 GetLeastFragment
+Description: Choose 3 perk fragments of the type you have least of 3 times, then lose this perk End
+RemoveUponObtaining
+IsUpgradeFrom: Needed_Fragment 60
+End
+
+PERK: Many_Effect_Fragments
+ObtainAction: XTimes 5 ReadAScenario Random_Effect_Fragment_Reward
+Description: Get 5 random effect fragments (no rerolling) and lose this perk End
+IsUpgradeFrom: Effect_Fragments 60
+RemoveUponObtaining
+End
+
+PERK: Baby_Programmed_Dragon
+Description: You start with a free Baby_Programmed_Dragon in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis CopyOfCube CubeConstant Baby_Programmed_Dragon RemoveThisAbility
+IsUpgradeFrom: Programmed_Dragon_Egg 60
+End
+
+
+
+PERK: Automatic_Larger_Robot
+Ability: AfterACubeIsCreated If CubeHasName Victim Robot_Core
+ TargetCube Victim Both GainAbility RobotHeartX 1 RefundX Division ManaCostOfCube Victim 2
+ObtainAction: AddCubeToInventory CubeConstant Robot_Core_Creator
+Description: Created Robot_Core gain +2 robotheart (max robotpart distance), gain a cube which creates robot cores cheaply End
+IsUpgradeFrom: Larger_Robot 60
+End
+
+PERK: Permanently_Flying_Robot
+Ability: AfterACubeIsCreated If CubeHasName Victim Robot_Core
+ TargetCube Victim GainAbility Flying
+Description: Created Robot_Core gain flying End
+IsUpgradeFrom: Flying_Robot 40
+Unique
+End
+
+PERK: Advanced_Remote_Control
+Description: Gain the Robot_Remote cube which changes the robot core movement from forwards to backwards or back,
+ and the Robot_Pull cube which moves the Robot_Core towards the cube directly End
+ObtainAction: AddCubeToInventory Robot_Remote
+ObtainAction: AddCubeToInventory Robot_Pull
+IsUpgradeFrom: Remote_Control 40
+Unique
+End
+
+PERK: All_Robot_Parts
+Ability: AfterACubeIsCreated Both If IsAllyToCaster Victim TargetCube Victim Both GainAbility RobotPartX 1
+ RefundX Division ManaCostOfCube Target 5
+ If CubeHasName Victim Robot_Core
+  TargetCube Victim GainAbility RobotHeartX 1
+Description: Created Robot_Core gain +1 robotheart, all created allies gain robotpart 1 and refund 20% of their cost End
+IsUpgradeFrom: Subcomponents 80
+End
+
+PERK: Rapid_Part_Factory
+Ability: EveryXSeconds 10 AddCubeToHandOfFaction FreeCopy CopyWithAction 
+ ARandomCubeWhich And And IsAllyToCaster Test  Not IsALeader Test Not IsSmaller ManaCostOfCube Test 10
+ GainAbility RobotPartX 1
+ FactionOfThis
+Description: Every 10 seconds add a free robotpart copy of a random non leader ally with manacost 10 or greater to your hand End
+IsUpgradeFrom: Part_Factory 160
+End
+
+PERK: Many_Stolen_Parts
+Ability: AfterACubeDies If IsEnemyToCaster Victim If X%Chance Highest Division 500 ManaCostOfCube Victim 10
+AddCubeToHandOfFaction FreeCopy CopyWithAction Victim Both Both SetFaction FactionOfThis GainAbility RobotPartX 1 ChangeHp Subtraction MaxHpOfCube Target HpOfCube Target
+ FactionOfThis
+Description: After an enemy dies X% chance to add a free full hp allied robotpart copy to your hand, where X is 500/manacost of that enemy, min 10% chance End
+IsUpgradeFrom: Stolen_Parts 60
+End
+
+PERK: Self_Assembling_Robot_Mass
+Ability: EveryMinute If IsLarger AmountOfCubesWhich HasAbilityWithName Test RobotPartX 9
+ EveryCubeWhich HasAbilityWithName Test RobotPartX Both Both GainXExtraHp 2 GainAbility StrengthX 1
+  SetCaster Target Both ChangeMaxManaOfFaction 1 FactionOfThis GenerateXMana 1
+Description: Every minute if there are 10 or more robotpart cubes give them all 2 extra hp and 1 strength each generates 1 max mana and 1 mana End
+IsUpgradeFrom: Robot_Mass 60
+End
+
+PERK: Omnidirectional_Crushing_Advance
+Ability: EveryXSeconds 10 EveryCubeWhich HasAbilityWithName Test RobotPartX 
+ SetCaster Target EveryCubeTouchingPosition PositionOfThis If IsEnemyToCaster Target TakeXDamage 5
+Description: Every 10 seconds every robotpart deals 5 damage to every touching enemy End
+IsUpgradeFrom: Crushing_Advance 60
+End
+
+PERK: Baby_Robot_Dragon
+Description: You start with a free Baby_Robot_Dragon in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis CopyOfCube CubeConstant Baby_Robot_Dragon RemoveThisAbility
+IsUpgradeFrom: Robot_Dragon_Egg 60
+End

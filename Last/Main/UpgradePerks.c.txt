@@ -1,0 +1,3404 @@
+PERK: The_Names_Mk2
+Ability: AtTheStartOfTheBattle EveryCubeInHandOfFactionWhich FactionOfThis True SetName StringConstant EVITPIRCSED
+ExtraTrigger: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim SetName StringConstant EVITPIRCSED
+Description: At the start of the battle change the name of every cube in your hand to every name, also do this for each ally after it is created, note that most abilities which check for a specific cube only check for the name End
+IsUpgradeFrom: The_Names 50
+Unique
+End
+
+PERK: Repeating_Maddening_Help
+Ability: EveryXMinutes DoubleConstant 5 AddCubeToHandOfThis CubeConstant Descent_Into_Madness
+ExtraTrigger: AtTheStartOfTheBattle AddCubeToHandOfThis CubeConstant Descent_Into_Madness
+Description: At the start of each battle and every 5 minutes add a Descent_Into_Madness into your hand, it randomizes your hand when placed but the new cubes are half off End
+IsUpgradeFrom: Maddening_Help 20
+End
+
+PERK: Large_Mana_Battery
+Description: Start with an additional 40 max mana and 20 \CMANA mana \CN at the start of each battle, additionally at the start of each battle double your max mana End
+ObtainAction: Both ChangeStartingMaxMana DoubleConstant 40 ChangeStartingMana DoubleConstant 20
+RemoveAction: Both ChangeStartingMaxMana DoubleConstant -40 ChangeStartingMana DoubleConstant -20
+Ability: AtTheStartOfTheBattle Both ChangeMaxManaOfFaction MaxManaOfFaction FactionOfThis FactionOfThis RemoveThisAbility
+IsUpgradeFrom: Tiny_Mana_Battery 60
+Disableable: false
+End
+
+PERK: Overflowing_Fire_Generator
+Ability: Every10Seconds TargetCube FreeCopy CubeConstant Spark
+ Both AddCubeToHandOfThis Target
+ XTimes DoubleConstant 5 CreateCubeOnPosition Target ARandomPosition
+Description: Add a free spark to your hand and to 5 random positions every 10 seconds. (Sparks are 2 damage projectiles) End
+IsUpgradeFrom: Tiny_Fire_Generator 60
+End
+
+PERK: Lasting_Tiny_Mana_Dimension
+Ability: EveryMinute ChangeMaxManaOfFaction DoubleConstant 10 FactionOfThis
+Description: Gain 10 max mana every minute and every map step End
+CampaignAbility: BeforeYouTakeAStep ChangeStartingMaxMana DoubleConstant 10
+IsUpgradeFrom: Tiny_Mana_Dimension 60
+End
+
+PERK: Oblivion_Shard
+Ability: EveryXMinutes TimeConstant 2 Both Both EveryCube TakeXDamage DoubleConstant 0 EveryCube TakeXDamage DoubleConstant 1 EveryCube TakeXDamage DoubleConstant 2
+Description: Every 2 minutes your starting leader deals 0 then 1 then 2 damage to every cube (including itself) End
+IsUpgradeFrom: Tiny_Oblivion_Shard 60
+End
+
+PERK: Damage_Amplifier
+Ability: BeforeACubeTakesDamage Both NegateX DoubleConstant -1 NegateX Minus EventAmount
+Description: All damage is increased by 1 then doubled End
+IsUpgradeFrom: Tiny_Damage_Amplifier 80
+End
+
+PERK: Forged_Red_Sword
+Description: Your starting leader melee attacks an additional time for 1 damage every third of a second End
+Ability: EveryXMeleeY 20 1
+IsUpgradeFrom: Red_Sword 80
+End
+
+PERK: Forged_Green_Sword
+Description: Your leader starts with +2 damage and heals 10 hp every minute End
+Ability: StrengthX 2 
+Ability: RegenerationX 10
+IsUpgradeFrom: Green_Sword 60
+End
+
+PERK: Forged_Gray_Sword
+Description: Your leader starts with +2 damage and 50 extra hp End
+Ability: AtTheStartOfTheBattle Both GainXExtraHp DoubleConstant 50 RemoveThisAbility
+Ability: StrengthX 2 
+IsUpgradeFrom: Gray_Sword 60
+End
+
+PERK: Forged_Blue_Sword
+Description: Your leader starts with +2 damage and +100 maximum mana End
+Ability: StrengthX 2 
+ObtainAction: ChangeStartingMaxMana DoubleConstant 100 
+RemoveAction: ChangeStartingMaxMana DoubleConstant -100
+IsUpgradeFrom: Blue_Sword 60
+Disableable: false
+End
+
+PERK: Forged_Black_Sword 
+Description: Your leader starts with a melee attack which deals 200 damage every 10 seconds End
+Ability: EveryXMeleeY 1200 200
+IsUpgradeFrom: Black_Sword 40
+End
+
+PERK: Forged_Golden_Sword
+Description: Your starting leader deals 1 extra damage for every 50 gold or 50 debt you have End
+Ability: BeforeThisDealsDamage NegateX Minus RoundedDown Division AbsoluteAmount Currency DoubleConstant 50
+AbilityText: Before this deals damage that damage is increased by 1 for every 50 gold or 50 debt your have End
+IsUpgradeFrom: Golden_Sword 40
+End
+
+PERK: Endless_Bandages
+Description: Your leader starts with regeneration, healing 5 hp per minute, gain another bandages perk at the start of each map End 
+Ability: RegenerationX 5
+CampaignAbility: AfterAMapIsGenerated ObtainPerk PerkConstant Bandages
+IsUpgradeFrom: Bandages 40
+End
+
+PERK: Global_Wind_Guardians
+Ability: AfterACubeTakesDamage If And IsAllyToCaster Victim Not IsALeader Culprit TargetCube Culprit 
+Both MoveInDirection East
+If IsEnemyToCaster Target GainAbility PoisonX 3
+Description: After a non leader damages an ally move it east (away) 1 times, if it's an enemy also apply 3 poison End
+IsUpgradeFrom: Wind_Guardians 100
+End
+
+PERK: Bronze_Monkey_Statue
+Ability: BeforeThisTakesDamage TargetCube ARandomCubeWhich And IsAllyToCaster Test Not IsSameCube Test Caster
+If CubeExists Target Both TakeXDamage EventAmount NegateX EventAmount
+Description: Before your starting leader takes damage, if there is any other ally, all damage is negated and it deals that much damage to a random other ally instead End
+IsUpgradeFrom: Bronze_Statue 60
+Unique
+End
+
+PERK: Blessing_Of_Blessing_Of_Chaos
+Ability: EveryXMinutes DoubleConstant 2 TargetCube ARandomAlliedLeader Both GainRandomAbilityOfCube ARandomCubeWhich
+And Not IsALeader Test IsAllyToCaster Test
+GainAbilityText 
+ EveryXMinutes DoubleConstant 2 TargetCube ARandomAlliedLeader GainRandomAbilityOfCube ARandomCubeWhich
+ And Not IsALeader Test IsAllyToCaster Test
+ Every 2 minutes a random allied leader copies a random ability of a random non leader ally End
+Description: Every 2 minutes a random allied leader copies a random ability of a random non leader ally and gains an ability which does this every 2 minutes End
+IsUpgradeFrom: Blessing_Of_Chaos 100
+End
+
+PERK: Filled_Lives
+Ability: Every20Seconds XTimes RoundedDown Division Subtraction MaxManaOfFaction FactionOfThis ManaOfFaction FactionOfThis
+Division MaxManaOfFaction FactionOfThis DoubleConstant 10
+EveryAlliedLeader GainXExtraHp DoubleConstant 1
+Description: Every 20 seconds, every allied leader gains 1 extra hp for every 10% of max mana you are missing End
+IsUpgradeFrom: Empty_Lives 50
+End
+
+PERK: Filled_Thoughts
+Ability: EverySecond If IsSmaller ManaOfFaction FactionOfThis Division MaxManaOfFaction FactionOfThis DoubleConstant 50
+Both ChangeMaxManaOfFaction FactionOfThis DoubleConstant 1 GenerateXMana DoubleConstant 1
+Description: Every second, if you have less than 2% \CMANA mana \CN , you gain 1 maximum mana and 1 \CMANA mana \CN End
+IsUpgradeFrom: Empty_Thoughts 30
+End
+
+PERK: Poisoners_Vial
+Ability: AfterACubeTakesDamage If IsAllyToCaster Culprit If Not IsAllyToCaster Victim If Not IsSmaller ManaCostOfCube Culprit DoubleConstant 30
+SetCaster Culprit Both TargetCube Victim GainAbilityStacking PoisonX 0 EventAmount
+TargetCube Caster GainAbility PoisonousX 1
+Description: After an ally with manacost 30 or greater damages a non ally it also applies that much poison and gains 1 poisonous (applying 1 more poison next time) End
+IsUpgradeFrom: Poison_Vial 100
+End
+
+PERK: Porcupine_Skin
+Description: Your leader starts poisoned losing 1 hp per minute but will also deal 10% of its missing hp as damage to any non allied cube which damages it End
+Ability: AfterThisTakesDamage If Not IsAllyToCaster Culprit TargetCube Culprit TakeXDamage Division Subtraction MaxHpOfCube Caster HpOfCube Caster DoubleConstant 10
+AbilityText: After this takes damage by a non ally deal 10% of missing hp in damage back End
+Ability: AtTheStartOfTheBattle Both GainAbility PoisonX 1 RemoveThisAbility
+IsUpgradeFrom: Hedgehog_Skin 40
+End
+
+PERK: Thieving_Mana_Rush
+Ability: AfterACubeIsCreated If IsPlaced Both GenerateXMana Division ManaCostOfCube Victim DoubleConstant 3
+TargetCube Victim ChangeManaCost Division ManaCostOfCube Victim DoubleConstant -3
+ExtraTrigger: EveryTick If IsLarger WorldTime TimeConstant 3600 RemoveThisAbility
+Description: In the first 1 minute of each battle refund a third of the manacost of any placed cubes, except you always gain that \CMANA mana \CN End
+IsUpgradeFrom: Mana_Rush 40
+End
+
+PERK: Murderers_Dagger
+Ability: EveryMinute TargetCube ARandomCubeWhich And IsEnemyToCaster Test And Not IsALeader Test Not IsSmaller HpOfCube Test DoubleConstant 3
+IfElse CubeExists Target Die
+TargetCube ARandomEnemy Die
+Description: Every minute your starting leader kills a random enemy which isn't a leader and has at least 3 hp, if that doesn't exist kill a random enemy instead End
+IsUpgradeFrom: Assassins_Dagger 40
+End
+
+PERK: Heavily_Splintered_Bones
+Ability: AfterACubeTakesDamage If IsEnemyToCaster Victim EveryXTimes DoubleConstant 5
+EveryAlliedLeader SetCaster Target
+TargetCube ARandomCubeWhich IsEnemyToCaster Test TakeXDamage DoubleConstant 2
+Description: Every 5 times an enemy takes damage every allied leader deals 2 damage to a random enemy End
+IsUpgradeFrom: Splintered_Bone 100
+Unique
+End
+
+PERK: Holding_Mana_Crystal_Armor
+Ability: AfterACubeTakesDamage If And IsAllyToCaster Victim IsALeader Victim
+ If Not IsSmaller EventAmount DoubleConstant 0 Both ChangeMaxManaOfFaction EventAmount FactionOfThis
+  GenerateXMana EventAmount
+Description: After an allied leader takes damage, gain that much max mana and \CMANA mana \CN \B , won't generate negative mana End
+IsUpgradeFrom: Mana_Crystal_Armor 40
+End
+
+PERK: Repeating_Battle_Hardened
+Ability: AtTheStartOfTheBattle EveryAlliedLeader GainXExtraHp Addition DoubleConstant 10 Division HpOfCube Target DoubleConstant 2
+ExtraTrigger: Every10Minutes EveryAlliedLeader GainXExtraHp Addition DoubleConstant 10 Division HpOfCube Target DoubleConstant 2
+Description: At the start of each battle and every 10 minutes each allied leader gains extra hp equal to half its hp + 10 End
+IsUpgradeFrom: Battle_Hardened 40
+End
+
+PERK: Large_Slime_Farm
+Unique
+Ability: EveryMinute EveryAlliedLeader SetCaster Target CreateCubeOnPosition CubeConstant Large_Warrior_Slime 
+PositionInDirectionFromThis North
+Description: Every minute each allied leader creates a Large_Warrior_Slime above itself End
+IsUpgradeFrom: Slime_Farm 60
+End
+
+PERK: Ravenous_Vampires_Thirst
+Ability: AfterACubeTakesDamage TargetCube ARandomCubeWhich And And IsALeader Test IsAllyToCaster Test IsDamaged 
+HealXDamage Division Multiplication 8 EventAmount DoubleConstant 100
+Description: After a cube takes damage a random damaged allied leader heals for 8% of the damage End
+IsUpgradeFrom: Vampires_Thirst 60
+End
+
+PERK: Polonium_Crystal
+Ability: EverySecond EveryAlliedLeader SetCaster Target 
+Both EveryCubeInRadiusXAroundTarget DoubleConstant 3 If Not IsSameCube Target Caster TakeXDamage DoubleConstant 1
+CreateAoEParticlesColourRadiusPosition DoubleConstant 16738816 DoubleConstant 3 PositionOfThis
+Description: Every second each allied leader deals 1 damage to every other cube within range of 3 spaces End
+IsUpgradeFrom: Uranium_Crystal 40
+End
+
+PERK: True_Creations_Reward
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Culprit GainXExtraHp DoubleConstant 1
+Description: After an ally is created its creator gains 1 extra hp End
+IsUpgradeFrom: Creations_Reward 60
+End
+
+PERK: Clock_Of_Terrible_Decay
+Ability: EveryXMinutes 5 EveryCubeWhich IsEnemyToCaster Test 
+IfElse HasAbilityWithName Target PoisonX
+ GainAbility PoisonX 3
+GainAbility PoisonX 1 
+Description: Every 5 minutes all enemies get poisoned losing 1 hp per minute, if they already have poison instead add 3 poison End
+IsUpgradeFrom: Clock_Of_Inevitable_Decay 40
+End
+
+PERK: Calming_Rain
+Ability: EveryXSeconds DoubleConstant 2 CreateCubeOnPosition CubeConstant Water ARandomPosition
+Description: Every 2 seconds create allied water on a random position End
+IsUpgradeFrom: Rain 80
+End
+
+PERK: Extremely_Regenerating_Earth
+Description: At the start of each battle all neutral cubes gain 20 regeneration and 20 growth End
+Ability: AtTheStartOfTheBattle Both EveryCubeWhich IsNeutral Test Both GainAbility RegenerationX 20
+GainAbility GrowthX 20
+RemoveThisAbility
+IsUpgradeFrom: Regenerating_Earth 60
+End
+
+PERK: Deep_Earth_Archeology
+WorldAbility: AtTheStartOfTheBattle
+Both AddRow MaxWorldY
+AddDepthRow NeutralCopy CubeConstant Buried_Artifact
+Ability: EveryXMinutes DoubleConstant 5 SetCaster WorldCube
+Both AddRow MaxWorldY
+AddDepthRow NeutralCopy CubeConstant Buried_Artifact
+Description: At the start of each battle and every 5 minutes 1 row of buried artifacts are added to the bottom of the map, which create random allied cubes when killed End
+IsUpgradeFrom: Earth_Archeology 60
+End
+
+PERK: World_To_Dust
+Ability: AfterACubeIsCreated If Not IsAllyToCaster Victim TargetCube Victim GainAbilityText
+Every30Seconds If X%Chance DoubleConstant 50 TakeXDamage DoubleConstant 1
+Every 30 seconds 50% chance to take 1 damage End
+Description: At the start of the battle or after an enemy or neutral cubes is created they gain: Every 30 seconds 50% chance to take 1 damage End
+Ability: AtTheStartOfTheBattle Both EveryCubeWhich Not IsAllyToCaster Test GainAbilityText
+Every30Seconds If X%Chance DoubleConstant 50 TakeXDamage DoubleConstant 1
+Every 30 seconds 50% chance to take 1 damage End
+RemoveThisAbility
+IsUpgradeFrom: Earth_To_Dust 100
+End
+
+PERK: Heart_Of_The_Pacifist
+Ability: BeforeACubeTakesDamage If And IsAllyToCaster Culprit IsALeader Culprit If IsEnemyToCaster Victim 
+Both Both GenerateXMana EventAmount TargetCube Culprit HealXDamage EventAmount NegateX EventAmount
+Description: Negate all damage allied Leaders deal to enemies but instead gain that much \CMANA mana \CN and heal the leader by that much End
+IsUpgradeFrom: Charm_Of_The_Pacifist 60
+Unique
+End
+
+PERK: Earned_Altruism_Medal
+Ability: EveryXMinutes DoubleConstant 2 EveryCubeWhich IsAllyToCaster Test
+SetCaster Target 
+TargetCube ARandomCubeWhich And IsDamaged IsAllyToCaster Test HealXDamage DoubleConstant 1
+Description: Every 2 minutes each ally heals a random damaged ally for 1 hp End
+IsUpgradeFrom: Altruism_Medal 60
+End
+
+PERK: Scream_Of_The_Apocalypse
+Ability: Every10Minutes EveryCube IfElse IsALeader Target TakeXDamage DoubleConstant 10
+TakeXDamage HpOfCube Target
+Description: Every 10 minutes your starting leader deals damage equal to their hp to every cube, except leaders which only take 10 End
+IsUpgradeFrom: Call_Of_The_Apocalypse 80
+End
+
+PERK: Eternal_Ankh
+Description: Your starting leader starts with an extra_life and gains 1 every 5 minutes, recreating itself once if it dies with all its hp healed End
+Ability: ExtraLife
+Ability: EveryXMinutes DoubleConstant 5 GainAbility ExtraLife
+AbilityText: Every 5 minutes this gains an extra_life End
+IsUpgradeFrom: Ankh 40
+End
+
+PERK: Ancient_Wounds
+Ability: Every10Seconds EveryAlliedLeader If IsSmaller HpOfCube Target Division MaxHpOfCube Target DoubleConstant 3
+GainXExtraHp Highest DoubleConstant 1 Division Subtraction MaxHpOfCube Target HpOfCube Target DoubleConstant 20
+Description: Every 10 seconds each allied leader with less than 33.3% hp gains 1 extra hp or extra hp equal to 5% of their missing hp whichever is higher End
+IsUpgradeFrom: Old_Wounds 50
+End
+
+PERK: Permanent_Possibility_Index
+Ability: EveryXMinutes DoubleConstant 2 TargetCube ARandomCubeInLibraryWhich And And Not IsAlreadyInInventory Test Not IsToken Test IsNotInHandOfThis Test
+Both If IsSmaller GetCampaignVariable PERMANENT_POSSIBILITY_INDEX DoubleConstant 0
+ Both AddCubeToInventory Target ChangeCampaignVariable PERMANENT_POSSIBILITY_INDEX DoubleConstant 1
+AddCubeToHandOfThis Target
+ExtraTrigger: AtTheStartOfTheBattle SetCampaignVariable PERMANENT_POSSIBILITY_INDEX DoubleConstant -2
+Description: Every 2 minutes add a random cube to your hand and inventory, which isn't in your hand or inventory, can only add cubes to your inventory twice per battle End
+IsUpgradeFrom: Possibility_Index 120
+Unique
+End
+
+PERK: Sharpened_Accurate_Arrows
+Ability: EveryMinute EveryAlliedLeader SetCaster Target EveryCubeWhich And IsALeader Test IsEnemyToCaster Test 
+TakeXDamage Highest DoubleConstant 2 Division HpOfCube Target DoubleConstant 20
+Description: Every minute every allied leader deals damage to every enemy leader equal to 5% of that enemy's hp, min 2 damage End
+IsUpgradeFrom: Accurate_Arrows 40
+End
+
+PERK: Armed_Traitor
+Ability: EveryXMinutes DoubleConstant 5 TargetCube ARandomCubeWhich And IsEnemyToCaster Test Not IsALeader Test
+Both SetFaction FactionOfThis
+Both GainXExtraHp DoubleConstant 5
+Both GainAbility Climbing
+Both GainAbility ChargeEveryX 300 
+GainAbility EveryXMeleeY 120 3
+Description: Every 5 minutes convert a random non leader enemy to your faction, it gains 5 extra hp, climbing, charging, and a melee attack End
+IsUpgradeFrom: Traitor 40
+End
+
+PERK: Remembering_Adapting_Armor
+Ability: BeforeACubeTakesDamage If IsAllyToCaster Victim EveryXTimes DoubleConstant 7
+Both EveryCubeWhich And IsAllyToCaster Test HasNameOfCube Test Victim GainXExtraHp DoubleConstant 1
+EveryCubeInHandOfFactionWhich FactionOfThis HasNameOfCube Test Victim GainXExtraHp DoubleConstant 1
+Description: Every 7 times allies take damage all allies with the same name gain 1 extra hp, all cubes in your hand with the same name also gain 1 extra hp End
+IsUpgradeFrom: Adapting_Armor 80
+End
+
+PERK: Expanded_Eventual_Rescue
+Ability: EveryXMinutes DoubleConstant 5 Both EveryAlliedLeader HealXDamage MaxHpOfCube Target
+Both If IsSmaller MaxManaOfFaction FactionOfThis DoubleConstant 100 ChangeMaxManaOfFaction Subtraction DoubleConstant 100 MaxManaOfFaction FactionOfThis FactionOfThis
+If IsSmaller ManaOfFaction FactionOfThis DoubleConstant 100 GenerateXMana Subtraction DoubleConstant 100 ManaOfFaction FactionOfThis
+Description: Every 5 minutes each allied leader heals to full Hp, if your \CMANA mana \CN or max mana is less than 100 raise it to 100 End
+IsUpgradeFrom: Eventual_Rescue 40
+Unique
+End
+
+PERK: Universal_Flower_Of_Hope
+Description: All healing to allies is increased by 1, your starting leader also heals 1 hp every minute End
+Ability: RegenerationX 1
+Ability: BeforeACubeHeals If IsAllyToCaster Victim NegateX DoubleConstant -1
+AbilityText: Before an ally heals hp increase that amount by 1 End
+IsUpgradeFrom: Flower_Of_Hope 80
+End
+
+PERK: Universal_Hardening_Scales
+Ability: EveryMinute EveryCubeWhich IsAllyToCaster Test GainXExtraHp Division HpOfCube Target DoubleConstant 25
+Description: Every minute each ally gains 1/25th extra hp per hp they have End 
+IsUpgradeFrom: Hardening_Scales 60
+End
+
+PERK: Extreme_Gambling_Chip
+Ability: EveryXSeconds DoubleConstant 3 If X%Chance DoubleConstant 1 ChangeMaxManaOfFaction DoubleConstant 1 DoubleConstant 1
+ExtraTrigger: BeforePercentChance If IsAllyToCaster Victim IfElse X%Chance DoubleConstant 50 GenerateXMana DoubleConstant 4 GenerateXMana DoubleConstant -2
+Description: Every 3 seconds 1% chance to gain 1 max mana. Before an ally rolls a % chance 50% chance to gain 4 \CMANA mana \CN otherwise gain -2 \CMANA Mana \CN End
+IsUpgradeFrom: Gambling_Chip 100
+Unique
+End
+
+PERK: Cheap_Chaotic_Help
+Description: At the start of each battle add a random half cost new cube to your hand, when placed it replaces itself with another half cost random cube End
+Ability: AtTheStartOfTheBattle Both
+ AddCubeToHandOfThis CopyWithAction ARandomCubeInLibraryWhich And Not IsToken Test IsNotInHandOfThis Test
+  Both GainAllAbilitiesOfCube CubeConstant CheapRerolling_Example
+   ChangeManaCost Division ManaCostOfCube Target DoubleConstant -2
+RemoveThisAbility
+IsUpgradeFrom: Chaotic_Help 100
+End
+
+PERK: Extremely_Discounted_Help
+Description: At the start of each battle add 2 random cubes to your hand which aren't already in your hand, they would usually cost at least 40 mana but now only cost 1 End
+Ability: AtTheStartOfTheBattle Both XTimes 2 TargetCube ARandomCubeInLibraryWhich 
+And And Not IsSmaller ManaCostOfCube Test DoubleConstant 40 Not IsToken Test IsNotInHandOfThis Test
+Both ChangeManaCost Subtraction DoubleConstant 1 ManaCostOfCube Target
+AddCubeToHandOfThis Target
+RemoveThisAbility
+IsUpgradeFrom: Discounted_Help 60
+End
+
+PERK: Inspired_Architects_Help
+Description: At the start of each battle among the cubes in your hand which don't have 0 hp the cubes with the lowest hp gains 1 extra hp for every cube in your hand End
+Ability: AtTheStartOfTheBattle Both Both Both
+ SetVariable ARCH HpOfCube ARandomCubeInHandOfFactionWhich FactionOfThis Not IsEqual HpOfCube Test DoubleConstant 0
+ EveryCubeInHandOfFactionWhich FactionOfThis Not IsEqual HpOfCube Test DoubleConstant 0
+  If IsSmaller HpOfCube Target GetVariableOnCube ARCH Caster SetStorage Target TargetCube Caster SetVariable ARCH HpOfCube Storage
+ EveryCubeInHandOfFactionWhich FactionOfThis IsEqual HpOfCube Test GetVariableOnCube ARCH Caster
+  SetStorage Target EveryCubeInHandOfFactionWhich FactionOfThis True TargetCube Storage GainXExtraHp DoubleConstant 1
+ RemoveThisAbility
+IsUpgradeFrom: Architects_Help 100
+End
+
+PERK: Universal_Kublaths_Help
+Description: Every cube in your starting hand costs 1 less each time you place it down to a minimum of 10 End
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis True GainAbility UpToXEfficiency 10 RemoveThisAbility
+IsUpgradeFrom: Kublaths_Help 100
+End
+
+PERK: Repeating_Scrappy_Help
+Ability: AtTheStartOfTheBattle CreateCubeOnPosition ARandomCubeInLibraryWhich 
+  And And HasAbilityWithName Test Addon Not IsToken Test IsNotInHandOfThis Test
+  PositionInDirectionFromPosition North PositionOfThis
+ExtraTrigger: EveryXMinutes 2 CreateCubeOnPosition ARandomCubeInLibraryWhich 
+  And And HasAbilityWithName Test Addon Not IsToken Test IsNotInHandOfThis Test
+  PositionInDirectionFromPosition North PositionOfThis
+Description: At the start of each battle and every 2 minutes create a random new Addon above your starting leader End
+IsUpgradeFrom: Scrappy_Help 80
+Unique
+End
+
+PERK: Repeating_Eldritch_Help
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich DoubleConstant 1 True TakeXDamage DoubleConstant 1
+EveryCubeInHandOfFactionWhich DoubleConstant 2 True TakeXDamage DoubleConstant 1
+ExtraTrigger: EveryXMinutes DoubleConstant 5 Both EveryCubeInHandOfFactionWhich DoubleConstant 1 True TakeXDamage DoubleConstant 1
+EveryCubeInHandOfFactionWhich DoubleConstant 2 True TakeXDamage DoubleConstant 1
+Description: At the start of each battle and every 5 minutes your starting leader deals 1 damage to every cube in each player's hand End
+IsUpgradeFrom: Eldritch_Help 60
+End
+
+PERK: Wasteless_Blood_Tithe
+Ability: AfterACubeTakesDamage If Not IsEnemyToCaster Culprit TargetCube Culprit GainAbilityStacking BloodX 0 EventAmount
+ExtraTrigger: EveryXSeconds DoubleConstant 2 EveryCubeWhich And IsDamaged Not IsSmaller GetStackingOfAbilityOnCube BloodX Test DoubleConstant 5
+SetCaster Target Both ChangeAbilityStacking BloodX DoubleConstant -5 HealXDamage DoubleConstant 1
+Description: After a non enemy deals damage it gains that much blood, every 2 seconds every damaged cube tries to use 5 blood to heal 1 hp End
+IsUpgradeFrom: Blood_Tithe 60
+End
+
+PERK: Deep_Miners_Help
+Description: At the start of each battle add 4 free Iron cubes to your hand, after they are created they add 1 hp to a random cube in your hand which has infinite uses End
+Ability: AtTheStartOfTheBattle Both XTimes DoubleConstant 4 AddCubeToHandOfThis CopyWithAction FreeCopy CubeConstant Iron
+GainAbilityText AfterThisIsCreated TargetCube ARandomCubeInHandOfFactionWhich FactionOfThis Not HasLimitedUses Test GainXExtraHp DoubleConstant 1
+ After this is created a random cube in your hand with infinite uses gains 1 extra hp End
+RemoveThisAbility
+IsUpgradeFrom: Miners_Help 40
+End
+
+PERK: Forged_Monetary_Help
+Ability: AtTheStartOfTheBattle Both XTimes DoubleConstant 15 AddCubeToHandOfThis CubeConstant Fake_Coin 
+SetCampaignVariable ADVANCED_MONETARY_HELP DoubleConstant -30
+ExtraTrigger: AfterACubeIsCreated If CubeHasName Victim Fake_Coin If IsSmaller GetCampaignVariable ADVANCED_MONETARY_HELP DoubleConstant 0
+ Both ChangeCurrency DoubleConstant 1 ChangeCampaignVariable ADVANCED_MONETARY_HELP DoubleConstant 1
+Description: At the start of each battle add 15 free Fake_Coin cubes to your hand, the first 30 Fake_Coin cubes created each combat give 1 gold End
+IsUpgradeFrom: Monetary_Help 40
+Unique
+End
+
+PERK: Lasting_Eccentric_Help
+LevelRequirement: 15
+Description: At the start of each battle add 2 random new cubes to your hand which are very eccentric and half off (highest rarity), they have infinite uses End
+Ability: AtTheStartOfTheBattle Both XTimes DoubleConstant 2 AddCubeToHandOfFactionInfinitly CopyWithAction ARandomCubeInLibraryWhich 
+ And And IsEqual RarityOfCube Test DoubleConstant 4 Not IsToken Test IsNotInHandOfThis Test
+ ChangeManaCost Division ManaCostOfCube Target -2
+ FactionOfThis
+RemoveThisAbility
+IsUpgradeFrom: Eccentric_Help 80
+End
+
+PERK: Undercosted_Help
+Description: At the start of each battle add a random cube to your hand which isn't already in your hand, it costs 25% less than normal and has infinite uses End
+Ability: AtTheStartOfTheBattle Both TargetCube ARandomCubeInLibraryWhich And Not IsToken Test IsNotInHandOfThis Test
+Both ChangeManaCost Division ManaCostOfCube Target DoubleConstant -4
+AddCubeToHandOfFactionInfinitly Target FactionOfThis
+RemoveThisAbility
+IsUpgradeFrom: Costly_Help 60
+End
+
+PERK: Reliable_Serrated_Blades
+Ability: AfterACubeTakesDamage If IsEnemyToCaster Victim TargetCube Victim ChangeMaxHp DoubleConstant -2
+Description: Every time an enemy takes damage it also loses 2 max hp End
+IsUpgradeFrom: Serrated_Blades 40
+End
+
+PERK: Cooling_Steam_Vents
+Ability: AfterACubeTakesDamage If IsAllyToCaster Victim SetCaster Victim 
+IfElse IsPositionEmpty PositionInDirectionFromPosition North PositionOfThis
+ CreateCubeOnPosition NeutralCopy CubeConstant Steam PositionInDirectionFromPosition North PositionOfThis
+ CreateCubeOnPosition NeutralCopy CubeConstant Steam PositionInDirectionFromPosition North PositionOfCube TheFirstCubeInDirectionFromPositionWhich
+  North PositionOfThis IsPositionEmpty PositionInDirectionFromPosition North PositionOfCube Test
+ExtraTrigger: AfterACubeIsCreated If IsAllyToCaster Culprit If IsNeutral Victim
+TargetCube Culprit AccelerateX TimeConstant 60
+Description: After an ally takes damage it creates a neutral steam cube in the first empty position above itself. After an ally creates a neutral cube 1 second of time instantly happens for it End
+IsUpgradeFrom: Steam_Vents 60
+End
+
+PERK: Obliterating_Decimated_Creations
+Ability: AfterACubeIsCreated If And IsEnemyToCaster Victim IsPlaced
+EveryXTimes DoubleConstant 10 TargetCube Victim TakeXDamage DoubleConstant 1000
+Description: Your starting leader deals 1000 damage to every 10th placed enemy End
+IsUpgradeFrom: Decimated_Creations 40
+End
+
+PERK: Reinforced_Staff_Of_Shields
+Ability: Every30Seconds AddCubeToHandOfThis FreeCopy CubeConstant Shield
+ExtraTrigger: AfterACubeIsCreated If IsPlaced If CubeHasName Victim Shield
+TargetCube Victim GainXExtraHp DoubleConstant 5
+Description: Every 30 seconds add a free shield cube to your hand, placed shield cubes gain 5 extra hp End
+IsUpgradeFrom: Staff_Of_Shields 100
+End
+
+PERK: Rapid_Architectural_Ingenuity
+Ability: EveryXMinutes DoubleConstant 3 EveryCubeInHandOfFactionWhich FactionOfThis True GainXExtraHp DoubleConstant 1
+Description: Every 2 minutes every cube in your hand gets 1 extra hp End
+IsUpgradeFrom: Architectural_Ingenuity 80
+End
+
+PERK: Regenerative_Pendant_Of_Restoration
+Ability: EveryMinute SetCaster ARandomAlliedLeader EveryCubeWhich And IsDamaged IsAllyToCaster Test Both HealXDamage DoubleConstant 1 GainAbility RegenerationX 1
+Description: Every minute every damaged ally is healed for 1 damage by a random allied leader, they also gain 1 regeneration End
+IsUpgradeFrom: Pendant_Of_Restoration 80
+End
+
+PERK: Obliterating_Titans_Clash
+Ability: AtTheStartOfTheBattle EveryCubeWhich IsALeader Test GainAbility 
+ChargeEveryX 1800
+ExtraTrigger: BeforeACubeMoves If IsALeader Victim If IsSameCube Culprit Victim If Not IsPositionEmpty PositionInDirectionFromPosition EventDirection PositionOfCube Victim 
+TargetCube CubeOfPosition PositionInDirectionFromPosition EventDirection PositionOfCube Victim If Not IsALeader Target Die
+Description: At the start of each battle all leaders gain the ability to move forward every 30 seconds, before a leader tries to move itself but is blocked by another non leader cube it kills that cube End
+IsUpgradeFrom: Titans_Clash 60
+End
+
+PERK: Distant_Lashing_Out
+Ability: AfterACubeTakesDamage If IsAllyToCaster Victim EveryXTimes DoubleConstant 3
+Both TargetCube CubeInDirectionFromCube Forwards Caster TakeXDamage DoubleConstant 1
+XTimes DoubleConstant 3 TargetCube CubeInDirectionFromCube Forwards ARandomCubeWhich IsAllyToCaster Test TakeXDamage DoubleConstant 1
+Description: Every 3 times allies take damage your starting leader deals 1 damage to any cube in front of your starting leader and infront of 3 random allies End
+IsUpgradeFrom: Lashing_Out 40
+End
+
+PERK: Expediating_Deaths_Door
+Ability: BeforeACubeTakesDamage If CubeExists ARandomCubeWhich And IsAllyToCaster Test And IsALeader Test IsSmaller HpOfCube Caster DoubleConstant 2
+If IsEnemyToCaster Victim NegateX Minus EventAmount
+ExtraTrigger: BeforeManaIsGenerated If IsAllyToCaster Culprit If CubeExists ARandomCubeWhich And IsAllyToCaster Test And IsALeader Test IsSmaller HpOfCube Caster DoubleConstant 2
+NegateX Minus EventAmount
+Description: While an allied leader has less than 2 hp enemies take double damage and allies generate twice as much \CMANA mana \CN End
+IsUpgradeFrom: Deaths_Door 100
+End
+
+PERK: Resurrecting_Grave_Vengeance
+Ability: BeforeACubeDies If And IsAllyToCaster Victim IsEnemyToCaster Culprit TargetCube Culprit 
+SetCaster Victim Both TakeXDamage DoubleConstant 1 If Not IsLarger HpOfCube Culprit DoubleConstant 0 
+TargetCube Victim GainAbility ExtraLife
+Description: Before an ally is killed by an enemy it deals 1 damage to that enemy, if the enemy is now at 0 or less hp the ally gains an extra_life, resurrecting at full hp End
+IsUpgradeFrom: Grave_Vengeance 80
+End
+
+PERK: Multidimensional_Foundational_Support
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim
+GainXExtraHp AmountOfCubesWhich
+And IsAllyToCaster Test 
+Or IsEqual XOfPosition PositionOfCube Test XOfPosition PositionOfCube Victim
+IsEqual YOfPosition PositionOfCube Test YOfPosition PositionOfCube Victim
+Description: After an ally is created it gains 1 extra hp for every ally in the same column and/or row End
+IsUpgradeFrom: Foundational_Support 80
+End
+
+PERK: Freezing_Kinetic_Negator
+Ability: BeforeACubeMoves If IsEnemyToCaster Culprit If X%Chance DoubleConstant 40 Both Secret TargetCube Culprit GainAbility FrozenX 1 NegateX DoubleConstant 1 
+Description: Every time an enemy moves a cube (even itself) there is a 40% chance that cube doesn't move instead and becomes frozen for 1 seconds End
+IsUpgradeFrom: Kinetic_Negator 60
+End
+
+PERK: Lasting_Rage
+Ability: AfterACubeTakesDamage If IsAllyToCaster Victim TargetCube Victim GainAbility TemporaryStrength 1 3600
+Description: After an ally takes damage it gains 1 strength for a minute (dealing +1 damage during that time) End
+IsUpgradeFrom: Rage 80
+End
+
+PERK: Vast_Mana_Of_Many
+Ability: BeforeManaIsGenerated If IsAllyToCaster Culprit 
+NegateX Division AmountOfCubesWhich IsAllyToCaster Test DoubleConstant -100
+Description: Each ally increases all allied \CMANA mana \CN generation by 1% End
+IsUpgradeFrom: Mana_Of_Many 60
+End
+
+PERK: Multiplying_Shield_Of_Red_Suns
+Ability: AfterACubeTakesDamage If And IsALeader Victim IsAllyToCaster Victim If IsEnemyToCaster Culprit SetCaster Victim
+Both TargetCube Culprit TakeXDamage EventAmount 
+Both XTimes DoubleConstant 3 TargetCube ARandomEnemy TakeXDamage EventAmount
+TargetCube Victim TakeXDamage EventAmount
+Description: After an allied leader takes damage by an enemy it deals the same amount to that enemy and 3 random enemies, but then also deals that much damage to itself again End
+IsUpgradeFrom: Shield_Of_Red_Suns 60
+End
+
+PERK: Dangerous_Steady_Winds
+Ability: EveryMinute EveryCubeWhich IsEnemyToCaster Test
+SetCaster Target Both TargetCube CubeInDirectionFromCube Backwards Caster TakeXDamage DoubleConstant 1
+TargetCube Caster MoveInDirection Backwards
+Description: Every minute your starting leader tries to move every enemy cube backwards one space, if there is a cube in the way it deals 1 damage to that cube End
+IsUpgradeFrom: Steady_Winds 60
+End
+
+PERK: Lasting_Avalanches
+Ability: EveryXMinutes DoubleConstant 2
+SetStorage CopyWithAction CubeConstant Snow GainAbility RegenerationX 15
+EveryCubeWhich IsEnemyToCaster Test CreateCubeOnPosition Storage TopPositionAboveCube Target
+Description: Every 2 minutes your starting leader creates allied snow at the top of the world above every enemy, the snow also has 15 regeneration End
+IsUpgradeFrom: Avalanches 40
+Unique
+End
+
+PERK: Healing_Devolatization
+Ability: BeforeACubeTakesDamage If IsAllyToCaster Victim
+If Or And IsAllyToCaster Culprit IsALeader Culprit
+ IsType Excessmana
+Both If X%Chance DoubleConstant 50 
+ TargetCube Victim HealXDamage DoubleConstant 1 
+ NegateX DoubleConstant 2
+Description: Before an allied leader takes damage from mana burn, or deals damage to allies 2 of the damage is negated and there is a 50% chance the victim heals 1 hp End
+IsUpgradeFrom: Devolatization 40
+End
+
+PERK: Hungry_Devouring_Helmet
+Ability: AfterACubeIsCreated
+If IsALeader CubeInDirectionFromCube South Victim
+Both TargetCube CubeInDirectionFromCube South Victim GainXExtraHp Addition DoubleConstant 2 HpOfCube Victim
+TargetCube Victim TakeXDamage HpOfCube Victim
+Description: After a cube is created above a leader that cube takes their hp in damage and the leader gains 2 + the victim's hp in extra hp End
+IsUpgradeFrom: Devouring_Helmet 60
+End
+
+PERK: Efficient_Selfishness
+Ability: EverySecond EveryCubeWhich And IsALeader Test And IsAllyToCaster Test IsDamaged 
+SetCaster Target TargetCube ARandomCubeWhich And IsAllyToCaster Test 
+Not IsALeader Test Both TakeXDamage DoubleConstant 2
+TargetCube Caster HealXDamage DoubleConstant 3
+Description: Every second each allied damaged leader deals 2 damage to a random non leader ally and heals 3 hp End
+IsUpgradeFrom: Selfishness 60
+End
+
+PERK: Poisonous_Tainted_Remedy
+Ability: AfterACubeHeals If And IsEnemyToCaster Victim IsALeader Victim TargetCube Victim Both TakeXDamage Multiplication EventAmount DoubleConstant 2
+GainAbility PoisonX 5
+Description: After an enemy leader heals hp your starting leader deals twice that much damage to it and it becomes poisoned losing 5 hp per minute End
+IsUpgradeFrom: Tainted_Remedy 40
+End
+
+PERK: Reinforced_Damage_Dampening
+Ability: BeforeACubeTakesDamage If IsAllyToCaster Victim If Not IsALeader Victim If X%Chance DoubleConstant 40 NegateX Highest Division EventAmount DoubleConstant 2 DoubleConstant 1
+Description: Before a non leader ally takes damage there is a 40% chance to negate 1 or half of that damage, whichever negates more End
+IsUpgradeFrom: Damage_Dampening 60
+End
+
+PERK: Expanded_Blast_Entry
+Description: At the start of each battle every cube in your hand gains: After this is created this deals 2 damage to all other cubes within 3 spaces of distance End
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis True
+GainAbilityText AfterThisIsCreated Both EveryCubeInRadiusXAroundTarget DoubleConstant 3 If Not IsSameCube Target Caster TakeXDamage DoubleConstant 2
+ CreateAoEParticlesColourRadiusPosition DoubleConstant 16738816 DoubleConstant 3 PositionOfThis
+ After this is created this deals 2 damage to all other cubes up to 3 spaces away End
+RemoveThisAbility
+IsUpgradeFrom: Blast_Entry 40
+End
+
+PERK: Advanced_Memory_Cache
+Description: Your maximum hand size is increased by 5. Before a cube is added to your hand gain 10 max mana and 10 \CMANA mana \CN End
+ObtainAction: ChangeStartingHandSize DoubleConstant 5
+RemoveAction: ChangeStartingHandSize DoubleConstant -5
+Ability: BeforeACubeIsAddedToYourHand Both ChangeMaxManaOfFaction DoubleConstant 10 FactionOfThis GenerateXMana DoubleConstant 10
+AbilityText: Before a cube is added to your hand increase your max mana by 10 and gain 10 \CMANA mana \CN End
+IsUpgradeFrom: Memory_Cache 60
+Disableable: false
+End
+
+PERK: Extra_Brittle_Minions
+Ability: AfterACubeTakesDamage If Not IsALeader Victim If X%Chance DoubleConstant 10 TargetCube Victim Exile
+Description: After a non leader cube takes damage there is a 10% chance your starting leader instantly exiles the damaged cube End
+IsUpgradeFrom: Brittle_Minions 60
+End
+
+PERK: Multiplying_Toy_House
+Description: At the start of each map gain a Toy_House End
+CampaignAbility: AfterAMapIsGenerated ObtainPerk PerkConstant Toy_House
+IsUpgradeFrom: Toy_House 60
+End
+
+PERK: Repeating_Digging_Tools
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim 
+TargetCube CubeInDirectionFromCube South Victim 
+If IsNeutral Target 
+SetCaster Victim TakeXDamageEffect DoubleConstant 20 0 Melee_Swing
+ExtraTrigger: AfterACubeDies TargetCube CubeInDirectionFromCube North Victim If IsAllyToCaster Target
+SetCaster Target Both MoveInDirection South
+TargetCube CubeInDirectionFromCube South Caster 
+If IsNeutral Target 
+ TakeXDamageEffect DoubleConstant 20 0 Melee_Swing
+Description: After an ally is created it deals 20 damage to the cube below if it's neutral, after a neutral cube dies below an ally that ally moves downwards and if the cube below is neutral it will deal 20 damage again End
+IsUpgradeFrom: Digging_Tools 60
+End
+
+PERK: Overgrown_Protectors_Shield
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsALeader CubeInDirectionFromCube Forwards Victim 
+TargetCube Victim GainAbility GrowthX 20
+Description: After an ally is created behind a leader that ally gains 20 growth gaining 20 extra hp over each minute End
+IsUpgradeFrom: Protectors_Shield 60
+End
+
+PERK: Leading_Personal_Guard
+Description: After a cube is created in front of an allied leader it gains 3 extra hp and becomes a leader, cubes in front of allied leaders can't move End
+Ability: AfterACubeIsCreated If IsALeader CubeInDirectionFromCube Backwards Victim If IsAllyToCaster CubeInDirectionFromCube Backwards Victim
+TargetCube Victim Both GainXExtraHp DoubleConstant 3 GainAbility LEADER
+AbilityText: After a cube is created in front of an allied leader it gains 3 extra hp and becomes a leader End
+Ability: BeforeACubeMovesNegation If IsALeader CubeInDirectionFromCube Backwards Victim If IsAllyToCaster CubeInDirectionFromCube Backwards Victim NegateX DoubleConstant 1
+AbilityText: Before a cube in front of this moves negate that movement End
+IsUpgradeFrom: Personal_Guard 80
+End
+
+PERK: Universal_Replacing_Guard
+Ability: AfterACubeDies If IsAllyToCaster Victim If IsAllyToCaster CubeInDirectionFromCube Backwards Victim  TargetCube ARandomCubeWhich
+And IsAllyToCaster Test HasNameOfCube Test Victim Both
+TeleportToPosition PositionOfCube Victim
+HealXDamage DoubleConstant 2
+Description: After an ally in front of an ally dies teleport a random ally with the same name in front of it and then heal that ally for 2 hp End
+Unique
+IsUpgradeFrom: Replacing_Guard 80
+End
+
+PERK: Expanding_Tiny_Kinetic_Generator
+Ability: AfterACubeMoves EveryXTimes DoubleConstant 30 Both ChangeMaxManaOfFaction DoubleConstant 1 FactionOfThis GenerateXMana DoubleConstant 1
+Description: Every 30 times any cube moves, your starting leader generates 1 max mana and 1 \CMANA mana \CN (this includes falling) End
+IsUpgradeFrom: Tiny_Kinetic_Generator 80
+End
+
+PERK: Adjusting_Tiny_Mana_Dampener
+Ability: AfterACubeIsCreated If IsEnemyToCaster Victim If IsPlaced If X%Chance ManaCostOfCube Victim
+EveryCubeInHandOfFactionWhich FactionOfCube Victim HasNameOfCube Test Victim GainAbilityText
+ AfterThisIsCreated GenerateXMana DoubleConstant -1
+ After this is created this generates -1 \CMANA mana \CN End
+Description: After an enemy is created X% chance cubes in the opponent's hand with that name generate -1 mana when created, X is that enemy's manacost End
+IsUpgradeFrom: Tiny_Mana_Dampener 40
+End
+
+PERK: Ambitious_Tiny_Toymaker
+Ability: EveryXMinutes DoubleConstant 3 AddCubeToHandOfThis CopyWithAction FreeCopy ARandomCubeInLibraryWhich 
+ And Not IsToken Test Not IsLarger ManaCostOfCube Test DoubleConstant 20
+ SetStorage Target EveryCubeInHandOfFactionWhich FactionOfThis True TargetCube Storage GainXExtraHp DoubleConstant 1
+Description: Every 3 minutes add a random cube which costs 20 mana or less from the library to your hand except it costs 0, and has 1 extra hp for every cube in your hand End
+IsUpgradeFrom: Tiny_Toymaker 40
+End
+
+PERK: Mutating_Evolve_Moil
+Description: Start with an Evolve_Moil warrior in your hand with infinite uses, it costs 10 less mana every minute down to 0, every minute add 3 mutations for them into your hand End
+ObtainAction: AddCubeToDeck CubeConstant Evolve_Moil
+Ability: EveryMinute TargetCube ARandomCubeInHandOfFactionWhich FactionOfThis CubeHasName Test Evolve_Moil
+If Not IsSmaller ManaCostOfCube Target DoubleConstant 10
+ChangeManaCost DoubleConstant -10
+AbilityText: Every minute reduce the cost of a random Evolve_Moil in your hand by 10, if it costs more or exactly 10 mana End
+Ability: EveryMinute XTimes DoubleConstant 3 
+AddCubeToHandOfThis ARandomCubeInLibraryWhich
+And HasAbilityWithName Test EvolveMoil IsNotInHandOfThis Test
+AbilityText: Every minute add 3 random mutations to your hand which aren't already in your hand End
+IsUpgradeFrom: Evolve_Moil 60
+End
+
+PERK: Strengthening_Creation_Rune
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsALeader CubeInDirectionFromCube South Victim TargetCube Victim Both GainXExtraHp DoubleConstant 3
+GainAbility StrengthX 1
+Description: After an ally is placed above a leader the placed cube gains 3 extra hp and 1 strength End
+IsUpgradeFrom: Creation_Rune 40
+End
+
+PERK: Cheap_Mental_Echoes
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsPlaced If X%Chance DoubleConstant 10
+AddCubeToHandOfThis CopyWithAction Victim ChangeManaCost Multiplication DoubleConstant 3 Division ManaCostOfCube Victim DoubleConstant -4
+Description: After an ally is placed there is a 10% chance to add a copy to your hand which costs only a fourth as much End
+IsUpgradeFrom: Mental_Echoes 40
+End
+
+PERK: Reinforced_Coalition_Shields
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsPlaced
+If Not CubeExists ARandomCubeWhich And HasNameOfCube Test Victim And Not IsSameCube Victim Test IsAllyToCaster Test
+TargetCube Victim Both GainXExtraHp DoubleConstant 6 GainXExtraHp HpOfCube Victim
+Description: After an ally is placed, if there is no other ally with the same name, that cube gains 6 extra hp, then double its hp End
+IsUpgradeFrom: Coalition_Shields 80
+End
+
+PERK: Forged_Coalition_Swords
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsPlaced
+If Not CubeExists ARandomCubeWhich And HasNameOfCube Test Victim And Not IsSameCube Victim Test IsAllyToCaster Test
+TargetCube Victim Both GainXExtraHp DoubleConstant 1
+Both GainAbility StrengthX 2 GainAbility EveryXMeleeY 60 1
+Description: After an ally is placed, if there is no other ally with the same name, that cube gains 1 extra hp, 2 strength and a melee attack for 1 damage per second End
+IsUpgradeFrom: Coalition_Swords 80
+End
+
+PERK: Refunding_Coalition_Banners
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsPlaced
+If Not CubeExists ARandomCubeWhich And HasNameOfCube Test Victim And Not IsSameCube Victim Test IsAllyToCaster Test
+TargetCube Victim Both GainXExtraHp DoubleConstant 1
+RefundX Multiplication DoubleConstant 4 Division ManaCostOfCube Victim DoubleConstant 5
+Description: After an ally is placed, if there is no other ally with the same name, that cube gains 1 extra hp and you refund 80% of its cost End
+IsUpgradeFrom: Coalition_Banners 80
+End
+
+PERK: Leading_Tiny_Me_Moil
+Ability: AfterAnotherAllyIsCreated Silent 
+If IsLarger HpOfCube Victim DoubleConstant 0
+Both Both Both Both
+SetVariable TEMP Addition DoubleConstant 2 HpOfCube Victim
+TargetCube Victim Both ChangeMaxHp Division HpOfCube Victim DoubleConstant -1 TakeXDamage HpOfCube Victim
+TargetCube Victim GainXExtraHp HpOfCube Caster
+Both
+TargetCube Caster Both ChangeMaxHp Division HpOfCube Caster DoubleConstant -1 TakeXDamage HpOfCube Caster
+TargetCube Caster GainXExtraHp GetVariableOnCube TEMP Caster
+IfElse IsALeader Caster
+ IfElse IsALeader Victim Nothing
+  Both TargetCube Caster RemoveAbilityWithName LEADER TargetCube Victim GainAbility LEADER
+If IsALeader Victim Both TargetCube Victim RemoveAbilityWithName LEADER TargetCube Caster GainAbility LEADER
+Description: After another ally is created, if it has more than 0 hp, its hp, max hp +2 and the leader ability are swapped with your starting leader End
+Unique
+IsUpgradeFrom: Tiny_Me_Moil 20
+End
+
+PERK: Very_Elite_Recruitment
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsPlaced 
+If X%Chance DoubleConstant 5
+TargetCube CombinationOf2Cubes Victim CombinationOf2Cubes Victim Victim Both
+Both ChangeManaCost Multiplication 2 Division ManaCostOfCube Target DoubleConstant -3
+ChangeManaCost DoubleConstant 1
+AddCubeToHandOfThis Target
+Description: After an ally is placed there is a 5% chance to add a combination of thrice that cube added together to your hand except it still only costs 1 mana more End
+IsUpgradeFrom: Elite_Recruitment 60
+End
+
+PERK: Overloaded_Time_Box
+Description: At the start of each battle 10 minutes instantly happens for your starting leader (Including other perks. Be EXTREMELY careful with mana burn) End
+Ability: AtTheStartOfTheBattle Both AccelerateX DoubleConstant 36000 RemoveThisAbility
+IsUpgradeFrom: Time_Box 60
+End
+
+PERK: Repeating_Common_Grudge
+Description: At the start of each battle all cubes in your hand gain: After this is created and every minute this deals 1 damage to a random enemy End
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis True
+Both GainAbilityText AfterThisIsCreated TargetCube ARandomEnemy TakeXDamage DoubleConstant 1
+After this is created this deals 1 damage to a random enemy End
+GainAbility EyeXY TimeConstant 3600 DoubleConstant 1
+RemoveThisAbility
+IsUpgradeFrom: Common_Grudge 100
+End
+
+PERK: Poisonous_Artillery_Order
+Ability: EveryMinute
+EveryCubeWhich IsAllyToCaster Test SetCaster Target
+CreateCubeOnPosition CubeConstant Poisonous_Mortar_Projectile PositionInDirectionFromPosition North PositionOfCube Target
+Description: Every minute each ally creates an arcing Poisonous_Mortar_Projectile above itself (if there is space) End
+Unique
+IsUpgradeFrom: Artillery_Order 120
+End
+
+PERK: Regenerative_Poison_Channeling
+Ability: EveryXMinutes DoubleConstant 2 Both EveryCubeWhich And IsEnemyToCaster Test IsALeader Test 
+GainAbilityStacking PoisonX 1 Addition DoubleConstant 1 GetStackingOfAbilityOnCube PoisonX Caster
+TargetCube Caster Both GainAbilityStacking RegenerationX 1 Addition DoubleConstant 1 GetStackingOfAbilityOnCube PoisonX Caster 
+RemoveAbilityWithName PoisonX
+Description: Every 2 minutes your starting leader applies its poison + 1 to all enemy leaders, gains that much regeneration, then loses all poison End
+IsUpgradeFrom: Poison_Channeling 80
+End
+
+PERK: Safer_Mana_Kettle
+Ability: BeforeManaIsGenerated If IsEqual FactionOfThis EventFaction EveryXTimes 10 Both ChangeMaxManaOfFaction FactionOfThis 1 NegateX Minus 3
+Description: Every 10 times allied \CMANA mana \CN is generated increase it by 3 \CMANA mana \CN and gain 1 max mana End
+IsUpgradeFrom: Mana_Kettle 80
+End
+
+PERK: Replicating_Toy_Factory
+Unique
+Ability: EveryXMinutes DoubleConstant 4 CreateCubeOnPosition CopyWithAction TheFirstCubeInHandOfFactionWhich FactionOfThis True 
+ GainAbilityText EveryXMinutes DoubleConstant 4 CreateCubeOnPosition Caster PositionInDirectionFromPosition Forwards PositionOfThis
+  Every 4 minutes this creates a copy of this in front of this End
+ PositionInDirectionFromThis Forwards
+Description: Every 4 minutes your starting leader creates a copy of the first cube in your hand in front of it, that cube replicates itself forwards every 4 minutes End
+IsUpgradeFrom: Toy_Factory 60
+End
+
+PERK: Teleporting_Stand_Infront
+Description: After an ally is placed your starting leader teleports in front of it, Also your starting leader regenerates 4 hp per minute End
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsPlaced TeleportToPosition PositionInDirectionFromPosition Forwards PositionOfCube Victim
+AbilityText: After an ally is placed this teleports in front of that ally End
+Ability: RegenerationX 4
+IsUpgradeFrom: Stand_Infront 60
+End
+
+PERK: Advanced_Bullet_Recycling
+Ability: AfterACubeDies If IsAllyToCaster Victim SetCaster Victim Both CreateCubeOnPosition CubeConstant Bullet PositionInDirectionFromPosition Forwards PositionOfCube Victim
+CreateCubeOnPosition CubeConstant Bullet PositionInDirectionFromPosition South PositionOfCube Victim
+Description: After any ally dies it creates a bullet in front and below of itself, if there is space. (Bullets are 2 damage projectiles) End
+IsUpgradeFrom: Bullet_Recycling 60
+Unique
+End
+
+PERK: Persistent_Temporal_Fugue
+Ability: EveryXMinutes DoubleConstant 10 EveryAlliedLeader SetCaster Target 
+ CreateCubeOnPosition CopyWithAction Caster
+  GainAbilityText EveryMinute If Not X%Chance DoubleConstant 90 Die
+   Every Minute this has a 90% chance to not die End
+  PositionInDirectionFromThis North
+Description: Every 10 minutes each allied leader creates a copy of itself above itself, except the copy has to succeed a 90% chance every minute or die End
+IsUpgradeFrom: Temporal_Fugue 60
+End
+
+PERK: Resourcefull_Adorable_Rat
+WorldAbility: AfterYouLose ChangeCurrency DoubleConstant 10
+Description: After you lose a battle, a non consumable perk, or at least 50 gold gain 10 gold End
+CampaignAbility: AfterYouLoseAPerk If Not PerkIsType Target Consumable ChangeCurrency DoubleConstant 10
+CampaignAbility: AfterYouGainOrLoseCurrency If Not IsLarger EventAmount DoubleConstant -50 ChangeCurrency DoubleConstant 10
+IsUpgradeFrom: Adorable_Rat 80
+End
+
+PERK: Growing_Adorable_Slime
+WorldAbility: AfterYouLose Both AddCubeToInventory APRandomCubeInLibraryWhich And Not IsAlreadyInInventory Test Not IsToken Test
+ObtainPerk PerkConstant Bottled_Slime
+Description: After you lose a battle add a random cube to your inventory and gain a bottled slime consumable which gives 2 free large slime warriors End
+IsUpgradeFrom: Adorable_Slime 20
+End
+
+PERK: Expanded_Supply_Cache
+Description: Add 30 random cubes to your inventory, then lose this perk End
+ObtainAction: XTimes DoubleConstant 30 AddCubeToInventory APRandomCubeInLibraryWhich And Not IsAlreadyInInventory Test Not IsToken Test
+RemoveUponObtaining
+IsUpgradeFrom: Supply_Cache 200
+End
+
+PERK: Frugal_Territorial_Flag
+WorldAbility: AfterYouWin Both ChangeStartingMaxMana DoubleConstant 10 ChangeCurrency RoundedDown Division GetCampaignVariable STARTINGMAXMANA DoubleConstant 10
+Description: After you win a battle permanently increase your starting max mana by 10 then gain 1 gold per 10 starting max mana you have End
+IsUpgradeFrom: Territorial_Flag 60
+End
+
+PERK: Black_Bird_Feather
+Ability: AtTheStartOfTheBattle Both TargetCube TheFirstCubeInHandOfFactionWhich FactionOfThis Not HasAbilityWithName Test Flying GainAllAbilitiesOfCube CubeConstant Crow
+RemoveThisAbility
+Description: At the start of each battle the first cube in your hand without flying gains all abilities of a crow (moves back and forth lowering when enemies are below and dealing damage below) End
+IsUpgradeFrom: Bird_Feather 80
+End
+
+PERK: Hostile_Quartered_Coin
+Ability: BeforeACubeTakesDamage If IsSmaller HpOfCube Victim Division MaxHpOfCube Victim DoubleConstant 2
+Both If IsAllyToCaster Victim NegateX Division EventAmount DoubleConstant 2
+If IsEnemyToCaster Victim NegateX Multiplication EventAmount DoubleConstant -1
+Description: Before a cube with less than half hp would take damage, if it's an ally negate half of it, if it's an enemy double it End
+IsUpgradeFrom: Quartered_Coin 40
+End
+
+PERK: Soulswapping_Backup_Plan
+Ability: AfterThisDies TargetCube ARandomCubeWhich And IsAllyToCaster Test And And And
+ Not HasAbilityWithName Test DieAfterX
+ Not HasAbilityWithName Test SilentDieAfterX
+ Not HasAbilityWithName Test ProjectileX
+ Not HasAbilityWithName Test Projectile
+Both GainXExtraHp DoubleConstant 20
+Both RemoveThisAbility GainAllAbilitiesOfCube Caster
+Description: After your starting leader dies a random ally, which doesn't die on a timer and doesn't have projectile, gains 20 extra hp and all abilities of your starting leader except this one End
+IsUpgradeFrom: Backup_Plan 60
+End
+
+PERK: Perfected_Paradox_Clock
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis True RemoveAbilityWithName LEADER RemoveThisAbility
+Description: Your hand is a part of the world (with all the benefits and the downsides that entails).
+At the start of each battle remove LEADER from each cube in your hand End 
+ObtainAction: SetCampaignVariable HANDZONE DoubleConstant 2 
+RemoveAction: SetCampaignVariable HANDZONE DoubleConstant 1 
+IsUpgradeFrom: Paradox_Clock 200
+Unique
+Disableable: false
+End
+
+PERK: Multiplying_Ring_Of_Strength
+Ability: AtTheStartOfTheBattle AddCubeToHandOfFaction CubeConstant Ring_Of_Strength FactionOfThis
+ExtraTrigger: EveryXMinutes DoubleConstant 5 AddCubeToHandOfFaction CubeConstant Ring_Of_Strength FactionOfThis
+Description: Start with a Ring_Of_Strength which gives a non leader 2 strength every 2 minutes and is returned when the cube dies, also gain another ring every 5 minutes End
+IsUpgradeFrom: Ring_Of_Strength 40
+End
+
+PERK: Multiplying_Ring_Of_Growth
+Ability: AtTheStartOfTheBattle AddCubeToHandOfFaction CubeConstant Ring_Of_Growth FactionOfThis
+ExtraTrigger: EveryXMinutes DoubleConstant 5 AddCubeToHandOfFaction CubeConstant Ring_Of_Growth FactionOfThis
+Description: Start with a Ring_Of_Growth which gives a non leader 10 extra hp over each minute and is returned when the cube dies, also gain another ring every 5 minutes  End
+IsUpgradeFrom: Ring_Of_Growth 40
+End
+
+PERK: Multiplying_Ring_Of_Time
+Ability: AtTheStartOfTheBattle AddCubeToHandOfFaction CubeConstant Ring_Of_Time FactionOfThis
+ExtraTrigger: EveryXMinutes DoubleConstant 5 AddCubeToHandOfFaction CubeConstant Ring_Of_Time FactionOfThis
+Description: Start with a Ring_Of_Time which gives a non leader 1 additional second every 3 seconds and is returned when the cube dies, also gain another ring every 5 minutes  End
+IsUpgradeFrom: Ring_Of_Time 40
+End
+
+PERK: Multiplying_Ring_Of_Death
+Ability: AtTheStartOfTheBattle AddCubeToHandOfFaction CubeConstant Ring_Of_Death FactionOfThis
+ExtraTrigger: EveryXMinutes DoubleConstant 5 AddCubeToHandOfFaction CubeConstant Ring_Of_Death FactionOfThis
+Description: Start with a Ring_Of_Death which gives a non leader 1 deadly every 2 minutes (killing the next enemy damaged) and is returned when the cube dies, also gain another ring every 5 minutes  End
+IsUpgradeFrom: Ring_Of_Death 40
+End
+
+PERK: Lasting_Observatories_Help
+Description: At the start of each battle add a random ascension to your hand with infinite uses, ascensions add a bonus to the first cube in your hand without that bonus End
+Ability: AtTheStartOfTheBattle Both TargetCube ARandomCubeInLibraryWhich 
+And HasAbilityWithName Test Ascension Not IsToken Test
+AddCubeToHandOfFactionInfinitly Target FactionOfThis
+RemoveThisAbility
+IsUpgradeFrom: Observatories_Help 60
+End
+
+PERK: Impactfull_Selflessness
+Ability: BeforeACubeTakesDamage If IsAllyToCaster Victim 
+If IsLarger HpOfCube Caster DoubleConstant 10
+If IsLarger EventAmount DoubleConstant 0
+Both NegateX DoubleConstant 2
+TakeXDamage DoubleConstant 1
+Description: Before a non leader ally takes more than 0 damage, if your starting leader has more than 10 hp, that ally takes 2 less damage and your leader deals 1 to itself End
+IsUpgradeFrom: Selflessness 40
+End
+
+PERK: Temporal_Battle_Of_Champions
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim
+If HasNameOfCube Victim CubeInDirectionFromCube South Victim
+Both TargetCube Victim Exile
+TargetCube CubeInDirectionFromCube South Victim Both GainAbility StrengthX 2 GainAbility DoubleTimeX 30
+Description: After an ally is created above a cube with the same name, the created ally is exiled and the cube below gains 2 strength and 30 seconds of double time End
+IsUpgradeFrom: Battle_Of_Champions 40
+End
+
+PERK: Expansive_Winters_Help
+Ability: AtTheStartOfTheBattle XTimes DoubleConstant 3 AddCubeToHandOfThis CubeConstant Time_Of_Ice
+ExtraTrigger: AfterACubeIsCreated If And IsPlaced CubeHasName Victim Time_Of_Ice
+SetCaster Victim Both EveryCubeWhich IsNeutral Test GainAbility FrozenX 5
+EveryCubeInHandOfFactionWhich DoubleConstant 2 True GainAbility FrozenX 5
+Description: At the start of each battle add 3 Time_Of_Ice into your hand which freeze all enemies for 5 seconds, placing one also freezes all neutral cubes and cubes in the enemies hand End
+IsUpgradeFrom: Winters_Help 40
+End
+
+PERK: Mathematical_Tax_Loophole
+Ability: AtTheStartOfTheBattle Both Both IfElse IsEqual Currency Multiplication RoundedDown Division Currency DoubleConstant 2 DoubleConstant 2
+ChangeCurrency Division Currency DoubleConstant -2
+ChangeCurrency Addition DoubleConstant 1 Multiplication Currency DoubleConstant 3
+If IsEqual DoubleConstant 1 AbsoluteAmount Currency Both LosePerk PerkConstant Mathematical_Tax_Loophole ChangeCurrency DoubleConstant 400
+RemoveThisAbility
+Description: At the start of each battle triple your gold and add 1 if you have an odd amount of gold otherwise lose half your gold, if you reach 1 or -1 lose this perk and gain 400 gold End
+IsUpgradeFrom: Tax_Loophole 200
+Disableable: false
+End
+
+PERK: Infinite_Reroll_Fiesta
+Ability: AtTheStartOfTheBattle ChangeRerollCost DoubleConstant -8
+Description: At the start of each battle and after you reroll reduce the price of rerolling by 8 forever End
+CampaignAbility: AfterYouReroll ChangeRerollCost DoubleConstant -8
+IsUpgradeFrom: Reroll_Fiesta 40
+End
+
+PERK: Exponential_Mana_Fund
+Ability: AtTheStartOfTheBattle If IsLarger Currency DoubleConstant 0 Both Both GenerateXMana Division Currency DoubleConstant 2 
+ChangeCurrency Division ManaOfFaction FactionOfThis DoubleConstant 2
+RemoveThisAbility
+Description: At the start of each battle, if you have any gold, gain \CMANA mana \CN equal to half your current amount of gold, then gain gold equal to half your \CMANA mana \CN End
+IsUpgradeFrom: Mana_Fund 160
+End
+
+PERK: Burning_Gray_Fire
+Ability: Every20Seconds If IsSmaller Currency DoubleConstant 0 EveryCubeWhich HasAbilityWithName Test Debt
+Both TakeXDamage DoubleConstant 3 GainAbility Burning
+Description: Every 20 seconds if you have debt, your starting leader deals 3 damage to all debt collectors, they deal 1 damage to themselves and touching cubes 5 seconds later End
+IsUpgradeFrom: Gray_Fire 100
+End
+
+PERK: Replicating_Claw_Machine
+CampaignAbility: BeforeACubeIsAddedToInventory If IsSmaller GetCampaignVariable CUBEREWARDCHOICES DoubleConstant 20 ChangeCampaignVariable CUBEREWARDCHOICES DoubleConstant 1
+Description: After a cube is added to your inventory increase the number of cubes in each future cube choice by 1 up to a maximum of 20 End
+IsUpgradeFrom: Claw_Machine 60
+End
+
+PERK: Rapid_Climbing_Limbs
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim 
+TargetCube Victim Secret GainAbility Climbing
+ExtraTrigger: AfterACubeMoves If IsSameDirection EventDirection North If IsAllyToCaster Victim TargetCube Victim GainAbility DoubleTimeX 4
+Description: After an ally is created it gains climbing, after an ally moves upwards it gains 4 second of double time, unless it already has temporary double time End
+IsUpgradeFrom: Climbing_Limbs 60
+End
+
+PERK: Lasting_Asphyxiate
+Ability: BeforeACubeTakesDamage If IsEnemyToCaster Victim
+If And And And Not IsPositionEmpty PositionInDirectionFromPosition North PositionOfCube Victim
+Not IsPositionEmpty PositionInDirectionFromPosition East PositionOfCube Victim
+Not IsPositionEmpty PositionInDirectionFromPosition South PositionOfCube Victim
+Not IsPositionEmpty PositionInDirectionFromPosition West PositionOfCube Victim
+Both NegateX DoubleConstant -1 TargetCube Victim GainAbility PoisonX 3
+Description: Enemies without a touching empty space take 1 more damage from everything, when they do they also gain 3 poison (losing 3 hp per minute) End
+IsUpgradeFrom: Asphyxiate 60
+End
+
+PERK: Greedy_Hustling
+Ability: AtTheStartOfTheBattle Both XTimes GetCampaignVariable HUSTLING GainXExtraHp DoubleConstant 2
+RemoveThisAbility
+CampaignAbility: AfterYouGainOrLoseCurrency Both ChangeCampaignVariable HUSTLING DoubleConstant 1 Silent ChangeCurrency DoubleConstant 5
+Description: After you gain or lose gold gain 1 stack of hustling and silently gain 5 gold, 
+at the start of each battle your leader gains 2 extra hp for each stack of hustling \N
+Hustling: CVARIABLE HUSTLING End
+IsUpgradeFrom: Hustling 40
+End
+
+PERK: Self_Sufficient_Witchery
+CampaignAbility: AfterYouGainAPerk If IsSmaller ValueOfPerk Target DoubleConstant 0
+Both ChangeCurrency DoubleConstant 30 If X%Chance 50 ObtainPerk PerkConstant Bottled_Curse
+Description: After you gain a curse gain 30 gold and 50% chance to gain a Bottled_Curse which can be used to get another curse End
+IsUpgradeFrom: Witchery 40
+Unique
+End
+
+PERK: Universal_Tiny_Cooling_Aggregate
+Ability: AfterACubeTakesDamage If Not And IsALeader Culprit IsAllyToCaster Culprit
+If X%Chance DoubleConstant 50 TargetCube Culprit GainAbility FrozenX 2
+Description: After a cube deals damage there is a 50% chance it becomes frozen for 2 second, unless its an allied leader End
+IsUpgradeFrom: Tiny_Cooling_Aggregate 60
+End
+
+PERK: Big_Flames_Of_Aggression
+Ability: AfterACubeTakesDamage If IsAllyToCaster Culprit SetCaster Culprit CreateCubeOnPosition CubeConstant Fireball
+PositionInDirectionFromPosition Forwards PositionOfCube Caster
+Description: After an ally deals damage it creates a fireball in front of itself if there is space. (Fireballs are 4 damage projectiles, which also explode in a 3x3 area) End
+IsUpgradeFrom: Flames_Of_Aggression 60
+Unique
+End
+
+PERK: Efficient_Matryoshka_Doll
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim
+If Not IsPositionEmpty PositionInDirectionFromPosition Forwards PositionOfCube Victim
+TargetCube Victim GainAbility CascadeX 1
+Description: After an ally is created behind a cube it gains Cascade 1, creating the first cube from your hand which costs at least 1 less in its place when it dies End
+Unique
+IsUpgradeFrom: Matryoshka_Doll 60
+End
+
+PERK: Training_Jump_Rope
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim
+SetCaster Victim EveryCubeWhich And Not IsEqual HpOfCube Test DoubleConstant 0 And IsAllyToCaster Test Or IsEqual XOfPosition PositionOfCube Caster XOfPosition PositionOfCube Test
+IsEqual YOfPosition PositionOfCube Caster YOfPosition PositionOfCube Test
+Both MoveInDirection North GainAbilityText EverySecond Both MoveInDirection South RemoveThisAbility
+Jump_Rope: After 1 second this moves downwards then Loses this ability End
+ExtraTrigger: AfterACubeMoves If IsAllyToCaster Victim If IsSameDirection EventDirection North If X%Chance DoubleConstant 5
+TargetCube Victim GainAbility StrengthX 1
+Description: After an ally is created it moves every non 0 hp ally on the same row or column upwards, after 1 second they move downwards. \N Also after an ally moves upwards 5% chance it gains 1 strength End
+IsUpgradeFrom: Jump_Rope 60
+End
+
+PERK: Refreshed_Gambling_Addiction
+ObtainAction: Both Both ChangeCampaignVariable ADDITIONALREROLLS DoubleConstant 1 ChangeRerollCost DoubleConstant -20 ObtainPerk PerkConstant Reroll_Nullifier
+RemoveAction: Both ChangeCampaignVariable ADDITIONALREROLLS DoubleConstant -1 ChangeRerollCost DoubleConstant 20
+Description: You may reroll one more time in the future, additionally rerolling costs 20 gold less, Gain a consumable which resets reroll cost to 0 End
+IsUpgradeFrom: Gambling_Addiction 50
+End
+
+PERK: Copying_Safety_Foam
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim 
+SetCaster Victim TargetCube CubeConstant Safety_Foam
+Both GainAbilityText AfterThisIsCreated Both RemoveThisAbility GainAllAbilitiesOfCube Culprit After this is created this loses this ability and gains all abilities of its creator End
+Both Both Both CreateCubeOnPosition Target PositionInDirectionFromThis North 
+CreateCubeOnPosition Target PositionInDirectionFromThis East
+CreateCubeOnPosition Target PositionInDirectionFromThis South
+CreateCubeOnPosition Target PositionInDirectionFromThis West 
+Description: After an ally is created it creates 1 hp Safety_Foam cubes on the 4 positions around it, the foam dies after 1 minute, it also copies its creators abilities after it's created End
+IsUpgradeFrom: Safety_Foam 100
+Unique
+End
+
+PERK: Spreading_Inspatiality
+Ability: Inspatial
+Ability: EveryMinute TargetCube CubeInDirectionFromCube Forwards Caster 
+If IsAllyToCaster Target
+SetCaster Target Both GainInspatial ChangeIncomingAdjacency PositionOfThis Forwards PositionInDirectionFromThis Forwards
+Description: The space behind your starting leader is now adjacent to the space in front of it (but not the other way around). Every minute the cube in front of your starting leader also gains this inspatiality if it's an ally End
+Unique
+IsUpgradeFrom: Inspatiality 80
+End
+
+PERK: Pulling_Loop_World
+Ability: AtTheStartOfTheBattle Both SetVariable TEMP Addition DoubleConstant 1 MaxWorldY
+Until IsSmaller GetVariableOnCube TEMP Caster DoubleConstant 1
+Both ChangeVariable TEMP DoubleConstant -1
+Both NewAdjacency PositionFromXAndY DoubleConstant 0 GetVariableOnCube TEMP Caster Backwards PositionFromXAndY MaxWorldX GetVariableOnCube TEMP Caster
+ NewAdjacency PositionFromXAndY MaxWorldX GetVariableOnCube TEMP Caster Forwards PositionFromXAndY DoubleConstant 0 GetVariableOnCube TEMP Caster
+Nothing
+ExtraTrigger: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim GainAbility InvertedMovement 
+Description: At the start of each battle the eastern and the western borders of the world are now adjacent to each other, created allies gain inverted movement moving in the opposite direction for 1 minute (be careful with guns) End
+Unique
+IsUpgradeFrom: Loop_World 60
+End
+
+PERK: Temporal_Lunar_Strength
+Ability: EveryXSeconds 40 EveryCubeWhich And Not IsALeader Test IsAllyToCaster Test
+If Not CubeExists ARandomCubeWhich 
+ And Not IsSameCube Test Target
+ And IsAllyToCaster Test 
+ Not IsLarger YOfPosition PositionOfCube Test YOfPosition PositionOfCube Target
+Both GainAbility StrengthX 1 GainAbility DoubleTimeX 60
+Description: Every 40 seconds the highest non leader ally which has no other ally as high as them gains 1 Strength and 1 minute of double time End 
+IsUpgradeFrom: Lunar_Strength 60
+End
+
+PERK: Universal_Pack_Frenzy
+Ability: AfterACubeDies If IsAllyToCaster Culprit
+EveryCubeWhich And IsAllyToCaster Test HasNameOfCube Culprit Test
+Both GainAbility StrengthX 1 GainAbility PoisonX 1
+Description: After an ally kills a cube all allies with the same name gain 1 strength and 1 poison. (Dealing 1 more damage and losing 1 hp per minute) End
+IsUpgradeFrom: Pack_Frenzy 60
+End
+
+PERK: Spreading_Glue
+Ability: AfterACubeIsCreated If And IsAllyToCaster Victim Or 
+And IsPlaced IsPositionEmpty PositionInDirectionFromPosition South PositionOfCube Victim
+HasAbilityWithName Culprit Sticky
+TargetCube Victim GainAbility Sticky
+Description: After an ally is placed with empty space below or created by a cube with sticky, it gains sticky, sticky cubes can't move while touching a non sticky cube End
+Unique
+IsUpgradeFrom: Glue 40
+End
+
+PERK: Extreme_Market_Instability
+ObtainAction: ChangeCampaignVariable SHOPPRICEFLUCTUATION DoubleConstant 1
+RemoveAction: ChangeCampaignVariable SHOPPRICEFLUCTUATION DoubleConstant -1
+Description: Shop prices fluctuate by 100% more (Leading to sometimes completely free_or even negative prices) End
+IsUpgradeFrom: Market_Instability 80
+End
+
+PERK: Repeating_Tiny_Phase_Gun
+Ability: EveryXSeconds 2 CreateCubeOnPosition CubeConstant Phasing_Bullet PositionInDirectionFromThis Forwards
+Description: Every 2 seconds your starting leader creates a Phasing_Bullet in front (it deals 3 damage and teleports past single allies) End
+Unique
+IsUpgradeFrom: Tiny_Phase_Gun 160
+End 
+
+PERK: Retaliating_Tiny_Fire_Shield
+Ability: EverySecond EveryCubeWhich IsInShieldArea If IsEnemyToCaster Target TakeXDamage DoubleConstant 2
+ExtraTrigger: AfterThisTakesDamage EveryCubeWhich IsInShieldArea If IsEnemyToCaster Target TakeXDamage DoubleConstant 2
+Description: Every second and after your starting leader takes damage it deals 2 damage to all enemies in a shield-area in front of it End
+IsUpgradeFrom: Tiny_Fire_Shield 40
+End
+
+PERK: Friendly_Team_Tactics
+Ability: BeforeACubeTakesDamage If IsEnemyToCaster Victim
+Both Both Both Both Both
+SetVariable TEMP DoubleConstant 0
+If CubeExists CubeInDirectionFromCube North Culprit ChangeVariable TEMP DoubleConstant 1
+If CubeExists CubeInDirectionFromCube South Culprit ChangeVariable TEMP DoubleConstant 1
+If CubeExists CubeInDirectionFromCube East Culprit ChangeVariable TEMP DoubleConstant 1
+If CubeExists CubeInDirectionFromCube West Culprit ChangeVariable TEMP DoubleConstant 1
+If IsLarger GetVariableOnCube TEMP Caster DoubleConstant 2 NegateX Multiplication EventAmount DoubleConstant -1
+Description: Enemies take double damage from cubes touching at least 3 cubes End
+IsUpgradeFrom: Team_Tactics 40
+End
+
+PERK: Massive_Spider_Genesis
+Ability: EveryMinute IfElse Not IsLarger Currency DoubleConstant -500 XTimes DoubleConstant 25 CreateCubeOnPosition CubeConstant Spider ARandomPosition
+IfElse Not IsLarger Currency DoubleConstant -100 XTimes DoubleConstant 5 CreateCubeOnPosition CubeConstant Spider ARandomPosition
+CreateCubeOnPosition CubeConstant Spider ARandomPosition
+Description: Every minute create 1 spider on a random position. Create 5 if you have 100 or more debt, create 25 if you have 500 or more debt (Spiders are weak poisonous climbing melee attackers) End
+IsUpgradeFrom: Spider_Genesis 100
+End
+
+PERK: Scrappy_Pity_Price
+CampaignAbility: AfterYouReroll Both AddCubeToInventory APRandomCubeInLibraryWhich And Not IsAlreadyInInventory Test Not IsToken Test
+ ReadAPartialScenario Random_Consumable_Reward
+Description: After you reroll also add a random cube to your inventory and gain a random consumable End
+IsUpgradeFrom: Pity_Price 60
+End
+
+PERK: Cascading_Supernatural_Fear
+Ability: AfterACubeTakesDamage If IsAllyToCaster Victim
+Both SetVariable TEMPX DoubleConstant 0
+Until Not IsSmaller GetVariableOnCube TEMPX Caster MaxWorldX 
+ Both TargetCube Caster ChangeVariable TEMPX DoubleConstant 1
+  TargetCube CubeOfPosition PositionFromXAndY GetVariableOnCube TEMPX Caster YOfPosition PositionOfCube Victim
+  If CubeExists CubeInDirectionFromCube Backwards Target
+  If IsAllyToCaster Target
+  SwapWithPosition PositionInDirectionFromPosition Backwards PositionOfCube Target
+Nothing
+Description: After an ally takes damage every ally in its row swaps position with the cube behind it, if there is one, this is ordered so that the ally furthest back will be swapped to the front End
+IsUpgradeFrom: Supernatural_Fear 40
+End
+
+PERK: Many_Random_Perks
+ObtainAction: XTimes DoubleConstant 5 ReadAScenario Random_Perk_Reward
+Description: Gain 5 random perks from the same category as this perk (bottom two slots of perk chests)(you have to take them and no rerolling) then lose this perk End
+RemoveUponObtaining
+IsUpgradeFrom: Random_Perks 80
+End
+
+PERK: Lasting_Moral_Reinforcement
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim
+SetCaster Victim EveryCubeTouchingPosition PositionOfThis If IsAllyToCaster Target
+Both HealXDamage DoubleConstant 2 GainAbility RegenerationX 2
+Description: After an ally is created it heals touching allies for 2 hp and gives them 2 Regeneration End
+IsUpgradeFrom: Moral_Reinforcement 60
+End
+
+PERK: Recovering_Inverted_Movement
+ObtainAction: AddCubeToDeck CubeConstant Movement_Inversion
+RemoveAction: RemoveCubeFromDeck CubeConstant Movement_Inversion
+Ability: EveryMinute EveryCubeWhich And IsAllyToCaster Test HasAbilityWithName Test InvertedMovement HealXDamage DoubleConstant 10
+Description: Start with a cube which for 5 mana inverts the movement of all allies for a minute. Every minute heal all allies with inverted movement for 10 hp End
+Unique
+IsUpgradeFrom: Inverted_Movement 60
+Disableable: false
+End
+
+PERK: Temporal_Fluctuator
+Ability: EveryXMinutes DoubleConstant 2 EveryCubeWhich IsAllyToCaster Test Both GainAbility TemporaryStrength 1 3600
+GainAbility DoubleTimeX 30
+Description: Every 2 minutes every ally gains 1 temporary strength and temporary double time for 30 seconds (dealing 1 more damage and acting twice as fast during that time) End
+IsUpgradeFrom: Fluctuator 60
+End
+
+PERK: Lasting_Fervor
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim
+SetCaster Victim EveryCubeTouchingPosition PositionOfCube Victim If IsAllyToCaster Target
+GainAbility StrengthX 1
+Description: After an ally is created each touching ally gains 1 strength (dealing 1 more damage) End
+IsUpgradeFrom: Fervor 120
+End
+
+PERK: Expensive_Equal_Reinforcements
+Ability: EveryMinute TargetCube FreeCopy TheFirstCubeInHandOfFactionWhich FactionOfThis True
+Both Both SetFaction DoubleConstant 1 AddCubeToHandOfFaction Target DoubleConstant 1
+Both SetFaction DoubleConstant 2 AddCubeToHandOfFaction Target DoubleConstant 2
+Description: Every minute add a copy of the first cube in your hand to your and your opponents hand except it's free and the corresponding faction End
+IsUpgradeFrom: Equal_Reinforcements 80
+End
+
+PERK: Compressing_Sedimentation
+Ability: EveryXSeconds DoubleConstant 10 EveryCubeWhich And IsAllyToCaster CubeInDirectionFromCube South Test IsAllyToCaster Test
+If IsLarger HpOfCube Target HpOfCube CubeInDirectionFromCube South Target
+Both SwapWithPosition PositionInDirectionFromPosition South PositionOfCube Target
+Both GainXExtraHp DoubleConstant 1 ChangeMaxHp DoubleConstant 1
+Description: Every 10 seconds every ally above an ally with less hp swaps positions with the bottom one and gains 1 extra hp and 1 max hp End
+IsUpgradeFrom: Sedimentation 60
+End
+
+PERK: Converted_Far_Space
+WorldAbility: AtTheStartOfTheBattle 
+SetStorage CopyWithAction CubeConstant Obsidian Both Both SetFaction DoubleConstant 1 GainAbility RegenerationX 5 GainAbility EveryXMeleeY 120 2 
+Both XTimes DoubleConstant 2 Both AddColumn DoubleConstant -1
+EveryCubeWhich IsEqual XOfPosition PositionOfCube Test DoubleConstant 1 
+CreateCubeOnPosition Storage PositionFromXAndY DoubleConstant 0 YOfPosition PositionOfCube Target
+Both XTimes DoubleConstant 2 Both AddColumn MaxWorldX
+EveryCubeWhich IsEqual XOfPosition PositionOfCube Test Subtraction MaxWorldX DoubleConstant 1
+CreateCubeOnPosition Storage PositionFromXAndY MaxWorldX YOfPosition PositionOfCube Target
+RemoveThisAbility
+Description: At the start of each battle the world gets 2 columns wider on both sides those columns terrain is made out of allied obsidian at the same height, this obsidian has 5 regeneration and a melee attack End
+IsUpgradeFrom: Far_Space 120
+End
+
+PERK: Replicating_Spice_Bowl
+Ability: Every10Seconds GenerateXMana GetCampaignVariable SPICE
+AbilityText: Gain CVARIABLE SPICE Mana every 10 Seconds End
+CampaignAbility: AfterYouGainAPerk Both ChangeCampaignVariable SPICE DoubleConstant 1
+Both ChangeStartingMaxMana DoubleConstant -5 If X%Chance DoubleConstant 10 ObtainPerk PerkConstant Spice_Bowl
+Description: Generate X \CMANA mana \CN every 10 seconds, where X is how much spice you have. After you gain a perk also gain 1 spice but lose 5 starting max mana and there is a 20% chance to gain another spice bowl \N
+Spice: CVARIABLE SPICE End
+RemoveAction: If Not HasPerkOrUpgrade PerkConstant Spice_Bowl SetCampaignVariable SPICE DoubleConstant 0
+IsUpgradeFrom: Spice_Bowl 60
+End
+
+PERK: Cleanly_Splash_Effect
+Ability: AfterACubeDies If X%Chance DoubleConstant 20 TargetCube CopyOfCube Victim If IsAllyToCaster Victim 
+If Not IsALeader Victim 
+SetCaster Victim Both Both Both CreateCubeOnPosition Target PositionInDirectionFromThis North 
+CreateCubeOnPosition Target PositionInDirectionFromThis East
+CreateCubeOnPosition Target PositionInDirectionFromThis South
+CreateCubeOnPosition Target PositionInDirectionFromThis West 
+Description: After a non leader ally dies there is a 20% chance it creates 4 copies of itself around itself, they still have the same amount of hp End
+IsUpgradeFrom: Splash_Effect 60
+Unique
+End
+
+PERK: Lord_Of_Many_Crows
+Ability: AfterACubeDies If And IsAllyToCaster Victim Not IsSmaller ManaCostOfCube Victim DoubleConstant 50
+Both CreateCubeOnPosition CubeConstant Crow PositionXInfrontYBelowPosition DoubleConstant 0 DoubleConstant -9 PositionOfCube Victim
+Both CreateCubeOnPosition CubeConstant Crow PositionXInfrontYBelowPosition DoubleConstant 0 DoubleConstant -10 PositionOfCube Victim
+CreateCubeOnPosition CubeConstant Crow PositionXInfrontYBelowPosition DoubleConstant 0 DoubleConstant -11 PositionOfCube Victim
+Description: After an ally dies, if its manacost was 50 or greater, create a crow 9, 10 and 11 spaces above it which move towards enemies and dive attack them End
+Unique
+IsUpgradeFrom: Crow_Lord 80
+End
+
+PERK: Repeating_Tiny_Orbital_Laser_Wasp
+Ability: EveryMinute SetStorage CopyWithAction CubeConstant Orbital_Laser_Wasp GainAbility DieAfterX 40
+EveryCubeWhich IsEnemyToCaster Test CreateCubeOnPosition Storage TopPositionAboveCube Target
+Description: Every minute create an Orbital_Laser_Wasp at the top of the world in each column with an enemy except it only gets to fire 4 lasers due to dying after 2/3 of a second End
+Unique
+IsUpgradeFrom: Tiny_Orbital_Laser_Wasp 80
+End
+
+PERK: Flourishing_Four_Leaf_Clover
+Ability: BeforePercentChance If Not IsEnemyToCaster Culprit Both Silent If X%Chance EventAmount NegateX DoubleConstant -100
+TargetCube Culprit ChangeMaxHp DoubleConstant 1
+AbilityText: X% chances of non enemies are rolled an additional time End
+Ability: BeforeACubeTakesDamage If IsEnemyToCaster Victim If X%Chance DoubleConstant 1 NegateX Minus EventAmount
+AbilityText: Before an enemy takes damage 1% chance to double that damage End
+Description: During battles X% chances of non enemies are rolled an additional time and the roller gains 1 max hp if they are a cube. Before an enemy takes damage 1% chance to double that damage. End
+IsUpgradeFrom: Four_Leaf_Clover 100
+End
+
+PERK: Almost_Less_Than_Nothing
+Ability: BeforeACubeTakesDamage If IsEnemyToCaster Victim
+Both If IsSmaller HpOfCube Culprit DoubleConstant 1 NegateX Minus EventAmount
+Both If IsSmaller MaxHpOfCube Culprit DoubleConstant 1 NegateX Minus EventAmount
+Both If IsSmaller ManaCostOfCube Culprit DoubleConstant 1 NegateX Minus EventAmount
+Both If IsSmaller ManaOfFaction FactionOfThis DoubleConstant 1 NegateX Minus EventAmount
+Both If IsSmaller MaxManaOfFaction FactionOfThis DoubleConstant 1 NegateX Minus EventAmount
+Both If IsSmaller RemainingLives DoubleConstant 1 NegateX Minus EventAmount
+Both If IsSmaller Currency DoubleConstant 1 NegateX Minus EventAmount
+If IsSmaller GetCampaignVariable STARTINGHANDSIZE DoubleConstant 1 NegateX Minus EventAmount
+Description: Before an enemy takes damage double the damage for each of the following which is less than 1:
+Culprit's hp, culprit's max hp, culprit's manacost, your mana, your max mana, your lives, your starting handsize, your gold End 
+IsUpgradeFrom: Less_Than_Nothing 300
+End
+
+PERK: Laser_Wheel
+Ability: AfterACubeTakesDamage If IsEnemyToCaster Victim If X%Chance DoubleConstant 90
+Both CreateCubeOnPosition CubeConstant Up_Laser_Beam PositionInDirectionFromPosition North PositionOfCube Victim
+ Both CreateCubeOnPosition CubeConstant Diagonal_Up_Laser_Beam PositionInDirectionFromPosition North PositionInDirectionFromPosition Forwards PositionOfCube Victim
+Both CreateCubeOnPosition CubeConstant Laser_Beam PositionInDirectionFromPosition Forwards PositionOfCube Victim
+ Both CreateCubeOnPosition CubeConstant Diagonal_Down_Laser_Beam PositionInDirectionFromPosition South PositionInDirectionFromPosition Forwards PositionOfCube Victim
+Both CreateCubeOnPosition CubeConstant Down_Laser_Beam PositionInDirectionFromPosition South PositionOfCube Victim
+ Both CreateCubeOnPosition CubeConstant Diagonal_Backwards_Down_Laser_Beam PositionInDirectionFromPosition South PositionInDirectionFromPosition Backwards PositionOfCube Victim
+Both CreateCubeOnPosition CubeConstant Backwards_Laser_Beam PositionInDirectionFromPosition Backwards PositionOfCube Victim
+ CreateCubeOnPosition CubeConstant Diagonal_Backwards_Up_Laser_Beam PositionInDirectionFromPosition North PositionInDirectionFromPosition Backwards PositionOfCube Victim
+Description: After an enemy takes damage 90% chance you create lasers in all 8 directions (including diagonals) from that enemy End
+IsUpgradeFrom: Laser_Cross 60
+End
+
+PERK: Healing_Spatial_Help
+Description: At the start of each battle add 5 Zero_Size cubes into your hand which from all sides act as though they didn't exist and heal every touching ally for 1 hp every 10 seconds End
+Ability: AtTheStartOfTheBattle Both XTimes DoubleConstant 5 
+ AddCubeToHandOfThis CopyWithAction CubeConstant Zero_Size GainAllAbilitiesOfCube CubeConstant Crystal_Wall 
+ RemoveThisAbility
+IsUpgradeFrom: Spatial_Help 60
+End
+
+PERK: Growing_Potted_Cactus
+Ability: AfterACubeDies If IsAllyToCaster Victim TargetCube CubeInDirectionFromCube Backwards Victim
+If And IsAllyToCaster Target Not IsALeader Target GainAbility RetaliateX 1
+Description: After an ally dies in front of a non leader ally the ally in the back gains 1 retaliate (dealing 1 damage to anything which damages it) End
+Unique
+IsUpgradeFrom: Potted_Cactus 100
+End
+
+PERK: Triplicating_Momental_Echo
+Ability: AfterACubeMoves If And IsAllyToCaster Victim IsAllyToCaster Culprit 
+If Not IsALeader Victim
+If X%Chance DoubleConstant 2 SetCaster Victim Both CreateCubeOnPosition Caster OriginalPosition
+CreateCubeOnPosition Caster PositionInDirectionFromPosition North OriginalPosition
+Description: After a non leader ally is moved (by itself or another ally), the moved ally has a 2% chance to create a copy of itself at the original position and above that position End
+IsUpgradeFrom: Momental_Echo 100
+End
+
+PERK: Very_Lucky_Help
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis CubeConstant Perfect_Minute RemoveThisAbility
+Description: At the start of each battle add a Perfect_Minute to your hand, it makes allied X% Chances have an additional 90% Chance to succeed End
+IsUpgradeFrom: Lucky_Help 40
+End
+
+PERK: Cheap_Advanced_Summoning
+Ability: AfterACubeIsCreated If And IsAllyToCaster Victim IsPlaced
+TargetCube Victim GainXExtraHp Division ManaOfFaction FactionOfThis DoubleConstant 10
+Description: After you place a cube it gains extra hp equal to 10% of your remaining \CMANA mana \CN End
+IsUpgradeFrom: Advanced_Summoning 40
+End
+
+PERK: Sizzling_Frying_Pan
+Ability: Knockback
+Ability: Lifesteal
+CampaignAbility: AfterAMapIsGenerated ObtainPerk PerkConstant Frying_Pan
+Description: Your starting leader has knockback and lifesteal, moving cubes away which it damages and healing for half the damage. At the start of each map gain a Frying_Pan End
+IsUpgradeFrom: Frying_Pan 120
+End
+
+PERK: Recursive_Wrapped_Gift
+CampaignAbility: AfterAMapIsGenerated
+Both LosePerkWithScreen PerkConstant Recursive_Wrapped_Gift
+Both ReadAScenario Basic_Perk_Reward
+Both ChangeCurrency DoubleConstant 20
+XTimes DoubleConstant 2 ObtainPerk PerkConstant Wrapped_Gift
+Description: At the start of a new map lose this perk, open a perk chest (choosing one of 3 perks to gain), gain 20 gold and gain 2 unupgraded wrapped gifts End
+IsUpgradeFrom: Wrapped_Gift 60
+End
+
+PERK: Large_Map_Marker
+ObtainAction: XTimes DoubleConstant 5 ReadARandomEvent
+RemoveUponObtaining
+Description: Encounter 5 random events and lose this perk End
+IsUpgradeFrom: Map_Marker 60
+End
+
+PERK: Growing_Connective_Tissue
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim EveryCubeTouchingPosition PositionOfCube Target
+If And CubeExists Target IsLarger HpOfCube Victim HpOfCube Target TargetCube Victim Both GainXExtraHp DoubleConstant 2 GainAbility GrowthX 1
+Description: After an ally is created it gains 2 extra hp and 1 growth for every touching cube with less hp End
+IsUpgradeFrom: Connective_Tissue 60
+End
+
+PERK: Harrowing_Deadly_Slip
+Ability: AfterACubeTakesDamage If And IsEnemyToCaster Victim IsLarger HpOfCube Victim DoubleConstant 0 If X%Chance Division DoubleConstant 300 HpOfCube Victim TargetCube Victim
+ChangeHp Subtraction Division DoubleConstant 1 DoubleConstant 100 HpOfCube Target
+Description: After an enemy takes damage (300/X)% chance to set its hp to 0.01, where X is its remaining hp (ignores enemies with 0 or less hp left) End
+IsUpgradeFrom: Deadly_Slip 60
+End
+
+PERK: Lasting_Hollow_Eyes
+Ability: AfterACubeDies If IsAllyToCaster Victim If Not CubeHasName Victim Spectral_Remnant 
+CreateCubeOnPosition CopyWithAction CubeConstant Spectral_Remnant
+ Both GainXExtraHp Subtraction MaxHpOfCube Victim DoubleConstant 1
+ GainAbility EveryXMeleeY 180 2
+ ARandomPosition
+Description: After a non Spectral_Remnant ally dies create a Spectral_Remnant on a random position with hp equal to the max hp of the dead ally minus 1 and a small melee attack End
+IsUpgradeFrom: Hollow_Eyes 60
+End
+
+PERK: Gigantic_Bag_Of_Tricks
+ObtainAction: XTimes DoubleConstant 25 ReadAScenario Random_Consumable_Reward
+Description: Immediately gain 25 random consumables and lose this perk End
+RemoveUponObtaining
+IsUpgradeFrom: Bag_Of_Tricks 120
+End
+
+PERK: Manyfold_Cursed_Components
+CampaignAbility: AfterYouGainAPerk If IsSmaller ValueOfPerk Target DoubleConstant 0 Both XTimes DoubleConstant 2 ReadAPartialScenario Random_Consumable_Reward
+ReadAPartialScenario Basic_Perk_Reward
+Description: After you gain a curse also gain 2 random consumables and a random perk End
+IsUpgradeFrom: Cursed_Components 120
+End
+
+PERK: Efficient_Absolving_Basin
+ClickAction: If Not BattleOngoing ReadAScenario Sell_Any_Curses
+Description: Click this to sell any number of curses of your choice by losing their negative value in gold End
+Unique
+IsUpgradeFrom: Absolving_Basin 60
+End
+
+PERK: Pure_Perk_Mimic
+ClickAction: If Not BattleOngoing If PerkExists ARandomPerkInInventoryWhich And Not PerkHasNameOfPerk Test PerkConstant Pure_Perk_Mimic Not PerkIsUnique Test
+  Both LoseThisPerk ReadAScenario Pure_Perk_Mimic
+Description: Click this perk outside of battles to lose Pure_Perk_Mimic and choose a non unique perk in your inventory to copy End
+NoBalanceCap
+IsUpgradeFrom: Perk_Mimic 60
+End
+
+SCENARIO: Pure_Perk_Mimic
+Info: Copy a perk End
+PerkImage: Perk_Mimic
+End
+PERK_SELECTION: 
+TYPE: 2
+USES: 1
+RESULTPERK: Target
+ACTION: ObtainPerk Target
+PERKREQ: Not PerkHasNameOfPerk Test PerkConstant Pure_Perk_Mimic
+BACKOUT: false
+NOLEAVE
+NAME: Pure_Perk_Mimic
+INFO: Copy a perk End
+VERB: copy
+End
+SEnd
+
+PERK: Pure_Soap
+CampaignAbility: AfterYouGainAPerk If IsSmaller ValueOfPerk Target DoubleConstant 0
+ Both LosePerkWithScreen PerkConstant Pure_Soap 
+ Both LosePerk Target
+ XTimes 6 LosePerkWithScreen ARandomPerkInInventoryWhich IsSmaller ValueOfPerk Test DoubleConstant 0 
+Description: After you gain a curse lose this perk, the gained curse and also lose 6 random curses End
+IsUpgradeFrom: Soap 80
+End
+
+PERK: Shiny_Copper_Mirror
+CampaignAbility:  AfterYouGainAPerk If IsLarger GetCampaignVariable COPPER_MIRROR DoubleConstant 0
+If Not PerkIsUnique Target
+Both ChangeCampaignVariable COPPER_MIRROR DoubleConstant -1 ObtainPerk Target 
+WorldAbility: AfterYouWin ChangeCampaignVariable COPPER_MIRROR DoubleConstant 1
+Description: For each won battle gain an additional copy of the next non unique perk you get \N 
+Replications Stored: CVARIABLE COPPER_MIRROR End
+RemoveAction: If Not HasPerkOrUpgrade PerkConstant Copper_Mirror SetCampaignVariable COPPER_MIRROR DoubleConstant 0
+IsUpgradeFrom: Copper_Mirror 220
+End
+
+PERK: Forged_Chronomancers_Bauble
+Ability: AfterACubeTakesDamage If IsEnemyToCaster Victim If Not HasAbilityWithName Victim Slowed
+TargetCube Victim GainAbility Slowed 30
+Description: After an enemy takes damage it become slowed by 30% forever unless it's already slowed End
+Unique
+IsUpgradeFrom: Chronomancers_Bauble 100
+End
+
+PERK: Electrifying_Lightning_Coil
+Ability: AfterACubeTakesDamage If IsEnemyToCaster Victim 
+If X%Chance DoubleConstant 20 TargetCube Victim Both GainAbility Zap GainAbility ReturningZap 1
+Description: After an enemy takes damage 20% chance that enemy deals 1 damage to another random enemy in range of 7 spaces a second later, the enemy will regain ZAP every minute if without ZAP End
+IsUpgradeFrom: Lightning_Coil 80
+End
+
+PERK: Large_Scale_Bottling_Plant
+CampaignAbility: AfterYouLoseAPerk If Not PerkHasNameOfPerk Target PerkConstant Empty_Bottle ObtainPerk PerkConstant Empty_Bottle
+CampaignAbility: BeforeYouTakeAStep If HasPerk PerkConstant Empty_Bottle Both ChangeCampaignVariable BOTTLING_PLANT DoubleConstant 1
+If IsLarger GetCampaignVariable BOTTLING_PLANT DoubleConstant 2 Both
+ChangeCampaignVariable BOTTLING_PLANT DoubleConstant -3
+EveryPerkInInventoryWhich PerkHasNameOfPerk Test PerkConstant Empty_Bottle
+ Both LosePerk Target ReadAScenario Random_Consumable_Reward
+Description: After you lose a perk (except empty bottles) gain an empty bottle, every 3 map steps turn all empty bottles into random consumables \N 
+Steps Taken: CVARIABLE BOTTLING_PLANT End
+RemoveAction: If Not HasPerkOrUpgrade PerkConstant Bottling_Plant SetCampaignVariable BOTTLING_PLANT DoubleConstant 0
+IsUpgradeFrom: Bottling_Plant 120
+End
+
+PERK: Wide_Moon_Ray
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim SetCaster Victim 
+EveryCubeWhich And IsEnemyToCaster Test IsSmaller AbsoluteAmount Subtraction XOfPosition PositionOfCube Caster XOfPosition PositionOfCube Test DoubleConstant 2
+TakeXDamage DoubleConstant 1
+Description: After an ally is created it deals 1 damage to every enemy in its column or the columns next to that column End
+IsUpgradeFrom: Moon_Ray 60
+End
+
+PERK: Harsh_Sandpaper
+Ability: AfterACubeMoves If IsAllyToCaster Victim SetCaster Victim Both Both Both
+TargetCube CubeOfPosition PositionInDirectionFromPosition North OriginalPosition If IsEnemyToCaster Target TakeXDamage DoubleConstant 2
+TargetCube CubeOfPosition PositionInDirectionFromPosition East OriginalPosition If IsEnemyToCaster Target TakeXDamage DoubleConstant 2
+TargetCube CubeOfPosition PositionInDirectionFromPosition South OriginalPosition If IsEnemyToCaster Target TakeXDamage DoubleConstant 2
+TargetCube CubeOfPosition PositionInDirectionFromPosition West OriginalPosition If IsEnemyToCaster Target TakeXDamage DoubleConstant 2
+Description: After an ally moves from next to an enemy it deals 2 damage to that enemy End
+IsUpgradeFrom: Sandpaper 60
+End
+
+PERK: Nuclear_Killstreak
+Ability: AfterACubeDies If IsAllyToCaster Culprit TargetCube Culprit
+Both ChangeVariable KILLSTREAK DoubleConstant 1
+Both RemoveAbilityWithName KillstreakDecay
+Both GainAbility KillstreakDecay
+If IsEqual GetVariableOnCube KILLSTREAK Target DoubleConstant 30 
+TargetCube ARandomCubeWhich And IsEnemyToCaster Test IsALeader Test
+ IfElse CubeExists CubeInDirectionFromCube North Target 
+   TargetCube CubeInDirectionFromCube North Target Both Exile CreateCubeOnPosition CubeConstant Tiny_Nuclear_Bomb PositionOfCube Target
+  CreateCubeOnPosition CubeConstant Tiny_Nuclear_Bomb PositionInDirectionFromPosition North PositionOfCube Target
+ExtraTrigger: BeforeACubeTakesDamage If IsAllyToCaster Culprit 
+NegateX RoundedDown Division GetVariableOnCube KILLSTREAK Culprit DoubleConstant -3
+Description: After an ally kills it gains 1 killstreak which lasts until 10 seconds without killing, allies deal +1 damage for every 3 killstreak they have, 
+ reaching 30 via this perk creates a nuke above a random enemy leader, if it's blocked exile the blocking cube End
+IsUpgradeFrom: Killstreak 60
+End
+
+PERK: Selfigniting_Burning_Coal
+Ability: AfterACubeTakesDamage If IsEnemyToCaster Victim If IsLarger EventAmount DoubleConstant 0
+If X%Chance DoubleConstant 40 TargetCube Victim GainAbility Burning
+Description: After an enemy takes more than 0 damage 40% chance to set it on fire causing it to deal 1 damage to touching cubes and itself after 5 seconds End
+IsUpgradeFrom: Burning_Coal 60
+End
+
+PERK: Multiplying_Ring_Of_Shields
+Ability: AtTheStartOfTheBattle AddCubeToHandOfFaction CubeConstant Ring_Of_Shields FactionOfThis
+ExtraTrigger: EveryXMinutes DoubleConstant 5 AddCubeToHandOfFaction CubeConstant Ring_Of_Shields FactionOfThis
+Description: Start with a Ring_Of_Shields which makes a non leader create shields around it every 5 seconds and is returned when the cube dies, also gain another ring every 5 minutes  End
+IsUpgradeFrom: Ring_Of_Shields 40
+End
+
+PERK: Exacting_Strange_Thoughts
+Ability: AfterAnotherAllyIsCreated
+If Not CubeExists ARandomCubeInHandOfFactionWhich FactionOfThis HasNameOfCube Test Victim
+If X%Chance DoubleConstant 50
+AddCubeToHandOfThis CopyWithAction Victim ChangeManaCost Subtraction DoubleConstant 10 ManaCostOfCube Target
+Description: After an ally is created if no cube with the same name is in your hand 60% chance to add a copy to your hand which costs exactly 10 End
+IsUpgradeFrom: Strange_Thoughts 60
+End
+
+PERK: Grand_Looming_Monolith
+Ability: AfterACubeTakesDamage If IsAllyToCaster Victim If IsEnemyToCaster Culprit If Not IsALeader Victim If IsLarger HpOfCube Victim HpOfCube Culprit
+SetCaster Victim TargetCube Culprit TakeXDamage Subtraction HpOfCube Caster HpOfCube Target
+Description: After a non leader ally takes damage from an enemy with less hp it deals X damage back, where X is equal to how much more hp it has End
+IsUpgradeFrom: Looming_Monolith 100
+End
+
+PERK: Asphyxiating_Needle_Smoke
+Ability: AfterACubeMoves If IsEnemyToCaster Victim SetCaster Victim TargetCube Victim TakeXDamage Division DoubleConstant 1 DoubleConstant 10
+Description: After an enemy moves it deals 0.1 damage to itself End
+IsUpgradeFrom: Needle_Smoke 100
+End 
+
+PERK: Replenishing_Resilient_Leaf
+Ability: BeforeACubeTakesDamage If IsAllyToCaster Victim If IsLarger EventAmount DoubleConstant 0 
+Cooldown DoubleConstant 600 NegateX EventAmount
+ExtraTrigger: AfterACubeTakesDamage If IsAllyToCaster Victim If IsEqual EventAmount DoubleConstant 0 AccelerateX DoubleConstant 60
+Description: Before an ally takes more than 0 damage negate that damage to 0, cooldown of 10 seconds. After an ally takes 0 damage 1 second happens for your starting leader End
+IsUpgradeFrom: Resilient_Leaf 80
+PerkBarSplit
+End
+
+PERK: Splintering_Static_Field
+Ability: AfterACubeMoves If IsEnemyToCaster Victim If IsLarger HpOfCube Victim DoubleConstant 0
+If IsSmaller XOfPosition PositionOfCube Victim DoubleConstant 9 TargetCube Victim
+Cooldown DoubleConstant 3600 Both TakeXDamage DoubleConstant 10
+EveryCubeWhich And IsEnemyToCaster Test HasNameOfCube Test Target TakeXDamage DoubleConstant 2
+Description: After an enemy with more than 0 hp moves, if it's now in one of the first 9 columns your starting leader deal 10 damage to it and 2 damage to every other enemy with the same name, 1 minute cooldown End
+IsUpgradeFrom: Static_Field 80
+PerkBarSplit
+End
+
+PERK: Rapid_Double_Dagger
+Ability: AfterACubeDies If IsEnemyToCaster Victim Cooldown DoubleConstant 60
+SetCaster Culprit TargetCube ARandomCubeWhich And IsEnemyToCaster Test HasNameOfCube Test Victim Die
+Description: After an enemy dies its culprit also kills a random enemy with the same name, 1 second cooldown End
+IsUpgradeFrom: Double_Dagger 160
+End
+
+PERK: Weakening_Poisoned_Food
+Ability: AfterACubeTakesDamage If IsAllyToCaster Victim If IsEnemyToCaster Culprit TargetCube Culprit GainAbility PoisonX 3
+ExtraTrigger: BeforeACubeTakesDamage If IsEnemyToCaster Culprit If HasAbilityWithName Culprit PoisonX NegateX DoubleConstant 1
+Description: After an enemy damages an ally that enemy gains 3 poison, losing 1 hp 3 times per minute, poisoned enemies deal 1 less damage End
+IsUpgradeFrom: Poisoned_Food 120
+End
+
+PERK: Efficient_Impatience
+Ability: AtTheStartOfTheBattle EveryCubeInHandOfFactionWhich FactionOfThis True Both ChangeManaCost Multiplication DoubleConstant 2 Division ManaCostOfCube Target DoubleConstant -3
+GainAbilityText AfterThisIsCreated If IsPlaced GenerateXMana Minus ManaCostOfCube Target
+After this is placed this generates negative \CMANA mana \CN equal to its mana cost End
+Description: At the start of each battle trisect the cost of every cube in your hand, when you place them they generate negative \CMANA mana \CN equal to their mana cost End
+IsUpgradeFrom: Impatience 160
+End
+
+PERK: Collecting_Crying_Chamber
+WorldAbility: AfterYouLose XTimes 2 ObtainPerk PerkConstant Tear
+Description: After you lose a battle gain 2 tears, they each can be used to remove 1 curse of your choice End
+IsUpgradeFrom: Crying_Chamber 80
+End
+
+PERK: Murderous_Abomination_Soup
+Ability: AfterACubeDies If Not IsEnemyToCaster Culprit
+If Not IsALeader Culprit
+Cooldown DoubleConstant 600
+TargetCube Culprit Both GainAllAbilitiesOfCube Victim
+RemoveAbilityWithName ArmorX
+Description: After a non enemy non leader kills a cube the killer gains all abilities of the victim and loses all armor, cooldown 10 seconds End
+IsUpgradeFrom: Abomination_Soup 80
+End
+
+PERK: Implicit_Ritual_Chalk
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim GainAllAbilitiesOfCube CubeConstant Summoning_Circle
+Description: After an ally is created it gains all abilities of a Summoning_Circle End
+IsUpgradeFrom: Ritual_Chalk 80
+Unique
+End
+
+PERK: Overclocked_Perk_Gear
+Ability: EveryTick If Not IsSameCube Caster Culprit EveryXTimes 180 Both GenerateXMana DoubleConstant -3 Both AccelerateX DoubleConstant 240
+TargetCube WorldCube AccelerateX DoubleConstant 240
+Description: Every 3 normal seconds your starting leader generates -3 mana then 4 additional seconds happen for it and the world effects (this includes curses and gravity) End
+IsUpgradeFrom: Perk_Gear 60
+End
+
+PERK: Calling_Hungry_Help
+Description: Start each battle with a free flying Sky_Hungerer which moves back and forth and lifts enemies upwards to devour them, after it kills it creates a copy of itself in the victims place End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis CopyWithAction FreeCopy CubeConstant Sky_Hungerer
+ GainAbilityText AfterThisKills CreateCubeOnPosition Caster PositionOfCube Victim After this kills a cube, this creates a copy of itself in its place End
+RemoveThisAbility
+IsUpgradeFrom: Hungry_Help 120
+End
+
+PERK: Spreading_Blue_Rot
+Ability: Every30Seconds EveryCubeWhich IsAllyToCaster Test Both GainAbility PoisonX 1
+IfElse IsALeader Target GenerateXMana Addition DoubleConstant 20 GetStackingOfAbilityOnCube PoisonX Target
+GenerateXMana GetStackingOfAbilityOnCube PoisonX Target
+Description: Every 30 seconds every ally gains 1 poison and generates mana equal to its poison + 20 if its a leader End
+IsUpgradeFrom: Blue_Rot 60
+End
+
+PERK: Quintuple_Shot
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If Not IsPlaced
+If X%Chance DoubleConstant 60 SetCaster Victim Both CreateCubeOnPosition Caster PositionInDirectionFromPosition North PositionOfThis
+Both CreateCubeOnPosition Caster PositionInDirectionFromPosition East PositionOfThis
+Both CreateCubeOnPosition Caster PositionInDirectionFromPosition South PositionOfThis
+CreateCubeOnPosition Caster PositionInDirectionFromPosition West PositionOfThis
+Description: After an ally is created but not placed 60% chance it creates a copy of itself in all 4 touching positions End
+IsUpgradeFrom: Triple_Shot 80
+End
+
+PERK: Secret_Gun_Gun
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If X%Chance DoubleConstant 20
+TargetCube Victim IfElse HasAbilityWithName Target ProjectileX GainAbility EveryXCreateCubeInfront TimeConstant 60 CubeConstant Bullet
+GainAbility EveryXCreateCubeInfront TimeConstant 1020 CubeConstant Bullet
+Description: After an ally is created 20% chance it shoots a 2 damage projectile bullet forwards every 17 seconds, if that ally is a projectile it shoots every second End
+IsUpgradeFrom: Secret_Gun 80
+End
+
+PERK: Massive_Reinforced_Plating
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If X%Chance HpOfCube Victim
+TargetCube Victim GainXExtraHp Multiplication DoubleConstant 2 HpOfCube Victim
+ExtraTrigger: AfterACubeTakesDamage If IsAllyToCaster Culprit If IsLarger HpOfCube Culprit DoubleConstant 100 NegateX Minus EventAmount 
+Description: After an ally is created X% chance to triple its hp, where X is its hp, allies with more than 100 hp deal double damage End
+IsUpgradeFrom: Reinforced_Plating 60
+End
+
+PERK: Small_Sun
+Ability: AfterACubeTakesDamage If IsAllyToCaster Victim
+TargetCube Victim SetCaster Victim Both EveryCubeInRadiusXAroundTarget EventAmount If IsEnemyToCaster Target TakeXDamage DoubleConstant 1
+ CreateAoEParticlesColourRadiusPosition DoubleConstant 16738816 EventAmount PositionOfThis
+Description: After an ally takes damage it deals 1 damage to all enemies within range of X, where X is the amount of damage (1 is touching) End
+IsUpgradeFrom: Miniature_Sun 160
+End
+
+PERK: Medium_Sun
+Ability: AfterACubeTakesDamage If IsAllyToCaster Victim
+TargetCube Victim SetCaster Victim Both EveryCubeInRadiusXAroundTarget Addition DoubleConstant 1 EventAmount If IsEnemyToCaster Target TakeXDamage DoubleConstant 2
+ CreateAoEParticlesColourRadiusPosition DoubleConstant 16738816 Addition DoubleConstant 1 EventAmount PositionOfThis
+Description: After an ally takes damage it deals 2 damage to all enemies within range of X+1, where X is the amount of damage (1 is touching) End
+IsUpgradeFrom: Small_Sun 200
+End
+
+PERK: Large_Sun
+Ability: AfterACubeTakesDamage If Or IsEnemyToCaster Victim IsAllyToCaster Victim
+TargetCube Victim SetCaster Victim Both EveryCubeInRadiusXAroundTarget Addition DoubleConstant 1 EventAmount If IsEnemy Target TakeXDamage DoubleConstant 2
+ CreateAoEParticlesColourRadiusPosition DoubleConstant 16738816 Addition DoubleConstant 1 EventAmount PositionOfThis
+Description: After an ally or enemy takes damage it deals 2 damage to all of the player's enemies within range of X+1, where X is the amount of damage End
+IsUpgradeFrom: Medium_Sun 400
+End
+
+PERK: Automatic_Time_Pipes
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim
+If IsAllyToCaster TheFirstCubeInDirectionFromPositionWhich Backwards PositionOfCube Victim True
+XTimes DoubleConstant 5 TargetCube TheFirstCubeInDirectionFromPositionWhich Backwards PositionOfCube Victim True
+CreateCubeOnPosition CubeConstant Time_Pipe PositionInDirectionFromPosition Forwards PositionOfCube Target
+Description: After an ally is created any number of empty spaces in front of an ally create pipes connecting the two, will create at most 5 pipes, pipes accelerate the front ally End
+IsUpgradeFrom: Time_Pipes 40
+End
+
+PERK: Ciclic_Wealth
+CampaignAbility: AfterYouGainAPerk ChangeCurrency DoubleConstant 15
+CampaignAbility: AfterYouGainOrLoseCurrency If Not IsSmaller EventAmount DoubleConstant 0
+If Not WorldExists If IsSmaller AmountOfPerksInInventoryWhich True 100
+ If X%Chance DoubleConstant 15 ReadAScenario Random_Any_Perk_Reward
+Description: After you gain a perk gain 10 gold, after you gain gold outside of battles, if you have less than 100 perks, 10% chance to gain a random perk of any type End
+IsUpgradeFrom: Bag_Of_Gold 160
+Unique
+End
+
+PERK: Free_Thoughts
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich FactionOfThis True 
+Both ChangeMaxManaOfFaction ManaCostOfCube Target FactionOfThis 
+ GenerateXMana ManaCostOfCube Target
+RemoveThisAbility
+Description: At the start of each battle for each cube in your hand gain max mana and mana equal to its manacost End
+IsUpgradeFrom: Heavy_Thoughts 360
+End
+
+PERK: Enraged_Bee_Hive
+Ability: AfterACubeTakesDamage If X%Chance DoubleConstant 30 Both 
+If And IsAllyToCaster Victim Not CubeHasName Victim Bee SetCaster Victim CreateCubeOnPosition CubeConstant Bee ARandomLeftPosition
+If And IsAllyToCaster Culprit Not CubeHasName Culprit Bee SetCaster Culprit CreateCubeOnPosition CubeConstant Bee ARandomLeftPosition
+Description: After a non bee ally takes or deals damage 30% chance it creates a 2 damage homing bee projectile on a random position of the left side End
+IsUpgradeFrom: Bee_Hive 160
+End
+
+PERK: Unstable_Manifold_String
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If X%Chance DoubleConstant 10 If Not HasAbilityWithName Victim Manifold
+SetCaster Victim TargetCube Victim Both GainAllAbilitiesOfCube Target
+If X%Chance DoubleConstant 20 GainAbility Manifold
+Description: After an ally is created 10% chance it grants itself an additional copy of all of its abilities, then 20% chance it can't gain abilities from manifold string again End
+IsUpgradeFrom: Manifold_String 80
+End
+
+PERK: Shield_Generator 
+Ability: AtTheStartOfTheBattle Both RemoveThisAbility ChangeCampaignVariable SHIELDGENERATOR DoubleConstant 50
+Ability: BeforeACubeTakesDamage If IsAllyToCaster Victim If IsCubeOnLeftSide Victim
+ If IsLarger EventAmount DoubleConstant 0
+IfElse Not IsSmaller EventAmount GetCampaignVariable SHIELDGENERATOR
+ Both NegateX GetCampaignVariable SHIELDGENERATOR
+ SetCampaignVariable SHIELDGENERATOR DoubleConstant 0
+ Both ChangeCampaignVariable SHIELDGENERATOR Minus EventAmount
+ NegateX EventAmount
+ExtraTrigger: EveryXMinutes DoubleConstant 2 ChangeCampaignVariable SHIELDGENERATOR DoubleConstant 50
+Description: Negate the first 50 damage dealt to allies on the left side of the battlefield, resets at the start of each battle and gains 50 more every 2 minutes \N 
+Shield Left: CVARIABLE SHIELDGENERATOR End
+WorldAbility: AfterEndOfTheBattle SetCampaignVariable SHIELDGENERATOR DoubleConstant 0
+AbilityText: At the end of the battle set shields to 0 End
+IsUpgradeFrom: Faulty_Shield_Generator 80
+End
+
+PERK: Lead_Ball_And_Chain
+Ability: BeforeACubeTakesDamage If Not IsLarger WorldTime TimeConstant 10800 NegateX DoubleConstant 100
+Description: During the first three minutes of each battle, before a cube deals damage reduce that damage by 100 End
+IsUpgradeFrom: Ball_And_Chain 80
+End
+
+PERK: Multiplied_False_Mirror
+Ability: AfterACubeMoves If IsEnemyToCaster Victim 
+If IsPositionEmpty PositionInDirectionFromPosition EventDirection PositionOfCube Victim 
+If X%Chance DoubleConstant 10 CreateCubeOnPosition CopyWithAction Victim
+ Both SetFaction FactionOfThis
+ Both GainAbility Slowed 20
+ GainAbility PoisonX 1
+ PositionInDirectionFromPosition EventDirection PositionOfCube Victim 
+Description: After an enemy moves 10% chance to create an allied copy of it ahead of it, except the copy is slowed by 20% and loses 1 hp per minute End
+PerkBarSplit
+IsUpgradeFrom: False_Mirror 80
+End
+
+PERK: Generalized_Strange_Magnet
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim
+If Or Or Or Not IsPlaced HasAbilityWithName Victim ProjectileX HasAbilityWithName Victim Projectile HasAbilityWithName Victim EveryXMeleeY
+TargetCube Victim GainAbility HomingX 60
+Description: After an ally is created, if it has melee or projectile or wasn't placed, it gains homing, moving towards a random enemy every second End
+IsUpgradeFrom: Strange_Magnet 80
+End
+
+PERK: Reverent_Gift_To_The_Stars
+Ability: AfterACubeTakesDamage If IsAllyToCaster Culprit 
+If X%Chance DoubleConstant 30 SetCaster Culprit 
+TargetCube Caster Both MoveInDirection Backwards
+CreateCubeOnPosition CubeConstant Star_Gift PositionInDirectionFromPosition North PositionOfThis
+Description: After an ally deals damage 30% chance it moves backwards and creates a Star_Gift above itself, which slowly moves upwards and gives 3 \CMANA mana \CN or 3 max mana should it reach the top End
+IsUpgradeFrom: Gift_To_The_Stars 120
+End
+
+PERK: Parasitic_Bone_Meat
+Ability: AfterACubeTakesDamage If IsAllyToCaster Victim If Not IsALeader Victim
+If IsSmaller GetStackingOfAbilityOnCube RegenerationX Victim DoubleConstant 20
+TargetCube Victim GainAbility RegenerationX 1
+Description: After a non leader ally takes damage, if it has less than 20 regeneration, it gains 1 regeneration (healing 1 hp per minute) End
+IsUpgradeFrom: Bone_Meat 60
+End
+
+PERK: Eye_Ribbon_Seeds
+Ability: Every30Seconds EveryCubeWhich And IsAllyToCaster Test 
+ And CubeExists CubeInDirectionFromCube South Test
+ Or IsEqual DoubleConstant 0 FactionOfCube CubeInDirectionFromCube South Test
+ CubeHasName CubeInDirectionFromCube South Test Plant_Stem
+If X%Chance DoubleConstant 40 SetCaster Target
+Both MoveInDirection North 
+Randomly CreateCubeOnPosition CubeConstant Plant_Stem PositionInDirectionFromPosition South PositionOfThis
+CreateCubeOnPosition CubeConstant Plant_Eye PositionInDirectionFromPosition South PositionOfThis
+Description: Every 30 seconds every ally above a neutral or Plant_Stem cube has a 40% chance to move upwards and create a Plant_Stem or a Plant_Eye below End
+IsUpgradeFrom: Strange_Seeds 120
+End
+
+PERK: Repeating_Mana_Bomb
+Ability: BeforeManaIsGenerated If IsEnemyToCaster Culprit 
+If And Not IsSmaller % WorldTime 36000 Multiplication 3600 7
+ Not IsLarger % WorldTime 36000 Multiplication 3600 9
+NegateX EventAmount
+Description: Enemy cubes generate 0 mana from the 7th to 9th minute and every 10 minutes there after End
+IsUpgradeFrom: Mana_Bomb 60
+Unique
+End
+
+PERK: Doubled_Dangling_Chains
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim Both
+If IsAllyToCaster TheFirstCubeInDirectionFromPositionWhich North PositionOfCube Victim True
+If IsPositionEmpty PositionInDirectionFromPosition North PositionOfCube Victim 
+Both TargetCube TheFirstCubeInDirectionFromPositionWhich North PositionOfCube Victim True GainAbility Chained
+Both XTimes DoubleConstant 5
+ TargetCube TheFirstCubeInDirectionFromPositionWhich North PositionOfCube Victim True
+ CreateCubeOnPosition CubeConstant Chain PositionInDirectionFromPosition South PositionOfCube Target
+TargetCube Victim GainAbility Chained
+If IsAllyToCaster TheFirstCubeInDirectionFromPositionWhich South PositionOfCube Victim True
+If IsPositionEmpty PositionInDirectionFromPosition South PositionOfCube Victim 
+Both TargetCube TheFirstCubeInDirectionFromPositionWhich South PositionOfCube Victim True GainAbility Chained
+Both XTimes DoubleConstant 5
+ TargetCube TheFirstCubeInDirectionFromPositionWhich South PositionOfCube Victim True
+ CreateCubeOnPosition CubeConstant Chain PositionInDirectionFromPosition North PositionOfCube Target
+TargetCube Victim GainAbility Chained
+Description: After an ally is created some number of empty spaces below or above an ally create chains connecting the two and chain them together, will create at most 5 chains, 
+chains hold the bottom cube and transfer movement downwards End
+IsUpgradeFrom: Dangling_Chains 60
+End
+
+PERK: Rapid_Tin_Puzzle_Box
+Ability: EverySecond
+EveryCubeWhich And IsAllyToCaster Test 
+And IsAllyToCaster CubeInDirectionFromCube South Test
+And IsAllyToCaster CubeInDirectionFromCube Forwards Test
+IsAllyToCaster CubeInDirectionFromCube South CubeInDirectionFromCube Forwards Test
+If And IsAllyToCaster CubeInDirectionFromCube South Target
+And IsAllyToCaster CubeInDirectionFromCube Forwards Target
+IsAllyToCaster CubeInDirectionFromCube South CubeInDirectionFromCube Forwards Target
+Both SwapWithPosition PositionInDirectionFromPosition South PositionOfCube Target
+Both SwapWithPosition PositionInDirectionFromPosition Forwards PositionOfCube Target
+Both SwapWithPosition PositionInDirectionFromPosition North PositionOfCube Target
+GainXExtraHp DoubleConstant 1
+Description: Every second every ally which forms a 2x2 with allies in front and below them swaps through them to rotate the entire 2x2 clockwise then gains 1 extra hp End
+IsUpgradeFrom: Tin_Puzzle_Box 60
+End
+
+PERK: Permanent_Portal_Movement
+Ability: BeforeACubeMoves If IsAllyToCaster Victim If IsSameCube Culprit Victim If X%Chance DoubleConstant 10
+ChangeIncomingAdjacency PositionInDirectionFromPosition EventDirection PositionOfCube Victim EventDirection
+ PositionInDirectionFromPosition EventDirection PositionInDirectionFromPosition EventDirection PositionOfCube Victim
+Description: Before an ally moves itself 10% chance it creates a portal in that direction allowing it to move skipping one space End 
+IsUpgradeFrom: Portal_Movement 120
+End
+
+PERK: Packed_Ammo_Box
+Ability: EveryMinute ChangeCampaignVariable AMMO DoubleConstant 10
+ExtraTrigger: BeforeACubeTakesDamage If IsEnemyToCaster Victim
+XTimes RoundedDown Division GetCampaignVariable AMMO DoubleConstant 10
+ Both NegateX Minus EventAmount 
+ ChangeCampaignVariable AMMO DoubleConstant -1
+Description: Every minute gain 10 ammo, Before an enemy takes damage for every 10 ammo use 1 ammo to double that damage. \N
+AMMO: CVARIABLE AMMO End
+WorldAbility: AfterEndOfTheBattle SetCampaignVariable AMMO DoubleConstant 0
+AbilityText: At the end of the battle reset ammo End
+IsUpgradeFrom: Ammo_Box 120
+End
+
+PERK: Chaining_Overkill
+Ability: AfterACubeDies If IsEnemyToCaster Victim If Not IsLarger HpOfCube Victim DoubleConstant 0
+SetCaster Victim TargetCube ARandomCubeWhich IsAllyToCaster Test TakeXDamage Minus HpOfCube Caster
+Description: After an enemy dies if it has 0 or less hp it deals that negative amount as damage to another enemy End
+IsUpgradeFrom: Overkill 80
+End
+
+PERK: Certain_Mirror_Shard
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If Not HasNameOfCube Victim Culprit SetCaster Victim CreateCubeOnPosition Caster ARandomLeftPosition
+Description: After an ally is created by a cube with a different name it creates a copy of itself on a random position on the left side of the battlefield End
+IsUpgradeFrom: Mirror_Shard 140
+End
+
+PERK: Increasing_Dagger_Rain
+Ability: AtTheStartOfTheBattle Both RemoveThisAbility GainAbilityText 
+EverySecond CreateCubeOnPosition NeutralCopy CubeConstant Falling_Dagger ARandomTopPosition
+Every second create a neutral 3 damage falling dagger projectile on a random position at the top of the map End
+Ability: EveryXMinutes DoubleConstant 5 GainAbilityText
+ EverySecond CreateCubeOnPosition NeutralCopy CubeConstant Falling_Dagger ARandomTopPosition
+ Every second create a neutral 3 damage falling dagger projectile on a random position at the top of the map End
+Description: At the start of each battle and every 5 minutes gain: Every second create a neutral 3 damage Falling_Dagger projectile on a random position at the top of the battlefield End
+IsUpgradeFrom: Dagger_Rain 60
+End
+
+PERK: Very_Harsh_Judgement
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim If IsLarger MaxHpOfCube Target DoubleConstant 0
+GainXExtraHp DoubleConstant 5
+ExtraTrigger: AfterACubeTakesDamage If Not IsEqual FactionOfCube Culprit FactionOfCube Victim
+TargetCube Culprit If Not HasAbilityWithName Target Guilty Both GainAbility Guilty ChangeHp DoubleConstant -4
+Description: Created allies with more than 0 hp gain 5 extra hp, the first time a cube deals damage to one of its enemies it loses 4 hp End
+IsUpgradeFrom: Harsh_Judgement 60
+End
+
+PERK: Infestation_Of_Sky_Vines
+Ability: EveryMinute Both CreateCubeOnPosition CubeConstant Sky_Vine_Bulb ARandomTopPosition
+EveryCubeWhich And And IsAllyToCaster Test IsPositionEmpty PositionInDirectionFromPosition South PositionOfCube Test
+Not CubeHasName Test Sky_Vine_Bulb
+CreateCubeOnPosition CubeConstant Sky_Vine_Bulb PositionInDirectionFromPosition South PositionOfCube Target
+Description: Every minute create a sky vine at a random position at the top of the battlefield and below every non Sky_Vine_Bulb ally. (Sky vines grow downwards and generate 1 mana every 30 seconds) End
+IsUpgradeFrom: Sky_Vines 60
+End
+
+PERK: Incomplete_Puzzle_Pieces
+Ability: AfterACubeMoves If IsAllyToCaster Victim 
+Both Both Both Both Both
+SetVariable TEMP DoubleConstant 0
+If IsAllyToCaster CubeInDirectionFromCube North Victim ChangeVariable TEMP DoubleConstant 1
+If IsAllyToCaster CubeInDirectionFromCube East Victim ChangeVariable TEMP DoubleConstant 1
+If IsAllyToCaster CubeInDirectionFromCube South Victim ChangeVariable TEMP DoubleConstant 1
+If IsAllyToCaster CubeInDirectionFromCube West Victim ChangeVariable TEMP DoubleConstant 1
+If IsLarger GetVariableOnCube TEMP Caster DoubleConstant 1
+TargetCube Victim GainXExtraHp DoubleConstant 2
+Description: After an ally moves if it's now touching at least 2 allies it gains 2 extra hp End
+IsUpgradeFrom: Puzzle_Pieces 80
+End
+
+PERK: Persistent_Bubble_Wand
+Ability: EverySecond 
+Both Secret ChangeVariable BUBBLEY DoubleConstant 1
+Both If IsLarger GetVariableOnCube BUBBLEY Caster MaxWorldY Secret SetVariable BUBBLEY DoubleConstant 0
+CreateCubeOnPosition CopyWithAction CubeConstant Bubble RemoveAbilityWithName DieAfterX PositionFromXAndY 
+DoubleConstant 9 GetVariableOnCube BUBBLEY Caster
+Description: Every second create a persistent bubble in the 9th column, in order from top to bottom (bubbles have 5 hp, fly and explode should they die) End
+IsUpgradeFrom: Bubble_Wand 60
+End
+
+PERK: Flooding_World
+Ability: EveryMinute EveryCubeWhich IsEqual FactionOfCube Test DoubleConstant 0
+SetCaster Target
+Both CreateCubeOnPosition Target PositionInDirectionFromPosition North PositionOfCube Target
+Both CreateCubeOnPosition Target PositionInDirectionFromPosition East PositionOfCube Target
+Both CreateCubeOnPosition Target PositionInDirectionFromPosition South PositionOfCube Target
+CreateCubeOnPosition Target PositionInDirectionFromPosition West PositionOfCube Target
+Description: Every minute every neutral cube creates copies of itself in all directions End
+IsUpgradeFrom: Flat_World 240
+End
+
+PERK: Laser_Cloud_Hammer
+Ability: AfterACubeMoves If IsAllyToCaster Victim SetCaster Victim TargetCube Victim 
+If X%Chance Subtraction DoubleConstant 120 Multiplication DoubleConstant 2 Subtraction XOfPosition PositionOfCube Caster RoundedDown Division MaxWorldX DoubleConstant 2 
+CreateCubeOnPosition CubeConstant Cloud_Bridge PositionInDirectionFromPosition South PositionOfCube Caster
+ExtraTrigger: AfterACubeDies If CubeHasName Victim Cloud_Bridge SetCaster Victim 
+If X%Chance DoubleConstant 50 CreateCubeOnPosition CubeConstant Down_Laser_Beam PositionInDirectionFromPosition South PositionOfThis
+Description: After an ally moves 120% chance it creates a flying dissipating Cloud_Bridge below itself, -5% for every column into the enemy side the ally is, clouds have a 50% chance to shoot a Down_Laser_Beam after dying End
+IsUpgradeFrom: Cloud_Hammer 60
+End
+
+PERK: Quickly_Thawing_Recovery
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim 
+TargetCube Victim GainAbility FrozenX 1
+ExtraTrigger: AfterACubeLosesAnAbility If IsAllyToCaster Victim TargetCube Victim Both GainXExtraHp DoubleConstant 1
+ChangeMaxHp DoubleConstant 1
+Description: After an ally is created it becomes frozen for 1 seconds, After an ally loses an ability (like frozen) it gains 1 extra hp and 1 max hp End
+IsUpgradeFrom: Thawing_Recovery 60
+End
+
+PERK: AI_Inverter
+Ability: AtTheStartOfTheBattle Both EveryCubeInHandOfFactionWhich DoubleConstant 2 True GainAbilityText
+AiPlacement IfElse IsLarger EventAmount DoubleConstant 0 NegateX DoubleConstant 100000 NegateX DoubleConstant -100000 False
+\C105 105 105 Inverted Ai: \CN Enemy AI will place this cube in random positions except where it would normally place this cube End
+RemoveThisAbility
+Description: At the start of each battle mega scramble the AI of every cube in the opponents hand, causing them to be placed in a random position EXCEPT where they would normally be placed End
+IsUpgradeFrom: AI_Scrambler 80
+Unique
+End
+
+PERK: Fragmenting_Chaos_Key
+WorldAbility: AfterYouWin If X%Chance DoubleConstant 20 Randomly 
+Randomly ObtainPerk PerkConstant Metallic_Key
+ObtainPerk PerkConstant Adventure_Key
+Randomly ObtainPerk PerkConstant Cursed_Key
+ObtainPerk PerkConstant Shop_Key
+AbilityText: After win 40% chance to chaos key End
+WorldAbility: AfterYouLose Randomly
+Randomly ObtainPerk PerkConstant Metallic_Key
+ObtainPerk PerkConstant Adventure_Key
+Randomly ObtainPerk PerkConstant Cursed_Key
+ObtainPerk PerkConstant Shop_Key
+Description: After you lose a battle or 40% chance if you win randomly gain a consumable for a shop, forge, cursed trade or event End
+IsUpgradeFrom: Chaos_Key 60
+End
+
+PERK: Four_Blood_Forks
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim SetCaster Victim Both Both Both
+ TargetCube CubeOfPosition PositionXInfrontYBelowPosition DoubleConstant 1 DoubleConstant -1 PositionOfCube Victim
+  If IsAllyToCaster Target Both TakeXDamage DoubleConstant 3 TargetCube Victim GainAbility StrengthX 1
+ TargetCube CubeOfPosition PositionXInfrontYBelowPosition DoubleConstant 1 DoubleConstant 1 PositionOfCube Victim
+  If IsAllyToCaster Target Both TakeXDamage DoubleConstant 3 TargetCube Victim GainAbility StrengthX 1
+ TargetCube CubeOfPosition PositionXInfrontYBelowPosition DoubleConstant -1 DoubleConstant 1 PositionOfCube Victim
+  If IsAllyToCaster Target Both TakeXDamage DoubleConstant 3 TargetCube Victim GainAbility StrengthX 1 
+ TargetCube CubeOfPosition PositionXInfrontYBelowPosition DoubleConstant -1 DoubleConstant -1 PositionOfCube Victim
+  If IsAllyToCaster Target Both TakeXDamage DoubleConstant 3 TargetCube Victim GainAbility StrengthX 1 
+Description: After an ally is created it deals 3 damage any ally diagonal to itself (in clockwise order) and gains 1 strength for each of them End
+IsUpgradeFrom: Blood_Forks 80
+End
+
+PERK: Colourful_Infinite_Churning
+Ability: AfterACubeMoves Both ChangeCampaignVariable CHURNING DoubleConstant 1
+ If Not IsSmaller GetCampaignVariable CHURNING DoubleConstant 100 Both ChangeCampaignVariable CHURNING DoubleConstant -100 TargetCube ARandomEnemy SetCaster Culprit TakeXDamage DoubleConstant 1 
+ExtraTrigger: AfterACubeTakesDamage Both ChangeCampaignVariable CHURNING DoubleConstant 1
+ If Not IsSmaller GetCampaignVariable CHURNING DoubleConstant 100 Both ChangeCampaignVariable CHURNING DoubleConstant -100 TargetCube ARandomEnemy SetCaster Culprit TakeXDamage DoubleConstant 1 
+ExtraTrigger: AfterACubeHeals Both ChangeCampaignVariable CHURNING DoubleConstant 1
+ If Not IsSmaller GetCampaignVariable CHURNING DoubleConstant 100 Both ChangeCampaignVariable CHURNING DoubleConstant -100 TargetCube ARandomEnemy SetCaster Culprit TakeXDamage DoubleConstant 1 
+ExtraTrigger: AfterACubeDies Both ChangeCampaignVariable CHURNING DoubleConstant 1
+ If Not IsSmaller GetCampaignVariable CHURNING DoubleConstant 100 Both ChangeCampaignVariable CHURNING DoubleConstant -100 TargetCube ARandomEnemy SetCaster Culprit TakeXDamage DoubleConstant 1 
+ExtraTrigger: AfterACubeIsCreated Both ChangeCampaignVariable CHURNING DoubleConstant 1
+ If Not IsSmaller GetCampaignVariable CHURNING DoubleConstant 100 Both ChangeCampaignVariable CHURNING DoubleConstant -100 TargetCube ARandomEnemy SetCaster Culprit TakeXDamage DoubleConstant 1 
+ExtraTrigger: BeforeACubeGainsAnAbility Both ChangeCampaignVariable CHURNING DoubleConstant 1
+ If Not IsSmaller GetCampaignVariable CHURNING DoubleConstant 100 Both ChangeCampaignVariable CHURNING DoubleConstant -100 TargetCube ARandomEnemy SetCaster Culprit TakeXDamage DoubleConstant 1 
+ExtraTrigger: AfterACubeLosesAnAbility Both ChangeCampaignVariable CHURNING DoubleConstant 1
+ If Not IsSmaller GetCampaignVariable CHURNING DoubleConstant 100 Both ChangeCampaignVariable CHURNING DoubleConstant -100 TargetCube ARandomEnemy SetCaster Culprit TakeXDamage DoubleConstant 1 
+ExtraTrigger: BeforePercentChance Both ChangeCampaignVariable CHURNING DoubleConstant 1
+ If Not IsSmaller GetCampaignVariable CHURNING DoubleConstant 100 Both ChangeCampaignVariable CHURNING DoubleConstant -100 TargetCube ARandomEnemy SetCaster Culprit TakeXDamage DoubleConstant 1 
+ExtraTrigger: EverySecond Both ChangeCampaignVariable CHURNING DoubleConstant 1
+ If Not IsSmaller GetCampaignVariable CHURNING DoubleConstant 100 Both ChangeCampaignVariable CHURNING DoubleConstant -100 TargetCube ARandomEnemy SetCaster Culprit TakeXDamage DoubleConstant 1 
+ExtraTrigger: AfterEndOfTheBattle SetCampaignVariable CHURNING DoubleConstant 0
+RemoveAction: If Not HasPerkOrUpgrade PerkConstant Infinite_Churning SetCampaignVariable CHURNING DoubleConstant 0
+Description: After a cube moves, deals damage, heals, is created, dies, gains an ability, loses an ability, rolls a random chance or every second
+gain 1 churning, every 100 churning the last triggering cube deals 1 damage to a random enemy \N
+Churning: CVARIABLE CHURNING End
+IsUpgradeFrom: Infinite_Churning 60
+End
+
+PERK: Generalized_Big_Machines
+Ability: AfterACubeIsCreated EveryCubeInHandOfFactionWhich FactionOfThis Or HasNameOfCube Test Victim IsSmaller ManaCostOfCube Test ManaCostOfCube Victim
+If Not IsSmaller ManaCostOfCube Target DoubleConstant 63 ChangeManaCost DoubleConstant -3
+Description: After a cube is created reduce the cost of every cube in your hand with lower cost or the same name by 3 to a minimum of 60 End
+IsUpgradeFrom: Big_Machines 80
+End
+
+PERK: Grand_Life_Line
+Ability: AfterACubeTakesDamage If IsAllyToCaster Culprit If X%Chance DoubleConstant 50 If IsSmaller HpOfCube Culprit EventAmount
+TargetCube Culprit GainXExtraHp Subtraction Addition DoubleConstant 1 EventAmount HpOfCube Culprit
+Description: After an ally deals damage 50% chance to raise its hp to the damage amount +1, by granting it extra hp End
+IsUpgradeFrom: Life_Line 80
+End
+
+PERK: Even_Stranger_Smuggler
+Ability: AfterACubeDies If X%Chance DoubleConstant 15
+ TargetCube ARandomCubeInHandOfFactionWhich FactionOfThis IsEqual ManaCostOfCube Test Multiplication DoubleConstant 5 ManaCostOfCube Victim 
+ CreateCubeOnPosition Target PositionOfCube Victim 
+Description: After any cube dies 15% chance to create a copy of a random cube from hand in its place, which costs exactly 5 times as much End
+IsUpgradeFrom: Strange_Smuggler 80
+End
+
+PERK: Very_Big_Stomp
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube ARandomCubeWhich And IsEnemyToCaster Test Not IsLarger HpOfCube Test Division HpOfCube Victim DoubleConstant 5
+SetCaster Victim Die
+Description: After an ally is created it kills a random enemy with at most 20% of the ally's hp End
+IsUpgradeFrom: Big_Stomp 80
+End
+
+PERK: Modular_Lighthouse_Construction_Kit
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim 
+TargetCube CubeInDirectionFromCube South Victim If And IsAllyToCaster Target Not HasAbilityWithName Target EyeXY
+TargetCube CubeInDirectionFromCube South Target If And IsAllyToCaster Target Not HasAbilityWithName Target EyeXY
+If Not CubeExists CubeInDirectionFromCube Forwards Victim 
+If Not CubeExists CubeInDirectionFromCube Backwards Victim 
+If Not CubeExists CubeInDirectionFromCube North Victim 
+CreateCubeOnPosition CombinationOf2Cubes Victim CubeConstant Lighthouse_Capstone PositionInDirectionFromPosition North PositionOfCube Victim
+Description: After an ally is created with 2 consecutive non eye allies below and no other cubes touching create a combination of the created cube and a Lighthouse_Capstone on top End
+IsUpgradeFrom: Lighthouse_Construction_Kit 80
+Unique
+End
+
+PERK: Multitasking_Construction_Worker
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim XTimes DoubleConstant 2 GainAbility ConstructionWorker
+Description: After an ally is created it gains 2 extra hp every 10 seconds, until it moves or you place another cube End
+IsUpgradeFrom: Construction_Worker 60
+End
+
+PERK: Stabilized_Shield_Prison
+Ability: AfterACubeTakesDamage If IsAllyToCaster Victim If IsEnemyToCaster Culprit If Not CubeHasName Victim Shield
+TargetCube CubeConstant Shield
+Both CreateCubeOnPosition Target PositionInDirectionFromPosition North PositionOfCube Culprit
+Both CreateCubeOnPosition Target PositionInDirectionFromPosition East PositionOfCube Culprit
+Both CreateCubeOnPosition Target PositionInDirectionFromPosition South PositionOfCube Culprit
+ CreateCubeOnPosition Target PositionInDirectionFromPosition West PositionOfCube Culprit
+Description: After an enemy damages a non shield ally create shields surrounding the enemy End
+IsUpgradeFrom: Shield_Prison 80
+Unique
+End
+
+PERK: Igniting_Laser_Pointer
+Ability: EveryXSeconds DoubleConstant 4 EveryCubeWhich IsAllyToCaster Test SetCaster Target
+ TargetCube CubeInDirectionFromCube Backwards Target If IsAllyToCaster Target
+ TargetCube CubeInDirectionFromCube Backwards Target If IsAllyToCaster Target
+ CreateCubeOnPosition CubeConstant Fire_Laser_Beam PositionInDirectionFromPosition Forwards PositionOfCube Caster
+Description: Every 4 seconds every ally with 2 other allies behind it shoots a 1 damage Fire_Laser_Beam forwards, which can hit allies and applies burning (burning cubes deal 1 damage themselves and touching cubes after 5 seconds) End
+IsUpgradeFrom: Laser_Pointer 80
+Unique
+End
+
+PERK: Repeating_Harrowing_Past
+Ability: BeforeACubeTakesDamage If IsEnemyToCaster Victim If Not IsSmaller HpOfCube Victim MaxHpOfCube Victim TargetCube Victim
+ GainAbilityStacking RepeatingHarrowingPast 0 EventAmount
+Description: Before an undamaged enemy takes damage they will take that much damage again every 20 seconds End
+IsUpgradeFrom: Harrowing_Past 60
+End
+
+PERK: Fast_Factory_Worker
+Ability: AfterACubeIsCreated If IsPlaced If IsAllyToCaster Victim If IsAllyToCaster Culprit TargetCube Victim GainAbility FastFactoryWorker
+Description: After you place an ally it replicates forwards every X seconds where X is twice its cost until you place another ally End
+IsUpgradeFrom: Factory_Worker 80
+Unique
+End
+
+PERK: Multidirectional_Hand_Crank
+Ability: EveryXSeconds DoubleConstant 15 EveryAlly SetCaster Target Both
+ TargetCube CubeInDirectionFromCube Forwards Caster If IsAllyToCaster Target Both PlaySound Crank AccelerateX DoubleConstant 60
+ TargetCube CubeInDirectionFromCube South Caster If IsAllyToCaster Target Both PlaySound Crank AccelerateX DoubleConstant 60
+Description: Every 10 seconds for every cube accelerate any ally below or infront for 1 second End
+IsUpgradeFrom: Hand_Crank 80
+End
+
+PERK: Tiny_Mass_Healer
+Ability: Every10Seconds TargetCube ARandomDamagedAlly Both HealXDamage DoubleConstant 2 
+EveryCubeTouchingPosition PositionOfCube Target HealXDamage DoubleConstant 1
+Description: Every 10 seconds your starting leader heals a random damaged ally for 2 hp then heals every touching cube for 1 hp End
+IsUpgradeFrom: Tiny_Healing_Container 80
+End
+
+PERK: Very_Black_Eye
+CampaignAbility: AfterCampaignSomething If IsType Cursed_Battle_Win If IsSmaller RemainingLives DoubleConstant 2
+Both ReadAScenario Basic_Perk_Reward ReadAScenario Basic_Perk_Reward
+Description: After you win a cursed battle at 1 or less lives gain 2 perks each chosen from 3 End
+IsUpgradeFrom: Black_Eye 50
+End
+
+PERK: Prioritising_Hospital_Worker 
+Ability: AfterACubeTakesDamage If IsAllyToCaster Victim If Not IsALeader Victim TargetCube Victim GainAbility PrioritisingHospitalWorker
+Description: After a non leader ally takes damage it heals 1 hp every 4 seconds until a non leader ally takes damage and is reduced to less hp End
+IsUpgradeFrom: Hospital_Worker 80
+End
+
+PERK: Hasty_Courier
+Ability: EveryMinute AddCubeToHandOfThis FreeCopy ARandomCubeInHandOfFactionWhich FactionOfThis True
+ExtraTrigger: AtTheStartOfTheBattle XTimes DoubleConstant 2 AddCubeToHandOfThis FreeCopy ARandomCubeInHandOfFactionWhich FactionOfThis True
+Description: Every minute and twice at the start of each battle add a free copy of a random cube in your hand to your hand End
+IsUpgradeFrom: Courier 60
+End
+
+PERK: Advanced_Boomerang_Training
+Ability: AfterACubeIsCreated If X%Chance DoubleConstant 20 If IsAllyToCaster Victim SetCaster Victim 
+CreateCubeOnPosition CubeConstant Boomerang PositionInDirectionFromPosition Forwards PositionOfThis
+Description: After an ally is created 20% chance it creates a boomerang infront, boomerangs have short range, 2 damage and can be rethrown after returning End
+IsUpgradeFrom: Boomerang_Training 60
+End
+
+PERK: Many_Spare_Teeth
+Ability: AfterACubeDies If IsAllyToCaster Culprit If Not IsNeutral Victim If X%Chance DoubleConstant 50 TargetCube Culprit Both GainXExtraHp DoubleConstant 2
+If Not IsSmaller HpOfCube Target DoubleConstant 20 GainAbility DevouringX 1
+Description: After an ally kills an enemy or ally 50% chance it gains 2 extra hp and if it has at least 20 hp it gains 1 devouring End
+IsUpgradeFrom: Spare_Tooth 60
+End
+
+PERK: Fine_Shrapnel
+Ability: AfterACubeTakesDamage If Not IsALeader Victim If IsEnemyToCaster Victim If Not IsSmaller EventAmount DoubleConstant 2 
+Both CreateCubeOnPosition CubeConstant Shrapnel PositionInDirectionFromPosition North PositionInDirectionFromPosition Backwards PositionOfCube Victim
+Both CreateCubeOnPosition CubeConstant Shrapnel PositionInDirectionFromPosition North PositionOfCube Victim
+CreateCubeOnPosition CubeConstant Shrapnel PositionInDirectionFromPosition North PositionInDirectionFromPosition Forwards PositionOfCube Victim
+Description: After a non leader enemy takes 2 or more damage create three 1 damage shrapnel projectile above and diagonally above that enemy which arc slightly before falling End
+IsUpgradeFrom: Shrapnel 60
+Unique
+End
+
+PERK: Hearty_Vowel_Root
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim GainXExtraHp RoundedDown Division VowelCount NameOfCube Victim DoubleConstant 2
+Description: After an ally is created it gains 1 extra hp for every 2 vowels in its name (a,e,i,o,u,y). At the start of each battle add 1 strength to every highest vowel count cube in your hand End
+Ability: AtTheStartOfTheBattle Both RemoveThisAbility
+EveryCubeInHandOfFactionWhich FactionOfThis True
+ If Not CubeExists ARandomCubeInHandOfFactionWhich FactionOfThis IsLarger VowelCount NameOfCube Test VowelCount NameOfCube Target
+GainAbility StrengthX 1
+IsUpgradeFrom: Vowel_Root 60
+End
+
+PERK: Blood_Prophecy
+Ability: AtTheStartOfTheBattle TargetCube ARandomCubeInHandOfFactionWhich FactionOfThis True GainAbility Prophecy
+ExtraTrigger: AfterACubeIsCreated If IsPlaced If HasAbilityWithName Victim Prophecy TargetCube Victim GainAbility StrengthX 1
+Description: A random cube in your hand starts prophesied, it refunds 1/3 of its cost and gains 1 strength when placed then the prophecy moves to another cube in your hand End
+IsUpgradeFrom: Prophecy 40
+End
+
+PERK: Universal_Continuous_Construction
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim Until
+ Or Not CubeExists ARandomCubeWhich And Not IsSameCube Test Target IsEqual ManaCostOfCube Target ManaCostOfCube Test
+ Not IsLarger ManaCostOfCube Target DoubleConstant 7
+ RefundX DoubleConstant 1
+Nothing
+IsUpgradeFrom: Continuous_Construction 60
+Description: After an ally is created if it has the same mana cost as another cube refund 1 mana of the ally's cost (reducing its cost by 1) and repeat this, min 7 mana End
+Unique
+End
+
+PERK: Thorough_Whetstone
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim Secret Both GainAbilityText
+ BeforeThisDealsDamage Cooldown TimeConstant 2100 NegateX Minus EventAmount
+ Before this deals damage double it, cooldown 35 Seconds End
+ GainAbilityText
+ BeforeThisDealsDamage Cooldown TimeConstant 3300 NegateX Minus EventAmount
+ Before this deals damage double it, cooldown 55 Seconds End
+Description: After an ally is created it gains: Double next damage dealt, cooldown 35 seconds. It also gains: Double next damage dealt, cooldown 55 seconds End
+IsUpgradeFrom: Whetstone 60
+End
+
+PERK: Grand_Jumble_Storm
+Ability: EveryMinute XTimes Addition AmountOfCubesInInventoryWhich True
+ AmountOfPerksInInventoryWhich True TargetCube ARandomEnemy TakeXDamage DoubleConstant 2
+Description: Every minute for every perk or cube in your inventory your starting leader deals 2 damage to a random enemy End
+IsUpgradeFrom: Jumble_Storm 80
+End
+
+PERK: Bright_Red_Mark
+Ability: AfterACubeTakesDamage If IsAllyToCaster Victim TargetCube Victim Secret Both GainAbility RedMark 0
+If IsLarger EventAmount GetStackingOfAbilityOnCube RedMark Target
+ ChangeAbilityStacking RedMark Subtraction EventAmount GetStackingOfAbilityOnCube RedMark Target
+Description: After an ally takes damage raise all future damage it deals to the highest damage taken at once End 
+Unique
+IsUpgradeFrom: Red_Mark 40
+End
+
+PERK: Mass_Gold_Trader
+Ability: AtTheStartOfTheBattle Both RemoveThisAbility EveryCubeInHandOfFactionWhich FactionOfThis True Both GainAbility Golden GainAbility LoseGolden
+WorldAbility: AfterEndOfTheBattle EveryCubeInHandOfFactionWhich DoubleConstant 1 HasAbilityWithName Test Golden ChangeCurrency DoubleConstant 30
+Description: Every cube in your hand starts golden until placed, at end of battle gain 30 gold for each golden cube in hand End
+IsUpgradeFrom: Gold_Trader 80
+End
+
+PERK: Explosive_Meteor_Impact
+Ability: AfterACubeMoves If IsSameDirection EventDirection South If IsAllyToCaster Victim
+SetCaster Victim TargetCube Caster Both EveryCubeInRadiusXAroundTarget DoubleConstant 2 If Not IsAllyToCaster Target TakeXDamage DoubleConstant 2
+CreateAoEParticlesColourRadiusPosition DoubleConstant 16738816 DoubleConstant 2 PositionOfThis
+Description: After an ally moves downwards it deals 2 damage to all non allied cubes at most 2 spaces away End
+IsUpgradeFrom: Meteor_Impact 60
+End
+
+PERK: Slower_Cooker
+Ability: BeforeACubeTakesDamage If IsEnemyToCaster Victim
+Both NegateX DoubleConstant 1 TargetCube Victim GainAbility PoisonX 3
+Description: Before damage is dealt to an enemy reduce it by 1 but also apply 3 poison End
+IsUpgradeFrom: Slow_Cooker 100
+End
+
+PERK: Shield_Hydra
+Ability: EveryXSeconds DoubleConstant 5 Both
+ TargetCube Caster
+  CreateCubeOnPosition CopyWithAction CubeConstant Shield GainAbility Shield_Snake_Head PositionInDirectionFromPosition RandomDirection PositionOfCube Target
+ EveryCubeWhich And CubeHasName Test Shield HasAbilityWithName Test Shield_Snake_Head
+  SetCaster Target
+  CreateCubeOnPosition CopyWithAction CubeConstant Shield GainAbility Shield_Snake_Head PositionInDirectionFromPosition RandomDirection PositionOfCube Target
+Description: Every 5 seconds create a shield in a random direction from every snake head shield and from your starting leader if there is no last one End
+IsUpgradeFrom: Shield_Snake 60
+End
+
+PERK: Overlapping_Rainbow
+Ability: AfterACubeTakesDamage If IsEnemyToCaster Victim If Not IsALeader Victim If X%Chance DoubleConstant 50 TargetCube Victim GainRandomAbilityOfCube CubeConstant Debuff_List
+ExtraTrigger: BeforeACubeGainsAnAbility If IsEnemyToCaster Victim If X%Chance DoubleConstant 50 TargetCube Victim Silent GainRandomAbilityOfCube CubeConstant Debuff_List
+Description: After a non leader enemy takes damage 50% chance it gains a random debuff(ability), after an enemy gains an ability also 50% chance it silently gains a debuff End
+IsUpgradeFrom: Rainbow 40
+End
+
+PERK: Angry_Lingering_Souls
+Ability: AfterACubeTakesDamage If IsEnemyToCaster Culprit If Not IsLarger HpOfCube Victim DoubleConstant 0 TargetCube Culprit
+Both GainAbility TemporaryStrength -1 1200 GainAbility ArmorX -1
+Description: After an enemy deals damage reducing a cube to 0 or less hp it gains -1 strength (-1 damage) for 20 seconds and -1 armor forever End
+IsUpgradeFrom: Lingering_Souls 100
+End
+
+PERK: Distant_Spillover
+Ability: AfterACubeCreationIsBlocked If IsAllyToCaster Culprit CreateCubeOnPosition Victim PositionInDirectionFromPosition RandomDirection
+PositionInDirectionFromPosition RandomDirection PositionInDirectionFromPosition RandomDirection OriginalPosition
+Description: After an ally's creation is blocked try again in 3 random directions away from that blocked position End
+IsUpgradeFrom: Spillover 40
+End
+
+PERK: Cube_Stacking
+Ability: AfterACubeCreationIsBlocked If IsAllyToCaster Culprit 
+TargetCube CubeOfPosition OriginalPosition 
+If HasNameOfCube Victim Target Both GainXExtraHp DoubleConstant 3 
+If Not HasAbilityWithName Target ExtraLife
+GainAbility ExtraLife
+Description: After an allies creation is blocked by a cube with the same name as the creation give that cube 3 extra hp and an extra_life if it doesn't have an extra_life End
+IsUpgradeFrom: Reinforcing 60
+End
+
+PERK: Eventful_Skip
+ObtainAction: ChangeCampaignVariable CANSKIP DoubleConstant 1
+RemoveAction: ChangeCampaignVariable CANSKIP DoubleConstant -1
+CampaignAbility: AfterCampaignSomething If IsType SKIP Both ChangeCurrency DoubleConstant 20 
+If X%Chance DoubleConstant 30 ReadARandomEvent
+Description: Events, Cursed Trades, Cube Rewards and all Perk Rewards now have a skip button, whenever you skip gain 20 gold and 30% chance to encounter a random event End
+IsUpgradeFrom: Skip 80
+Unique
+End
+
+PERK: Hierarchical_Eye_Cult
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim 
+Both SetVariable TEMP AmountOfCubesWhich And IsAllyToCaster Test HasNameOfCube Test Victim
+If IsEqual GetVariableOnCube TEMP Caster Multiplication DoubleConstant 8 RoundedDown Division GetVariableOnCube TEMP Caster DoubleConstant 8
+TargetCube Victim GainAbility EyeXY TimeConstant 1200 DoubleConstant 3
+Description: After an ally is created if the amount of allies with the same name is divisible by 8 it deals 3 damage to a random enemy every 20 seconds End
+IsUpgradeFrom: Eye_Cult 60
+End
+
+PERK: Actual_Physics
+Ability: AfterACubeCollides If IsAllyToCaster Culprit TargetCube TheFirstCubeInDirectionFromPositionWhich
+ EventDirection PositionOfCube Victim IsPositionEmpty PositionInDirectionFromPosition EventDirection PositionOfCube Test
+MoveInDirection EventDirection
+Description: Before an ally moves a cube, if that movement is blocked move the first cube in that direction which isn't blocked End
+IsUpgradeFrom: Physics 60
+End
+
+PERK: Very_Reckless_Attacks
+Ability: BeforeACubeTakesDamage If IsEnemyToCaster Victim Both TargetCube Culprit ChangeHp DoubleConstant -2
+NegateX Minus EventAmount
+Description: Before an enemy takes damage double that damage and the culprit also loses 2 hp End
+IsUpgradeFrom: Reckless_Attacks 40
+End
+
+PERK: Chance_Based_Fire_Copy
+Ability: AfterACubeDies If Not IsALeader Culprit If IsAllyToCaster Culprit If X%Chance DoubleConstant 10 CreateCubeOnPosition Culprit PositionOfCube Victim
+Description: After a non leader ally kills a cube 10% chance to copy that ally in that cube's position End
+IsUpgradeFrom: Fire_Copy 60
+End
+
+PERK: Certain_Killing_Shot
+Ability: Every3Seconds TargetCube ARandomCubeWhich And IsEnemyToCaster Test Not IsLarger HpOfCube Test DoubleConstant 2 Both TakeXDamage DoubleConstant 5
+Both GainAbility PoisonX 5 ChangeMaxHp DoubleConstant -5
+Description: Every 3 seconds your starting leader deals 5 damage to a random enemy with 2 or less hp, it also applies 5 poison and reduces max hp by 5 End
+IsUpgradeFrom: Killing_Shot 60
+Unique
+End
+
+PERK: Overwhelming_Mindsplosion
+Ability: BeforeACubeTakesDamage Both 
+If IsEnemyToCaster Victim NegateX Minus RoundedDown Division AmountOfAbilitiesOfCube Victim DoubleConstant 3
+If IsAllyToCaster Culprit NegateX Minus RoundedDown Division AmountOfAbilitiesOfCube Culprit DoubleConstant 4
+Description: Enemies take +1 damage for every 3 abilities, allies deal +1 damage for every 4 abilities End
+IsUpgradeFrom: Mindsplosion 80
+End
+
+PERK: Universal_Directional_Field
+Ability: AfterACubeIsCreated SetCaster Victim TargetCube Caster XTimes DoubleConstant 4 MoveInDirection East
+Description: After a cube is created it moves eastwards 4 times End
+IsUpgradeFrom: Directional_Field 40
+End
+
+PERK: Advanced_Clock_Tower
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim 
+If IsAllyToCaster CubeOfPosition PositionInDirectionFromPosition South PositionInDirectionFromPosition South PositionOfCube Victim
+CreateCubeOnPosition CopyWithAction CubeConstant Gear GainAbilityText EverySecond Secret AccelerateX DoubleConstant 60 Every second experience 1 additional second End
+  PositionInDirectionFromPosition South PositionOfCube Victim
+Description: After an ally is created 1 space above an ally create a double speed gear inbetween, which accelerates touching non leader allies End
+IsUpgradeFrom: Clock_Tower 60
+Unique
+End
+
+PERK: Very_Off
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If IsPlaced If X%Chance DoubleConstant 10 AddCubeToHandOfFaction CopyWithAction Victim 
+XTimes DoubleConstant 3 GainRandomAbilityOfCube ARandomCubeInLibraryWhich And IsLarger AmountOfAbilitiesOfCube Test DoubleConstant 0 Not IsToken Test FactionOfThis
+Description: After an ally is placed 10% chance to add a copy to your hand except it has 3 additional random abilities from random cubes in the game End
+IsUpgradeFrom: Slightly_Off 80
+End
+
+PERK: Scavangers_Construction
+Ability: AfterACubeDies Both 
+TargetCube CubeInDirectionFromCube East Victim If IsAllyToCaster Target GainXExtraHp DoubleConstant 3
+TargetCube CubeInDirectionFromCube South Victim If IsAllyToCaster Target GainXExtraHp DoubleConstant 3
+Description: After a cube dies any allies directly below or east gain 3 extra hp End
+IsUpgradeFrom: Rubble_Construction 60
+End
+
+PERK: Tripled_Rainbow_Jam
+Ability: EveryXMinutes DoubleConstant 4 AddCubeToHandOfFaction CopyWithAction CubeConstant Rainbow_Jam XTimes DoubleConstant 3 GainRandomAbilityOfCube 
+ ARandomCubeInLibraryWhich And Not IsToken Test IsLarger AmountOfAbilitiesOfCube Test 0
+FactionOfThis
+Description: Every 4 minutes add an addon to your hand which has 3 random abilities of random cubes in the game End
+IsUpgradeFrom: Rainbow_Jam 80
+End
+
+PERK: Steel_Caltrops
+Ability: AfterACubeMoves If IsAllyToCaster Victim If X%Chance DoubleConstant 20 CreateCubeOnPosition CubeConstant Steel_Caltrops OriginalPosition
+Description: After an ally moves 20% chance to create a 1 damage armored calltrop in its path (the calltrops die on collision) End
+IsUpgradeFrom: Caltrops 60
+End
+
+PERK: Complete_Thought_Beetle
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If X%Chance DoubleConstant 20 AddCubeToHandOfFaction CopyOfCube Victim FactionOfCube ARandomEnemy
+Description: After an ally is created 20% chance to add a copy to the opponent's hand (it will still be an ally) End
+IsUpgradeFrom: Thought_Beetle 60
+End
+
+PERK: Advanced_Hat_Festival
+Ability: EveryMinute
+EveryCubeWhich IsAllyToCaster Test SetCaster Target
+ CreateCubeOnPosition ARandomCubeInLibraryWhich And IsEqual HpOfCube Test DoubleConstant 1 And IsToken Test HasAbilityWithName Test Hat 
+ PositionInDirectionFromPosition North PositionOfCube Caster
+ExtraTrigger: AfterACubeIsCreated If HasAbilityWithName Victim Hat TargetCube Victim Secret GainARandomBonus
+Description: Every minute every ally creates a 1 hp hat above them, which dies on collision. After a hat is created it gains a random bonus End
+IsUpgradeFrom: Hat_Festival 60
+End
+
+PERK: Big_Jump_Over
+Ability: AfterACubeMoves If IsAllyToCaster Victim If IsEnemyToCaster CubeInDirectionFromCube EventDirection Victim
+TargetCube Victim Both Both XTimes DoubleConstant 3 MoveInDirection North 
+XTimes DoubleConstant 6 MoveInDirection Forwards 
+XTimes DoubleConstant 3 MoveInDirection South
+Description: After an ally moves if there is now an enemy in that direction the ally moves upwards thrice, forwards six times and then downwards thrice End
+IsUpgradeFrom: Jump_Over 40
+End
+
+PERK: Staircases
+Ability: EveryMinute EveryCubeWhich And IsAllyToCaster Test Not IsLarger ManaCostOfCube Test DoubleConstant 20
+SetCaster Target CreateCubeOnPosition CopyWithAction Target GainAbility Unmovable PositionInDirectionFromPosition North PositionInDirectionFromPosition Backwards PositionOfCube Target
+Description: Every minute every ally of cost 20 or less creates an unmovable copy diagonally above and behind itself End
+IsUpgradeFrom: Staircase 120
+End
+
+PERK: Red_Void_Growth
+Ability: Every20Seconds EveryCubeWhich IsAllyToCaster Test SetCaster Target If Not And PositionExists PositionInDirectionFromThis North
+And PositionExists PositionInDirectionFromThis Forwards And PositionExists PositionInDirectionFromThis South PositionExists PositionInDirectionFromThis Backwards
+Both If Not IsLarger GetStackingOfAbilityOnCube GrowthX Target DoubleConstant 4 GainAbility GrowthX 1
+If Not IsLarger GetStackingOfAbilityOnCube StrengthX Target DoubleConstant 4 GainAbility StrengthX 1
+Description: Every 20 seconds every ally touching the edge of battlefield gains 1 growth and 1 strength, gaining 1 hp per minute and having +1 damage (max 5 each) End
+IsUpgradeFrom: Pale_Void_Growth 80
+End
+
+PERK: Past_Telefragg
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim TeleportToPosition PositionInDirectionFromPosition Forwards PositionOfCube
+TheFirstCubeInDirectionFromPositionWhich Forwards PositionOfCube Victim And IsAllyToCaster Test Not HasAbilityWithName Test ChargeEveryX
+ExtraTrigger: AfterBlockedTeleport If IsEnemyToCaster Storage SetCaster Victim TargetCube Storage TakeXDamage DoubleConstant 7
+Description: After an ally is created it teleports forwards past the first ally without charging any distance infront. \N
+After any teleportation is blocked by an enemy the blocked cube deals 7 damage to the enemy End
+IsUpgradeFrom: Past_Warp 40
+End
+
+PERK: Anything_From_Above
+Ability: BeforeACubeTakesDamage If IsEnemyToCaster Victim If IsLarger YOfPosition PositionOfCube Victim YOfPosition PositionOfCube Culprit NegateX Minus DoubleConstant 2
+Description: Enemies take +2 damage from cubes which are higher End
+IsUpgradeFrom: From_Above 60
+End
+
+PERK: Resilient_Temporal_Spokes
+Ability: Every10Seconds EveryCubeWhich And Not IsSameCube Caster Test 
+ And IsAllyToCaster Test
+ IsEqual AbsoluteAmount Subtraction XOfPosition PositionOfThis XOfPosition PositionOfCube Test
+ AbsoluteAmount Subtraction YOfPosition PositionOfThis YOfPosition PositionOfCube Test
+Both AccelerateX DoubleConstant 300 GainXExtraHp DoubleConstant 1
+Description: Every 10 seconds your starting leader accelerates all other allies diagonal to it by 5 seconds and they gain 1 extra hp End
+IsUpgradeFrom: Temporal_Spokes 60
+End
+
+PERK: Stabilized_Displacement
+Ability: AfterACubeMoves If IsAllyToCaster Victim EveryCubeTouchingPosition OriginalPosition If And IsAllyToCaster Target Not IsSameCube Target Victim Both
+ GainAbility TemporaryStrength 1 600
+ GainAbility TemporaryUnmovable 600
+ExtraTrigger: AfterACubeDies If IsAllyToCaster Victim EveryCubeTouchingPosition PositionOfCube Victim If IsAllyToCaster Target Both
+ GainAbility TemporaryStrength 1 600
+ GainAbility TemporaryUnmovable 600
+ExtraTrigger: AfterACubeTeleports If IsAllyToCaster Victim EveryCubeTouchingPosition OriginalPosition If And IsAllyToCaster Target Not IsSameCube Target Victim Both
+ GainAbility TemporaryStrength 1 600
+ GainAbility TemporaryUnmovable 600
+Description: After an ally moves, dies or teleports all previously touching allies gain unmovable and +1 damage for 5 seconds End
+IsUpgradeFrom: Stabilized_Movement 60
+End
+
+PERK: High_Quantity_Explosive_Glue
+Ability: EveryMinute EveryCubeWhich And IsEnemyToCaster Test Not HasAbilityWithName Test Sticky 
+AddCubeToHandOfFaction CopyWithAction FreeCopy CubeConstant Explosive_Glue SetFaction FactionOfCube ARandomEnemy FactionOfCube ARandomEnemy
+Description: Every minute add a free enemy Explosive_Glue to the opponents hand for every non sticky enemy End
+IsUpgradeFrom: Explosive_Glue 60
+End
+
+PERK: Grand_Stars_Wrath
+Ability: EveryXSeconds DoubleConstant 30 TargetCube ARandomCubeWhich And Not IsALeader Test IsEnemyToCaster Test GainAbility Starcurse
+ExtraTrigger: AfterACubeIsCreated If HasNameOfCube Victim CubeConstant Falling_Star TargetCube Victim Secret GainAbility RandomMovementX 100
+ExtraTrigger: AfterACubeTakesDamage If IsEnemyToCaster Victim If X%Chance DoubleConstant 2 TargetCube Victim GainAbility Starcurse
+Description: Every 30 seconds inflict starcurse on a random non leader enemy, Falling_Star moves slightly randomly and all damage to enemies has a 2% chance to inflict star curse End
+IsUpgradeFrom: Stars_Wrath 200
+End
+
+PERK: Quintupled_Recursive_Chest
+ObtainAction: XTimes DoubleConstant 3 ReadAScenario Basic_Perk_Reward
+RemoveUponObtaining
+Description: Immediatly lose this perk and open 5 perk chests (choose one of 3 perks to get 5 times) End
+IsUpgradeFrom: Recursive_Chest 160
+End
+
+PERK: Aggressive_Puppet_Strings
+Ability: Every10Seconds EveryCubeWhich IsAllyToCaster Test SetCaster Target TargetCube CubeInDirectionFromCube South Caster
+If X%Chance Division DoubleConstant 400 ManaCostOfCube Target Both
+If Not IsAllyToCaster Target Both GainAbility EveryXMeleeY 300 2 GainAbility ChargeEveryX 240
+SetFaction FactionOfCube Caster 
+Description: Every 10 seconds every ally has a X% chance to convert the cube below to your faction, where X is 400/manacost of that cube, converted cube gains slow melee and charging End
+IsUpgradeFrom: Puppet_Strings 160
+End
+
+PERK: Spiky_Bulwark
+Ability: AtTheStartOfTheBattle XTimes DoubleConstant 3 TargetCube ARandomCubeWhich And And
+ IsEqual XOfPosition PositionOfCube Test DoubleConstant 7
+ IsPositionEmpty PositionInDirectionFromPosition North PositionOfCube Test
+ Not HasAbilityWithName Test LiquidX
+CreateCubeOnPosition CopyWithAction CubeConstant Bulwark GainAbility RetaliateX 1
+PositionInDirectionFromPosition North PositionOfCube Target
+Description: Start each battle with a 3 high wall of 60 hp cubes in the 7th column, they have retaliate 1, dealing 1 damage back after taking damage End
+IsUpgradeFrom: Bulwark 60
+End
+
+PERK: Extreme_Mystery_Machine
+CampaignAbility: AfterAMapIsGenerated XTimes DoubleConstant 2
+SetMapNodeScenario ARandomMapNodeWhich And And IsLarger Test DoubleConstant 0 ExcludeLastXNodes DoubleConstant 1
+ Not MapNodeIsType Test Event
+ Triple_Random_Event
+ObtainAction: XTimes DoubleConstant 2
+SetMapNodeScenario ARandomMapNodeWhich And And IsLarger Test DoubleConstant 0 ExcludeLastXNodes DoubleConstant 1
+ Not MapNodeIsType Test Event
+ Triple_Random_Event
+Description: Right now and at the start of future maps 2 random non event map nodes become triple random events, wont replace the last node End
+Requirement: FirstMap
+Unique
+IsUpgradeFrom: Mystery_Machine 60
+End
+
+PERK: Chaining_Lightning_Shield
+Ability: BeforeACubeTakesDamage If IsAllyToCaster Victim If X%Chance DoubleConstant 70 If IsLarger EventAmount DoubleConstant 0
+Both NegateX DoubleConstant 1
+TargetCube Victim GainAbility ZAP
+Description: Before an ally takes more than 0 damage 70% chance to reduce damage by 1 but the ally deals 1 damage to another random ally in 7 tiles range 1 second later End
+IsUpgradeFrom: Lightning_Shield 60
+End
+
+PERK: Boxed_Egg_Timer
+Ability: EveryXSeconds DoubleConstant 3 TargetCube TheXSlotInHandOfFaction DoubleConstant 2 FactionOfThis AccelerateX TimeConstant 60
+Description: Every 3 seconds the cube in your 3rd slot in hand experiences 1 second, also start with a cube which does this effect and costs 20 mana End
+ObtainAction: AddCubeToDeck CubeConstant Egg_Timer
+RemoveAction: RemoveCubeFromDeck CubeConstant Egg_Timer
+IsUpgradeFrom: Egg_Timer 60
+Unique
+Disableable: false
+End
+
+PERK: Cracked_Perk_Mimic
+ClickAction: If Not BattleOngoing If PerkExists ARandomPerkInInventoryWhich Not PerkHasNameOfPerk Test PerkConstant Pure_Perk_Mimic
+  Both LoseThisPerk ReadAScenario Cracked_Perk_Mimic
+Description: Click this perk outside of battles to lose Cracked_Perk_Mimic and choose another perk in your inventory to copy End
+NoBalanceCap
+IsUpgradeFrom: Pure_Perk_Mimic 100
+End
+
+SCENARIO: Cracked_Perk_Mimic
+Info: Copy a perk End
+PerkImage: Perk_Mimic
+End
+PERK_SELECTION: 
+TYPE: 2
+USES: 1
+RESULTPERK: Target
+PERKREQ: Not PerkHasNameOfPerk Test PerkConstant Cracked_Perk_Mimic
+ACTION: ObtainPerk Target
+IGNOREUNIQUE
+BACKOUT: false
+NOLEAVE
+NAME: Cracked_Perk_Mimic
+INFO: Copy a perk, can copy unique End
+VERB: copy
+End
+SEnd
+
+PERK: Universal_Ink_Pen
+Ability: BeforeACubeGainsAnAbility If IsAllyToCaster Culprit SetCaster Culprit
+TargetCube ARandomCubeWhich And And IsEqual FactionOfCube Test FactionOfCube Victim And Not IsALeader Test Not IsSameCube Victim Test Not IsSameCube Culprit Test
+If IsSmaller AmountOfAbilitiesOfCube Target DoubleConstant 100 GainAffectedAbility
+Description: Before an ally grants an ability to a cube it also grants that ability to another random non leader cube of the same faction, unless it already has 100 abilities End
+IsUpgradeFrom: Ink_Pen 60
+End
+
+PERK: Dastardly_Afflictions
+Ability: BeforeACubeGainsAnAbility If IsAllyToCaster Victim Cooldown DoubleConstant 3600 EveryCubeWhich And Not IsALeader Test IsEnemyToCaster Test
+ Both GainAffectedAbility GainAbility PoisonX 1
+Description: Before an ally gains an ability ALL non leader enemies also gain that ability and 1 poison, cooldown 1 minute End
+IsUpgradeFrom: Afflictions 120
+End
+
+PERK: Spiky_Sticky_Feet
+Ability: Every5Seconds TargetCube ARandomCubeWhich And IsNeutral Test Not CubeExists CubeInDirectionFromCube North Test
+SetFaction FactionOfThis
+ExtraTrigger: BeforeACubeMoves If IsEnemyToCaster Victim If IsAllyToCaster CubeInDirectionFromCube South Victim SetCaster CubeInDirectionFromCube South Victim
+Both If X%Chance DoubleConstant 70 NegateX DoubleConstant 1
+If X%Chance DoubleConstant 5 TargetCube Victim TakeXDamage DoubleConstant 1
+Description: Every 5 seconds a random surface neutral turns allied, 70% chance to negate movement of enemies above allies, 5% chance to deal 1 damage End
+IsUpgradeFrom: Sticky_Feet 60
+End
+
+PERK: Advanced_Grappling
+Ability: AfterACubeIsCreated If IsPlaced If IsAllyToCaster Victim 1Shot TargetCube Victim GainAbility Flying
+ExtraTrigger: BeforeACubeMovesNegation Both
+ TargetCube CubeInDirectionFromCube North Victim 
+ If IsAllyToCaster Target If HasAbilityWithName Target Flying NegateX DoubleConstant 1
+ TargetCube CubeOfPosition PositionXInfrontYBelowPosition DoubleConstant 0 DoubleConstant -2 PositionOfCube Victim
+ If IsAllyToCaster Target If HasAbilityWithName Target Flying NegateX DoubleConstant 1 
+Description: First ally placed each battle gains flying, cubes directly or 2 spaces below flying allies can't move End
+IsUpgradeFrom: Grappling 60
+Unique
+End
+
+PERK: Grand_Shockwave_Piercing
+Ability: AfterACubeTakesDamage If IsAllyToCaster Culprit
+EveryCubeWhich And IsEnemyToCaster Test Or
+And IsSameDirection Forwards East IsEqual XOfPosition PositionOfCube Test Addition XOfPosition PositionOfCube Victim DoubleConstant 1
+And IsSameDirection Forwards West IsEqual XOfPosition PositionOfCube Test Addition XOfPosition PositionOfCube Victim DoubleConstant -1
+SetCaster Victim TakeXDamageEffect Division EventAmount DoubleConstant 2 2 Zap
+Description: After an ally deals damage to a cube, that cube also deals half that much damage to every enemy in the next column End
+IsUpgradeFrom: Shockwave_Piercing 60
+End
+
+PERK: Expensive_Recall
+Ability: AfterACubeTakesDamage If IsEnemyToCaster Victim If Not IsALeader Victim
+If IsLarger HpOfCube Victim DoubleConstant 0 If X%Chance DoubleConstant 10
+TargetCube Victim Both Exile AddCubeToHandOfFaction Target FactionOfCube Target
+Description: After a non leader enemy takes damage, if it has more than 0hp, 10% chance to exile it and add a copy to your opponent's hand End
+IsUpgradeFrom: Recall 100
+End
+
+PERK: Fell_The_Middleing
+Ability: AfterACubeDies If And IsEnemyToCaster Victim IsAllyToCaster Culprit 
+If IsLarger ManaCostOfCube Victim Multiplication DoubleConstant 2 ManaCostOfCube Culprit 
+SetCaster Culprit CreateCubeOnPosition Caster PositionOfCube Victim
+Description: After an ally kills an enemy which costs more than 2 times as much it replicates into that enemy's position End
+IsUpgradeFrom: Fell_The_Mighty 80
+Unique
+End
+
+PERK: Advanced_Hovering_Engine
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim GainAbility Advanced_Hovering
+Description: After an ally is created it gains Advanced_Hovering, stopping it from falling if there is a cube 2 or 3 spaces below End
+IsUpgradeFrom: Hovering_Engine 40
+Unique
+End
+
+PERK: Failing_Simplicity
+Ability: AfterACubeIsCreated If And IsAllyToCaster Victim IsPlaced TargetCube Victim
+Both GainAbility StrengthX 1 Both GainXExtraHp HpOfCube Target If X%Chance DoubleConstant 80 RemoveRandomAbility
+Description: After an ally is placed give it 1 strength and double its hp, then 80% chance to remove one of its abilities at random End
+IsUpgradeFrom: Simplicity 60
+End
+
+PERK: Sturdy_Construction_Support
+Ability: EveryXSeconds DoubleConstant 40 EveryCubeWhich IsAllyToCaster Test 
+Both If IsAllyToCaster CubeOfPosition PositionInDirectionFromPosition North PositionInDirectionFromPosition Forwards PositionOfCube Target
+ CreateCubeOnPosition CubeConstant Forwards_Support PositionInDirectionFromPosition North PositionOfCube Target
+If IsAllyToCaster CubeOfPosition PositionInDirectionFromPosition North PositionInDirectionFromPosition Backwards PositionOfCube Target
+ CreateCubeOnPosition CubeConstant Backwards_Support PositionInDirectionFromPosition North PositionOfCube Target
+ExtraTrigger: AfterACubeIsCreated If HasAbilityWithName Victim Fragile TargetCube Victim 
+Both RemoveAbilityWithName Fragile GainXExtraHp DoubleConstant 3
+Description: Every 40 seconds create a support in all positions with an ally infront or behind and one below, created cubes with fragile lose fragile and gain 3 extra hp End 
+Unique
+IsUpgradeFrom: Construction_Support 60
+End
+
+PERK: Big_Turrets
+Ability: EveryXSeconds DoubleConstant 35 EveryCubeWhich IsAllyToCaster Test 
+If X%Chance DoubleConstant 10 
+ CreateCubeOnPosition CubeConstant Big_Turret PositionInDirectionFromPosition North PositionOfCube Target
+Description: Every 35 seconds every ally has a 10% chance to create a Big_Turret above which shoots 2 damage bullets every 5 seconds End
+IsUpgradeFrom: Tiny_Turrets 80
+End
+
+PERK: Advanced_Laser_Command
+Ability: AfterACubeDies If IsEnemyToCaster Victim 
+Both CreateCubeOnPosition CubeConstant Diagonal_Down_Laser_Beam PositionXInfrontYBelowPosition DoubleConstant 0 DoubleConstant -2 PositionOfCube Victim
+Both CreateCubeOnPosition CubeConstant Diagonal_Down_Laser_Beam PositionXInfrontYBelowPosition DoubleConstant 0 DoubleConstant -3 PositionOfCube Victim
+Both CreateCubeOnPosition CubeConstant Diagonal_Down_Laser_Beam PositionXInfrontYBelowPosition DoubleConstant 0 DoubleConstant -4 PositionOfCube Victim
+Both CreateCubeOnPosition CubeConstant Diagonal_Down_Laser_Beam PositionXInfrontYBelowPosition DoubleConstant 0 DoubleConstant -5 PositionOfCube Victim
+Both CreateCubeOnPosition CubeConstant Diagonal_Down_Laser_Beam PositionXInfrontYBelowPosition DoubleConstant 0 DoubleConstant -6 PositionOfCube Victim
+CreateCubeOnPosition CubeConstant Diagonal_Down_Laser_Beam PositionXInfrontYBelowPosition DoubleConstant 0 DoubleConstant -7 PositionOfCube Victim
+Description: After an enemy dies create 6 Diagonal_Down_Laser_Beam 2 spaces above that enemy (in a column) End
+Unique
+IsUpgradeFrom: Laser_Command 80
+End
+
+PERK: Advanced_Paper_Airplane
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If Not HasAbilityWithName Victim UnfoldingX
+If X%Chance DoubleConstant 10
+TargetCube Victim GainAbility UnfoldingX 2
+Description: After an ally is created 10% chance it gains unfolding 2, 
+copying itself the first two times it moves End
+IsUpgradeFrom: Paper_Airplane 60
+End
+
+PERK: Doubling_Encroaching_Destruction
+Ability: BeforeACubeTakesDamage If IsAllyToCaster Culprit Both XFeedY DoubleConstant 750 EventAmount NegateX DoubleConstant -1
+XFeedY DoubleConstant 3000 EventAmount NegateX Minus EventAmount
+Description: After allies have dealt a total of 750 damage, ally damage is increased by 1 that battle, after 3000 damage is also doubled End
+IsUpgradeFrom: Encroaching_Destruction 60
+End
+
+PERK: Giant_Growing_Seedling
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim XFeedY DoubleConstant 5000 HpOfCube Victim TargetCube Victim
+GainAbility GrowthX 30
+Description: After 5000 hp worth of allies have been created, future allies created that battle gain 30 growth End
+IsUpgradeFrom: Growing_Seedling 40
+End
+
+PERK: Very_Hot_Fever
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim
+EveryCubeInHandOfFactionWhich FactionOfThis Not HasNameOfCube Test Victim
+ If Not CubeExists ARandomCubeInHandOfFactionWhich FactionOfThis And Not IsSameCube Test Target HasNameOfCube Test Target
+ If X%Chance DoubleConstant 10 SetStorage Target TargetCube Victim GainRandomAbilityOfCube Storage
+Description: After an ally is created for every unique differently named cube in your hand 10% chance the ally gains a random ability from that cube End
+IsUpgradeFrom: Hot_Fever 100
+End
+
+PERK: Lead_Leaf_Pile
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim Both GainXExtraHp DoubleConstant 3 
+GainAbility Unmovable
+Description: After an ally is created it gains 3 extra hp and can't move End
+IsUpgradeFrom: Leaf_Pile 40
+End
+
+PERK: Advanced_Dancing_Days
+Ability: Every10Seconds EveryCubeWhich IsAllyToCaster Test SetCaster Target Randomly
+ If IsPositionEmpty PositionInDirectionFromPosition Forwards PositionOfCube Target
+ Both GainAbility StrengthX 2
+ Both MoveInDirection Forwards
+ Both GainAbility TemporaryUnmovable 300
+  GainAbilityText Every5Seconds 1Shot Both MoveInDirection Backwards Both GainAbility StrengthX -2 RemoveThisAbility
+  After 5 seconds remove this ability, 1 strength and move backwards End
+ If IsPositionEmpty PositionInDirectionFromPosition Backwards PositionOfCube Target
+ Both GainAbility StrengthX 2
+ Both MoveInDirection Backwards
+ Both GainAbility TemporaryUnmovable 300
+  GainAbilityText Every5Seconds 1Shot Both MoveInDirection Forwards Both GainAbility StrengthX -2 RemoveThisAbility
+  After 5 seconds remove this ability, 1 strength and moves forwards End
+Description: Every 10 seconds every ally moves forwards or backwards randomly if empty that way, for 10 seconds it gains 2 strength and can't move then moves back End
+IsUpgradeFrom: Dancing_Days 80
+End
+
+PERK: Very_Delayed_Death
+Ability: BeforeACubeDies If IsAllyToCaster Victim If Not HasAbilityWithName Victim SlowDoomed
+If IsLarger EventAmount DoubleConstant 0
+Both NegateX DoubleConstant 1 TargetCube Victim Both ChangeHp DoubleConstant 100 GainAbility SlowDoomed
+Description: Before an ally without slow doomed dies, it gains 100 hp and doomed which kills it after 3 second and exiles it after 6 seconds End
+Unique
+IsUpgradeFrom: Delayed_Death 100
+End
+
+PERK: Strange_Learning_Thoughts
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim XFeedY DoubleConstant 500 AmountOfAbilitiesOfCube Victim TargetCube Victim
+GainRandomAbilityOfCube ARandomCubeInLibraryWhich Not IsToken Test
+Description: After 500 abilities worth of allies have been created, future allies created that battle gain a random ability of a random cube in the game End
+IsUpgradeFrom: Learning_Thoughts 60
+End
+
+PERK: Specific_First_Bottle
+CampaignAbility: AfterYouGainAPerk If PerkIsType Target Consumable If IsEqual AmountOfPerksInInventoryWhich PerkHasNameOfPerk Test Target DoubleConstant 1
+ ObtainPerk Target
+Description: After you gain a consumable if you now have exactly 1 perk with that name gain another copy End
+Unique
+IsUpgradeFrom: First_Bottle 60
+End
+
+PERK: Imminent_Praise_Chaos
+ObtainAction: Both ChangeCampaignVariable CHESTCHAOS DoubleConstant 1
+ Both ChangeCampaignVariable CHESTMINVALUEADD DoubleConstant -100
+ Both ChangeCampaignVariable CHESTMAXVALUEADD DoubleConstant 100
+ ReadAPartialScenario Basic_Perk_Reward
+RemoveAction: Both ChangeCampaignVariable CHESTCHAOS DoubleConstant -1
+ Both ChangeCampaignVariable CHESTMINVALUEADD DoubleConstant 100
+ ChangeCampaignVariable CHESTMAXVALUEADD DoubleConstant -100
+Description: Perk Chests may now contain perks of all types, they may also have up to 100 less or 100 more value, open a perk chest right now End
+IsUpgradeFrom: Praise_Chaos 60
+End
+
+PERK: Shiny_Red_Hoodie
+CampaignAbility: AfterYouGainAPerk If Not PerkHasNameOfPerk Target PerkConstant Shiny_Red_Hoodie
+ If Not PerkIsUnique Target IfElse X%Chance Addition DoubleConstant 10 GetCampaignVariable SHINY_RED_HOODIE_CHANCE
+  XTimes DoubleConstant 2 ObtainPerk Target
+  ChangeCampaignVariable SHINY_RED_HOODIE_CHANCE DoubleConstant 5
+Description: After gaining another non unique perk 10% chance to gain 2 additional copies, every time this chance fails it increases by 5% PERMANENTLY (Does not carry over any stored chance from the un-upgraded version). \N 
+Current added chance: CVARIABLE SHINY_RED_HOODIE_CHANCE \B % End
+IsUpgradeFrom: Red_Hoodie 160
+Unique
+End
+
+PERK: Heavy_Impact_Damage
+Ability: AfterACubeCollides If IsAllyToCaster Culprit If IsEnemyToCaster Storage SetCaster Victim TargetCube Storage
+TakeXDamage HpOfCube Victim
+Description: After an ally moves a cube into an enemy the cube deals X damage to that enemy, where X is the hp of the moved cube End
+IsUpgradeFrom: Impact_Damage 120
+End
+
+Perk: Clear_Bullet_Trail
+Ability: AfterACubeMoves If IsAllyToCaster Victim If Not HasNameOfCube Victim Rapid_Down_Bullet
+CreateCubeOnPosition CubeConstant Rapid_Down_Bullet OriginalPosition
+Description: After an ally moves create a 1 damage downward bullet at the original position End
+IsUpgradeFrom: Bullet_Trail 200
+Unique
+End
+
+Perk: Many_Happy_Glitch
+Ability: Every30Seconds
+TargetPerk ARandomPerkInLibraryWhich IsTestPerkCubable
+AddCubeToHandOfFaction FreeCopy CopyWithAction CubeConstant Glitch
+ Both GainAllAbilitiesOfPerk Target
+ Both SetSpriteToPerk Target
+ SetSpriteToCube CombinationOf2Cubes Target CubeConstant Glitch
+FactionOfThis 
+Description: Every 30 seconds add a free glitch to your hand which has the ability of a random applicable perk in the game End
+IsUpgradeFrom: Happy_Glitch 200
+End
+
+Perk: Advanced_Insect_Shell
+Ability: AfterACubeTakesDamage If IsAllyToCaster Victim 
+If IsSmaller MaxHpOfCube Victim 15
+TargetCube Victim Both GainXExtraHp Subtraction 15 MaxHpOfCube Victim
+GainAbility TemporaryStrength -1 1800
+Description: After an ally takes damage if it has less than 15 max hp it gains extra hp equal to the difference and -1 Strength for 30 seconds End
+IsUpgradeFrom: Insect_Shell 60
+Unique
+End
+
+Perk: Effective_General_Assistant
+Ability: EveryMinute EveryCubeInHandOfFactionWhich FactionOfThis Not IsSmaller ManaCostOfCube Test DoubleConstant -7
+Both GainAbility CheaperX 3 ChangeManaCost -3
+Description: Every minute reduce the cost of every cube in your hand by 3 until placed, min -10 End
+IsUpgradeFrom: General_Assistant 60
+End
+
+Perk: Eternal_Automatic_Assignment
+ Ability: BeforeManaIsGenerated If IsAllyToCaster Culprit If IsLarger EventAmount DoubleConstant 0
+ If Not IsSmaller ManaOfFaction FactionOfThis DoubleConstant 10
+ If IsLarger AmountOfCubesInHandOfFactionWhich FactionOfThis True DoubleConstant 6
+ If Not CubeExists ARandomCubeInHandOfFactionWhich FactionOfThis 
+  CubeExists ARandomCubeInHandOfFactionWhich FactionOfThis And HasNameOfCube Test Target Not IsSameCube Test Target
+ TargetCube ARandomCubeInHandOfFactionWhich FactionOfThis True
+ Both Both GainAbility CheaperX 3 ChangeManaCost -3
+ NegateX EventAmount
+Description: Instead of generating mana past 10 a random cube in your hand costs 3 less until placed. \N Must have at least 7 cubes in hand and no duplicate names End
+IsUpgradeFrom:  Automatic_Assignment 60
+Unique
+End
+
+PERK: Triple_Barrier
+Ability: Every20Seconds 
+Both Secret SetVariable BARRIER_TEMP DoubleConstant 0
+Until IsLarger GetVariableOnCube BARRIER_TEMP Caster MaxWorldY
+ Both CreateCubeOnPosition CubeConstant Barrier PositionFromXAndY 12 GetVariableOnCube BARRIER_TEMP Caster
+ Both CreateCubeOnPosition CubeConstant Barrier PositionFromXAndY 14 GetVariableOnCube BARRIER_TEMP Caster
+ Both CreateCubeOnPosition CubeConstant Barrier PositionFromXAndY 16 GetVariableOnCube BARRIER_TEMP Caster
+Secret ChangeVariable BARRIER_TEMP DoubleConstant 1
+Nothing
+Description: Every 20 seconds create a barrier in every space of the 12th, 14th and 16th column, (they have 5 hp, kill touching barriers when they die) End
+Unique
+IsUpgradeFrom: Weak_Barrier 60
+End
+
+PERK: Demonic_Cult_Handbook
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim Both EveryXTimes 20 EveryCubeInHandOfFactionWhich FactionOfThis  
+ Not IsSmaller ManaCostOfCube Test DoubleConstant 41
+ ChangeManaCost DoubleConstant -1
+ EveryXTimes 100 EveryCubeInHandOfFactionWhich FactionOfThis True GainAbility StrengthX 1
+Description: Every 20 allies created reduce the cost of every cube in your hand by 1, minimum 40,
+ every 100 allies created every cube in your hand gains 1 strength End
+IsUpgradeFrom: Cult_Handbook 60
+End
+
+PERK: Advanced_Loss_Compensator
+CampaignAbility: AfterYouLoseAPerk If X%Chance DoubleConstant 40 
+If Not HasPerk Target ObtainPerk Target
+Description: After you lose a perk (any kind of perk) 40% chance to regain it, unless you still have a perk with that name End
+Unique
+IsUpgradeFrom: Loss_Compensator 60
+End
+
+PERK: Continious_Fog_Machine
+Ability: AtTheStartOfTheBattle Both
+SetVariable TEMP_SOLIDX Addition 1 MaxWorldX 
+Until IsSmaller GetVariableOnCube TEMP_SOLIDX Caster DoubleConstant 1
+ Both ChangeVariable TEMP_SOLIDX DoubleConstant -1
+ Both SetVariable TEMP_SOLIDY Addition 1 MaxWorldY
+  Until IsSmaller GetVariableOnCube TEMP_SOLIDY Caster DoubleConstant 1
+  Both ChangeVariable TEMP_SOLIDY DoubleConstant -1
+  CreateCubeOnPosition CubeConstant Fog PositionFromXAndY
+   GetVariableOnCube TEMP_SOLIDX Caster GetVariableOnCube TEMP_SOLIDY Caster
+ Nothing
+RemoveThisAbility
+Ability: EveryXMinutes 8 Both
+SetVariable TEMP_SOLIDX Addition 1 MaxWorldX 
+Until IsSmaller GetVariableOnCube TEMP_SOLIDX Caster DoubleConstant 1
+ Both ChangeVariable TEMP_SOLIDX DoubleConstant -1
+ Both SetVariable TEMP_SOLIDY Addition 1 MaxWorldY
+  Until IsSmaller GetVariableOnCube TEMP_SOLIDY Caster DoubleConstant 1
+  Both ChangeVariable TEMP_SOLIDY DoubleConstant -1
+  CreateCubeOnPosition CubeConstant Fog PositionFromXAndY
+   GetVariableOnCube TEMP_SOLIDX Caster GetVariableOnCube TEMP_SOLIDY Caster
+ Nothing
+Nothing
+Description: At the start of each battle and every 8 minutes create fog everywhere, fog dies after 1 second to 3 minutes (randomized individually) End
+IsUpgradeFrom: Fog_Machine 60
+Unique
+End
+
+PERK: Extremely_Rowdy_Generator
+Ability: EverySecond GenerateXMana 1
+ExtraTrigger: AfterACubeIsCreated If IsPlaced If IsAllyToCaster Culprit If IsAllyToCaster Victim GenerateXMana -20
+Description: Every second generate 1 mana, after you place an ally generate -20 mana End
+IsUpgradeFrom: Rowdy_Generator 60
+End
+
+PERK: Lucky_Blood_Scavenger
+Ability: AfterACubeTakesDamage If And IsEnemyToCaster Victim Not IsALeader Victim 
+ If X%Chance 2
+AddCubeToHandOfFaction FreeCopy CopyWithAction Victim 
+ Both SetFaction FactionOfThis ChangeHp Subtraction MaxHpOfCube Target HpOfCube Target
+ FactionOfThis
+Description: After a cube deals damage to a non leader enemy, 2% chance to add a free full hp allied copy of that enemy to your hand End
+IsUpgradeFrom: Blood_Scavenger 60
+End
+
+PERK: Lucky_Arrival_Swap
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If Not IsALeader Victim 
+Both 1Shot TargetCube Victim Both Exile CreateCubeOnPosition TheXSlotInHandOfFaction DoubleConstant 3 FactionOfThis PositionOfCube Victim
+ If X%Chance 5 TargetCube Victim Both Exile CreateCubeOnPosition TheXSlotInHandOfFaction DoubleConstant 3 FactionOfThis PositionOfCube Victim
+Description: After a non leader ally is created, the first time and 5% chance always, to exile it and create a copy of the fourth cube in your hand in its place End
+IsUpgradeFrom: Arrival_Swap 60
+Unique
+End
+
+PERK: Shiny_Unstable_Blast
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim Both ChangeManaCost 20 GainAbility Unstable_Blast
+Description: Created allies gain +20 manacost and: "After 1 minute deal half manacost damage to a random enemy, remove this ability when this deals damage in any way" End
+IsUpgradeFrom: Unstable_Blast 40
+Unique
+End
+
+PERK: Actually_Helpful_Dupodop
+Ability: AfterACubeIsCreated If IsAllyToCaster Culprit SetCaster Culprit Both Both 
+ CreateCubeOnPosition Victim PositionInDirectionFromPosition South PositionOfThis
+ CreateCubeOnPosition Victim PositionInDirectionFromPosition South PositionInDirectionFromPosition South PositionOfThis
+ CreateCubeOnPosition Victim PositionInDirectionFromPosition North PositionOfThis
+Description: After an ally creates a cube, the ally also creates copies of that cube in the 2 spaces below itself and 1 space above itself End
+IsUpgradeFrom: Dupodop 200
+End
+
+PERK: Scaling_Loyal_Squizzel
+Ability: Every30Seconds
+If Not CubeExists ARandomCubeWhich And IsAllyToCaster Test CubeHasName Test Squizzel
+CreateCubeOnPosition CopyWithAction CubeConstant Squizzel Both GainAbility PoisonousX 5 GainXExtraHp Multiplication 2 RoundedDown Division WorldTime 3600
+ PositionInDirectionFromPosition North PositionOfCube 
+ARandomCubeWhich And IsAllyToCaster Test IsPositionEmpty PositionInDirectionFromPosition North PositionOfCube Test 
+Description: Every 30 seconds create Squizzel above a random ally which has space, unless there still is an allied Squizzel. Squizzel is created poisonous and with 2 extra hp per minute elapsed that battle End
+IsUpgradeFrom: Loyal_Squizzel 80
+Unique
+End
+
+PERK: Beneficial_Mana_Crisis
+Ability: AtTheStartOfTheBattle Both Both 
+ EveryCubeInHandOfFactionWhich FactionOfThis True ChangeManaCost ManaCostOfCube Target
+ Silent ChangeMaxManaOfFaction MaxManaOfFaction FactionOfThis FactionOfThis
+ Silent GenerateXMana ManaOfFaction FactionOfThis
+ExtraTrigger: BeforeManaIsGenerated If IsAllyToCaster Culprit If IsLarger EventAmount 0
+NegateX Minus Multiplication 2 EventAmount
+Description: Double the following: Your starting hand cubes' costs and your starting max mana and mana. Triple: all allied positive mana generation End
+IsUpgradeFrom: Mana_Crisis 200
+Unique
+End
+
+PERK: Cheap_Forgery_Kit
+Ability: BeforeACubeIsAddedToYourHand If Not HasAbilityWithName Victim Golden AddCubeToHandOfFaction CopyWithAction Victim Both ChangeManaCost Division ManaCostOfCube Target -2 
+GainAbility Golden FactionOfThis
+Description: Before a non golden cube is added to your hand add a half off golden copy to your hand (the golden ability does nothing) End
+IsUpgradeFrom: Forgery_Kit 60
+End
+
+PERK: Steady_Future_Gains
+CampaignAbility: AfterYouGainOrLoseCurrency If IsLarger EventAmount 0 
+ Both ChangeCampaignVariable FUTURE_GAINS EventAmount
+ Both ChangeStartingMaxMana EventAmount
+ ChangeStartingMana EventAmount
+Ability: AtTheStartOfTheBattle 
+ Both ChangeStartingMaxMana Minus GetCampaignVariable FUTURE_GAINS
+ Both ChangeStartingMana Minus GetCampaignVariable FUTURE_GAINS
+ Both GainXExtraHp GetCampaignVariable FUTURE_GAINS
+ Both SetCampaignVariable FUTURE_GAINS 0
+ RemoveThisAbility
+Description: After you gain gold start the next battle with that much extra max mana, mana and starting leader extra hp \N Current gains: CVARIABLE FUTURE_GAINS End
+IsUpgradeFrom: Future_Gains 60
+End
+
+PERK: Aggressive_Determination
+Ability: AtTheStartOfTheBattle Both RemoveThisAbility ChangeCampaignVariable DEATH_DETERMINATION DoubleConstant 1800
+Ability: BeforeThisDies Both If IsLarger EventAmount DoubleConstant 0
+If IsLarger GetCampaignVariable DEATH_DETERMINATION 0
+ Both NegateX EventAmount
+ ChangeCampaignVariable DEATH_DETERMINATION Minus 1
+EveryXTimes 30 TargetCube ARandomEnemy TakeXDamage 1
+Description: The first 1800 times your starting leader would die each battle it doesn't instead, every 30 times it also deals 1 damage to a random enemy (it's not healed, 1800 is 30 seconds) \N
+Death prevention left: CVARIABLE DEATH_DETERMINATION End
+WorldAbility: AfterEndOfTheBattle SetCampaignVariable DEATH_DETERMINATION DoubleConstant 0
+AbilityText: At the end of battle reset death determination End
+IsUpgradeFrom: Determination 60
+End
+
+PERK: Reinforced_Spare_Screws
+Ability: AfterACubeIsCreated If IsAllyToCaster Culprit If IsPlaced 1Shot Both GenerateXMana 120
+TargetCube Victim Both GainAbility Unmovable Both GainAbility ArmorX 1 GainXExtraHp 10
+Description: After you place the first cube each battle gain 120 mana and that cube gains: Can't move, 1 Armor and 10 extra hp End
+IsUpgradeFrom: Spare_Screws 80
+Unique
+End
+
+PERK: Overtaking_Friendly_Automaton
+Ability: EveryXSeconds 20 Both GenerateXMana -10 CreateCubeOnPosition ARandomCubeInHandOfFactionWhich FactionOfThis TRUE ARandomLeftPosition
+Description: Every 20 seconds lose 10 mana and your starting leader creates a copy of a random cube in your hand on a random left side position End
+IsUpgradeFrom: Friendly_Automaton 80
+End
+
+PERK: Multiplying_Ring_Of_Paper
+Ability: AtTheStartOfTheBattle AddCubeToHandOfFaction CubeConstant Ring_Of_Paper FactionOfThis
+ExtraTrigger: EveryXMinutes DoubleConstant 5 AddCubeToHandOfFaction CubeConstant Ring_Of_Paper FactionOfThis
+Description: Start with a Ring_Of_Paper which makes a non leader gain 1 unfolding (replicating once after moving) every 3 minutes and is returned when the cube dies, also gain another ring every 5 minutes End
+IsUpgradeFrom: Ring_Of_Paper 40
+End
+
+PERK: High_Jump_Dodge
+Ability: AfterACubeTakesDamage If IsAllyToCaster Victim If Not IsALeader Victim SetCaster Victim TargetCube Victim Both 
+ XTimes 5 MoveInDirection North
+ GainAbility TemporaryUnmovable 1800
+Description: After a non leader ally takes damage it moves upwards five times and can't move or be moved for 30 seconds End
+Unique
+IsUpgradeFrom: Jump_Dodge 40
+End
+
+PERK: Lasting_Shield_Ceiling
+Ability: AfterACubeMoves If IsAllyToCaster Victim If X%Chance Addition 5 ManaCostOfCube Victim
+ SetCaster Victim CreateCubeOnPosition CopyWithAction CubeConstant Shield GainAbility DieAfterX 36000
+   PositionInDirectionFromPosition North PositionOfCube Caster
+Description: After an ally moves X% chance it creates a shield above itself which dies after 10 minute, X is the allies manacost + 5 End
+IsUpgradeFrom: Shield_Ceiling 40
+End
+
+PERK: Inclusive_Anchoring_Field
+Ability: BeforeACubeMovesNegation If Not IsEnemyToCaster Victim If And
+ IsSmaller AbsoluteAmount Subtraction XOfPosition PositionOfThis XOfPosition PositionOfCube Victim 5
+ IsSmaller AbsoluteAmount Subtraction YOfPosition PositionOfThis YOfPosition PositionOfCube Victim 5
+ NegateX 1
+Description: Non enemies in a 9x9 square around your starting leader can't move End
+Unique
+IsUpgradeFrom: Anchoring_Field 40 
+End
+
+PERK: Heavy_Blood_Dice
+ObtainAction: ChangeRerollCost DoubleConstant -120
+RemoveAction: ChangeRerollCost DoubleConstant 120
+CampaignAbility: AfterYouReroll Both LoseALife SufferXWounds 2
+Description: Rerolling costs 120 gold less, but after you reroll gain 2 wounds and lose a life End
+IsUpgradeFrom: Blood_Dice 0 
+End
+
+PERK: Expanded_Vengeful_Column
+Ability: AfterACubeTakesDamage If IsAllyToCaster Victim If Or IsEqual XOfPosition PositionOfCube Victim 7 IsEqual XOfPosition PositionOfCube Victim 6
+Cooldown 180 TargetCube Culprit TakeXDamage 3
+ExtraTrigger: AtTheStartOfTheBattle EveryCubeWhich Or IsEqual XOfPosition PositionOfCube Test 7 IsEqual XOfPosition PositionOfCube Test 6
+  GainAbility Golden
+Description: After an ally in the 8th or 7th column takes damage deal 3 damage to the culprit, coolown 3 seconds. At battle start cubes in those columns gain golden End
+IsUpgradeFrom: Vengeful_Column 100
+End
+
+PERK: Massive_Copper_Bell
+Ability: ThrummingX 10
+Description: Every 3 times your starting leader takes damage it deals 10 damage to the first enemy any distance in front which has a higher manacost than the culprit End
+IsUpgradeFrom: Tiny_Copper_Bell 120
+End
+
+PERK: Oppressive_Continual_Chanting
+Ability: EveryXSeconds 10 EveryCubeWhich IsAllyToCaster Test GainAbility FervorX 1
+ExtraTrigger: BeforeACubeTakesDamage If IsAllyToCaster Culprit NegateX 1
+Description: Allies deal -1 damage. Every 10 seconds every ally gains 1 fervor increasing the next damage it deals by 1 End
+IsUpgradeFrom: Continual_Chanting 80
+End
+
+PERK: Universal_Down_Lasers
+Ability: AfterACubeIsCreated If Not IsEnemytoCaster Victim TargetCube Victim Secret GainAllAbilitiesOfCube CubeConstant Down_Laser
+Description: After a non enemy is created it gains all abilities of a Down_Laser (it shoots a laser diagonally forwards and downwards every 2 seconds) End
+Unique
+IsUpgradeFrom: Down_Lasers 80
+End
+
+PERK: Bizarre_Production_Error
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If Not IsPlaced SetStorage TheXSlotInHandOfFaction 3 FactionOfThis 
+ If CubeExists Storage If X%Chance Division 200 ManaCostOfCube Storage Both TargetCube Victim Exile
+  CreateCubeOnPosition CombinationOf2Cubes Victim CombinationOf2Cubes Storage ARandomCubeInLibraryWhich Not IsToken Test
+  PositionOfCube Victim
+Description: After an ally is created but not placed X% chance to replace it with a combination of it, the 4th cube in your hand and a completely random cube. X is 200/Manacost of 4th cube End
+IsUpgradeFrom: Production_Error 60
+End
+
+PERK: Extreme_Bloodlust
+Ability: AfterACubeDies If Not IsEnemyToCaster Culprit TargetCube Culprit Both GainAbility FervorX 2
+TargetCube ARandomCubeWhich IsAllyToCaster Test GainAbility FervorX 2
+Description: After a non enemy kills a cube it and a random ally gains 2 Fervor, increasing the next damage dealt from each of them by 2 End
+IsUpgradeFrom: Bloodlust 60
+End
+
+PERK: Less_Tiny_School
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim GainAllAbilitiesOfCube
+ TheFirstCubeInHandOfFactionWhich FactionOfThis And IsAllyToCaster Test Not IsLarger ManaCostOfCube Test Division ManaCostOfCube Target 4
+Description: After an ally is created it gains all abilities of the first ally in hand which costs at most 25% as much End
+IsUpgradeFrom: Tiny_School 60
+End
+
+PERK: Chaining_Off_Button
+LevelRequirement: 15
+NextPerkConnection: PerkExists Test 128 128 128
+WorldAbility: AtTheStartOfTheBattle SetCampaignVariable CHAINING_OFF_BUTTON 1
+ClickAction: If BattleOngoing Both Both
+ EveryCubeWhich IsALeader Test EveryAbilityOfCubeWhich Target IsEqual PerkConnectionOfAbility Test Addition GetCampaignVariable CHAINING_OFF_BUTTON PerkConnectionOfAbility ThisAbility
+  RemoveAbility Target
+ EveryAbilityOfCubeWhich WorldCube IsEqual PerkConnectionOfAbility Test Addition GetCampaignVariable CHAINING_OFF_BUTTON PerkConnectionOfAbility ThisAbility
+  RemoveAbility Target
+ If IsSmaller GetCampaignVariable CHAINING_OFF_BUTTON 3 ChangeCampaignVariable CHAINING_OFF_BUTTON 1
+Description: Click on this perk during battle to disable any further battle effects of the next perk in your inventory for the rest of that battle,
+ the next click removes the ability after that, up to 3 different perks total \N 
+ CurrentOffset = CVARIABLE CHAINING_OFF_BUTTON End
+Unique
+IsUpgradeFrom: Off_Button 180
+End
+
+PERK: Repeating_Bottle_Rockets
+Ability: EveryXSeconds 20
+ AddCubeToHandOfThis FreeCopy ARandomCubeInLibraryWhich And Not IsToken Test IsEqual HpOfCube Test 0
+Description: Every 20 seconds add a random 0 hp cube to your hand, except it's free End
+IsUpgradeFrom: Bottle_Rockets 160
+End
+
+PERK: Scaling_Aspiration
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim 
+ Both XTimes AmountOfAbilitiesOfCube Victim GainAbility Adaptable
+  XTimes AmountOfAbilitiesOfCube Victim ChangeMaxHp 1
+Description: After an ally is created it gains adaptable for each of its abilities, then 1 max hp for each of its abilities End
+IsUpgradeFrom: Aspiration 80
+Unique
+End
+
+PERK: Nearby_Hidden_Riches
+Ability: EveryXSeconds 20 TargetCube ARandomCubeWhich And IsSmaller XOfPosition PositionOfCube Test Division MaxWorldX 2 IsNeutral Test
+ Both Exile CreateCubeOnPosition CopyWithAction CubeConstant Mana_Crystal SetFaction 0  PositionOfCube Target
+Description: Every 20 seconds replace a random neutral cube on the left side of the battlefield with neutral Mana_Crystal which gives 30 mana and max mana to the killer End
+IsUpgradeFrom: Hidden_Riches 60
+End
+
+PERK: Centralized_Tag_Team
+Ability: BeforeACubeTakesDamage If IsAllyToCaster Culprit If IsAllyToCaster CubeInDirectionFromCube North Caster
+Both SetCaster CubeInDirectionFromCube North Caster TargetCube Victim TakeXDamage Addition 1 EventAmount
+NegateX EventAmount
+Description: Before an ally deals damage, if there is an ally above your starting leader, reduce damage to 0, but the above ally deals the damage + 1 to the same victim End
+Unique
+IsUpgradeFrom: Tag_Team 40
+End
+
+PERK: Thorough_True_Defeat
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim Secret GainAbility TwiceUndefeated
+Description: Created allies can't die until damaged by cubes twice or killed by abilities twice End
+Unique
+IsUpgradeFrom: True_Defeat 100
+End
+
+PERK: Grabby_Hunger
+Ability: AfterACubeDies If IsAllyToCaster Culprit If Not IsSameCube Culprit Victim TargetCube ARandomAlliedLeader GainXExtraHp 2
+Description: After an ally kills another cube a random allied leader gains 2 extra hp End
+IsUpgradeFrom: Hunger 100
+End
+
+PERK: More_Barrier_Platforms
+Ability: EveryXSeconds 10 
+Both CreateCubeOnPosition Barrier PositionXInfrontYBelowPosition -1 -2 PositionOfThis 
+Both CreateCubeOnPosition Barrier PositionXInfrontYBelowPosition 0 -2 PositionOfThis 
+Both CreateCubeOnPosition Barrier PositionXInfrontYBelowPosition 1 -2 PositionOfThis 
+Both CreateCubeOnPosition Barrier PositionXInfrontYBelowPosition -1 -4 PositionOfThis 
+Both CreateCubeOnPosition Barrier PositionXInfrontYBelowPosition 0 -4 PositionOfThis 
+Both CreateCubeOnPosition Barrier PositionXInfrontYBelowPosition 1 -4 PositionOfThis
+Both CreateCubeOnPosition Barrier PositionXInfrontYBelowPosition -1 -6 PositionOfThis 
+Both CreateCubeOnPosition Barrier PositionXInfrontYBelowPosition 0 -6 PositionOfThis 
+Both CreateCubeOnPosition Barrier PositionXInfrontYBelowPosition 1 -6 PositionOfThis
+Both CreateCubeOnPosition Barrier PositionXInfrontYBelowPosition -1 -8 PositionOfThis 
+Both CreateCubeOnPosition Barrier PositionXInfrontYBelowPosition 0 -8 PositionOfThis 
+Both CreateCubeOnPosition Barrier PositionXInfrontYBelowPosition 1 -8 PositionOfThis 
+Both CreateCubeOnPosition Barrier PositionXInfrontYBelowPosition -1 -10 PositionOfThis 
+Both CreateCubeOnPosition Barrier PositionXInfrontYBelowPosition 0 -10 PositionOfThis 
+Both CreateCubeOnPosition Barrier PositionXInfrontYBelowPosition 1 -10 PositionOfThis
+Both CreateCubeOnPosition Barrier PositionXInfrontYBelowPosition -1 -12 PositionOfThis 
+Both CreateCubeOnPosition Barrier PositionXInfrontYBelowPosition 0 -12 PositionOfThis 
+ CreateCubeOnPosition Barrier PositionXInfrontYBelowPosition 1 -12 PositionOfThis
+Description: Every 10 seconds create 6 platforms made of 3 barrier cubes 2, 4, 6, 8, 10, 12 spaces above your starting leader End
+IsUpgradeFrom: Barrier_Platforms 40
+Unique
+End
+
+PERK: Mass_Spiky_Industrialization
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim
+Both SetVariable TEMP DoubleConstant 0
+Both If IsAllyToCaster CubeInDirectionFromCube North Victim ChangeVariable TEMP DoubleConstant 1
+Both If IsAllyToCaster CubeInDirectionFromCube East Victim ChangeVariable TEMP DoubleConstant 1
+Both If IsAllyToCaster CubeInDirectionFromCube South Victim ChangeVariable TEMP DoubleConstant 1
+Both If IsAllyToCaster CubeInDirectionFromCube West Victim ChangeVariable TEMP DoubleConstant 1
+If IsLarger GetVariableOnCube TEMP Caster DoubleConstant 2
+Both TargetCube Victim GainAbility SpikyFactory 
+ EveryCubeTouchingPosition PositionOfCube Victim If IsAllyToCaster Target GainAbility SpikyFactory
+Description: After an ally is created touching at least 3 allies they all gain: Every 33 seconds create a 2 damage bouncy arcing Spike_Ball_Projectile above End
+IsUpgradeFrom: Spiky_Industrialization 120
+Unique
+End
+
+PERK: More_Gold_Bars
+ObtainAction: ChangeCurrency 1000
+Description: When you gain this perk gain 1000 gold End
+IsUpgradeFrom: Gold_Bars 500
+End
+
+PERK: Advanced_Settling_In
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim TargetCube Victim Secret GainAbilityText
+ EveryXMinutes 3 Both Both GainAbility RegenerationX 2 GainAbility GrowthX 1 GainAbility StrengthX 1 
+ Every 3 minutes gain 2 regeneration, 1 growth and 1 strength End
+Description: After an ally is created grant it: Every 3 minutes gain 2 regeneration, 1 growth and 1 strength End
+IsUpgradeFrom: Settling_In 60
+End
+
+PERK: Recuperating_Personal_Scrapyard
+WorldAbility: AfterYouWin ReadAScenario Event_Scrapyard
+ExtraTrigger: AfterYouLose ReadAScenario Event_Scrapyard
+Description: After you win or lose a battle encounter the scrapyard event which gives a variety of mildly useful perks End
+IsUpgradeFrom: Personal_Scrapyard 30
+End
+
+PERK: Rapid_Thought_Attack
+Ability: EveryXSeconds 60 EveryCubeInHandOfFactionWhich FactionOfThis True SetCaster Target 
+ Both HealXDamage 2 TargetCube ARandomEnemy TakeXDamage 2
+Description: Every 60 seconds every cube in your hand heals itself for 2 hp and deals 2 damage to a random enemy (on the battlefield) End
+IsUpgradeFrom: Thought_Attack 60
+End
+

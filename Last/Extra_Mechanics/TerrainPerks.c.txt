@@ -1,0 +1,179 @@
+COMPOUND: ABILITY
+MapGenerationTPEB
+AfterWorldSomething Both Both Both
+ If IsType Battle_Terrain_Generation GenericAction
+ If IsType Battle_Player_Generation 
+  If Not CubeExists ARandomCubeWhich And IsAlly Test IsALeader Test 
+   GenericAction
+ If IsType Battle_Enemy_Generation 
+  If Not CubeExists ARandomCubeWhich And IsEnemy Test IsALeader Test
+   GenericAction
+ If IsType Battle_Boss_Generation 
+  If Not CubeExists ARandomCubeWhich And IsEnemy Test IsALeader Test
+   GenericAction
+NORANDOM
+End
+
+PERK: Base_Terrain
+BelongsTo: Terrain
+WorldAbility: MapGenerationTPEB
+ ReadAPartialScenario Earth_Terrain
+ ReadAPartialScenario Battle_Normal_Player
+ ReadAPartialScenario Battle_Normal_Enemy
+ ReadAPartialScenario Battle_Normal_Boss
+Description: The base terrain (Earth and Rock) End
+ReferenceCube: Earth
+ReferenceCube: Rock
+End
+
+PERK: Mountains
+BelongsTo: Terrain
+WorldAbility: MapGenerationTPEB
+ ReadAPartialScenario Mountain_Terrain
+ ReadAPartialScenario Battle_High_Player
+ ReadAPartialScenario Battle_High_Enemy
+ ReadAPartialScenario Battle_High_Boss
+Description: High mountains connected via rope bridges End
+ReferenceCube: Limestone
+ReferenceCube: Rope_Bridge
+ReferenceCube: Mana_Crystal
+End
+
+PERK: Warehouse
+BelongsTo: Terrain
+WorldAbility: MapGenerationTPEB
+ ReadAPartialScenario Warehouse_Terrain
+ ReadAPartialScenario Battle_Normal_Player
+ ReadAPartialScenario Battle_Normal_Enemy
+ ReadAPartialScenario Battle_Normal_Boss
+Description: Falling crates and transport belts End
+ReferenceCube: Rusty_Belt
+ReferenceCube: Crate
+ReferenceCube: Crate_Portal
+End
+
+PERK: Ocean
+BelongsTo: Terrain
+WorldAbility: MapGenerationTPEB
+ ReadAPartialScenario Ocean_Terrain
+ ReadAPartialScenario Battle_Middle_Player
+ ReadAPartialScenario Battle_Middle_Enemy
+ ReadAPartialScenario Battle_Middle_Boss
+Description: Water and islands, each player has an allied Wharf End
+ReferenceCube: Wharf
+ReferenceCube: Boat
+ReferenceCube: Water
+End
+
+PERK: Glacier
+BelongsTo: Terrain
+WorldAbility: MapGenerationTPEB
+ ReadAPartialScenario Glacier_Terrain
+ ReadAPartialScenario Battle_Normal_Player
+ ReadAPartialScenario Battle_Normal_Enemy
+ ReadAPartialScenario Battle_Normal_Boss
+Description: Slippery ice and freezing snow End
+ReferenceCube: Ice
+ReferenceCube: Compressed_Snow
+End
+
+PERK: Acid_Dome
+BelongsTo: Terrain
+WorldAbility: MapGenerationTPEB
+ ReadAPartialScenario Underacid_Dome_Terrain
+ ReadAPartialScenario Battle_Low_Player
+ ReadAPartialScenario Battle_Low_Enemy
+ ReadAPartialScenario Battle_Low_Boss
+Description: Glass dome under the acid sea (does not combine well with other terrains) End
+ReferenceCube: Acid
+ReferenceCube: Reinforced_Glass
+End
+
+PERK: Termite_Chasm
+BelongsTo: Terrain
+WorldAbility: MapGenerationTPEB
+ ReadAPartialScenario Termite_Chasm_Terrain
+ ReadAPartialScenario Battle_High_Player
+ ReadAPartialScenario Battle_High_Enemy
+ ReadAPartialScenario Battle_High_Boss
+Description: Chasm of sand where termites fight an eternal war End
+ReferenceCube: Termite_Den
+ReferenceCube: Orange_Sand_Stone
+ReferenceCube: Shield_Bridge_Emitter
+End
+
+PERK: Basalt_Monoliths
+BelongsTo: Terrain
+WorldAbility: MapGenerationTPEB
+ ReadAPartialScenario Basalt_Monoliths_Terrain
+ ReadAPartialScenario Battle_Normal_Player
+ ReadAPartialScenario Battle_Normal_Enemy
+ ReadAPartialScenario Battle_Normal_Boss
+Description: 2 monoliths over flat basalt terrain with evil hidden inside End
+ReferenceCube: Basalt
+ReferenceCube: Trapped_Evil
+End
+
+PERK: Hovering_Vault
+BelongsTo: Terrain
+WorldAbility: MapGenerationTPEB
+ ReadAPartialScenario Hovering_Vault_Terrain
+ ReadAPartialScenario Battle_Normal_Player
+ ReadAPartialScenario Battle_Normal_Enemy
+ ReadAPartialScenario Battle_Normal_Boss
+Description: Floating ground and a hovering vault End
+ReferenceCube: Porous_Rock
+ReferenceCube: Electric_Fence
+ReferenceCube: Mana_Crystal
+End
+
+PERK: Loop_Monument
+BelongsTo: Terrain
+WorldAbility: MapGenerationTPEB
+ ReadAPartialScenario Loop_Monument_Terrain
+ ReadAPartialScenario Battle_Normal_Player
+ ReadAPartialScenario Battle_Normal_Enemy
+ ReadAPartialScenario Battle_Normal_Boss
+Description: Floating platform and looped falling End
+ReferenceCube: Tungsten_Platform
+ReferenceCube: Loop_Chasm
+ReferenceCube: Scaffolding
+End
+
+PERK: Bronze_Forest
+BelongsTo: Terrain
+WorldAbility: MapGenerationTPEB
+ ReadAPartialScenario Bronze_Forest_Terrain
+ ReadAPartialScenario Battle_High_Player
+ ReadAPartialScenario Battle_High_Enemy
+ ReadAPartialScenario Battle_High_Boss
+Description: Bronze trees End
+ReferenceCube: Bronze_Leaves
+ReferenceCube: Bronze_Trunk
+ReferenceCube: Mana_Crystal
+End
+
+PERK: Spiky_Cave
+BelongsTo: Terrain
+WorldAbility: MapGenerationTPEB
+ ReadAPartialScenario Spiky_Cave_Terrain
+ ReadAPartialScenario Battle_Middle_Player
+ ReadAPartialScenario Battle_Middle_Enemy
+ ReadAPartialScenario Battle_Middle_Boss
+Description: Spiky caves End
+ReferenceCube: Stalactite
+ReferenceCube: Stalagmite
+End
+
+PERK: Titanic_Battle
+BelongsTo: Terrain
+WorldAbility: MapGenerationTPEB
+ ReadAPartialScenario Titanic_Battle_Terrain
+ ReadAPartialScenario Battle_High_Player
+ ReadAPartialScenario Battle_High_Enemy
+ ReadAPartialScenario Battle_High_Boss
+Description: 2 big robots fighting an uneven battle End
+ReferenceCube: Metal_Plate
+ReferenceCube: Diagonal_Mortar
+End
+

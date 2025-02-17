@@ -1,0 +1,143 @@
+SCENARIO: Battle
+Info: Normal Battle End
+CubeImage: Fighting_Symbol
+End
+MAP: 52 28
+
+STARTINGMANA: 2 50
+
+RANDOMFITTINGSETUP: 2
+
+AI: 2 True
+SECONDARYREVEALEDHAND: 2
+
+WORLDABILITY: NormalWinLoss
+WORLDABILITY: AfterYouLose Both LoseALife If IsSmaller RemainingLives DoubleConstant 1 EndCampaign
+WORLDABILITY: BeforeYouWin 1Shot GrantXP DifficultyXP
+WORLDABILITY: AfterYouWin Both Both
+ChangeCurrency DoubleConstant 30 
+ReadAScenario Basic_Cube_Reward
+ChangeDifficulty DoubleConstant 1 
+
+APPLYTERRAINPERKS
+
+EndMapData
+
+START_ACTION: IfElse PerkExists ARandomPerkInInventoryWhich PerkIsType Test Terrain
+  Both TriggerWorldSomething Battle_Terrain_Generation
+  Both TriggerWorldSomething Battle_Player_Generation
+  TriggerWorldSomething Battle_Enemy_Generation
+ Both ReadAPartialScenario Earth_Terrain
+ Both ReadAPartialScenario Battle_Normal_Player
+ ReadAPartialScenario Battle_Normal_Enemy
+
+CUBE_SELECTION
+
+SEnd
+
+
+
+SCENARIO: Cursed_Battle
+Info: Cursed Battle, but gain 10 more gold and a consumable End
+CubeImage: Cursed_Fighting_Symbol
+End
+MAP: 52 28
+
+STARTINGMANA: 2 50
+
+RANDOMFITTINGSETUP: 2
+
+AI: 2 True
+SECONDARYREVEALEDHAND: 2
+
+WORLDABILITY: NormalWinLoss
+
+WORLDABILITY: AfterYouLose Both LoseALife If IsSmaller RemainingLives DoubleConstant 1 EndCampaign
+WORLDABILITY: BeforeYouWin 1Shot GrantXP Multiplication 2 DifficultyXP
+WORLDABILITY: AfterYouWin Both Both Both Both
+ ChangeCurrency DoubleConstant 40
+ ReadAScenario Random_Consumable_Reward
+ ReadAScenario Basic_Cube_Reward
+ ChangeDifficulty DoubleConstant 1 
+ TriggerCampaignSomething Cursed_Battle_Win
+
+APPLYTERRAINPERKS
+
+EndMapData
+
+START_ACTION: IfElse PerkExists ARandomPerkInInventoryWhich PerkIsType Test Terrain
+  Both TriggerWorldSomething Battle_Terrain_Generation
+  Both TriggerWorldSomething Battle_Player_Generation
+  TriggerWorldSomething Battle_Enemy_Generation
+ Both ReadAPartialScenario Earth_Terrain
+ Both ReadAPartialScenario Battle_Normal_Player
+ ReadAPartialScenario Battle_Normal_Enemy
+
+CUBE_SELECTION
+SEnd
+
+
+
+SCENARIO: Boss_Battle
+Info: Boss Battle, if you lose you also have to boss battle again End
+CubeImage: Death_Ball
+End
+MAP: 52 28
+
+STARTINGMANA: 2 50
+
+RANDOMFITTINGSETUP: 2
+
+AI: 2 True
+SECONDARYREVEALEDHAND: 2
+
+WORLDABILITY: NormalWinLoss
+WORLDABILITY: AfterYouLose Both LoseALife IfElse IsSmaller RemainingLives DoubleConstant 1 
+  EndCampaign
+  ReadAScenario Boss_Repeat
+WORLDABILITY: BeforeYouWin 1Shot GrantXP Multiplication 4 DifficultyXP
+WORLDABILITY: AfterYouWin Both Both 
+ChangeCurrency DoubleConstant 60
+If Not IsEqual GetCampaignVariable MAPSCOMPLETED Addition GetCampaignVariable ADDITIONALMAPSNEEDED DoubleConstant 2 ReadAScenario Rare_Cube_Reward
+ChangeDifficulty DoubleConstant 2 
+
+APPLYTERRAINPERKS
+
+EndMapData
+
+START_ACTION: IfElse PerkExists ARandomPerkInInventoryWhich PerkIsType Test Terrain
+  Both TriggerWorldSomething Battle_Terrain_Generation
+  Both TriggerWorldSomething Battle_Player_Generation
+  TriggerWorldSomething Battle_Boss_Generation
+ Both ReadAPartialScenario Earth_Terrain
+ Both ReadAPartialScenario Battle_Normal_Player
+ ReadAPartialScenario Battle_Normal_Boss
+
+CUBE_SELECTION
+SEnd
+
+
+
+SCENARIO: Boss_Repeat
+ End
+CHOICE: 
+Another try End
+You lost against the boss but your lives allow you to try again End
+CubeImage: Death_Ball
+Choice: \C66 180 0 Retry the boss fight with new enemy cubes End 
+ ReadAScenario Boss_Battle
+SEnd
+
+
+SCENARIO: Player_AI
+Info: Enable the player AI End
+CubeImage: Fighting_Symbol
+End
+
+ADDITIONALMAP:
+
+AI: 1 True
+
+EndMapData
+
+SEnd

@@ -1,0 +1,58 @@
+PERK: Plant
+BelongsTo: SPECIES
+LevelRequirement: 3
+Description: Your starting leader has growth, gaining 10 extra hp per minute End
+Ability: GrowthX 10
+ObtainAction: AddCubeToInventory CubeConstant Plant_Warrior
+ObtainAction: AddCubeToInventory CubeConstant Thorn_Hedge
+ObtainAction: AddCubeToInventory CubeConstant Blue_Moss
+End
+
+PERK: Plant_Dragon_Egg
+BelongsTo: Plant
+Description: You start with a free Plant_Dragon_Egg in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Plant_Dragon_Egg RemoveThisAbility
+End
+
+PERK: Faster_Growing
+BelongsTo: Plant
+Description: Your starting leader gains 5 extra hp every minute End
+Ability: GrowthX 5
+End
+
+PERK: Plant_Reclamation
+BelongsTo: Plant
+Ability: AfterACubeDies TargetCube Victim If IsAllyToCaster Target If IsLarger ManaCostOfCube Target DoubleConstant 10 GenerateXMana DoubleConstant 1
+Description: After an ally dies, if its manacost was more than 10, gain 1 \CMANA mana \CN back End
+End
+
+PERK: Crushing_Mass
+BelongsTo: Plant
+Ability: Every30Seconds TargetCube ARandomEnemy TakeXDamage Division HpOfCube Caster DoubleConstant 25
+Description: Every 30 seconds your starting leader deals damage equal to its hp divided by 25 to a random enemy End
+End
+
+PERK: Plant_Ascension
+BelongsTo: Plant
+Ability: AtTheStartOfTheBattle Both TargetCube ARandomCubeInHandOfFactionWhich FactionOfThis 
+Not HasLimitedUses Test 
+GainAbility GrowthX 1
+RemoveThisAbility
+Ability: EveryXMinutes DoubleConstant 5 TargetCube ARandomCubeInHandOfFactionWhich FactionOfThis 
+Not HasLimitedUses Test 
+GainAbility GrowthX 1
+AbilityText: Every 5 minutes a random cube in your hand with infinite uses gains 1 growth End
+Description: At the start of each battle and every 5 minutes add growth 1 to a random cube with infinite uses in your hand End
+End
+
+PERK: Wild_Thorn_Hedges
+BelongsTo: Plant
+Ability: EveryMinute AddCubeToHandOfThis FreeCopy CubeConstant Thorn_Leaves
+Description: Every minute add a free Thorn_Leaves to your hand End
+End
+
+PERK: Tiny_Growth_Container
+BelongsTo: Plant
+Ability: EveryMinute TargetCube ARandomCubeWhich And IsAllyToCaster Test Not HasAbilityWithName Test GrowthX GainAbility GrowthX 3
+Description: Every minute a random ally which doesn't have growth gains growth 3 End
+End

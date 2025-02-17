@@ -1,0 +1,62 @@
+PERK: Chaos
+BelongsTo: SPECIES
+LevelRequirement: 30
+Description: Start each battle with another cube from the library in your hand, it also costs 20% less End
+Ability: AtTheStartOfTheBattle TargetCube ARandomCubeInLibraryWhich And Not IsToken Test IsNotInHandOfThis Test
+Both ChangeManaCost Division ManaCostOfCube Target DoubleConstant -5
+Both AddCubeToHandOfFactionInfinitly Target FactionOfThis
+RemoveThisAbility
+ObtainAction: AddCubeToInventory CubeConstant Puzzle_Box
+ObtainAction: AddCubeToInventory CubeConstant Transform
+ObtainAction: AddCubeToInventory CubeConstant Chaotic_Wall
+End
+
+PERK: Chaos_Dragon_Egg
+BelongsTo: Chaos
+Description: You start with a free Chaos_Dragon_Egg in your hand End
+Ability: AtTheStartOfTheBattle Both AddCubeToHandOfThis FreeCopy CubeConstant Chaos_Dragon_Egg RemoveThisAbility
+End
+
+PERK: Chaotic_Boosts
+BelongsTo: Chaos
+Ability: AfterACubeIsCreated If IsAllyToCaster Victim If X%Chance DoubleConstant 15 TargetCube Victim GainARandomBonus
+Description: After an ally is created 15% chance it gains a random bonus End
+End
+
+PERK: Intrusions_To_Reality
+BelongsTo: Chaos
+Ability: BeforeACubeIsAddedToYourHand If X%Chance DoubleConstant 30 
+CreateCubeOnPosition Victim PositionInDirectionFromPosition North PositionOfCube ARandomCubeWhich And And IsAllyToCaster Test Not IsALeader Test
+IsPositionEmpty PositionInDirectionFromPosition North PositionOfCube Test
+Description: Before a cube is added to your hand 30% chance to create a copy of it above a random non leader ally which has space above it End
+End
+
+PERK: Chaotic_Additions
+BelongsTo: Chaos
+Ability: BeforeACubeIsAddedToYourHand TargetCube Victim GainARandomBonus
+Description: Before a cube is added to your hand it gains a random bonus End
+End
+
+PERK: Familiar_Monsters
+BelongsTo: Chaos
+Ability: EveryMinute TargetCube CombinationOf2Cubes ARandomCubeWhich And Not IsALeader Test IsAllyToCaster Test
+ARandomCubeWhich And Not IsALeader Test IsEnemyToCaster Test 
+Both GainAbility WorthXMore 100 
+Both NoManaCost
+AddCubeToHandOfThis Target
+Description: Every minute add a free neutral combination of a random non leader ally and a random non leader enemy to your hand (the result will be neutral) End
+End
+
+PERK: Chaotic_Negation
+BelongsTo: Chaos
+Ability: BeforeACubeIsAddedToAHand If Not IsEqual FactionOfThis EventFaction If X%Chance DoubleConstant 50 NegateX DoubleConstant 10
+Description: Before a cube is added to an opponents hand there is a 50% chance it wont be added instead End
+End
+
+PERK: Chaotic_Equality
+BelongsTo: Chaos
+Ability: Every30Seconds SetStorage FreeCopy ARandomCubeInLibraryWhich Not IsToken Test
+Both AddCubeToHandOfThis Storage
+ AddCubeToHandOfFaction Storage EnemyFaction
+Description: Every 30 seconds a random free cube is added both to your and your opponent's hand End
+End

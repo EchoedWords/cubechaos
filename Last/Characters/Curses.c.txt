@@ -1,0 +1,8 @@
+PERK: Curse_Of_Dragons
+WorldAbility: AtTheStartOfTheBattle EveryCubeWhich And IsALeader Test IsEnemy Test 
+AddCubeToHandOfFaction ARandomCubeInLibraryWhich HasAbilityWithName Test Dragon_Egg FactionOfCube Target
+Description: At the start of battle each enemy leader adds a random dragon egg to their hand End
+LevelRequirement: 15
+Value: -50
+BalanceCap: 3
+End
