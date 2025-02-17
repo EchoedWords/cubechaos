@@ -1,0 +1,33 @@
+name: Anonymize Commits
+
+on:
+  push:
+    branches:
+      - main  
+
+jobs:
+  anonymize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set Git user identity
+        run: |
+          git config --global user.name "Anonymous"
+          git config --global user.email "anon@users.noreply.github.com"
+
+      - name: Rewriting commit author
+        run: |
+          git filter-branch -f --env-filter '
+            export GIT_AUTHOR_NAME="Anonymous"
+            export GIT_AUTHOR_EMAIL="anon@users.noreply.github.com"
+            export GIT_COMMITTER_NAME="Anonymous"
+            export GIT_COMMITTER_EMAIL="anon@users.noreply.github.com"
+          '
+
+      - name: Force push anonymized commits
+        run: |
+          git push --force --quiet origin main
