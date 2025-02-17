@@ -30,4 +30,5 @@ jobs:
 
       - name: Force push anonymized commits
         run: |
-          git push --force --quiet origin main
+          git push --force --quiet https://x-access-token:${{ secrets.GH_PAT }}@github.com/EchoedWords/cubechaos.git main
+
